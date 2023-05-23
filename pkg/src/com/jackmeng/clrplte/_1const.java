@@ -23,20 +23,24 @@ public final class _1const
    */
   public static stl_ListenerPool.ListenerPool_Attached< stl_Struct.struct_Pair< Color, Boolean > > COLOR_ENQ = new stl_ListenerPool.ListenerPool_Attached<>(
       "current-processing-pool");
+  static
   {
     COLOR_ENQ.attach(payload -> {
-      System.out.println("[COLOR_POOL] Pool Listener: " + this.toString() + " received: " + payload.hashCode());
-      if (payload.second == Attached_States.ADD_LISTENER)
-        System.out.println("[COLOR_POOL] Enqueued a POOL Listener: " + payload.first.toString());
-      else if (payload.second == Attached_States.ATTACHED)
-        System.out.println("[COLOR_POOL] The current pool listener " + this.toString() + " has been attached");
-      else if (payload.second == Attached_States.DETACHED)
-        System.out.println("[COLOR_POOL] The current pool listener " + this.toString() + " has been detached");
-      else if (payload.second == Attached_States.RMF_LISTENER)
-        System.out.println("[COLOR_POOL] Dequeued a POOL_LISTENER: " + payload.first.toString());
-      else
-        System.out.println("[COLOR_POOL] The current pool listener " + this.toString() + " received an invalid signal: "
-            + payload.toString());
+      if (payload.first != null)
+      {
+        System.out.println("[COLOR_POOL] Pool Listener:  received: " + payload);
+        if (payload.second == Attached_States.ADD_LISTENER)
+          System.out.println("[COLOR_POOL] Enqueued a POOL Listener: " + payload.first.toString());
+        else if (payload.second == Attached_States.ATTACHED)
+          System.out.println("[COLOR_POOL] The current pool listener  has been attached");
+        else if (payload.second == Attached_States.DETACHED)
+          System.out.println("[COLOR_POOL] The current pool listener  has been detached");
+        else if (payload.second == Attached_States.RMF_LISTENER)
+          System.out.println("[COLOR_POOL] Dequeued a POOL_LISTENER: " + payload.first.toString());
+        else
+          System.out.println("[COLOR_POOL] The current pool listener  received an invalid signal: "
+              + payload.toString());
+      }
       return (Void) null;
     });
     COLOR_ENQ.add(x -> {
