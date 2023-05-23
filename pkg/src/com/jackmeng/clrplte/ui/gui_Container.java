@@ -7,7 +7,6 @@ import javax.swing.*;
 import static com.jackmeng.clrplte._1const.*;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
-import com.jackmeng.stl.stl_ListenerPool;
 import com.jackmeng.stl.stl_Struct;
 
 import java.awt.*;
@@ -34,7 +33,7 @@ public class gui_Container
   public static class Container_TopPane
       extends JSplitPane
   {
-    public JPanel rgbData, miscAttributes;
+    public JPanel rgbData, miscAttributes, colorSpace;
     JPanel colorChooser;
     JScrollPane colorAttributes;
 
@@ -49,6 +48,7 @@ public class gui_Container
 
       Color defaultColor = new Color((float) Math.random(), (float) Math.random(), (float) Math.random(),
           (float) Math.random());
+
       colorAttributes = new JScrollPane();
       colorAttributes.setBorder(BorderFactory.createEmptyBorder());
       colorAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -146,12 +146,22 @@ public class gui_Container
       miscAttributes.add(hexColor);
       miscAttributes.add(transparency);
 
+      colorSpace = new JPanel();
+      colorSpace.setLayout(new BoxLayout(colorSpace, BoxLayout.Y_AXIS));
+      colorSpace.setAlignmentX(Component.LEFT_ALIGNMENT);
+      colorSpace
+          .setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0), "-- COLOR SPACE"));
+
+      JLabel colorSpace_componentsCount = new JLabel("Components: " + defaultColor.getColorSpace().getNumComponents());
+
+      colorSpace.add(colorSpace_componentsCount);
+
       JPanel attributes_List = new JPanel();
       attributes_List.setLayout(new BoxLayout(attributes_List, BoxLayout.Y_AXIS));
-
       attributes_List.add(Box.createRigidArea(new Dimension(30, 30)));
       attributes_List.add(miscAttributes);
       attributes_List.add(rgbData);
+      attributes_List.add(colorSpace);
 
       colorAttributes.setViewportView(attributes_List);
 

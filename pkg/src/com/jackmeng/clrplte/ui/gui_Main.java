@@ -24,7 +24,7 @@ public class gui_Main
   private static JMenuItem[] make(stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > >[] items)
   {
     JMenuItem[] e = new JMenuItem[items.length];
-    for (extend_stl_Wrap< Integer > i = new extend_stl_Wrap<>(0); i.get() < e.length; i.obj++)
+    for (extend_stl_Wrap< Integer > i = new extend_stl_Wrap<>(0); i.get() < e.length; i.set(i.get() + 1))
     {
       stl_Callback< Boolean, Null_t > callback = items[i.get()].second;
       int first_attribute = Integer.parseInt(items[i.get()].first.substring(0, 1));
@@ -81,7 +81,9 @@ public class gui_Main
             make(masterView.top.miscAttributes)),
         make(
             "1_RGBA Attributes",
-            make(masterView.top.rgbData))
+            make(masterView.top.rgbData)),
+        make("1_Color Space Attributes",
+            make(masterView.top.colorSpace)),
     })));
 
     setTitle("Color Paletter - exoad");
