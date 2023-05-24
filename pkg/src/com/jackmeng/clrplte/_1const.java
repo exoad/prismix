@@ -14,6 +14,7 @@ import java.awt.Color;
 
 public final class _1const
 {
+  public static final boolean DEBUG_GUI = false;
   public static Timer worker = new Timer("com-jackmeng-clrplte-worker01");
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
   public static final String working_dir = System.getProperty("user.dir");

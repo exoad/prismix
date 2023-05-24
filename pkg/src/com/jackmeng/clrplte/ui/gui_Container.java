@@ -35,7 +35,7 @@ public class gui_Container
     public static class Container_TopPane
             extends JSplitPane
     {
-        public JPanel rgbData, miscAttributes, colorSpace;
+        public JPanel rgbData, miscAttributes, colorSpace, hue;
         JPanel colorChooser;
         JScrollPane colorAttributes;
 
@@ -157,15 +157,13 @@ public class gui_Container
             colorSpace
                     .setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0),
                             "-- COLOR SPACE"));
-            use_Maker.debug(colorSpace);
-
             JLabel colorSpace_componentsCount = new JLabel(
                     "Components: " + defaultColor.getColorSpace().getNumComponents());
 
             colorSpace.add(colorSpace_componentsCount);
 
             JPanel attributes_List = new JPanel();
-            attributes_List.setLayout(new GridLayout(10, 1));
+            attributes_List.setLayout(new GridLayout(4, 1));
             attributes_List.add(miscAttributes);
             attributes_List.add(rgbData);
             attributes_List.add(colorSpace);
