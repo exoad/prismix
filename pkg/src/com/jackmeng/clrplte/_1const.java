@@ -12,6 +12,11 @@ import com.jackmeng.stl.stl_ListenerPool.ListenerPool_Attached.Attached_States;
 
 import java.awt.Color;
 
+/**
+ * Critical constants for the program itself as a whole
+ *
+ * @author Jack Meng
+ */
 public final class _1const
 {
   public static final boolean DEBUG_GUI = false;

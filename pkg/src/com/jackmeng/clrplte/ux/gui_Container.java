@@ -1,6 +1,6 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-package com.jackmeng.clrplte.ui;
+package com.jackmeng.clrplte.ux;
 
 import javax.swing.*;
 
@@ -12,6 +12,12 @@ import com.jackmeng.stl.stl_Struct;
 
 import java.awt.*;
 
+/**
+ * Represents the inner shell of the content of the GUI. The parent is the ux
+ * handler.
+ *
+ * @author Jack Meng
+ */
 public class gui_Container
                 extends JSplitPane
 {

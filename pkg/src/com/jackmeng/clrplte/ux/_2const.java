@@ -1,7 +1,12 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-package com.jackmeng.clrplte.ui;
+package com.jackmeng.clrplte.ux;
 
+/**
+ * Constants for the GUI elements of this program
+ *
+ * @author Jack Meng
+ */
 public abstract interface _2const
 {
   int WIDTH = 970;

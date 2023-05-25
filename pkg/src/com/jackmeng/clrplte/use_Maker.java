@@ -1,0 +1,95 @@
+// Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
+
+package com.jackmeng.clrplte;
+
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+
+import com.jackmeng.clrplte.stl.extend_stl_Wrap;
+import com.jackmeng.stl.stl_Callback;
+import com.jackmeng.stl.stl_Struct;
+import com.jackmeng.stl.stl_Wrap;
+import com.jackmeng.stl.types.Null_t;
+
+import java.awt.Color;
+
+/**
+ * Utility methods container
+ * Class contains a bunch of uncategorized helper methods
+ *
+ * @author Jack Meng
+ */
+public final class use_Maker
+{
+  private use_Maker()
+  {
+  }
+
+  public static JMenu makeJMenu(String text, JMenuItem... items)
+  {
+    JMenu menu = new JMenu(text);
+    for (int i = 0; i < items.length; i++)
+    {
+      menu.add(items[i]);
+      if (i != items.length - 1)
+        menu.addSeparator();
+    }
+    return menu;
+  }
+
+  public static void debug(JComponent e)
+  {
+    if (e != null)
+      if (e.getBorder() != null)
+        e.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.pink, 2), e.getBorder()));
+  }
+
+  public static JMenuItem[] make(stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > >[] items)
+  {
+    JMenuItem[] e = new JMenuItem[items.length];
+    for (extend_stl_Wrap< Integer > i = new extend_stl_Wrap<>(0); i.get() < e.length; i.set(i.get() + 1))
+    {
+      stl_Callback< Boolean, Null_t > callback = items[i.get()].second;
+      int first_attribute = Integer.parseInt(items[i.get()].first.substring(0, 1));
+      String name = items[i.get()].first.substring(2);
+      System.out.println("[MenuBar] Checks for: " + name + "\n[Menubar] Itr: " + i.get()
+          + " \n[MenuBar] Config Bar Type: " + first_attribute);
+      switch (first_attribute) {
+        case 1:
+          e[i.get()] = new JCheckBoxMenuItem(name);
+          ((JCheckBoxMenuItem) e[i.get()]).setState(items[i.get()].second.call((Null_t) null));
+          break;
+        default:
+          System.out.println("[GUI_MAIN] Unknown type: " + first_attribute);
+          break;
+      }
+      e[i.get()].addActionListener(ev -> callback.call((Null_t) null));
+    }
+    return e;
+  }
+
+  public static stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > > make(String name,
+      stl_Callback< Boolean, Null_t > callback)
+  {
+    return new stl_Struct.struct_Pair<>(name, callback);
+  }
+
+  public static stl_Callback< Boolean, Null_t > make(JComponent component)
+  {
+    stl_Wrap< Boolean > firstSet_Component = new stl_Wrap<>(true);
+    return x -> {
+      if (Boolean.FALSE.equals(firstSet_Component.obj))
+      {
+        component.setVisible(!component.isVisible());
+        SwingUtilities.invokeLater(component::repaint);
+      }
+      else firstSet_Component.obj(false);
+      return component.isVisible();
+    };
+  }
+
+}

@@ -2,26 +2,24 @@
 
 package com.jackmeng.clrplte;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkContrastIJTheme;
-import com.jackmeng.clrplte.ui.gui_Container;
-import com.jackmeng.clrplte.ui.gui_Main;
-import com.jackmeng.clrplte.ui.ux;
+import com.jackmeng.clrplte.ux.ux;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_In;
-import com.jackmeng.stl.stl_SwingHelper;
 import com.jackmeng.stl.stl_Wrap;
 
+/**
+ * Color Palette Program Entry Point Class
+ *
+ * @author Jack Meng
+ */
 public class jm_ColorPalette
 {
   static AtomicLong time = new AtomicLong(System.currentTimeMillis());
