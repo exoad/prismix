@@ -51,13 +51,22 @@ public final class _1const
     });
   }
 
+  public static synchronized void add(Runnable r, long delay)
+  {
+    worker.schedule(new TimerTask() {
+      @Override public void run()
+      {
+        r.run();
+      }
+    }, delay);
+  }
+
   public static synchronized void add(Runnable r, long delay, long rep_delay)
   {
     worker.scheduleAtFixedRate(new TimerTask() {
       @Override public void run()
       {
-        r.run(); // ! Make sure this is not the current reference or it will produce a
-                 // ! StackOverflow Error
+        r.run();
       }
     }, delay, rep_delay);
   }

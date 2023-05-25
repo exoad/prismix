@@ -16,6 +16,7 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkContrastIJTheme;
 import com.jackmeng.clrplte.ui.gui_Container;
 import com.jackmeng.clrplte.ui.gui_Main;
+import com.jackmeng.clrplte.ui.ux;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_SwingHelper;
@@ -47,29 +48,11 @@ public class jm_ColorPalette
 
   }
 
+  public static final ux ux = new ux();
+
   public static void main(String... args) // !! fuck pre Java 11 users, fuck their dumb shit
   {
-    gui_Main e = new gui_Main(new gui_Container());
-    SwingUtilities.invokeLater(() -> {
-      e.run();
-      if (_1const.DEBUG_GUI)
-        stl_SwingHelper.listComponents_OfContainer(e).forEach(x -> {
-          try
-          {
-            if (x instanceof JComponent)
-              ((JComponent) x).setBorder(((JComponent) x).getBorder() == null
-                  ? BorderFactory
-                      .createLineBorder(new Color((float) Math.random(), (float) Math.random(), (float) Math.random()))
-                  : BorderFactory.createCompoundBorder(
-                      BorderFactory.createLineBorder(
-                          new Color((float) Math.random(), (float) Math.random(), (float) Math.random())),
-                      ((JComponent) x).getBorder()));
-          } catch (Exception t)
-          {
-            // IGNORE, probably some .setBorder() not supported bs
-          }
-        });
-    });
+    _1const.add(ux, 10L);
     stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
     _1const.worker.scheduleAtFixedRate(new TimerTask() {
       @Override public void run()
