@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import static com.jackmeng.clrplte._1const.*;
 
+import com.jackmeng.clrplte.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
 import com.jackmeng.stl.stl_Struct;
@@ -40,15 +41,10 @@ public class gui_Container
         public static class Container_TopPane
                         extends JSplitPane
         {
-                public JPanel rgbData, miscAttributes, colorSpace, hue;
-                JPanel colorChooser;
-                JScrollPane colorAttributes;
-
-                public static JPanel[] exports_attributes_components()
-                {
-
-                        return null;
-                }
+                private JPanel rgbData, miscAttributes, colorSpace, hue;
+                private JPanel colorChooser;
+                private JScrollPane colorAttributes;
+                private final JPanel attributes_List;
 
                 public Container_TopPane()
                 {
@@ -58,10 +54,12 @@ public class gui_Container
                         setBorder(BorderFactory.createEmptyBorder());
 
                         colorChooser = new JPanel();
-
-                        Color defaultColor = new Color((float) Math.random(), (float) Math.random(),
-                                        (float) Math.random(),
-                                        (float) Math.random());
+                        /*---------------------------------------------------------------------------- /
+                        /                                                                              /
+                        / Color defaultColor = new Color((float) Math.random(), (float) Math.random(), /
+                        /                 (float) Math.random(),                                       /
+                        /                 (float) Math.random());                                      /
+                        /-----------------------------------------------------------------------------*/
 
                         colorAttributes = new JScrollPane();
                         colorAttributes.setBorder(BorderFactory.createEmptyBorder());
@@ -76,61 +74,22 @@ public class gui_Container
                         JLabel colorDisplay = new JLabel("[][][][][][][][][]"); // IMPORTANT STARTUP OBJECT
                         colorDisplay.setPreferredSize(new Dimension(50, 20));
                         colorDisplay.setOpaque(true);
-                        colorDisplay.setForeground(null);
-                        colorDisplay.setBackground(defaultColor);
-                        colorDisplay.setBorder(BorderFactory.createEmptyBorder());
 
                         JLabel colorDisplay_R = new JLabel(colorDisplay.getText());
                         colorDisplay_R.setPreferredSize(new Dimension(50, 20));
                         colorDisplay_R.setOpaque(true);
-                        colorDisplay_R.setForeground(null);
-                        colorDisplay_R.setBackground(new Color(colorDisplay.getBackground().getRed() / 255F, 0F, 0F));
-                        colorDisplay_R.setBorder(colorDisplay.getBackground().getRed()
-                                        / 255F < _2const.COLOR_BLEND_THRESHOLD_BORDER
-                                                        ? BorderFactory
-                                                                        .createLineBorder(new Color((255F - colorDisplay
-                                                                                        .getBackground().getRed())
-                                                                                        / 255F, 0F, 0F))
-                                                        : BorderFactory.createEmptyBorder());
 
                         JLabel colorDisplay_G = new JLabel(colorDisplay.getText());
                         colorDisplay_G.setPreferredSize(new Dimension(50, 20));
                         colorDisplay_G.setOpaque(true);
-                        colorDisplay_G.setForeground(null);
-                        colorDisplay_G.setBackground(new Color(0F, colorDisplay.getBackground().getGreen() / 255F, 0F));
-                        colorDisplay_G
-                                        .setBorder(colorDisplay.getBackground().getGreen()
-                                                        / 255F < _2const.COLOR_BLEND_THRESHOLD_BORDER
-                                                                        ? BorderFactory
-                                                                                        .createLineBorder(
-                                                                                                        new Color(0F, (255
-                                                                                                                        - colorDisplay.getBackground()
-                                                                                                                                        .getGreen())
-                                                                                                                        / 255F,
-                                                                                                                        0F))
-                                                                        : BorderFactory.createEmptyBorder());
 
                         JLabel colorDisplay_B = new JLabel(colorDisplay.getText());
                         colorDisplay_B.setPreferredSize(new Dimension(50, 20));
                         colorDisplay_B.setOpaque(true);
-                        colorDisplay_B.setForeground(null);
-                        colorDisplay_B.setBackground(new Color(0F, 0F, colorDisplay.getBackground().getBlue() / 255F));
-                        colorDisplay_B
-                                        .setBorder(colorDisplay.getBackground().getBlue()
-                                                        / 255F < _2const.COLOR_BLEND_THRESHOLD_BORDER
-                                                                        ? BorderFactory.createLineBorder(
-                                                                                        new Color(0F, 0F, (255F
-                                                                                                        - colorDisplay.getBackground()
-                                                                                                                        .getBlue())
-                                                                                                        / 255F))
-                                                                        : BorderFactory.createEmptyBorder());
 
                         JLabel colorDisplay_A = new JLabel(colorDisplay.getText());
                         colorDisplay_A.setPreferredSize(new Dimension(50, 20));
                         colorDisplay_A.setOpaque(true);
-                        colorDisplay_A.setBackground(
-                                        new Color(0F, 0F, 0F, colorDisplay.getBackground().getAlpha() / 255F));
-                        colorDisplay_A.setBorder(BorderFactory.createEmptyBorder());
 
                         wrapper_ColorAttributes.add(colorDisplay);
                         wrapper_ColorAttributes.add(colorDisplay_R);
@@ -142,11 +101,11 @@ public class gui_Container
                         rawRGBData.setOpaque(true);
                         rawRGBData.setLayout(new BoxLayout(rawRGBData, BoxLayout.Y_AXIS));
 
-                        JLabel rgba_main = new JLabel("RGB      :  " + colorDisplay.getBackground().getRGB());
-                        JLabel rgba_R = new JLabel("Red   (R):  " + colorDisplay_R.getBackground().getRed());
-                        JLabel rgba_G = new JLabel("Green (G):  " + colorDisplay_G.getBackground().getGreen());
-                        JLabel rgba_B = new JLabel("Blue  (B):  " + colorDisplay_B.getBackground().getBlue());
-                        JLabel rgba_A = new JLabel("Alpha (A):  " + colorDisplay_A.getBackground().getAlpha());
+                        JLabel rgba_main = new JLabel();
+                        JLabel rgba_R = new JLabel();
+                        JLabel rgba_G = new JLabel();
+                        JLabel rgba_B = new JLabel();
+                        JLabel rgba_A = new JLabel();
 
                         rawRGBData.add(rgba_main);
                         rawRGBData.add(rgba_R);
@@ -166,16 +125,13 @@ public class gui_Container
                         miscAttributes = new JPanel();
                         miscAttributes.setLayout(new BoxLayout(miscAttributes, BoxLayout.Y_AXIS));
                         miscAttributes.setAlignmentX(Component.LEFT_ALIGNMENT);
-                        miscAttributes
-                                        .setBorder(
-                                                        BorderFactory.createTitledBorder(
-                                                                        BorderFactory.createEmptyBorder(5, 0, 5, 0),
-                                                                        "-- MISC"));
+                        miscAttributes.setBorder(
+                                        BorderFactory.createTitledBorder(
+                                                        BorderFactory.createEmptyBorder(5, 0, 5, 0),
+                                                        "-- MISC"));
 
-                        JLabel hexColor = new JLabel(
-                                        "Hex: " + stl_Colors.RGBAtoHex(defaultColor.getAlpha(), defaultColor.getRed(),
-                                                        defaultColor.getGreen(), defaultColor.getBlue()));
-                        JLabel transparency = new JLabel("Transparency: " + defaultColor.getTransparency());
+                        JLabel hexColor = new JLabel();
+                        JLabel transparency = new JLabel();
 
                         miscAttributes.add(hexColor);
                         miscAttributes.add(transparency);
@@ -183,17 +139,26 @@ public class gui_Container
                         colorSpace = new JPanel();
                         colorSpace.setLayout(new BoxLayout(colorSpace, BoxLayout.Y_AXIS));
                         colorSpace.setAlignmentX(Component.LEFT_ALIGNMENT);
-                        colorSpace
-                                        .setBorder(BorderFactory.createTitledBorder(
-                                                        BorderFactory.createEmptyBorder(5, 0, 5, 0),
-                                                        "-- COLOR SPACE"));
-                        JLabel colorSpace_componentsCount = new JLabel(
-                                        "Components: " + defaultColor.getColorSpace().getNumComponents());
+                        colorSpace.setBorder(BorderFactory.createTitledBorder(
+                                        BorderFactory.createEmptyBorder(5, 0, 5, 0),
+                                        "-- COLOR SPACE"));
 
-                        colorSpace.add(colorSpace_componentsCount);
+                        JEditorPane colorSpace_scrollPane = new JEditorPane();
+                        colorSpace_scrollPane.setContentType("text/html");
+                        colorSpace_scrollPane.setEditable(false);
+                        colorSpace_scrollPane.setFocusable(false);
 
-                        JPanel attributes_List = new JPanel();
-                        attributes_List.setLayout(new GridLayout(4, 1));
+                        /*-------------------------------------------------------------------------------------------- /
+                        / JLabel colorSpace_componentsCount = new JLabel(                                              /
+                        /                 "Components: " + defaultColor.getColorSpace().getNumComponents());           /
+                        / JLabel colorSpace_name = new JLabel("Color Space: "                                          /
+                        /                 + extend_stl_Colors.awt_colorspace_NameMatch(defaultColor.getColorSpace())); /
+                        /---------------------------------------------------------------------------------------------*/
+
+                        colorSpace.add(new JScrollPane(colorSpace_scrollPane));
+
+                        attributes_List = new JPanel();
+                        attributes_List.setLayout(new BoxLayout(attributes_List, BoxLayout.Y_AXIS));
                         attributes_List.add(miscAttributes);
                         attributes_List.add(rgbData);
                         attributes_List.add(colorSpace);
@@ -211,8 +176,8 @@ public class gui_Container
                                                 System.out.println("[TopContainer] RGBA_Attributes.isVisible = true");
                                                 colorDisplay.setForeground(x);
                                                 colorDisplay.setBackground(x);
-                                                colorDisplay.setBorder(BorderFactory.createLineBorder(new Color((255F -
-                                                                colorDisplay.getBackground().getRed()) / 255F,
+                                                colorDisplay.setBorder(BorderFactory.createLineBorder(new Color(
+                                                                (255F - colorDisplay.getBackground().getRed()) / 255F,
                                                                 (255F - colorDisplay.getBackground().getGreen()) / 255F,
                                                                 (255F - colorDisplay.getBackground().getBlue()) / 255F),
                                                                 2));
@@ -353,7 +318,19 @@ public class gui_Container
                                                 transparency.setText("Transparency: " + x.getTransparency());
                                         }
 
-                                        revalidate();
+                                        if (colorSpace.isVisible())
+                                        {
+                                                System.out.println(
+                                                                "[TopContainer] COLOR_SPACE_ATTRIBUTES.isVisible = true");
+                                                colorSpace_scrollPane.setText("<html>Components: "
+                                                                + x.getColorSpace().getNumComponents()
+                                                                + "<br>Color Space: "
+                                                                + extend_stl_Colors.awt_colorspace_NameMatch(
+                                                                                x.getColorSpace())
+                                                                + "</html>");
+                                        }
+
+                                        validate();
 
                                 });
                                 return (Void) null;
@@ -362,6 +339,14 @@ public class gui_Container
                         COLOR_ENQ.dispatch(stl_Struct.make_pair(colorDisplay.getBackground(), false));
                 }
 
+        }
+
+        public synchronized void append_attribute(JComponent e)
+        {
+                e.setAlignmentX(Component.CENTER_ALIGNMENT);
+                e.setAlignmentY(Component.LEFT_ALIGNMENT);
+                top.attributes_List.add(e);
+                top.attributes_List.validate();
         }
 
         public void validate_size()

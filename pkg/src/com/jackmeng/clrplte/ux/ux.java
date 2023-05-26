@@ -9,12 +9,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import com.jackmeng.clrplte._1const;
-import com.jackmeng.stl.stl_Callback;
-import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_SwingHelper;
 
 /**
  * Main UI Handler class. This serves as a bridge between the
+ * mainui and the childui facilitating regstering child elements to certain
+ * elements in the mainui. On the other hand, it also facilitates as an
+ * abstraction
+ * layer for the main(String[]) function defined in jm_ColorPalette
  *
  * @author Jack Meng
  */
@@ -25,10 +27,6 @@ public final class ux
   private gui_Main mainui;
   private gui_Container childui;
 
-  public enum ux_AttributesType {
-    COLOR_TEXT, COLOR_VISUAL;
-  }
-
   public ux()
   {
     childui = new gui_Container();
@@ -38,32 +36,10 @@ public final class ux
     mainui.bar.setPreferredSize(new Dimension(childui.getPreferredSize().width, 25));
   }
 
-  // TODO: make a registration system for the components for dynamic loading and
-  // offloading of components without having to hardcode each component and its
-  // individual interactions with the host program.
-  public void register_color_attribute(
-      stl_Struct.struct_Pair< JPanel, stl_Struct.struct_Pair< JComponent, stl_Callback< Void, Color > > >[] e)
-  {
-
-
-
-    /*---------------------------------------------------------------------- /
-    / Reference Code from gui_Main that was previously taken out:            /
-    / bar.add(makeJMenu("Color Config.", make(new stl_Struct.struct_Pair[] { /
-    /     make(                                                              /
-    /         "1_Misc. Attributes",                                          /
-    /         make(masterView.top.miscAttributes)),                          /
-    /     make(                                                              /
-    /         "1_RGBA Attributes",                                           /
-    /         make(masterView.top.rgbData)),                                 /
-    /     make("1_Color Space Attributes",                                   /
-    /         make(masterView.top.colorSpace)),                              /
-    / })));                                                                  /
-    /-----------------------------------------------------------------------*/
-  }
 
   @Override public void run()
   {
+    System.out.println("[UX] Dispatched a run event for the current UI creation! Hoping this goes well...");
     SwingUtilities.invokeLater(() -> {
       childui.validate_size();
       mainui.run();
