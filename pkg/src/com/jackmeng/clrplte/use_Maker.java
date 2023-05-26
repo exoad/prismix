@@ -54,19 +54,10 @@ public final class use_Maker
     for (extend_stl_Wrap< Integer > i = new extend_stl_Wrap<>(0); i.get() < e.length; i.set(i.get() + 1))
     {
       stl_Callback< Boolean, Null_t > callback = items[i.get()].second;
-      int first_attribute = Integer.parseInt(items[i.get()].first.substring(0, 1));
-      String name = items[i.get()].first.substring(2);
-      System.out.println("[MenuBar] Checks for: " + name + "\n[Menubar] Itr: " + i.get()
-          + " \n[MenuBar] Config Bar Type: " + first_attribute);
-      switch (first_attribute) {
-        case 1:
-          e[i.get()] = new JCheckBoxMenuItem(name);
-          ((JCheckBoxMenuItem) e[i.get()]).setState(items[i.get()].second.call((Null_t) null));
-          break;
-        default:
-          System.out.println("[GUI_MAIN] Unknown type: " + first_attribute);
-          break;
-      }
+      String name = items[i.get()].first;
+      System.out.println("[MenuBar] Checks for: " + name + "\n[Menubar] Itr: " + i.get());
+      e[i.get()] = new JCheckBoxMenuItem(name);
+      ((JCheckBoxMenuItem) e[i.get()]).setState(items[i.get()].second.call((Null_t) null));
       e[i.get()].addActionListener(ev -> callback.call((Null_t) null));
     }
     return e;

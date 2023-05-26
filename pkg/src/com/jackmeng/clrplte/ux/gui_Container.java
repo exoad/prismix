@@ -41,7 +41,7 @@ public class gui_Container
         public static class Container_TopPane
                         extends JSplitPane
         {
-                private JPanel rgbData, miscAttributes, colorSpace, hue;
+                private JPanel rgbData, miscAttributes, colorSpace;
                 private JPanel colorChooser;
                 private JScrollPane colorAttributes;
                 private final JPanel attributes_List;
@@ -114,6 +114,7 @@ public class gui_Container
                         rawRGBData.add(rgba_A);
 
                         rgbData = new JPanel();
+                        rgbData.setName("RGBA");
                         rgbData.setOpaque(true);
                         rgbData.setAlignmentX(Component.LEFT_ALIGNMENT);
                         rgbData.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0),
@@ -123,6 +124,7 @@ public class gui_Container
                         rgbData.add(rawRGBData);
 
                         miscAttributes = new JPanel();
+                        miscAttributes.setName("Miscellaneous");
                         miscAttributes.setLayout(new BoxLayout(miscAttributes, BoxLayout.Y_AXIS));
                         miscAttributes.setAlignmentX(Component.LEFT_ALIGNMENT);
                         miscAttributes.setBorder(
@@ -137,6 +139,7 @@ public class gui_Container
                         miscAttributes.add(transparency);
 
                         colorSpace = new JPanel();
+                        colorSpace.setName("Color Space");
                         colorSpace.setLayout(new BoxLayout(colorSpace, BoxLayout.Y_AXIS));
                         colorSpace.setAlignmentX(Component.LEFT_ALIGNMENT);
                         colorSpace.setBorder(BorderFactory.createTitledBorder(
@@ -337,6 +340,11 @@ public class gui_Container
                         });
 
                         COLOR_ENQ.dispatch(stl_Struct.make_pair(colorDisplay.getBackground(), false));
+                }
+
+                public JPanel[] exports()
+                {
+                        return new JPanel[] { rgbData, miscAttributes, colorSpace };
                 }
 
         }

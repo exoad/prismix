@@ -9,7 +9,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import com.jackmeng.clrplte._1const;
+import com.jackmeng.clrplte.use_Maker;
+import com.jackmeng.stl.stl_Callback;
+import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_SwingHelper;
+import com.jackmeng.stl.types.Null_t;
 
 /**
  * Main UI Handler class. This serves as a bridge between the
@@ -27,15 +31,21 @@ public final class ux
   private gui_Main mainui;
   private gui_Container childui;
 
-  public ux()
+  @SuppressWarnings("unchecked") public ux()
   {
     childui = new gui_Container();
     mainui = new gui_Main();
     mainui.setPreferredSize(new Dimension(childui.getPreferredSize().width, childui.getPreferredSize().height + 60));
     mainui.wrapper.add(childui, BorderLayout.SOUTH);
     mainui.bar.setPreferredSize(new Dimension(childui.getPreferredSize().width, 25));
-  }
 
+    stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > >[] e = new stl_Struct.struct_Pair[childui.top
+        .exports().length];
+    JPanel[] r = childui.top.exports();
+    for (int i = 0; i < r.length; i++)
+      e[i] = use_Maker.make(r[i].getName(), use_Maker.make(r[i]));
+    mainui.registerToBar("Color Attributes", use_Maker.make(e));
+  }
 
   @Override public void run()
   {

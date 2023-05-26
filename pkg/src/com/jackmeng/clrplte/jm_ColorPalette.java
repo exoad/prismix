@@ -52,6 +52,8 @@ public class jm_ColorPalette
   {
     _1const.add(ux, 10L);
     stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
+    Runtime.getRuntime().addShutdownHook(
+        (new Thread(() -> System.out.println("[PROGRAM] Alive for: " + (System.currentTimeMillis() - time.get())))));
     _1const.worker.scheduleAtFixedRate(new TimerTask() {
       @Override public void run()
       {
@@ -59,6 +61,6 @@ public class jm_ColorPalette
         System.out.println("[I/O] Received contract: " + str);
       }
     }, 100L, 650L);
-    System.out.println("[Program] Program took: " + (System.currentTimeMillis() - time.getAcquire()) + "ms to startup");
+    System.out.println("[Program] Program took: " + (System.currentTimeMillis() - time.get()) + "ms to startup");
   }
 }
