@@ -1,6 +1,6 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-package com.jackmeng.clrplte;
+package com.jackmeng.prismix;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
@@ -9,7 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
-import com.jackmeng.clrplte.stl.extend_stl_Wrap;
+import com.jackmeng.prismix.stl.extend_stl_Wrap;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Wrap;

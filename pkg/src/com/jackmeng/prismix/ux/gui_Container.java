@@ -1,16 +1,16 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-package com.jackmeng.clrplte.ux;
+package com.jackmeng.prismix.ux;
 
 import javax.swing.*;
 
-import static com.jackmeng.clrplte._1const.*;
-
-import com.jackmeng.clrplte._1const;
-import com.jackmeng.clrplte.stl.extend_stl_Colors;
+import com.jackmeng.prismix._1const;
+import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
 import com.jackmeng.stl.stl_Struct;
+
+import static com.jackmeng.prismix._1const.*;
 
 import java.awt.*;
 

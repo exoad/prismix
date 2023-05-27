@@ -1,10 +1,10 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-package com.jackmeng.clrplte.stl;
+package com.jackmeng.prismix.stl;
 
 import java.awt.color.ColorSpace;
 
-import com.jackmeng.clrplte._1const;
+import com.jackmeng.prismix._1const;
 
 import java.awt.Color;
 

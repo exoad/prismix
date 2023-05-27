@@ -1,14 +1,14 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-package com.jackmeng.clrplte.ux;
+package com.jackmeng.prismix.ux;
 
 import javax.swing.*;
 
-import static com.jackmeng.clrplte.use_Maker.*;
+import com.jackmeng.prismix._1const;
+
+import static com.jackmeng.prismix.use_Maker.*;
 
 import java.awt.BorderLayout;
-
-import com.jackmeng.clrplte._1const;
 
 public class gui_Main
     extends JFrame

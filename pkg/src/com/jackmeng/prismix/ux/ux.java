@@ -1,6 +1,6 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-package com.jackmeng.clrplte.ux;
+package com.jackmeng.prismix.ux;
 
 import javax.swing.*;
 
@@ -8,8 +8,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import com.jackmeng.clrplte._1const;
-import com.jackmeng.clrplte.use_Maker;
+import com.jackmeng.prismix._1const;
+import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_SwingHelper;

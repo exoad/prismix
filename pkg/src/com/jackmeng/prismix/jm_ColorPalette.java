@@ -1,6 +1,6 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-package com.jackmeng.clrplte;
+package com.jackmeng.prismix;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.swing.UIManager;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkContrastIJTheme;
-import com.jackmeng.clrplte.ux.ux;
+import com.jackmeng.prismix.ux.ux;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Wrap;
@@ -27,7 +27,7 @@ public class jm_ColorPalette
   static
   {
     System.out.println(
-        "==com.jackmeng.ColorPalette==\nGUI Color Picker and palette creator\nCopyright (C) Jack Meng (exoad) 2023\nEnjoy!");
+        "==Prismix==\nGUI Color Picker and palette creator\nCopyright (C) Jack Meng (exoad) 2023\nEnjoy!");
     StringBuilder sb = new StringBuilder();
     System.getProperties().forEach((key, value) -> sb.append(key + " = " + value + "\n"));
     System.out.println("All initialized properties:\n" + sb.toString());
