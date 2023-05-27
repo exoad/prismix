@@ -41,7 +41,11 @@ public class gui_Container
         public static class Container_TopPane
                         extends JSplitPane
         {
-                private JPanel rgbData, miscAttributes, colorSpace, hsvData;
+                private JPanel rgbData, miscAttributes, colorSpace, hsvData, controls; // controls should be the only
+                                                                                       // section where it cannot be
+                                                                                       // exported and thus let ux
+                                                                                       // change its visibility at any
+                                                                                       // time!
                 private JPanel colorChooser;
                 private JScrollPane colorAttributes;
                 private final JPanel attributes_List;
