@@ -25,7 +25,7 @@ public class gui_Main
 
     bar = new JMenuBar();
 
-    setTitle("Color Paletter - exoad");
+    setTitle("Prismix ~ exoad");
     setIconImage(_1const.fetcher.image("assets/_icon.png"));
     wrapper.setPreferredSize(getPreferredSize());
     wrapper.add(bar, BorderLayout.NORTH);

@@ -12,7 +12,8 @@ import java.awt.Point;
  *
  * @author Jack Meng
  */
-public final class ui_LazyViewport extends JViewport
+public final class ui_LazyViewport
+    extends JViewport
 {
 
   private boolean locked = false;
