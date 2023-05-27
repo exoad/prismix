@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import static com.jackmeng.clrplte._1const.*;
 
+import com.jackmeng.clrplte._1const;
 import com.jackmeng.clrplte.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
@@ -67,6 +68,7 @@ public class gui_Container
 
                         colorAttributes = new JScrollPane();
                         colorAttributes.setOpaque(true);
+                        colorAttributes.setAutoscrolls(false);
                         colorAttributes.setBorder(BorderFactory.createEmptyBorder());
                         colorAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
                         colorAttributes.setHorizontalScrollBarPolicy(
@@ -123,8 +125,7 @@ public class gui_Container
                         rgbData.setName("RGBA");
                         rgbData.setOpaque(true);
                         rgbData.setAlignmentX(Component.LEFT_ALIGNMENT);
-                        rgbData.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0),
-                                        "-- RGBA"));
+                        rgbData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- RGBA"));
                         rgbData.setLayout(new BoxLayout(rgbData, BoxLayout.X_AXIS));
                         rgbData.add(wrapper_ColorAttributes);
                         rgbData.add(rawRGBData);
@@ -134,9 +135,7 @@ public class gui_Container
                         miscAttributes.setLayout(new BoxLayout(miscAttributes, BoxLayout.Y_AXIS));
                         miscAttributes.setAlignmentX(Component.LEFT_ALIGNMENT);
                         miscAttributes.setBorder(
-                                        BorderFactory.createTitledBorder(
-                                                        BorderFactory.createEmptyBorder(5, 0, 5, 0),
-                                                        "-- MISC"));
+                                        ux_Helper.bottom_container_AttributesBorder("-- MISC"));
 
                         JLabel hexColor = new JLabel();
                         JLabel transparency = new JLabel();
@@ -154,9 +153,7 @@ public class gui_Container
                         colorSpace.setName("Color Space");
                         colorSpace.setLayout(new BoxLayout(colorSpace, BoxLayout.Y_AXIS));
                         colorSpace.setAlignmentX(Component.LEFT_ALIGNMENT);
-                        colorSpace.setBorder(BorderFactory.createTitledBorder(
-                                        BorderFactory.createEmptyBorder(5, 0, 5, 0),
-                                        "-- COLOR SPACE"));
+                        colorSpace.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Color Space"));
 
                         JEditorPane colorSpace_scrollPane = new JEditorPane();
                         colorSpace_scrollPane.setContentType("text/html");
@@ -177,19 +174,34 @@ public class gui_Container
                         hsvData.setLayout(new BoxLayout(hsvData, BoxLayout.Y_AXIS));
                         hsvData.setAlignmentX(Component.LEFT_ALIGNMENT);
                         hsvData.setBorder(
-                                        BorderFactory.createTitledBorder(
-                                                        BorderFactory.createEmptyBorder(5, 0, 5, 0),
-                                                        "-- HSV"));
+                                        ux_Helper.bottom_container_AttributesBorder("-- HSV"));
+
+                        controls = new JPanel();
+                        controls.setLayout(new GridLayout(2, 2)); // 4 buttons
+                        controls.setAlignmentX(Component.LEFT_ALIGNMENT);
+                        controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
+
+                        JButton controls_randomColor = new JButton("Random Color");
+                        controls_randomColor.setFocusPainted(true);
+                        controls_randomColor.setOpaque(true);
+                        controls_randomColor.addActionListener(ev -> _1const.COLOR_ENQ
+                                        .dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
+
+                        controls.add(controls_randomColor);
 
                         attributes_List = new JPanel();
                         attributes_List.setLayout(new BoxLayout(attributes_List, BoxLayout.Y_AXIS));
                         attributes_List.setOpaque(true);
+                        attributes_List.add(controls);
                         attributes_List.add(miscAttributes);
                         attributes_List.add(rgbData);
                         attributes_List.add(colorSpace);
                         attributes_List.add(hsvData);
 
-                        colorAttributes.setViewportView(attributes_List);
+                        ui_LazyViewport $0219430 = new ui_LazyViewport();
+                        $0219430.setView(attributes_List);
+
+                        colorAttributes.setViewportView($0219430);
 
                         setLeftComponent(colorChooser);
                         setRightComponent(colorAttributes);
@@ -345,12 +357,12 @@ public class gui_Container
                                                 transparency.setText("<html><strong>Transparency</strong>: "
                                                                 + x.getTransparency() + "</html>");
                                                 colorFunction_RGB.setText(
-                                                                "<html><strong>CSS rgb</strong>: <p style=\"background-color:black;color:orange\">rgb<span style=\"color:white\">("
+                                                                "<html><strong>CSS rgb</strong>: <p style=\"background-color:black;color:#48aff0\">rgb<span style=\"color:white\">("
                                                                                 + x.getRed() + ", "
                                                                                 + x.getGreen() + ", " + x.getBlue()
                                                                                 + ")</span></p></html>");
                                                 colorFunction_RGBA.setText(
-                                                                "<html><strong>CSS rgba</strong>: <p style=\"background-color:black;color:orange\">rgba<span style=\"color:white\">("
+                                                                "<html><strong>CSS rgba</strong>: <p style=\"background-color:black;color:#48aff0\">rgba<span style=\"color:white\">("
                                                                                 + x.getRed() + ", "
                                                                                 + x.getGreen() + ", " + x.getBlue()
                                                                                 + ", "
@@ -358,7 +370,7 @@ public class gui_Container
                                                 float[] hsv = extend_stl_Colors.rgbToHsv(
                                                                 new float[] { x.getRed(), x.getGreen(), x.getBlue() });
                                                 colorFunction_HSV.setText(
-                                                                "<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:orange\">hsv<span style=\"color:white\">("
+                                                                "<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:#48aff0\">hsv<span style=\"color:white\">("
                                                                                 + hsv[0] + ", " + hsv[1]
                                                                                 + "%, " + hsv[2]
                                                                                 + "%)</span></p></html>");
@@ -414,6 +426,11 @@ public class gui_Container
                         });
 
                         COLOR_ENQ.dispatch(stl_Struct.make_pair(colorDisplay.getBackground(), false));
+                        _1const.add(() -> { // this task basically just constantly changes the color of the button
+                                Color randomColor = extend_stl_Colors.awt_random_Color();
+                                controls_randomColor.setBackground(randomColor);
+                                controls_randomColor.setForeground(stl_Colors.awt_ColorInvert(randomColor));
+                        }, 200L, 500L);
                 }
 
                 public JPanel[] exports()

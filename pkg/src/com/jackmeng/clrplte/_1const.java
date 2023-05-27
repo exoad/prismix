@@ -1,6 +1,7 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 package com.jackmeng.clrplte;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,6 +21,7 @@ import java.awt.Color;
 public final class _1const
 {
   public static final boolean DEBUG_GUI = false;
+  public static final Random RNG = new Random();
   public static Timer worker = new Timer("com-jackmeng-clrplte-worker01");
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
   public static final String working_dir = System.getProperty("user.dir");

@@ -4,6 +4,10 @@ package com.jackmeng.clrplte.stl;
 
 import java.awt.color.ColorSpace;
 
+import com.jackmeng.clrplte._1const;
+
+import java.awt.Color;
+
 public final class extend_stl_Colors
 {
   private extend_stl_Colors()
@@ -16,6 +20,11 @@ public final class extend_stl_Colors
                                                                                                            // know why
                                                                                                            // 10 isnt
                                                                                                            // here
+  }
+
+  public static Color awt_random_Color()
+  {
+    return new Color(_1const.RNG.nextFloat(), _1const.RNG.nextFloat(), _1const.RNG.nextFloat());
   }
 
   public static float[] rgbToHsv(float[] rgb)
