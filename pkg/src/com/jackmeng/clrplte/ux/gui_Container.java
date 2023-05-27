@@ -41,7 +41,7 @@ public class gui_Container
         public static class Container_TopPane
                         extends JSplitPane
         {
-                private JPanel rgbData, miscAttributes, colorSpace;
+                private JPanel rgbData, miscAttributes, colorSpace, hsvData;
                 private JPanel colorChooser;
                 private JScrollPane colorAttributes;
                 private final JPanel attributes_List;
@@ -62,12 +62,14 @@ public class gui_Container
                         /-----------------------------------------------------------------------------*/
 
                         colorAttributes = new JScrollPane();
+                        colorAttributes.setOpaque(true);
                         colorAttributes.setBorder(BorderFactory.createEmptyBorder());
-                        colorAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-                        colorAttributes.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+                        colorAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+                        colorAttributes.setHorizontalScrollBarPolicy(
+                                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
                         JPanel wrapper_ColorAttributes = new JPanel();
-                        wrapper_ColorAttributes.setOpaque(true);
+                        wrapper_ColorAttributes.setOpaque(false);
                         wrapper_ColorAttributes.setLayout(new BoxLayout(wrapper_ColorAttributes, BoxLayout.Y_AXIS));
                         wrapper_ColorAttributes.setBorder(BorderFactory.createEmptyBorder());
 
@@ -98,7 +100,7 @@ public class gui_Container
                         wrapper_ColorAttributes.add(colorDisplay_A);
 
                         JPanel rawRGBData = new JPanel();
-                        rawRGBData.setOpaque(true);
+                        rawRGBData.setOpaque(false);
                         rawRGBData.setLayout(new BoxLayout(rawRGBData, BoxLayout.Y_AXIS));
 
                         JLabel rgba_main = new JLabel();
@@ -134,9 +136,15 @@ public class gui_Container
 
                         JLabel hexColor = new JLabel();
                         JLabel transparency = new JLabel();
+                        JLabel colorFunction_RGB = new JLabel();
+                        JLabel colorFunction_RGBA = new JLabel();
+                        JLabel colorFunction_HSV = new JLabel();
 
                         miscAttributes.add(hexColor);
                         miscAttributes.add(transparency);
+                        miscAttributes.add(colorFunction_RGB);
+                        miscAttributes.add(colorFunction_RGBA);
+                        miscAttributes.add(colorFunction_HSV);
 
                         colorSpace = new JPanel();
                         colorSpace.setName("Color Space");
@@ -158,13 +166,24 @@ public class gui_Container
                         /                 + extend_stl_Colors.awt_colorspace_NameMatch(defaultColor.getColorSpace())); /
                         /---------------------------------------------------------------------------------------------*/
 
-                        colorSpace.add(new JScrollPane(colorSpace_scrollPane));
+                        colorSpace.add(colorSpace_scrollPane);
+
+                        hsvData = new JPanel();
+                        hsvData.setName("HSV");
+                        hsvData.setLayout(new BoxLayout(hsvData, BoxLayout.Y_AXIS));
+                        hsvData.setAlignmentX(Component.LEFT_ALIGNMENT);
+                        hsvData.setBorder(
+                                        BorderFactory.createTitledBorder(
+                                                        BorderFactory.createEmptyBorder(5, 0, 5, 0),
+                                                        "-- HSV"));
 
                         attributes_List = new JPanel();
                         attributes_List.setLayout(new BoxLayout(attributes_List, BoxLayout.Y_AXIS));
+                        attributes_List.setOpaque(true);
                         attributes_List.add(miscAttributes);
                         attributes_List.add(rgbData);
                         attributes_List.add(colorSpace);
+                        attributes_List.add(hsvData);
 
                         colorAttributes.setViewportView(attributes_List);
 
@@ -316,21 +335,72 @@ public class gui_Container
                                         {
                                                 System.out.println("[TopContainer] MISC_ATTRIBUTES.isVisible = true");
                                                 hexColor.setText(
-                                                                "Hex: " + stl_Colors.RGBAtoHex(x.getAlpha(), x.getRGB(),
-                                                                                x.getGreen(), x.getBlue()));
-                                                transparency.setText("Transparency: " + x.getTransparency());
+                                                                "<html><strong>Hex</strong>: " + stl_Colors.RGBAtoHex(
+                                                                                x.getAlpha(), x.getRGB(),
+                                                                                x.getGreen(), x.getBlue()) + "</html>");
+                                                transparency.setText("<html><strong>Transparency</strong>: "
+                                                                + x.getTransparency() + "</html>");
+                                                colorFunction_RGB.setText(
+                                                                "<html><strong>CSS rgb</strong>: <p style=\"background-color:black;color:orange\">rgb<span style=\"color:white\">("
+                                                                                + x.getRed() + ", "
+                                                                                + x.getGreen() + ", " + x.getBlue()
+                                                                                + ")</span></p></html>");
+                                                colorFunction_RGBA.setText(
+                                                                "<html><strong>CSS rgba</strong>: <p style=\"background-color:black;color:orange\">rgba<span style=\"color:white\">("
+                                                                                + x.getRed() + ", "
+                                                                                + x.getGreen() + ", " + x.getBlue()
+                                                                                + ", "
+                                                                                + x.getAlpha() + ")</span></p></html>");
+                                                float[] hsv = extend_stl_Colors.rgbToHsv(
+                                                                new float[] { x.getRed(), x.getGreen(), x.getBlue() });
+                                                colorFunction_HSV.setText(
+                                                                "<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:orange\">hsv<span style=\"color:white\">("
+                                                                                + hsv[0] + ", " + hsv[1]
+                                                                                + "%, " + hsv[2]
+                                                                                + "%)</span></p></html>");
                                         }
 
                                         if (colorSpace.isVisible())
                                         {
                                                 System.out.println(
                                                                 "[TopContainer] COLOR_SPACE_ATTRIBUTES.isVisible = true");
-                                                colorSpace_scrollPane.setText("<html>Components: "
+                                                StringBuilder sb = new StringBuilder(
+                                                                "<strong>Component Names</strong>:"),
+                                                                sb2 = new StringBuilder(
+                                                                                "<strong>Component Min , Max</strong>:"),
+                                                                sb3 = new StringBuilder(
+                                                                                "<strong>CIEXYZ Form</strong>:");
+                                                float[] ciexyz = x.getColorSpace().toCIEXYZ(new float[] { x.getRed(),
+                                                                x.getGreen(), x.getBlue(), x.getAlpha() });
+                                                for (float rrr : ciexyz)
+                                                        sb3.append("<br>&nbsp;&nbsp;" + rrr);
+
+                                                for (int i = 0; i < x.getColorSpace().getNumComponents(); i++)
+                                                {
+                                                        sb.append("<br>&nbsp;&nbsp;" + (i + 1) + ": "
+                                                                        + x.getColorSpace().getName(i));
+                                                        sb2.append("<br>&nbsp;&nbsp;" + (i + 1) + ": "
+                                                                        + x.getColorSpace().getMinValue(i) + " , "
+                                                                        + x.getColorSpace().getMaxValue(i));
+
+                                                }
+
+                                                colorSpace_scrollPane.setText("<html><strong>Components</strong>: "
                                                                 + x.getColorSpace().getNumComponents()
-                                                                + "<br>Color Space: "
+                                                                + "<br><strong>Color Space</strong>: "
                                                                 + extend_stl_Colors.awt_colorspace_NameMatch(
                                                                                 x.getColorSpace())
-                                                                + "</html>");
+                                                                + "<br>"
+                                                                + sb.toString() + "<br>" + sb2.toString()
+                                                                + "<br>" +
+                                                                sb3.toString()
+                                                                +
+                                                                "</html>");
+                                        }
+
+                                        if (hsvData.isVisible())
+                                        {
+
                                         }
 
                                         validate();
@@ -344,7 +414,7 @@ public class gui_Container
 
                 public JPanel[] exports()
                 {
-                        return new JPanel[] { rgbData, miscAttributes, colorSpace };
+                        return new JPanel[] { rgbData, miscAttributes, colorSpace, hsvData };
                 }
 
         }

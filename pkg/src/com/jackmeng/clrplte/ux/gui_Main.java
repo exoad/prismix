@@ -7,7 +7,6 @@ import javax.swing.*;
 import static com.jackmeng.clrplte.use_Maker.*;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 
 import com.jackmeng.clrplte._1const;
 

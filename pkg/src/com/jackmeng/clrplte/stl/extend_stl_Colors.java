@@ -10,6 +10,49 @@ public final class extend_stl_Colors
   {
   }
 
+  public static int[] awt_colorspace_AllTypes()
+  {
+    return new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 }; // we dont
+                                                                                                           // know why
+                                                                                                           // 10 isnt
+                                                                                                           // here
+  }
+
+  public static float[] rgbToHsv(float[] rgb)
+  {
+    return new float[] {
+        Math.max(
+            rgb[0] / 255F, Math
+                .max(rgb[1] / 255F, rgb[2] / 255F)) == Math.min(rgb[0] / 255F,
+                    Math.min(rgb[1] / 255F, rgb[2] / 255F)) ? 0
+                        : Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F,
+                            rgb[2] / 255F)) == rgb[0]
+                                / 255F
+                                    ? (60
+                                        * ((rgb[1] / 255F - rgb[2] / 255F)
+                                            / (Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))
+                                                - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F))))
+                                        + 360) % 360
+                                    : Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == rgb[1] / 255F
+                                        ? (60
+                                            * ((rgb[2] / 255F - rgb[0] / 255F) / (Math.max(rgb[0] / 255F,
+                                                Math.max(rgb[1] / 255F, rgb[2] / 255F))
+                                                - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F))))
+                                            + 120) % 360
+                                        : Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == rgb[2]
+                                            / 255F
+                                                ? (60 * ((rgb[0] / 255F - rgb[1] / 255F) / (Math.max(rgb[0] / 255F,
+                                                    Math.max(rgb[1] / 255F, rgb[2] / 255F))
+                                                    - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F))))
+                                                    + 240) % 360
+                                                : -1,
+        Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == 0 ? 0
+            : ((Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))
+                - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F)))
+                / Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))) * 100,
+        Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) * 100 };
+  }
+
   public static String awt_colorspace_NameMatch(ColorSpace e)
   {
     switch (e.getType()) {
