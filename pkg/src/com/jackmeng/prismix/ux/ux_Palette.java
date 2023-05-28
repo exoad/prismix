@@ -3,7 +3,7 @@
 package com.jackmeng.prismix.ux;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -55,7 +55,19 @@ public class ux_Palette
 
   public ux_Palette(int initial, String name)
   {
-    colors_rgba = new HashSet<>();
+    colors_rgba = new LinkedHashSet<>() {
+      @Override public boolean add(List< Float > e) // this set simulates the functionality that the duplicate gets
+                                                    // appended to the end while the old value is deleted
+      {
+        boolean added = super.add(e);
+        if (!added)
+        {
+          super.remove(e);
+          super.add(e);
+        }
+        return added;
+      }
+    };
     LISTENER_POOL = new stl_ListenerPool<>(name);
     LISTENER_POOL.add(x -> {
       System.out.println("[UX_PALETTE] Palette " + name + " received operation: " + x);

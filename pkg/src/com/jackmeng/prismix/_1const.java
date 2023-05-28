@@ -24,7 +24,7 @@ public final class _1const
   public static final Random RNG = new Random();
   public static Timer worker = new Timer("com-jackmeng-clrplte-worker01");
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
-  private static Color lastColor = new Color(255F, 255F, 255F, 255F);
+  private static Color lastColor = new Color(1F, 1F, 1F, 1F);
   public static final String working_dir = System.getProperty("user.dir");
   /**
    * PAIR[0] = (java.awt.Color) Color payload
