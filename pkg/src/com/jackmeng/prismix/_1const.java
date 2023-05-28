@@ -24,6 +24,7 @@ public final class _1const
   public static final Random RNG = new Random();
   public static Timer worker = new Timer("com-jackmeng-clrplte-worker01");
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
+  private static Color lastColor = new Color(255F, 255F, 255F, 255F);
   public static final String working_dir = System.getProperty("user.dir");
   /**
    * PAIR[0] = (java.awt.Color) Color payload
@@ -54,8 +55,14 @@ public final class _1const
     COLOR_ENQ.add(x -> {
       System.out.println("[COLOR_POOL] Enqueued another color for GUI elements to process: rgba(" + x.first.getRed()
           + "," + x.first.getGreen() + "," + x.first.getBlue() + "," + x.first.getAlpha() + ")");
+      lastColor = x.first;
       return (Void) null;
     });
+  }
+
+  public static Color last_color()
+  {
+    return lastColor;
   }
 
   public static synchronized void add(Runnable r, long delay)

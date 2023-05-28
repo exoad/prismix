@@ -34,6 +34,7 @@ public class jm_ColorPalette
     try
     {
       System.setProperty("sun.java2d.opengl", "True");
+      System.setProperty("sun.java2d.trace", "count");
       UIManager.setLookAndFeel(new FlatArcDarkContrastIJTheme());
     } catch (Exception e)
     {

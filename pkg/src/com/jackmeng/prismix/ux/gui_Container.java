@@ -68,6 +68,7 @@ public class gui_Container
 
 			colorAttributes = new JScrollPane();
 			colorAttributes.setOpaque(true);
+			colorAttributes.getVerticalScrollBar().setUnitIncrement(7);
 			colorAttributes.setAutoscrolls(false);
 			colorAttributes.setBorder(BorderFactory.createEmptyBorder());
 			colorAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -182,10 +183,13 @@ public class gui_Container
 			controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
 
 			JButton controls_randomColor = new JButton("Random Color");
-			controls_randomColor.setFocusPainted(true);
-			controls_randomColor.setOpaque(true);
+			controls_randomColor.setFocusPainted(false);
+			controls_randomColor.setBorderPainted(false);
+			controls_randomColor.setForeground(controls_randomColor.getForeground().brighter());
 			controls_randomColor.addActionListener(ev -> _1const.COLOR_ENQ
 					.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
+
+			
 
 			controls.add(controls_randomColor);
 
@@ -426,11 +430,14 @@ public class gui_Container
 			});
 
 			COLOR_ENQ.dispatch(stl_Struct.make_pair(colorDisplay.getBackground(), false));
-			_1const.add(() -> { // this task basically just constantly changes the color of the button
-				Color randomColor = extend_stl_Colors.awt_random_Color();
-				controls_randomColor.setBackground(randomColor);
-				controls_randomColor.setForeground(stl_Colors.awt_ColorInvert(randomColor));
-			}, 200L, 500L);
+			/*------------------------------------------------------------------------------------------ /
+			/ _1const.add(() -> { // this task basically just constantly changes the color of the button /
+			/   Color randomColor = extend_stl_Colors.awt_random_Color();                                /
+			/   controls_randomColor.setBackground(randomColor);                                         /
+			/   controls_randomColor.setForeground(stl_Colors.awt_ColorInvert(randomColor));             /
+			/   controls_randomColor.repaint(50L);                                                       /
+			/ }, 200L, 500L);                                                                            /
+			/-------------------------------------------------------------------------------------------*/
 		}
 
 		public JPanel[] exports()

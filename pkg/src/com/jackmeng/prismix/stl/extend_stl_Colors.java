@@ -5,7 +5,8 @@ package com.jackmeng.prismix.stl;
 import java.awt.color.ColorSpace;
 
 import com.jackmeng.prismix._1const;
-
+import java.awt.*;
+import java.awt.image.*;
 import java.awt.Color;
 
 public final class extend_stl_Colors
@@ -20,6 +21,33 @@ public final class extend_stl_Colors
                                                                                                            // know why
                                                                                                            // 10 isnt
                                                                                                            // here
+  }
+
+  public static BufferedImage gradient(
+      int size,
+      Color primaryLeft,
+      Color primaryRight,
+      Color shadeColor)
+  {
+    BufferedImage image = new BufferedImage(
+        size, size, BufferedImage.TYPE_INT_RGB);
+
+    Graphics2D g = image.createGraphics();
+    GradientPaint primary = new GradientPaint(
+        0f, 0f, primaryLeft, size, 0f, primaryRight);
+    int rC = shadeColor.getRed();
+    int gC = shadeColor.getGreen();
+    int bC = shadeColor.getBlue();
+    GradientPaint shade = new GradientPaint(
+        0f, 0f, new Color(rC, gC, bC, 0),
+        0f, size, shadeColor);
+    g.setPaint(primary);
+    g.fillRect(0, 0, size, size);
+    g.setPaint(shade);
+    g.fillRect(0, 0, size, size);
+
+    g.dispose();
+    return image;
   }
 
   public static Color awt_random_Color()
