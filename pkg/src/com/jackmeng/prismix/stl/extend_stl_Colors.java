@@ -93,15 +93,36 @@ public final class extend_stl_Colors
   public static float[] rgbToHsl(float[] rgb)
   {
     float M = Math.max(rgb[0], Math.max(rgb[1], rgb[2])), m = Math.min(rgb[0], Math.min(rgb[1], rgb[2]));
-    float d = (M - m) / 255F;
-    float L = (0.5F * (M + m)) / 255F;
-    float S = L > 0 ? d / (1 - Math.abs(2 * L - 1)) : 0;
-    float H = (float) (rgb[1] >= rgb[2]
-        ? Math.acos((rgb[0] - 0.5F * rgb[1] - 0.5F * rgb[2])) / Math.sqrt(
-            rgb[0] * rgb[0] + rgb[1] * rgb[1] + rgb[2] * rgb[2] - rgb[0] * rgb[1] - rgb[0] * rgb[2] - rgb[1] * rgb[2])
-        : rgb[2] > rgb[1] ? 360 - Math.acos((rgb[0] - 0.5F * rgb[1] - 0.5F * rgb[2])) / Math.sqrt(
-            rgb[0] * rgb[0] + rgb[1] * rgb[1] + rgb[2] * rgb[2] - rgb[0] * rgb[1] - rgb[0] * rgb[2] - rgb[1] * rgb[2])
-            : 0);
+    float L = ((0.5F * (M + m)) / 255F) * 100F;
+    float S = Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == 0F ? 0F
+        : ((Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))
+            - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F)))
+            / Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))) * 100F;
+    float H = Math.max(
+        rgb[0] / 255F, Math
+            .max(rgb[1] / 255F, rgb[2] / 255F)) == Math.min(rgb[0] / 255F,
+                Math.min(rgb[1] / 255F, rgb[2] / 255F)) ? 0F
+                    : Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F,
+                        rgb[2] / 255F)) == rgb[0]
+                            / 255F
+                                ? (60
+                                    * ((rgb[1] / 255F - rgb[2] / 255F)
+                                        / (Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))
+                                            - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F))))
+                                    + 360) % 360
+                                : Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == rgb[1] / 255F
+                                    ? (60
+                                        * ((rgb[2] / 255F - rgb[0] / 255F) / (Math.max(rgb[0] / 255F,
+                                            Math.max(rgb[1] / 255F, rgb[2] / 255F))
+                                            - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F))))
+                                        + 120) % 360
+                                    : Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == rgb[2]
+                                        / 255F
+                                            ? (60 * ((rgb[0] / 255F - rgb[1] / 255F) / (Math.max(rgb[0] / 255F,
+                                                Math.max(rgb[1] / 255F, rgb[2] / 255F))
+                                                - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F))))
+                                                + 240) % 360
+                                            : -1;
     return new float[] { H, S, L };
   }
 

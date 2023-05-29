@@ -85,7 +85,7 @@ public class gui_Container
 			wrapper_ColorAttributes.setLayout(new BoxLayout(wrapper_ColorAttributes, BoxLayout.Y_AXIS));
 			wrapper_ColorAttributes.setBorder(BorderFactory.createEmptyBorder());
 
-			JLabel colorDisplay = new JLabel("[][][][][][][][][]"); // IMPORTANT STARTUP OBJECT
+			JLabel colorDisplay = new JLabel("ABCDEFGHIJKLMNOPQ"); // IMPORTANT STARTUP OBJECT
 			colorDisplay.setPreferredSize(new Dimension(50, 20));
 			colorDisplay.setOpaque(true);
 
@@ -148,12 +148,14 @@ public class gui_Container
 			JLabel colorFunction_RGB = new JLabel();
 			JLabel colorFunction_RGBA = new JLabel();
 			JLabel colorFunction_HSV = new JLabel();
+			JLabel colorFunction_HSL = new JLabel();
 
 			miscAttributes.add(hexColor);
 			miscAttributes.add(transparency);
 			miscAttributes.add(colorFunction_RGB);
 			miscAttributes.add(colorFunction_RGBA);
 			miscAttributes.add(colorFunction_HSV);
+			miscAttributes.add(colorFunction_HSL);
 
 			colorSpace = new JPanel();
 			colorSpace.setName("Color Space");
@@ -232,6 +234,14 @@ public class gui_Container
 			hslData.setAlignmentX(Component.LEFT_ALIGNMENT);
 			hslData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- HSL"));
 
+			JLabel hslData_hue = new JLabel();
+			JLabel hslData_saturation = new JLabel();
+			JLabel hslData_lightness = new JLabel();
+
+			hslData.add(hslData_hue);
+			hslData.add(hslData_saturation);
+			hslData.add(hslData_lightness);
+
 			JEditorPane hsl_dataScrollPane = new JEditorPane();
 			hsl_dataScrollPane.setContentType("text/html");
 			hsl_dataScrollPane.setEditable(false);
@@ -243,8 +253,9 @@ public class gui_Container
 			attributes_List.add(controls);
 			attributes_List.add(miscAttributes);
 			attributes_List.add(rgbData);
-			attributes_List.add(colorSpace);
 			attributes_List.add(hsvData);
+			attributes_List.add(hslData);
+			attributes_List.add(colorSpace);
 
 			ui_LazyViewport $0219430 = new ui_LazyViewport();
 			$0219430.setView(attributes_List);
@@ -256,6 +267,7 @@ public class gui_Container
 
 			COLOR_ENQ.add(pair -> { // GUI ONLY LISTENER
 				Color x = pair.first;
+				float[] x_rgba = new float[] { x.getRed(), x.getGreen(), x.getBlue(), x.getAlpha() };
 				SwingUtilities.invokeLater(() -> {
 					if (rgbData.isVisible())
 					{
@@ -415,21 +427,36 @@ public class gui_Container
 										+ x.getGreen() + ", " + x.getBlue()
 										+ ", "
 										+ x.getAlpha() + ")</span></p></html>");
-						float[] hsv = extend_stl_Colors.rgbToHsv(
-								new float[] { x.getRed(), x.getGreen(), x.getBlue() });
+						float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
 						colorFunction_HSV.setText(
 								"<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:#48aff0\">hsv<span style=\"color:white\">("
 										+ hsv[0] + ", " + hsv[1]
 										+ "%, " + hsv[2]
 										+ "%)</span></p></html>");
+
+						float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
+						colorFunction_HSL.setText(
+								"<html><strong>CSS hsl</strong>: <p style=\"background-color:black;color:#48aff0\">hsl<span style=\"color:white\">("
+										+ hsv[0] + ", " + hsv[1]
+										+ "%, " + hsl[2]
+										+ "%)</span></p></html>");
+
 					}
 
 					if (hsvData.isVisible())
 					{
-						float[] hsv = extend_stl_Colors.rgbToHsv(new float[] { x.getRed(), x.getGreen(), x.getBlue() });
+						float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
 						hsvData_hue.setText("Hue        (H): " + hsv[0]);
 						hsvData_saturation.setText("Saturation (S): " + hsv[1]);
 						hsvData_value.setText("Value      (V): " + hsv[2]);
+					}
+
+					if (hslData.isVisible())
+					{
+						float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
+						hslData_hue.setText("Hue        (H): " + hsl[0]);
+						hslData_saturation.setText("Saturation (S): " + hsl[1]);
+						hslData_lightness.setText("Lightness  (L): " + hsl[2]);
 					}
 
 					if (colorSpace.isVisible())

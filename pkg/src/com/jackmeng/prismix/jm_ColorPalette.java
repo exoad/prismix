@@ -22,6 +22,9 @@ import com.jackmeng.stl.stl_Wrap;
  */
 public class jm_ColorPalette
 {
+
+  public static final long _VERSION_ = 2023_05_01L; // YYYY_MM_DD of the closest month
+
   static AtomicLong time = new AtomicLong(System.currentTimeMillis());
   static final Map< String, stl_Callback< Void, String > > IO_COMMANDS = new HashMap<>();
   static
