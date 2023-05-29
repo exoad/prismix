@@ -5,10 +5,12 @@ package com.jackmeng.prismix.ux;
 import javax.swing.*;
 
 import com.jackmeng.prismix._1const;
+import com.jackmeng.prismix.jm_ColorPalette;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
 import com.jackmeng.stl.stl_Struct;
+import com.jackmeng.stl.stl_Ware;
 
 import static com.jackmeng.prismix._1const.*;
 
@@ -42,11 +44,11 @@ public class gui_Container
 	public static class Container_TopPane
 			extends JSplitPane
 	{
-		private JPanel rgbData, miscAttributes, colorSpace, hsvData, controls; // controls should be the only
-																				// section where it cannot be
-																				// exported and thus let ux
-																				// change its visibility at any
-																				// time!
+		private JPanel rgbData, miscAttributes, colorSpace, hsvData, hslData, controls; // controls should be the only
+		// section where it cannot be
+		// exported and thus let ux
+		// change its visibility at any
+		// time!
 		private JPanel colorChooser;
 		private JScrollPane colorAttributes;
 		private final JPanel attributes_List;
@@ -54,11 +56,14 @@ public class gui_Container
 		public Container_TopPane()
 		{
 			setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 2));
-			setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 10);
+			setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 13);
 			setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 			setBorder(BorderFactory.createEmptyBorder());
 
 			colorChooser = new JPanel();
+			colorChooser.setPreferredSize(new Dimension(getDividerLocation(), getPreferredSize().height));
+			colorChooser.setOpaque(true);
+			colorChooser.setBackground(Color.PINK);
 			/*---------------------------------------------------------------------------- /
 			/                                                                              /
 			/ Color defaultColor = new Color((float) Math.random(), (float) Math.random(), /
@@ -177,6 +182,14 @@ public class gui_Container
 			hsvData.setBorder(
 					ux_Helper.bottom_container_AttributesBorder("-- HSV"));
 
+			JLabel hsvData_hue = new JLabel();
+			JLabel hsvData_saturation = new JLabel();
+			JLabel hsvData_value = new JLabel();
+
+			hsvData.add(hsvData_hue);
+			hsvData.add(hsvData_saturation);
+			hsvData.add(hsvData_value);
+
 			controls = new JPanel();
 			controls.setLayout(new GridLayout(2, 2)); // 4 buttons
 			controls.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -185,13 +198,44 @@ public class gui_Container
 			JButton controls_randomColor = new JButton("Random Color");
 			controls_randomColor.setFocusPainted(false);
 			controls_randomColor.setBorderPainted(false);
-			controls_randomColor.setForeground(controls_randomColor.getForeground().brighter());
+			controls_randomColor.setForeground(Color.WHITE);
 			controls_randomColor.addActionListener(ev -> _1const.COLOR_ENQ
 					.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
 
-			
+			JButton controls_forceRevalidate = new JButton("Refresh UI");
+			controls_forceRevalidate.setFocusPainted(false);
+			controls_forceRevalidate.setBorderPainted(false);
+			controls_forceRevalidate.setForeground(Color.WHITE);
+			controls_forceRevalidate.addActionListener(ev -> jm_ColorPalette.ux.force_redo());
+
+			JButton controls_gc = new JButton("GC");
+			controls_gc.setFocusPainted(false);
+			controls_gc.setBorderPainted(false);
+			controls_gc.setForeground(Color.RED);
+			controls_gc.addActionListener(ev -> System.gc());
+
+			JButton controls_randomScreenColor = new JButton("Random Screen Color");
+			controls_randomScreenColor.setFocusPainted(false);
+			controls_randomScreenColor.setBorderPainted(false);
+			controls_randomScreenColor.setForeground(Color.WHITE);
+			controls_randomScreenColor.addActionListener(
+					ev -> _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Ware.screen_colorAt_Rnd().get(), false)));
 
 			controls.add(controls_randomColor);
+			controls.add(controls_randomScreenColor);
+			controls.add(controls_forceRevalidate);
+			controls.add(controls_gc);
+
+			hslData = new JPanel();
+			hslData.setName("HSL");
+			hslData.setLayout(new BoxLayout(hslData, BoxLayout.Y_AXIS));
+			hslData.setAlignmentX(Component.LEFT_ALIGNMENT);
+			hslData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- HSL"));
+
+			JEditorPane hsl_dataScrollPane = new JEditorPane();
+			hsl_dataScrollPane.setContentType("text/html");
+			hsl_dataScrollPane.setEditable(false);
+			hsl_dataScrollPane.setFocusable(false);
 
 			attributes_List = new JPanel();
 			attributes_List.setLayout(new BoxLayout(attributes_List, BoxLayout.Y_AXIS));
@@ -380,6 +424,14 @@ public class gui_Container
 										+ "%)</span></p></html>");
 					}
 
+					if (hsvData.isVisible())
+					{
+						float[] hsv = extend_stl_Colors.rgbToHsv(new float[] { x.getRed(), x.getGreen(), x.getBlue() });
+						hsvData_hue.setText("Hue        (H): " + hsv[0]);
+						hsvData_saturation.setText("Saturation (S): " + hsv[1]);
+						hsvData_value.setText("Value      (V): " + hsv[2]);
+					}
+
 					if (colorSpace.isVisible())
 					{
 						System.out.println(
@@ -445,6 +497,15 @@ public class gui_Container
 			return new JPanel[] { rgbData, miscAttributes, colorSpace, hsvData };
 		}
 
+		public synchronized void redo()
+		{
+			controls.revalidate();
+			controls.doLayout();
+			this.doLayout();
+			this.revalidate();
+			this.repaint(100L);
+		}
+
 	}
 
 	public synchronized void append_attribute(JComponent e)
@@ -458,6 +519,7 @@ public class gui_Container
 	public void validate_size()
 	{
 		top.colorAttributes.setMinimumSize(top.colorAttributes.getPreferredSize());
+		top.setDividerLocation(top.colorChooser.getPreferredSize().width + 50);
 	}
 
 	public static class Container_BottomPane

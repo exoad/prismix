@@ -9,7 +9,7 @@ package com.jackmeng.prismix.ux;
  */
 public abstract interface _2const
 {
-  int WIDTH = 970;
+  int WIDTH = 1100;
   int HEIGHT = 875;
 
   float COLOR_BLEND_THRESHOLD_BORDER = 0.25F;

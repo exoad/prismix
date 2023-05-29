@@ -17,4 +17,6 @@ public final class ux_Helper
         BorderFactory.createEmptyBorder(5, 0, 5, 0),
         "<html><u><strong><p style=\"color:#e3a65b\">" + name + "</p></strong></u></strong>");
   }
+
+  
 }

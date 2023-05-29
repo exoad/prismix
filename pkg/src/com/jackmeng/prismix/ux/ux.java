@@ -47,12 +47,22 @@ public final class ux
     mainui.registerToBar("Color Attributes", use_Maker.make(e));
   }
 
+  public synchronized void force_redo()
+  {
+    System.out.println("[UX] Attempting Force redo GUI...");
+    SwingUtilities.updateComponentTreeUI(mainui);
+    mainui.repaint();
+    mainui.revalidate();
+    System.out.println("[UX] Force redo GUI DONE");
+  }
+
   @Override public void run()
   {
     System.out.println("[UX] Dispatched a run event for the current UI creation! Hoping this goes well...");
     SwingUtilities.invokeLater(() -> {
       childui.validate_size();
       mainui.run();
+      childui.top.redo();
       if (_1const.DEBUG_GUI)
         stl_SwingHelper.listComponents_OfContainer(mainui).forEach(x -> {
           try
