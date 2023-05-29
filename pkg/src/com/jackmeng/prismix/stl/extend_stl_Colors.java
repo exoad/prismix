@@ -55,6 +55,11 @@ public final class extend_stl_Colors
     return new Color(_1const.RNG.nextFloat(), _1const.RNG.nextFloat(), _1const.RNG.nextFloat());
   }
 
+  /*------------------------------------------------------------------------------------------ /
+  / didnt use variable declarations and stuffed everything into a single return statement with /
+  / ternary operators bc uh idk (hey it works,but not as efficient)                            /
+  /-------------------------------------------------------------------------------------------*/
+
   public static float[] rgbToHsv(float[] rgb)
   {
     return new float[] {
@@ -88,6 +93,18 @@ public final class extend_stl_Colors
                 - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F)))
                 / Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))) * 100,
         Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) * 100 };
+  }
+
+  public static float[] rgbToCmyk(float[] rgb)
+  {
+    return new float[] {
+        (1 - rgb[0] / 255F - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))))
+            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))),
+        (1 - rgb[1] / 255F - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))))
+            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))),
+        (1 - rgb[2] / 255F - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))))
+            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))),
+        1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) };
   }
 
   public static float[] rgbToHsl(float[] rgb)

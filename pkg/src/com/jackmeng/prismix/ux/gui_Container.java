@@ -20,6 +20,8 @@ import java.awt.*;
  * Represents the inner shell of the content of the GUI. The parent is the ux
  * handler.
  *
+ * Most code for the GUI goes here.
+ *
  * @author Jack Meng
  */
 public class gui_Container
@@ -44,12 +46,18 @@ public class gui_Container
 	public static class Container_TopPane
 			extends JSplitPane
 	{
-		private JPanel rgbData, miscAttributes, colorSpace, hsvData, hslData, controls; // controls should be the only
+		public JPanel[] exports()
+		{
+			return new JPanel[] { rgbData, miscAttributes, colorSpace, hsvData, hslData, cmykData };
+		}
+
+		private JPanel rgbData, miscAttributes, colorSpace, hsvData, hslData, cmykData, controls; // controls should be the
+																																															// only
 		// section where it cannot be
 		// exported and thus let ux
 		// change its visibility at any
 		// time!
-		private JPanel colorChooser;
+		private JPanel colorChooser; // this is the left side of the panel where the color gradient is
 		private JScrollPane colorAttributes;
 		private final JPanel attributes_List;
 
@@ -64,6 +72,7 @@ public class gui_Container
 			colorChooser.setPreferredSize(new Dimension(getDividerLocation(), getPreferredSize().height));
 			colorChooser.setOpaque(true);
 			colorChooser.setBackground(Color.PINK);
+
 			/*---------------------------------------------------------------------------- /
 			/                                                                              /
 			/ Color defaultColor = new Color((float) Math.random(), (float) Math.random(), /
@@ -242,10 +251,26 @@ public class gui_Container
 			hslData.add(hslData_saturation);
 			hslData.add(hslData_lightness);
 
-			JEditorPane hsl_dataScrollPane = new JEditorPane();
-			hsl_dataScrollPane.setContentType("text/html");
-			hsl_dataScrollPane.setEditable(false);
-			hsl_dataScrollPane.setFocusable(false);
+			cmykData = new JPanel();
+			cmykData.setName("CMYK");
+
+			JLabel cmykData_C = new JLabel();
+			JLabel cmykData_M = new JLabel();
+			JLabel cmykData_Y = new JLabel();
+			JLabel cmykData_K = new JLabel();
+
+			cmykData.add(cmykData_C);
+			cmykData.add(cmykData_M);
+			cmykData.add(cmykData_Y);
+			cmykData.add(cmykData_K);
+
+			/*---------------------------------------------------------- /
+			/ idk why this was created so just commenting it out for now /
+			/ JEditorPane hsl_dataScrollPane = new JEditorPane();        /
+			/ hsl_dataScrollPane.setContentType("text/html");            /
+			/ hsl_dataScrollPane.setEditable(false);                     /
+			/ hsl_dataScrollPane.setFocusable(false);                    /
+			/-----------------------------------------------------------*/
 
 			attributes_List = new JPanel();
 			attributes_List.setLayout(new BoxLayout(attributes_List, BoxLayout.Y_AXIS));
@@ -255,6 +280,7 @@ public class gui_Container
 			attributes_List.add(rgbData);
 			attributes_List.add(hsvData);
 			attributes_List.add(hslData);
+			attributes_List.add(cmykData);
 			attributes_List.add(colorSpace);
 
 			ui_LazyViewport $0219430 = new ui_LazyViewport();
@@ -459,6 +485,15 @@ public class gui_Container
 						hslData_lightness.setText("Lightness  (L): " + hsl[2]);
 					}
 
+					if (cmykData.isVisible())
+					{
+						float[] cmyk = extend_stl_Colors.rgbToCmyk(x_rgba);
+						cmykData_C.setText("Cyan    (C): " + cmyk[0]);
+						cmykData_M.setText("Magenta (M): " + cmyk[1]);
+						cmykData_Y.setText("Yellow  (Y): " + cmyk[2]);
+						cmykData_K.setText("Key     (K): " + cmyk[3]);
+					}
+
 					if (colorSpace.isVisible())
 					{
 						System.out.println(
@@ -517,11 +552,6 @@ public class gui_Container
 			/   controls_randomColor.repaint(50L);                                                       /
 			/ }, 200L, 500L);                                                                            /
 			/-------------------------------------------------------------------------------------------*/
-		}
-
-		public JPanel[] exports()
-		{
-			return new JPanel[] { rgbData, miscAttributes, colorSpace, hsvData };
 		}
 
 		public synchronized void redo()
