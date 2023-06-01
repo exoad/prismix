@@ -5,7 +5,7 @@ package com.jackmeng.prismix.ux;
 import javax.swing.*;
 
 import com.jackmeng.prismix._1const;
-import com.jackmeng.prismix.jm_ColorPalette;
+import com.jackmeng.prismix.jm_Prismix;
 
 import static com.jackmeng.prismix.use_Maker.*;
 
@@ -26,7 +26,7 @@ public class gui_Main
 
     bar = new JMenuBar();
 
-    setTitle("Prismix ~ exoad (build_" + jm_ColorPalette._VERSION_ + ")");
+    setTitle("Prismix ~ exoad (build_" + jm_Prismix._VERSION_ + ")");
     setIconImage(_1const.fetcher.image("assets/_icon.png"));
     wrapper.setPreferredSize(getPreferredSize());
     wrapper.add(bar, BorderLayout.NORTH);

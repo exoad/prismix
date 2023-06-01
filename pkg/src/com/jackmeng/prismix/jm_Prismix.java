@@ -21,7 +21,7 @@ import com.jackmeng.stl.stl_Wrap;
  *
  * @author Jack Meng
  */
-public class jm_ColorPalette
+public class jm_Prismix
 {
 
   public static final long _VERSION_ = 2023_05_01L; // YYYY_MM_DD of the closest month

@@ -7,7 +7,7 @@ import javax.management.RuntimeMBeanException;
 import javax.swing.*;
 
 import com.jackmeng.prismix._1const;
-import com.jackmeng.prismix.jm_ColorPalette;
+import com.jackmeng.prismix.jm_Prismix;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Colors;
