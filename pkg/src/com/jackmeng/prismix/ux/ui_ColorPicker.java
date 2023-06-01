@@ -95,10 +95,36 @@ public final class ui_ColorPicker
       implements stl_Listener< stl_Struct.struct_Pair< Color, Boolean > >
   {
 
+    private static JPanel acquire_defpane(int rows, int cols)
+    {
+      JPanel jp = new JPanel() {
+        @Override public Component add(Component e)
+        {
+          if (e instanceof JComponent r)
+            r.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+          return super.add(e);
+        }
+      };
+      jp.setLayout(new GridLayout(rows, cols));
+    }
+
+    public CPick_SuggestionsList()
+    {
+      JScrollPane masterScroll = new JScrollPane();
+
+      ui_LazyViewport mainViewport = new ui_LazyViewport();
+
+      JPanel shades_Brightness = new JPanel();
+
+      setLayout(new BorderLayout());
+      add(masterScroll, BorderLayout.CENTER);
+    }
+
     @Override public Void call(struct_Pair< Color, Boolean > arg0)
     {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'call'");
+      if (Boolean.FALSE.equals(arg0.second))
+        SwingUtilities.invokeLater(() -> repaint(150L));
+      return (Void) null;
     }
 
   }

@@ -80,6 +80,9 @@ public class gui_Container
 				colorChooser.addTab("DEBUG", colorChooser_Debug);
 			}
 
+			ui_ColorPicker.CPick_SuggestionsList colorChooser_Shades = new ui_ColorPicker.CPick_SuggestionsList();
+			colorChooser.addTab("Shades", colorChooser_Shades);
+
 			/*---------------------------------------------------------------------------- /
 			/                                                                              /
 			/ Color defaultColor = new Color((float) Math.random(), (float) Math.random(), /
@@ -218,7 +221,7 @@ public class gui_Container
 			hsvData.add(hsvData_value);
 
 			controls = new JPanel();
-			controls.setLayout(new GridLayout(3,2)); // 4 buttons
+			controls.setLayout(new GridLayout(3, 2)); // 4 buttons
 			controls.setAlignmentX(Component.LEFT_ALIGNMENT);
 			controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
 
