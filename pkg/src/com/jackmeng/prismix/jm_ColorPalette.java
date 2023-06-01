@@ -2,6 +2,7 @@
 
 package com.jackmeng.prismix;
 
+import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
@@ -45,16 +46,9 @@ public class jm_ColorPalette
     }
   }
 
-  static void exec(String command)
-  {
-
-  }
-
-  public static final ux ux = new ux();
-
   public static void main(String... args) // !! fuck pre Java 11 users, fuck their dumb shit
   {
-    _1const.add(ux, 10L);
+    _1const.add(ux.ux, 10L);
     stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
     Runtime.getRuntime().addShutdownHook(
         (new Thread(() -> System.out.println("[PROGRAM] Alive for: " + (System.currentTimeMillis() - time.get())))));

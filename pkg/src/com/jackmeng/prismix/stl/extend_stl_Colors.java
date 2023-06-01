@@ -3,11 +3,12 @@
 package com.jackmeng.prismix.stl;
 
 import java.awt.color.ColorSpace;
+import java.awt.geom.Point2D;
 
 import com.jackmeng.prismix._1const;
+
 import java.awt.*;
 import java.awt.image.*;
-import java.awt.Color;
 
 public final class extend_stl_Colors
 {
@@ -23,29 +24,102 @@ public final class extend_stl_Colors
                                                                                                            // here
   }
 
-  public static BufferedImage gradient(
-      int size,
-      Color primaryLeft,
-      Color primaryRight,
-      Color shadeColor)
+  public static boolean is_red(float[] e)
   {
-    BufferedImage image = new BufferedImage(
-        size, size, BufferedImage.TYPE_INT_RGB);
+    return e[0] > e[1] && e[0] > e[2];
+  }
 
+  public static boolean is_blue(float[] e)
+  {
+    return e[2] > e[1] && e[2] > e[0];
+  }
+
+  public static boolean is_green(float[] e)
+  {
+    return e[1] > e[0] && e[1] > e[2];
+  }
+
+  public static float[][] shades(int step, float[] colors)
+  {
+    // returns from lightest to darkest shades
+    assert step > 0 && step < 255;
+    float[][] temp = new float[254][3]; // minus one because we are excluding the color to search a shade for
+    for (int i = 0, r = step, b = step, g = step; i < temp.length && r <= 255 && g <= 255
+        && b <= 255; i++, r += step, g += step, b += step)
+      temp[i] = new float[] { r, g, b };
+    return temp;
+  }
+
+  public static BufferedImage cpick_gradient2(int size, Color interest)
+  {
+    BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
     Graphics2D g = image.createGraphics();
     GradientPaint primary = new GradientPaint(
-        0f, 0f, primaryLeft, size, 0f, primaryRight);
-    int rC = shadeColor.getRed();
-    int gC = shadeColor.getGreen();
-    int bC = shadeColor.getBlue();
+            0f, 0f, Color.WHITE, size, 0f, interest);
     GradientPaint shade = new GradientPaint(
-        0f, 0f, new Color(rC, gC, bC, 0),
-        0f, size, shadeColor);
+            0f, 0f, new Color(0, 0, 0, 0),
+            0f, size, new Color(0, 0, 0, 255));
     g.setPaint(primary);
     g.fillRect(0, 0, size, size);
     g.setPaint(shade);
     g.fillRect(0, 0, size, size);
+    g.dispose();
+    return image;
+  }
 
+  public static BufferedImage OLD_cpick_gradient(int size, Color interest)
+  {
+    BufferedImage image = new BufferedImage(
+        size, size, BufferedImage.TYPE_INT_RGB);
+    Graphics2D g = image.createGraphics();
+    g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
+    g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+    g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+    g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+    g.setRenderingHint(RenderingHints.KEY_RESOLUTION_VARIANT, RenderingHints.VALUE_RESOLUTION_VARIANT_SIZE_FIT);
+    /*------------------------------------------------------------------------------------------------- /
+    / LinearGradientPaint lgp_white_to_interest = new LinearGradientPaint(new Point2D.Float(0F, 0F),    /
+    /     new Point2D.Float(size, 0F), new float[]{0.1F, 0.2F}, new Color[] { Color.WHITE, interest }); /
+    /--------------------------------------------------------------------------------------------------*/
+    LinearGradientPaint lgp_shade = new LinearGradientPaint(new Point2D.Float(0F, 0F), new Point2D.Float(0F, size),
+        new float[] { 0.25F, 0.85F },
+        new Color[] { new Color(Color.BLACK.getRed(), Color.BLACK.getBlue(), Color.BLACK.getBlue(), 0), Color.BLACK });
+
+
+        /*---------------------------------- /
+    / g.setPaint(lgp_white_to_interest); /
+    / g.fillRect(0, 0, size, size);      /
+    / g.setPaint(lgp_shade);             /
+    / g.fillRect(0, 0, size, size);      /
+    / g.dispose();                       /
+    /-----------------------------------*/
+
+    GradientPaint primary = new GradientPaint(
+        0F, 0F, Color.white, size, size, interest);
+    /*---------------------------------------- /
+    / int rC = shadeColor.getRed();            /
+    / int gC = shadeColor.getGreen();          /
+    / int bC = shadeColor.getBlue();           /
+    / GradientPaint shade = new GradientPaint( /
+    /     0F, 0F, new Color(rC, gC, bC, 0),    /
+    /     0F, size, shadeColor);               /
+    /-----------------------------------------*/
+    /*--------------------------------------- /
+    / g.setPaint(primary);                    /
+    / g.fillRect(0, 0, size, size);           /
+    / g.setComposite(AlphaComposite.SrcAtop); /
+    / g.setPaint(shade);                      /
+    / g.fillRect(0, 0, size, size);           /
+    / g.dispose();                            /
+    /----------------------------------------*/
+
+    g.setPaint(primary);
+    g.fillRect(0, 0, size, size);
+    g.setPaint(lgp_shade);
+    g.fillRect(0, 0, size, size);
     g.dispose();
     return image;
   }
@@ -97,14 +171,15 @@ public final class extend_stl_Colors
 
   public static float[] rgbToCmyk(float[] rgb)
   {
+    // all elements here are multiplied by 100 to make them not like %
     return new float[] {
         (1 - rgb[0] / 255F - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))))
-            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))),
+            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))) * 100F,
         (1 - rgb[1] / 255F - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))))
-            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))),
+            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))) * 100F,
         (1 - rgb[2] / 255F - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))))
-            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))),
-        1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) };
+            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))) * 100F,
+        1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) * 100F };
   }
 
   public static float[] rgbToHsl(float[] rgb)

@@ -2,10 +2,13 @@
 
 package com.jackmeng.prismix.ux;
 
+import javax.management.MXBean;
+import javax.management.RuntimeMBeanException;
 import javax.swing.*;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.jm_ColorPalette;
+import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
@@ -15,6 +18,8 @@ import com.jackmeng.stl.stl_Ware;
 import static com.jackmeng.prismix._1const.*;
 
 import java.awt.*;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 
 /**
  * Represents the inner shell of the content of the GUI. The parent is the ux
@@ -37,7 +42,7 @@ public class gui_Container
 
 		setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT));
 		setOrientation(JSplitPane.VERTICAL_SPLIT);
-		setDividerLocation(_2const.HEIGHT / 2 + _2const.HEIGHT / 6);
+		setDividerLocation(_2const.HEIGHT / 2 + _2const.HEIGHT / 8);
 		setTopComponent(top);
 		setBottomComponent(bottom);
 		setBorder(BorderFactory.createEmptyBorder());
@@ -57,21 +62,29 @@ public class gui_Container
 		// exported and thus let ux
 		// change its visibility at any
 		// time!
-		private JPanel colorChooser; // this is the left side of the panel where the color gradient is
+		private JTabbedPane colorChooser; // this is the left side of the panel where the color gradient is
 		private JScrollPane colorAttributes;
 		private final JPanel attributes_List;
 
 		public Container_TopPane()
 		{
 			setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 2));
+			setMinimumSize(getPreferredSize());
 			setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 13);
 			setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 			setBorder(BorderFactory.createEmptyBorder());
 
-			colorChooser = new JPanel();
+			colorChooser = new JTabbedPane();
 			colorChooser.setPreferredSize(new Dimension(getDividerLocation(), getPreferredSize().height));
 			colorChooser.setOpaque(true);
-			colorChooser.setBackground(Color.PINK);
+
+			if (_1const.SOFT_DEBUG)
+			{
+				ui_ColorPicker.CPick_GenericDisp colorChooser_Debug = new ui_ColorPicker.CPick_GenericDisp();
+				colorChooser_Debug.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 1));
+				_1const.COLOR_ENQ.add(colorChooser_Debug);
+				colorChooser.addTab("DEBUG", colorChooser_Debug);
+			}
 
 			/*---------------------------------------------------------------------------- /
 			/                                                                              /
@@ -88,6 +101,15 @@ public class gui_Container
 			colorAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 			colorAttributes.setHorizontalScrollBarPolicy(
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+			/*-------------------------------------------------------------------------------------------------------------- /
+			/                                                                                                                /
+			/ if a master wrapper component AKA a component that gets added to attributes_List directly must always state the following methods: /
+			/ setAlignmentX(Component.LEFT_ALIGNMENT);                                                                       /
+			/ setBorder(ux_Helper.bottom_container_AttributesBorder(""))                                                     /
+			/                                                                                                                /
+			/ otherwise things get funky in the ui due to layout conflicts                                                   /
+			/---------------------------------------------------------------------------------------------------------------*/
 
 			JPanel wrapper_ColorAttributes = new JPanel();
 			wrapper_ColorAttributes.setOpaque(false);
@@ -202,7 +224,7 @@ public class gui_Container
 			hsvData.add(hsvData_value);
 
 			controls = new JPanel();
-			controls.setLayout(new GridLayout(2, 2)); // 4 buttons
+			controls.setLayout(new GridLayout(3,2)); // 4 buttons
 			controls.setAlignmentX(Component.LEFT_ALIGNMENT);
 			controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
 
@@ -213,11 +235,22 @@ public class gui_Container
 			controls_randomColor.addActionListener(ev -> _1const.COLOR_ENQ
 					.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
 
+			JButton controls_screenColorPicker = new JButton("Screen Picker");
+			controls_screenColorPicker.setFocusPainted(false);
+			controls_screenColorPicker.setBorderPainted(false);
+			controls_screenColorPicker.setForeground(Color.WHITE);
+			/*-------------------------------------------------------------------------------------- /
+			/ controls_screenColorPicker.addActionListener(ev -> ux.sampled_MousePicker(100L, e -> { /
+			/   _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(e.second, false));                   /
+			/   return (Void) null;                                                                  /
+			/ }));                                                                                   /
+			/---------------------------------------------------------------------------------------*/
+
 			JButton controls_forceRevalidate = new JButton("Refresh UI");
 			controls_forceRevalidate.setFocusPainted(false);
 			controls_forceRevalidate.setBorderPainted(false);
 			controls_forceRevalidate.setForeground(Color.WHITE);
-			controls_forceRevalidate.addActionListener(ev -> jm_ColorPalette.ux.force_redo());
+			controls_forceRevalidate.addActionListener(ev -> ux.ux.force_redo());
 
 			JButton controls_gc = new JButton("GC");
 			controls_gc.setFocusPainted(false);
@@ -234,6 +267,7 @@ public class gui_Container
 
 			controls.add(controls_randomColor);
 			controls.add(controls_randomScreenColor);
+			controls.add(controls_screenColorPicker);
 			controls.add(controls_forceRevalidate);
 			controls.add(controls_gc);
 
@@ -252,6 +286,9 @@ public class gui_Container
 			hslData.add(hslData_lightness);
 
 			cmykData = new JPanel();
+			cmykData.setLayout(new BoxLayout(cmykData, BoxLayout.Y_AXIS));
+			cmykData.setAlignmentX(Component.LEFT_ALIGNMENT);
+			cmykData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- CMYK"));
 			cmykData.setName("CMYK");
 
 			JLabel cmykData_C = new JLabel();
@@ -532,18 +569,13 @@ public class gui_Container
 								"</html>");
 					}
 
-					if (hsvData.isVisible())
-					{
-
-					}
-
-					validate();
+					revalidate();
 
 				});
 				return (Void) null;
 			});
 
-			COLOR_ENQ.dispatch(stl_Struct.make_pair(colorDisplay.getBackground(), false));
+			COLOR_ENQ.dispatch(stl_Struct.make_pair(Color.CYAN, false));
 			/*------------------------------------------------------------------------------------------ /
 			/ _1const.add(() -> { // this task basically just constantly changes the color of the button /
 			/   Color randomColor = extend_stl_Colors.awt_random_Color();                                /
@@ -557,7 +589,10 @@ public class gui_Container
 		public synchronized void redo()
 		{
 			controls.revalidate();
+			colorAttributes.setMaximumSize(
+					new Dimension(colorAttributes.getPreferredSize().width + 50, colorAttributes.getPreferredSize().height));
 			controls.doLayout();
+			setMinimumSize(new Dimension(getPreferredSize().width, getPreferredSize().height + 65));
 			this.doLayout();
 			this.revalidate();
 			this.repaint(100L);
@@ -589,7 +624,7 @@ public class gui_Container
 
 		public Container_BottomPane()
 		{
-			setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 2));
+			setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 3));
 			setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 			setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 8);
 			setBorder(BorderFactory.createEmptyBorder());

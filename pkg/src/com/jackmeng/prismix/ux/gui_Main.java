@@ -31,7 +31,6 @@ public class gui_Main
     wrapper.setPreferredSize(getPreferredSize());
     wrapper.add(bar, BorderLayout.NORTH);
     getContentPane().add(wrapper);
-    setIgnoreRepaint(true);
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
   }

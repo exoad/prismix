@@ -12,6 +12,7 @@ import com.jackmeng.stl.stl_AssetFetcher.assetfetcher_FetcherStyle;
 import com.jackmeng.stl.stl_ListenerPool.ListenerPool_Attached.Attached_States;
 
 import java.awt.Color;
+import java.lang.ref.SoftReference;
 
 /**
  * Critical constants for the program itself as a whole
@@ -21,10 +22,11 @@ import java.awt.Color;
 public final class _1const
 {
   public static final boolean DEBUG_GUI = false;
+  public static final boolean SOFT_DEBUG = true;
   public static final Random RNG = new Random();
   public static Timer worker = new Timer("com-jackmeng-clrplte-worker01");
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
-  private static Color lastColor = new Color(1F, 1F, 1F, 1F);
+  private static SoftReference< Color > lastColor = new SoftReference<>(new Color(1F, 1F, 1F, 1F));
   public static final String working_dir = System.getProperty("user.dir");
   /**
    * PAIR[0] = (java.awt.Color) Color payload
@@ -55,14 +57,14 @@ public final class _1const
     COLOR_ENQ.add(x -> {
       System.out.println("[COLOR_POOL] Enqueued another color for GUI elements to process: rgba(" + x.first.getRed()
           + "," + x.first.getGreen() + "," + x.first.getBlue() + "," + x.first.getAlpha() + ")");
-      lastColor = x.first;
+      lastColor = new SoftReference<>(x.first);
       return (Void) null;
     });
   }
 
   public static Color last_color()
   {
-    return lastColor;
+    return lastColor.get();
   }
 
   public static synchronized void add(Runnable r, long delay)
