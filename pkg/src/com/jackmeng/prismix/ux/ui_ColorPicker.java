@@ -5,7 +5,6 @@ package com.jackmeng.prismix.ux;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
@@ -40,6 +39,7 @@ public final class ui_ColorPicker
     public CPick_GenericDisp()
     {
       setFocusable(true);
+      setBorder(new ui_RoundBorder(10));
     }
 
     @Override public void paintComponent(Graphics g)

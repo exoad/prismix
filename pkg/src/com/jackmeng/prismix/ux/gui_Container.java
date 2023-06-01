@@ -2,13 +2,9 @@
 
 package com.jackmeng.prismix.ux;
 
-import javax.management.MXBean;
-import javax.management.RuntimeMBeanException;
 import javax.swing.*;
 
 import com.jackmeng.prismix._1const;
-import com.jackmeng.prismix.jm_Prismix;
-import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
@@ -18,8 +14,6 @@ import com.jackmeng.stl.stl_Ware;
 import static com.jackmeng.prismix._1const.*;
 
 import java.awt.*;
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
 
 /**
  * Represents the inner shell of the content of the GUI. The parent is the ux

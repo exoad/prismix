@@ -2,7 +2,6 @@
 
 package com.jackmeng.prismix;
 
-import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
@@ -46,7 +45,7 @@ public class jm_Prismix
     }
   }
 
-  public static void main(String... args) // !! fuck pre Java 11 users, fuck their dumb shit
+  public static void main(String... x) // !! fuck pre Java 11 users, fuck their dumb shit
   {
     _1const.add(ux.ux, 10L);
     stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
