@@ -24,6 +24,22 @@ public final class extend_stl_Colors
                                                                                                            // here
   }
 
+  public static String color2hex_2(Color color)
+  {
+    String hex = Integer.toHexString(color.getRGB() & 0xffffff);
+    if (hex.length() < 6)
+    {
+      if (hex.length() == 5)
+        hex = "0" + hex;
+      if (hex.length() == 4)
+        hex = "00" + hex;
+      if (hex.length() == 3)
+        hex = "000" + hex;
+    }
+    hex = "#" + hex;
+    return hex;
+  }
+
   public static boolean is_red(float[] e)
   {
     return e[0] > e[1] && e[0] > e[2];
@@ -39,15 +55,41 @@ public final class extend_stl_Colors
     return e[1] > e[0] && e[1] > e[2];
   }
 
-  public static float[][] shades(int step, float[] colors)
+  public static float[][] shades(float[] color, int amount)
   {
-    // returns from lightest to darkest shades
-    assert step > 0 && step < 255;
-    float[][] temp = new float[254][3]; // minus one because we are excluding the color to search a shade for
-    for (int i = 0, r = step, b = step, g = step; i < temp.length && r <= 255 && g <= 255
-        && b <= 255; i++, r += step, g += step, b += step)
-      temp[i] = new float[] { r, g, b };
-    return temp;
+    int maxColorIndex = getMaxColorIndex(color);
+    float maxColorValue = color[maxColorIndex];
+    float minColorValue = getMinColorValue(color);
+
+    float[][] shades = new float[amount][3];
+
+    for (int i = 0; i < amount; i++)
+    {
+      float brightness = minColorValue + (maxColorValue - minColorValue) * i / (amount - 1);
+      color[maxColorIndex] = brightness;
+
+      shades[i] = color.clone();
+    }
+
+    return shades;
+  }
+
+  private static int getMaxColorIndex(float[] color)
+  {
+    int maxIndex = 0;
+    for (int i = 1; i < color.length; i++)
+      if (color[i] > color[maxIndex])
+        maxIndex = i;
+    return maxIndex;
+  }
+
+  private static float getMinColorValue(float[] color)
+  {
+    float minValue = color[0];
+    for (int i = 1; i < color.length; i++)
+      if (color[i] < minValue)
+        minValue = color[i];
+    return minValue;
   }
 
   public static BufferedImage cpick_gradient2(int size, Color interest)
@@ -55,10 +97,10 @@ public final class extend_stl_Colors
     BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
     Graphics2D g = image.createGraphics();
     GradientPaint primary = new GradientPaint(
-            0f, 0f, Color.WHITE, size, 0f, interest);
+        0f, 0f, Color.WHITE, size, 0f, interest);
     GradientPaint shade = new GradientPaint(
-            0f, 0f, new Color(0, 0, 0, 0),
-            0f, size, new Color(0, 0, 0, 255));
+        0f, 0f, new Color(0, 0, 0, 0),
+        0f, size, new Color(0, 0, 0, 255));
     g.setPaint(primary);
     g.fillRect(0, 0, size, size);
     g.setPaint(shade);
@@ -88,8 +130,7 @@ public final class extend_stl_Colors
         new float[] { 0.25F, 0.85F },
         new Color[] { new Color(Color.BLACK.getRed(), Color.BLACK.getBlue(), Color.BLACK.getBlue(), 0), Color.BLACK });
 
-
-        /*---------------------------------- /
+    /*---------------------------------- /
     / g.setPaint(lgp_white_to_interest); /
     / g.fillRect(0, 0, size, size);      /
     / g.setPaint(lgp_shade);             /

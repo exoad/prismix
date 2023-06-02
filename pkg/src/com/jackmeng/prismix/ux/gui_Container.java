@@ -72,16 +72,17 @@ public class gui_Container
 			colorChooser.setPreferredSize(new Dimension(getDividerLocation(), getPreferredSize().height));
 			colorChooser.setOpaque(true);
 
+			ui_ColorPicker.CPick_SuggestionsList colorChooser_Shades = new ui_ColorPicker.CPick_SuggestionsList();
+			_1const.COLOR_ENQ.add(colorChooser_Shades);
+			colorChooser.addTab("Generator", colorChooser_Shades);
+
 			if (_1const.SOFT_DEBUG)
 			{
 				ui_ColorPicker.CPick_GenericDisp colorChooser_Debug = new ui_ColorPicker.CPick_GenericDisp();
 				colorChooser_Debug.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 1));
 				_1const.COLOR_ENQ.add(colorChooser_Debug);
-				colorChooser.addTab("DEBUG", colorChooser_Debug);
+				colorChooser.addTab("!Debug", colorChooser_Debug);
 			}
-
-			ui_ColorPicker.CPick_SuggestionsList colorChooser_Shades = new ui_ColorPicker.CPick_SuggestionsList();
-			colorChooser.addTab("Shades", colorChooser_Shades);
 
 			/*---------------------------------------------------------------------------- /
 			/                                                                              /
@@ -92,7 +93,7 @@ public class gui_Container
 
 			colorAttributes = new JScrollPane();
 			colorAttributes.setOpaque(true);
-			colorAttributes.getVerticalScrollBar().setUnitIncrement(7);
+			colorAttributes.getVerticalScrollBar().setUnitIncrement(8);
 			colorAttributes.setAutoscrolls(false);
 			colorAttributes.setBorder(BorderFactory.createEmptyBorder());
 			colorAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -331,24 +332,20 @@ public class gui_Container
 				SwingUtilities.invokeLater(() -> {
 					if (rgbData.isVisible())
 					{
-						System.out.println("[TopContainer] RGBA_Attributes.isVisible = true");
+						System.out.println("[TopContainer] RGBA_Attributes.isVisible = true -> Rewashing all of the properties to set...");
 						colorDisplay.setForeground(x);
 						colorDisplay.setBackground(x);
-						colorDisplay.setBorder(BorderFactory.createLineBorder(new Color(
-								(255F - colorDisplay.getBackground().getRed()) / 255F,
-								(255F - colorDisplay.getBackground().getGreen()) / 255F,
-								(255F - colorDisplay.getBackground().getBlue()) / 255F),
-								2));
+						colorDisplay.setBorder(BorderFactory.createLineBorder(x.brighter()));
 
 						colorDisplay_R.setBackground(new Color(
 								colorDisplay.getBackground().getRed() / 255F, 0F, 0F));
 						colorDisplay_R.setForeground(colorDisplay_R.getBackground());
 						colorDisplay_R.setBorder(BorderFactory
 								.createLineBorder(
-										new Color((255F - colorDisplay
-												.getBackground()
-												.getRed()) / 255F, 0F,
-												0F),
+										x.getRed() < 255 / 2 ? new Color(x.getRed() / 255F, 0F,
+												0F).brighter()
+												: new Color(x.getRed() / 255F, 0F,
+														0F).darker(),
 										2));
 
 						colorDisplay_G.setBackground(new Color(0F,
@@ -357,11 +354,10 @@ public class gui_Container
 						colorDisplay_G
 								.setBorder(BorderFactory
 										.createLineBorder(
-												new Color(0F, (255
-														- colorDisplay.getBackground()
-																.getGreen())
-														/ 255F,
-														0F),
+												x.getGreen() < 255 / 2 ? new Color(0F, x.getGreen() / 255F,
+														0F).brighter()
+														: new Color(0F, x.getGreen() / 255F,
+																0F).darker(),
 												2));
 
 						colorDisplay_B.setBackground(new Color(0F, 0F,
@@ -369,9 +365,8 @@ public class gui_Container
 						colorDisplay_B.setForeground(colorDisplay_B.getBackground());
 						colorDisplay_B
 								.setBorder(BorderFactory.createLineBorder(
-										new Color(0F, 0F, (255F - colorDisplay
-												.getBackground()
-												.getBlue()) / 255F),
+										x.getBlue() < 255 / 2 ? new Color(0F, 0F, x.getBlue() / 255F).brighter()
+												: new Color(0F, 0F, x.getBlue() / 255F).darker(),
 										2));
 
 						colorDisplay_A.setBorder(
@@ -469,11 +464,9 @@ public class gui_Container
 
 					if (miscAttributes.isVisible())
 					{
-						System.out.println("[TopContainer] MISC_ATTRIBUTES.isVisible = true");
+						System.out.println("[TopContainer] MISC_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 						hexColor.setText(
-								"<html><strong>Hex</strong>: " + stl_Colors.RGBAtoHex(
-										x.getAlpha(), x.getRGB(),
-										x.getGreen(), x.getBlue()) + "</html>");
+								"<html><strong>Hex</strong>: " + extend_stl_Colors.color2hex_2(x) + "</html>");
 						transparency.setText("<html><strong>Transparency</strong>: "
 								+ x.getTransparency() + "</html>");
 						colorFunction_RGB.setText(
@@ -505,6 +498,7 @@ public class gui_Container
 
 					if (hsvData.isVisible())
 					{
+						System.out.println("[TopContainer] HSV_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 						float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
 						hsvData_hue.setText("Hue        (H): " + hsv[0]);
 						hsvData_saturation.setText("Saturation (S): " + hsv[1]);
@@ -513,6 +507,7 @@ public class gui_Container
 
 					if (hslData.isVisible())
 					{
+						System.out.println("[TopContainer] HSL_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 						float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
 						hslData_hue.setText("Hue        (H): " + hsl[0]);
 						hslData_saturation.setText("Saturation (S): " + hsl[1]);
@@ -521,6 +516,7 @@ public class gui_Container
 
 					if (cmykData.isVisible())
 					{
+						System.out.println("[TopContainer CMYK_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 						float[] cmyk = extend_stl_Colors.rgbToCmyk(x_rgba);
 						cmykData_C.setText("Cyan    (C): " + cmyk[0]);
 						cmykData_M.setText("Magenta (M): " + cmyk[1]);
@@ -531,7 +527,7 @@ public class gui_Container
 					if (colorSpace.isVisible())
 					{
 						System.out.println(
-								"[TopContainer] COLOR_SPACE_ATTRIBUTES.isVisible = true");
+								"[TopContainer] COLOR_SPACE_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 						StringBuilder sb = new StringBuilder(
 								"<strong>Component Names</strong>:"),
 								sb2 = new StringBuilder(
@@ -571,8 +567,6 @@ public class gui_Container
 				});
 				return (Void) null;
 			});
-
-			COLOR_ENQ.dispatch(stl_Struct.make_pair(Color.CYAN, false));
 			/*------------------------------------------------------------------------------------------ /
 			/ _1const.add(() -> { // this task basically just constantly changes the color of the button /
 			/   Color randomColor = extend_stl_Colors.awt_random_Color();                                /

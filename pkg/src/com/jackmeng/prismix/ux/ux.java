@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
+import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_SwingHelper;
@@ -165,6 +166,7 @@ public final class ux
       childui.validate_size();
       mainui.run();
       childui.top.redo();
+      _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)); // moved this line out of gui_Container to avoid unequal initialization of certain components for listening
     });
     if (_1const.DEBUG_GUI)
     {

@@ -5,11 +5,14 @@ package com.jackmeng.prismix.ux;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.stl.stl_AnsiColors;
+import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -61,7 +64,7 @@ public final class ui_ColorPicker
     {
       if (this.isVisible() || this.isFocusOwner())
       {
-        System.out.println("[CPick_Generic#" + this.hashCode() + "] Picks up a valid color call from the Color queue!");
+        System.out.println("[CPick_Debug" + this.hashCode() + "] Picks up a valid color call from the Color queue!");
         repaint(75L);
       }
       return (Void) null;
@@ -95,7 +98,7 @@ public final class ui_ColorPicker
       implements stl_Listener< stl_Struct.struct_Pair< Color, Boolean > >
   {
 
-    private static JPanel acquire_defpane(int rows, int cols)
+    private static JPanel acquire_defpane(String name)
     {
       JPanel jp = new JPanel() {
         @Override public Component add(Component e)
@@ -105,16 +108,66 @@ public final class ui_ColorPicker
           return super.add(e);
         }
       };
-      jp.setLayout(new GridLayout(rows, cols));
+      jp.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5), name));
+      jp.setLayout(new GridBagLayout());
+
+      return jp;
     }
+
+    transient java.util.List< JButton > brightness_List;
+    JPanel shades_Brightness;
 
     public CPick_SuggestionsList()
     {
+      int shades_cols = 10, shades_rows = 10;
+
+
+      if (shades_cols != shades_rows)
+        System.out
+            .println(new stl_AnsiMake(stl_AnsiColors.CYAN_BG,
+                "[CPick_Suggestions] shades_cols != shades_rows - This may cause unwanted graphical layouts."));
       JScrollPane masterScroll = new JScrollPane();
 
       ui_LazyViewport mainViewport = new ui_LazyViewport();
+      JPanel contentWrapper = new JPanel();
+      contentWrapper.setLayout(new BoxLayout(contentWrapper, BoxLayout.X_AXIS));
 
-      JPanel shades_Brightness = new JPanel();
+      shades_Brightness = acquire_defpane("Shades");
+
+      if (_1const.SOFT_DEBUG)
+      {
+        shades_Brightness.setOpaque(true);
+        shades_Brightness.setBackground(Color.CYAN);
+      }
+
+      brightness_List = new ArrayList<>();
+      for (int i = 0; i < shades_cols * shades_rows; i++)
+      {
+        System.out.println(new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ShadeButton[" + i + "]"));
+        brightness_List.set(i, new JButton("HHHHH"));
+        /*------------------------------------------------------------------------------------- /
+        / if (_1const.SOFT_DEBUG)                                                               /
+        /   brightness_List.get(i).setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2)); /
+        /--------------------------------------------------------------------------------------*/
+        /*-------------------------------------------------- /
+        / brightness_List.get(i).setForeground(Color.WHITE); /
+        / brightness_List.get(i).setBackground(Color.BLACK); /
+        /---------------------------------------------------*/
+        shades_Brightness.add(brightness_List.get(i));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = i % shades_cols;
+        gbc.gridy = i / shades_rows;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        shades_Brightness.add(brightness_List.get(i), gbc);
+      }
+
+      contentWrapper.add(shades_Brightness);
+
+      mainViewport.setView(contentWrapper);
+      masterScroll.setViewport(mainViewport);
 
       setLayout(new BorderLayout());
       add(masterScroll, BorderLayout.CENTER);
@@ -123,7 +176,10 @@ public final class ui_ColorPicker
     @Override public Void call(struct_Pair< Color, Boolean > arg0)
     {
       if (Boolean.FALSE.equals(arg0.second))
-        SwingUtilities.invokeLater(() -> repaint(150L));
+        SwingUtilities.invokeLater(() -> {
+          System.out.println("[CPick_Suggestions] Called to revalidate the current colors");
+          repaint(50L);
+        });
       return (Void) null;
     }
 
