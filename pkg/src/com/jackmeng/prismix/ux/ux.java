@@ -96,6 +96,7 @@ public final class ux
   };
 
   static final AtomicBoolean sampledMousePicking_Started = new AtomicBoolean(false);
+  public static final AtomicBoolean PROPERTY_USE_SORTED_COLOR_SUGGESTIONS = new AtomicBoolean(false);
   static final AtomicReference< stl_Struct.struct_Pair< jlib_Point, Color > > current = new AtomicReference<>(null);
 
   // THE FOLLOWING IS BROKEN!!! DO NOT CALL THE FOLLOWING CODE PLS
@@ -166,7 +167,14 @@ public final class ux
       childui.validate_size();
       mainui.run();
       childui.top.redo();
-      _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)); // moved this line out of gui_Container to avoid unequal initialization of certain components for listening
+      _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)); // moved this line
+                                                                                                     // out of
+                                                                                                     // gui_Container to
+                                                                                                     // avoid unequal
+                                                                                                     // initialization
+                                                                                                     // of certain
+                                                                                                     // components for
+                                                                                                     // listening
     });
     if (_1const.DEBUG_GUI)
     {

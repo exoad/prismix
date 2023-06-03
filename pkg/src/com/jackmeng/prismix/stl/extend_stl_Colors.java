@@ -120,8 +120,8 @@ public final class extend_stl_Colors
   {
     float[][] generatedTints = new float[n][3];
     generatedTints[0] = ir;
-    float red = ir[0], green = ir[1], blue = ir[2],
-        grayStep = Math.min(255 - red, Math.min(255 - green, 255 - blue)) / (n - 1);
+    float red = ir[0], green = ir[1], blue = ir[2];
+    float grayStep = Math.min((255 - red) / (n - 1), Math.min((255 - green) / (n - 1), (255 - blue) / (n - 1)));
 
     for (int i = 1; i < n; i++)
     {
@@ -138,7 +138,6 @@ public final class extend_stl_Colors
 
     return generatedTints;
   }
-
   /*---------------------------------------------------- /
   / private static int getMaxColorIndex(float[] color)   /
   / {                                                    /

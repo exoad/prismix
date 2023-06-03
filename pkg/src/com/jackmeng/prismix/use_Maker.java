@@ -38,7 +38,8 @@ public final class use_Maker
       r.run();
       System.out
           .println("[DEBUG] Timed a run for: " + r.toString() + " took " + (System.currentTimeMillis() - i) + "ms");
-    } else r.run();
+    }
+    else r.run();
   }
 
   public static JMenu makeJMenu(String text, JMenuItem... items)
@@ -81,6 +82,17 @@ public final class use_Maker
     r.setPreferredSize(parent.getPreferredSize());
     r.add(e);
     return r;
+  }
+
+  public static float[] rev(float[] arr)
+  {
+    for (int i = 0; i < arr.length / 2; i++)
+    {
+      float temp = arr[i];
+      arr[i] = arr[arr.length - 1 - i];
+      arr[arr.length - 1 - i] = temp;
+    }
+    return arr;
   }
 
   public static float[] interpolate_generate(float step, float start, float end, int sample)
