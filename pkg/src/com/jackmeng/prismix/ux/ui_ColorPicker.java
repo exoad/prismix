@@ -11,6 +11,8 @@ import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
 
+import java.awt.event.ActionListener;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -114,57 +116,82 @@ public final class ui_ColorPicker
       return jp;
     }
 
-    transient java.util.List< JButton > brightness_List;
-    JPanel shades_Brightness;
+    transient java.util.List< JButton > tones_List, tint_List;
+    transient ActionListener shades_Listeners = ev -> {
+
+    };
+    JPanel shades_Tones, shades_Tint;
+    final int tones_cols = 7, tones_rows = 15, tint_cols = 7, tint_rows = 15;
 
     public CPick_SuggestionsList()
     {
-      int shades_cols = 10, shades_rows = 10;
-
-
-      if (shades_cols != shades_rows)
-        System.out
-            .println(new stl_AnsiMake(stl_AnsiColors.CYAN_BG,
-                "[CPick_Suggestions] shades_cols != shades_rows - This may cause unwanted graphical layouts."));
       JScrollPane masterScroll = new JScrollPane();
 
       ui_LazyViewport mainViewport = new ui_LazyViewport();
       JPanel contentWrapper = new JPanel();
       contentWrapper.setLayout(new BoxLayout(contentWrapper, BoxLayout.X_AXIS));
 
-      shades_Brightness = acquire_defpane("Shades");
+      shades_Tones = acquire_defpane("<html><strong>Tones</strong></html>");
+      shades_Tint = acquire_defpane("<html><strong>Tints</strong></html>");
 
-      if (_1const.SOFT_DEBUG)
-      {
-        shades_Brightness.setOpaque(true);
-        shades_Brightness.setBackground(Color.CYAN);
-      }
+      tones_List = new ArrayList<>(); // i originally used the bound initialCapacity param, but that is such a
+      // scam, it doesnt actually work, so you have to use .add() in the loop, im
+      // dumb or is java dumb. i also thought 10*10 was 0 cuz Java kept sayign the
+      // size was zero LOL
+      tint_List = new ArrayList<>();
 
-      brightness_List = new ArrayList<>();
-      for (int i = 0; i < shades_cols * shades_rows; i++)
+      for (int i = 0; i < tint_cols * tint_rows; i++)
       {
-        System.out.println(new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ShadeButton[" + i + "]"));
-        brightness_List.set(i, new JButton("HHHHH"));
-        /*------------------------------------------------------------------------------------- /
-        / if (_1const.SOFT_DEBUG)                                                               /
-        /   brightness_List.get(i).setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2)); /
-        /--------------------------------------------------------------------------------------*/
-        /*-------------------------------------------------- /
-        / brightness_List.get(i).setForeground(Color.WHITE); /
-        / brightness_List.get(i).setBackground(Color.BLACK); /
-        /---------------------------------------------------*/
-        shades_Brightness.add(brightness_List.get(i));
+        System.out.println(
+            new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new TintButton[" + i + "]"));
+        JButton r = new JButton("");
+        r.setFocusPainted(false);
+        r.setBorderPainted(false);
+        r.setFocusable(false);
+        r.setForeground(Color.WHITE);
+        r.setRolloverEnabled(false);
+        tint_List.add(r);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = i % shades_cols;
-        gbc.gridy = i / shades_rows;
+        gbc.gridx = i % tint_cols;
+        gbc.gridy = i / tint_rows;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-        shades_Brightness.add(brightness_List.get(i), gbc);
+        shades_Tint.add(tint_List.get(i), gbc);
       }
 
-      contentWrapper.add(shades_Brightness);
+      for (int i = 0; i < tones_cols * tones_rows; i++)
+      {
+        System.out.println(
+            new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ToneButton[" + i + "]"));
+        JButton r = new JButton("");
+        r.setFocusPainted(false);
+        r.setBorderPainted(false);
+        r.setFocusable(false);
+        r.setForeground(Color.WHITE);
+        r.setRolloverEnabled(false); // technically if setFocusable -> false, then this should not be needed, but ok
+        tones_List.add(r);
+        /*------------------------------------------------------------------------------------- /
+        / if (_1const.SOFT_DEBUG)                                                               /
+        /   tones_List.get(i).setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2)); /
+        /--------------------------------------------------------------------------------------*/
+        /*-------------------------------------------------- /
+        / tones_List.get(i).setForeground(Color.WHITE); /
+        / tones_List.get(i).setBackground(Color.BLACK); /
+        /---------------------------------------------------*/
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = i % tones_cols;
+        gbc.gridy = i / tones_rows;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        shades_Tones.add(tones_List.get(i), gbc);
+      }
+
+      contentWrapper.add(shades_Tones);
+      contentWrapper.add(shades_Tint);
 
       mainViewport.setView(contentWrapper);
       masterScroll.setViewport(mainViewport);
@@ -176,10 +203,45 @@ public final class ui_ColorPicker
     @Override public Void call(struct_Pair< Color, Boolean > arg0)
     {
       if (Boolean.FALSE.equals(arg0.second))
-        SwingUtilities.invokeLater(() -> {
-          System.out.println("[CPick_Suggestions] Called to revalidate the current colors");
-          repaint(50L);
-        });
+      {
+        System.out.println("[CPick_Suggestions] Called to revalidate the current colors");
+
+        if (shades_Tones.isVisible())
+        {
+          float[][] gen_tones = extend_stl_Colors.tones(extend_stl_Colors.awt_strip_rgba(arg0.first),
+              tones_cols * tones_rows);
+          SwingUtilities.invokeLater(() -> {
+            for (int i = 0; i < tones_cols * tones_rows; i++)
+            {
+              Color c = extend_stl_Colors.awt_remake(gen_tones[i]);
+              tones_List.get(i).setBackground(c);
+              tones_List.get(i)
+                  .setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tones[i])));
+              tones_List.get(i).setText(
+                  extend_stl_Colors.RGBToHex((int) gen_tones[i][0], (int) gen_tones[i][1], (int) gen_tones[i][2]));
+              tones_List.get(i).setToolTipText(tones_List.get(i).getText());
+            }
+          });
+        }
+
+        if (shades_Tint.isVisible())
+        {
+          float[][] gen_tints = extend_stl_Colors.tints(extend_stl_Colors.awt_strip_rgba(arg0.first),
+              tint_cols * tint_rows);
+          SwingUtilities.invokeLater(() -> {
+            for (int i = 0; i < tint_cols * tint_rows; i++)
+            {
+              Color c = extend_stl_Colors.awt_remake(gen_tints[i]);
+              tint_List.get(i).setBackground(c);
+              tint_List.get(i)
+                  .setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tints[i])));
+              tint_List.get(i).setText(
+                  extend_stl_Colors.RGBToHex((int) gen_tints[i][0], (int) gen_tints[i][1], (int) gen_tints[i][2]));
+              tint_List.get(i).setToolTipText(tint_List.get(i).getText());
+            }
+          });
+        }
+      }
       return (Void) null;
     }
 

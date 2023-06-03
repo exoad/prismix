@@ -24,6 +24,11 @@ public final class extend_stl_Colors
                                                                                                            // here
   }
 
+  public static String RGBToHex(int r, int g, int b)
+  {
+    return String.format("#%02x%02x%02x", r, g, b);
+  }
+
   public static String color2hex_2(Color color)
   {
     String hex = Integer.toHexString(color.getRGB() & 0xffffff);
@@ -55,42 +60,104 @@ public final class extend_stl_Colors
     return e[1] > e[0] && e[1] > e[2];
   }
 
-  public static float[][] shades(float[] color, int amount)
+  public static float[] binary_fg_decider(float[] bg)
   {
-    int maxColorIndex = getMaxColorIndex(color);
-    float maxColorValue = color[maxColorIndex];
-    float minColorValue = getMinColorValue(color);
+    return extend_stl_Colors
+        .awt_strip_rgba(
+            (0.2126F * bg[0] + 0.7152F * bg[1] + 0.0722F * bg[2]) / 255F > 0.5F ? Color.BLACK : Color.WHITE); // supplied
+                                                                                                              // weights
+                                                                                                              // for
+                                                                                                              // determining
+                                                                                                              // luminance
+  }
 
-    float[][] shades = new float[amount][3];
+  public static float[][] tints(float[] ir, int n)
+  {
+    float[][] generatedTints = new float[n][3];
+    generatedTints[0] = ir;
+    float red = ir[0], green = ir[1], blue = ir[2], redStep = (255F - red) / (n - 1),
+        greenStep = (255F - green) / (n - 1), blueStep = (255F - blue) / (n - 1);
 
-    for (int i = 0; i < amount; i++)
+    for (int i = 1; i < n; i++)
     {
-      float brightness = minColorValue + (maxColorValue - minColorValue) * i / (amount - 1);
-      color[maxColorIndex] = brightness;
+      red += redStep;
+      green += greenStep;
+      blue += blueStep;
 
-      shades[i] = color.clone();
+      red = Math.max(0.0f, Math.min(red, 255F));
+      green = Math.max(0.0f, Math.min(green, 255F));
+      blue = Math.max(0.0f, Math.min(blue, 255F));
+
+      generatedTints[i] = new float[] { red, green, blue };
     }
 
-    return shades;
+    return generatedTints;
   }
 
-  private static int getMaxColorIndex(float[] color)
+  public static float[][] shades(float[] ir, int n)
   {
-    int maxIndex = 0;
-    for (int i = 1; i < color.length; i++)
-      if (color[i] > color[maxIndex])
-        maxIndex = i;
-    return maxIndex;
+    float[][] generatedTints = new float[n][3];
+    generatedTints[0] = ir;
+    float red = ir[0], green = ir[1], blue = ir[2], maxColor = Math.max(Math.max(red, green), blue),
+        blackStep = maxColor / (n - 1);
+    for (int i = 1; i < n; i++)
+    {
+      red -= blackStep;
+      green -= blackStep;
+      blue -= blackStep;
+
+      red = Math.max(0.0f, Math.min(red, 255F));
+      green = Math.max(0.0f, Math.min(green, 255F));
+      blue = Math.max(0.0f, Math.min(blue, 255F));
+
+      generatedTints[i] = new float[] { red, green, blue };
+    }
+
+    return generatedTints;
   }
 
-  private static float getMinColorValue(float[] color)
+  public static float[][] tones(float[] ir, int n)
   {
-    float minValue = color[0];
-    for (int i = 1; i < color.length; i++)
-      if (color[i] < minValue)
-        minValue = color[i];
-    return minValue;
+    float[][] generatedTints = new float[n][3];
+    generatedTints[0] = ir;
+    float red = ir[0], green = ir[1], blue = ir[2],
+        grayStep = Math.min(255 - red, Math.min(255 - green, 255 - blue)) / (n - 1);
+
+    for (int i = 1; i < n; i++)
+    {
+      red += grayStep;
+      green += grayStep;
+      blue += grayStep;
+
+      red = Math.max(0.0f, Math.min(red, 255F));
+      green = Math.max(0.0f, Math.min(green, 255F));
+      blue = Math.max(0.0f, Math.min(blue, 255F));
+
+      generatedTints[i] = new float[] { red, green, blue };
+    }
+
+    return generatedTints;
   }
+
+  /*---------------------------------------------------- /
+  / private static int getMaxColorIndex(float[] color)   /
+  / {                                                    /
+  /   int maxIndex = 0;                                  /
+  /   for (int i = 1; i < color.length; i++)             /
+  /     if (color[i] > color[maxIndex])                  /
+  /       maxIndex = i;                                  /
+  /   return maxIndex;                                   /
+  / }                                                    /
+  /                                                      /
+  / private static float getMinColorValue(float[] color) /
+  / {                                                    /
+  /   float minValue = color[0];                         /
+  /   for (int i = 1; i < color.length; i++)             /
+  /     if (color[i] < minValue)                         /
+  /       minValue = color[i];                           /
+  /   return minValue;                                   /
+  / }                                                    /
+  /-----------------------------------------------------*/
 
   public static BufferedImage cpick_gradient2(int size, Color interest)
   {
@@ -168,6 +235,18 @@ public final class extend_stl_Colors
   public static Color awt_random_Color()
   {
     return new Color(_1const.RNG.nextFloat(), _1const.RNG.nextFloat(), _1const.RNG.nextFloat());
+  }
+
+  public static float[] awt_strip_rgba(Color awt)
+  {
+    return new float[] { awt.getRed(), awt.getGreen(), awt.getBlue(), awt.getAlpha() };
+  }
+
+  public static Color awt_remake(float[] rgba)
+  {
+    return rgba.length == 4 ? new Color(rgba[0] / 255F, rgba[1] / 255F, rgba[2] / 255F, rgba[3] / 255F)
+        : rgba.length == 3 ? new Color(rgba[0] / 255F, rgba[1] / 255F, rgba[2] / 255F) : Color.MAGENTA; // debug color
+                                                                                                        // == Magenta???
   }
 
   /*------------------------------------------------------------------------------------------ /
