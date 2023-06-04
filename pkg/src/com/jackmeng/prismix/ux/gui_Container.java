@@ -5,9 +5,8 @@ package com.jackmeng.prismix.ux;
 import javax.swing.*;
 
 import com.jackmeng.prismix._1const;
+import com.jackmeng.prismix._colors;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.stl.stl_AnsiColors;
-import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_Function;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Ware;
@@ -497,26 +496,30 @@ public class gui_Container
 						transparency.setText("<html><strong>Transparency</strong>: "
 								+ x.getTransparency() + "</html>");
 						colorFunction_RGB.setText(
-								"<html><strong>CSS rgb</strong>: <p style=\"background-color:black;color:#48aff0\">rgb<span style=\"color:white\">("
+								"<html><strong>CSS rgb</strong>: <p style=\"background-color:black;color:" + _colors.BLUE
+										+ "\">rgb<span style=\"color:white\">("
 										+ x.getRed() + ", "
 										+ x.getGreen() + ", " + x.getBlue()
 										+ ")</span></p></html>");
 						colorFunction_RGBA.setText(
-								"<html><strong>CSS rgba</strong>: <p style=\"background-color:black;color:#48aff0\">rgba<span style=\"color:white\">("
+								"<html><strong>CSS rgba</strong>: <p style=\"background-color:black;color:" + _colors.BLUE
+										+ "\">rgba<span style=\"color:white\">("
 										+ x.getRed() + ", "
 										+ x.getGreen() + ", " + x.getBlue()
 										+ ", "
 										+ x.getAlpha() + ")</span></p></html>");
 						float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
 						colorFunction_HSV.setText(
-								"<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:#48aff0\">hsv<span style=\"color:white\">("
+								"<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:" + _colors.BLUE
+										+ "\">hsv<span style=\"color:white\">("
 										+ hsv[0] + ", " + hsv[1] * 100F
 										+ "%, " + hsv[2] * 100F
 										+ "%)</span></p></html>");
 
 						float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
 						colorFunction_HSL.setText(
-								"<html><strong>CSS hsl</strong>: <p style=\"background-color:black;color:#48aff0\">hsl<span style=\"color:white\">("
+								"<html><strong>CSS hsl</strong>: <p style=\"background-color:black;color:" + _colors.BLUE
+										+ "\">hsl<span style=\"color:white\">("
 										+ hsv[0] + ", " + hsv[1] * 100F
 										+ "%, " + hsl[2] * 100F
 										+ "%)</span></p></html>");
