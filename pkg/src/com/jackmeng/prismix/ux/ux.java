@@ -139,8 +139,8 @@ public final class ux
   {
     childui = new gui_Container();
     mainui = new gui_Main();
-    mainui.setPreferredSize(new Dimension(childui.getPreferredSize().width, childui.getPreferredSize().height + 30));
-    mainui.wrapper.add(childui, BorderLayout.PAGE_END);
+    mainui.setPreferredSize(new Dimension(childui.getPreferredSize().width, childui.getPreferredSize().height));
+    mainui.wrapper.add(childui, BorderLayout.CENTER);
     mainui.bar.setPreferredSize(new Dimension(childui.getPreferredSize().width, 25));
 
     stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > >[] e = new stl_Struct.struct_Pair[childui.top

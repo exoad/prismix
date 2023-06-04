@@ -33,7 +33,7 @@ public class gui_Main
     setTitle("Prismix ~ exoad (build_" + jm_Prismix._VERSION_ + ")");
     setIconImage(_1const.fetcher.image("assets/_icon.png"));
     wrapper.setPreferredSize(getPreferredSize());
-    wrapper.add(bar, BorderLayout.PAGE_START);
+    setJMenuBar(bar); // should not be added with a wrapper JPanel! (i did not know this was a method)
     getContentPane().add(wrapper);
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setDefaultLookAndFeelDecorated(true);
