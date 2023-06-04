@@ -16,12 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.StringContent;
 
 // Implementations of color pickers visually
 // All of these should be able to dispatch events to the color queue found in _1const

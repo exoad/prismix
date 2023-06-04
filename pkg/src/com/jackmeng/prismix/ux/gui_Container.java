@@ -6,7 +6,6 @@ import javax.swing.*;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Ware;
