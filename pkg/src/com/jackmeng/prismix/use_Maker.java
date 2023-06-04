@@ -17,6 +17,7 @@ import com.jackmeng.stl.stl_Wrap;
 import com.jackmeng.stl.types.Null_t;
 
 import java.awt.Color;
+import java.awt.BorderLayout;
 
 /**
  * Utility methods container
@@ -84,6 +85,15 @@ public final class use_Maker
     return r;
   }
 
+  public static JPanel lr_wrap(JComponent left, JComponent right)
+  {
+    JPanel r = new JPanel();
+    r.setLayout(new BorderLayout());
+    r.add(left, BorderLayout.WEST);
+    r.add(right, BorderLayout.EAST);
+    return r;
+  }
+
   public static float[] rev(float[] arr)
   {
     for (int i = 0; i < arr.length / 2; i++)
@@ -123,5 +133,4 @@ public final class use_Maker
       return component.isVisible();
     };
   }
-
 }

@@ -15,6 +15,28 @@ public final class extend_stl_Colors
   private extend_stl_Colors()
   {
   }
+  /*---------------------------------------- /
+  /                                          /
+  / public static float[] cyan_rgb()         /
+  / {                                        /
+  /   return new float[] { 0F, 255F, 255F }; /
+  / }                                        /
+  /                                          /
+  / public static float[] magenta_rgb()      /
+  / {                                        /
+  /   return new float[] { 255F, 0F, 255F }; /
+  / }                                        /
+  /                                          /
+  / public static float[] black_rgb()        /
+  / {                                        /
+  /   return new float[] { 0F, 0F, 0F };     /
+  / }                                        /
+  /                                          /
+  / public static float[] yellow_rgb()       /
+  / {                                        /
+  /   return new float[] { 255F, 255F, 0F }; /
+  / }                                        /
+  /-----------------------------------------*/
 
   public static int[] awt_colorspace_AllTypes()
   {
@@ -284,8 +306,8 @@ public final class extend_stl_Colors
         Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == 0 ? 0
             : ((Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))
                 - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F)))
-                / Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))) * 100,
-        Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) * 100 };
+                / Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))),
+        Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))};
   }
 
   public static float[] rgbToCmyk(float[] rgb)
@@ -293,22 +315,22 @@ public final class extend_stl_Colors
     // all elements here are multiplied by 100 to make them not like %
     return new float[] {
         (1 - rgb[0] / 255F - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))))
-            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))) * 100F,
+            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))),
         (1 - rgb[1] / 255F - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))))
-            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))) * 100F,
+            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))),
         (1 - rgb[2] / 255F - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))))
-            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))) * 100F,
-        1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) * 100F };
+            / (1 - (1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)))),
+        1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) }; // values here should never be *100
   }
 
   public static float[] rgbToHsl(float[] rgb)
   {
     float M = Math.max(rgb[0], Math.max(rgb[1], rgb[2])), m = Math.min(rgb[0], Math.min(rgb[1], rgb[2]));
-    float L = ((0.5F * (M + m)) / 255F) * 100F;
+    float L = ((0.5F * (M + m)) / 255F);
     float S = Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == 0F ? 0F
         : ((Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))
             - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F)))
-            / Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))) * 100F;
+            / Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)));
     float H = Math.max(
         rgb[0] / 255F, Math
             .max(rgb[1] / 255F, rgb[2] / 255F)) == Math.min(rgb[0] / 255F,
@@ -335,6 +357,19 @@ public final class extend_stl_Colors
                                                 + 240) % 360
                                             : -1;
     return new float[] { H, S, L };
+  }
+
+  public static float[] cmykToRgb(float[] cmyk)
+  {
+    return new float[] { 255F * (1F - cmyk[0]) * (1F - cmyk[3]), 255F * (1F - cmyk[1]) * (1F - cmyk[3]),
+        255 * (1F - cmyk[2]) * (1F - cmyk[3]) };
+  }
+
+  public static float[][] cmykToRgb_Comps(float[] cmyk)
+  {
+    return new float[][] { cmykToRgb(new float[] { cmyk[0], 0F, 0F, 0F }),
+        cmykToRgb(new float[] { 0F, cmyk[1], 0F, 0F }), cmykToRgb(new float[] { 0F, 0F, cmyk[2], 0F }),
+        cmykToRgb(new float[] { 0F, 0F, 0F, cmyk[3] }) };
   }
 
   public static String awt_colorspace_NameMatch(ColorSpace e)

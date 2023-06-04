@@ -6,6 +6,8 @@ import javax.swing.*;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.stl.stl_AnsiColors;
+import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_Function;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Ware;
@@ -283,20 +285,44 @@ public class gui_Container
 			hslData.add(hslData_lightness);
 
 			cmykData = new JPanel();
-			cmykData.setLayout(new BoxLayout(cmykData, BoxLayout.Y_AXIS));
+			cmykData.setLayout(new BoxLayout(cmykData, BoxLayout.X_AXIS));
 			cmykData.setAlignmentX(Component.LEFT_ALIGNMENT);
 			cmykData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- CMYK"));
 			cmykData.setName("CMYK");
+
+			JPanel cmykData_Attributes = new JPanel();
+			cmykData_Attributes.setLayout(new BoxLayout(cmykData_Attributes, BoxLayout.Y_AXIS));
 
 			JLabel cmykData_C = new JLabel();
 			JLabel cmykData_M = new JLabel();
 			JLabel cmykData_Y = new JLabel();
 			JLabel cmykData_K = new JLabel();
 
-			cmykData.add(cmykData_C);
-			cmykData.add(cmykData_M);
-			cmykData.add(cmykData_Y);
-			cmykData.add(cmykData_K);
+			cmykData_Attributes.add(cmykData_C);
+			cmykData_Attributes.add(cmykData_M);
+			cmykData_Attributes.add(cmykData_Y);
+			cmykData_Attributes.add(cmykData_K);
+
+			JPanel cmykData_ColorDisplay = new JPanel();
+			cmykData_ColorDisplay.setLayout(new BoxLayout(cmykData_ColorDisplay, BoxLayout.Y_AXIS));
+
+			JLabel cmykData_CD_C = new JLabel(colorDisplay.getText());
+			cmykData_CD_C.setOpaque(true);
+			JLabel cmykData_CD_M = new JLabel(colorDisplay.getText());
+			cmykData_CD_M.setOpaque(true);
+			JLabel cmykData_CD_Y = new JLabel(colorDisplay.getText());
+			cmykData_CD_Y.setOpaque(true);
+			JLabel cmykData_CD_K = new JLabel(colorDisplay.getText());
+			cmykData_CD_K.setOpaque(true);
+
+			cmykData_ColorDisplay.add(cmykData_CD_C);
+			cmykData_ColorDisplay.add(cmykData_CD_M);
+			cmykData_ColorDisplay.add(cmykData_CD_Y);
+			cmykData_ColorDisplay.add(cmykData_CD_K);
+
+			cmykData.add(cmykData_ColorDisplay);
+			cmykData.add(Box.createHorizontalStrut(6));
+			cmykData.add(cmykData_Attributes);
 
 			/*---------------------------------------------------------- /
 			/ idk why this was created so just commenting it out for now /
@@ -331,7 +357,8 @@ public class gui_Container
 				SwingUtilities.invokeLater(() -> {
 					if (rgbData.isVisible())
 					{
-						System.out.println("[TopContainer] RGBA_Attributes.isVisible = true -> Rewashing all of the properties to set...");
+						System.out.println(
+								"[TopContainer] RGBA_Attributes.isVisible = true -> Rewashing all of the properties to set...");
 						colorDisplay.setForeground(x);
 						colorDisplay.setBackground(x);
 						colorDisplay.setBorder(BorderFactory.createLineBorder(x.brighter()));
@@ -463,7 +490,8 @@ public class gui_Container
 
 					if (miscAttributes.isVisible())
 					{
-						System.out.println("[TopContainer] MISC_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
+						System.out.println(
+								"[TopContainer] MISC_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 						hexColor.setText(
 								"<html><strong>Hex</strong>: " + extend_stl_Colors.color2hex_2(x) + "</html>");
 						transparency.setText("<html><strong>Transparency</strong>: "
@@ -482,22 +510,23 @@ public class gui_Container
 						float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
 						colorFunction_HSV.setText(
 								"<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:#48aff0\">hsv<span style=\"color:white\">("
-										+ hsv[0] + ", " + hsv[1]
-										+ "%, " + hsv[2]
+										+ hsv[0] + ", " + hsv[1] * 100F
+										+ "%, " + hsv[2] * 100F
 										+ "%)</span></p></html>");
 
 						float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
 						colorFunction_HSL.setText(
 								"<html><strong>CSS hsl</strong>: <p style=\"background-color:black;color:#48aff0\">hsl<span style=\"color:white\">("
-										+ hsv[0] + ", " + hsv[1]
-										+ "%, " + hsl[2]
+										+ hsv[0] + ", " + hsv[1] * 100F
+										+ "%, " + hsl[2] * 100F
 										+ "%)</span></p></html>");
 
 					}
 
 					if (hsvData.isVisible())
 					{
-						System.out.println("[TopContainer] HSV_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
+						System.out.println(
+								"[TopContainer] HSV_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 						float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
 						hsvData_hue.setText("Hue        (H): " + hsv[0]);
 						hsvData_saturation.setText("Saturation (S): " + hsv[1]);
@@ -506,7 +535,8 @@ public class gui_Container
 
 					if (hslData.isVisible())
 					{
-						System.out.println("[TopContainer] HSL_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
+						System.out.println(
+								"[TopContainer] HSL_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 						float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
 						hslData_hue.setText("Hue        (H): " + hsl[0]);
 						hslData_saturation.setText("Saturation (S): " + hsl[1]);
@@ -515,12 +545,34 @@ public class gui_Container
 
 					if (cmykData.isVisible())
 					{
-						System.out.println("[TopContainer CMYK_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
+						System.out.println(
+								"[TopContainer CMYK_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 						float[] cmyk = extend_stl_Colors.rgbToCmyk(x_rgba);
-						cmykData_C.setText("Cyan    (C): " + cmyk[0]);
-						cmykData_M.setText("Magenta (M): " + cmyk[1]);
-						cmykData_Y.setText("Yellow  (Y): " + cmyk[2]);
-						cmykData_K.setText("Key     (K): " + cmyk[3]);
+						cmykData_C.setText("Cyan    (C): " + String.format("%,.4f", cmyk[0]) + " ["
+								+ String.format("%,.2f", 100 * cmyk[0]) + "%]");
+						cmykData_M.setText("Magenta (M): " + String.format("%,.4f", cmyk[1]) + " ["
+								+ String.format("%,.2f", 100 * cmyk[1]) + "%]");
+						cmykData_Y.setText("Yellow  (Y): " + String.format("%,.4f", cmyk[2]) + " ["
+								+ String.format("%,.2f", 100 * cmyk[2]) + "%]");
+						cmykData_K.setText("Key     (K): " + String.format("%,.4f", cmyk[3]) + " ["
+								+ String.format("%,.2f", 100 * cmyk[3]) + "%]");
+
+						float[][] rrr = extend_stl_Colors.cmykToRgb_Comps(cmyk);
+						/*-------------------------------------------------------------------- /
+						/ System.out.println(Arrays.toString(cmyk) + "\n=====");               /
+						/ for (float[] t : rrr)                                                /
+						/   for (float tt : t)                                                 /
+						/     System.out.println(tt); // test for cmyk conversion inaccuracies /
+						/ System.out.println();                                                /
+						/---------------------------------------------------------------------*/
+						cmykData_CD_C.setBackground(extend_stl_Colors.awt_remake(rrr[0]));
+						cmykData_CD_C.setForeground(cmykData_CD_C.getForeground());
+						cmykData_CD_M.setBackground(extend_stl_Colors.awt_remake(rrr[1]));
+						cmykData_CD_M.setForeground(cmykData_CD_M.getForeground());
+						cmykData_CD_Y.setBackground(extend_stl_Colors.awt_remake(rrr[2]));
+						cmykData_CD_Y.setForeground(cmykData_CD_Y.getForeground());
+						cmykData_CD_K.setBackground(extend_stl_Colors.awt_remake(rrr[3]));
+						cmykData_CD_K.setForeground(cmykData_CD_K.getForeground());
 					}
 
 					if (colorSpace.isVisible())
