@@ -9,7 +9,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.swing.UIManager;
 
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkContrastIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme;
 import com.jackmeng.prismix.ux.ux;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_In;
@@ -38,7 +39,10 @@ public class jm_Prismix
     {
       System.setProperty("sun.java2d.opengl", "True");
       System.setProperty("sun.java2d.trace", "count");
-      UIManager.setLookAndFeel(new FlatArcDarkContrastIJTheme());
+      /*-------------------------------------------------------------------------------------------------------------- /
+      / UIManager.setLookAndFeel(_1const.DARK_MODE ? new FlatHighContrastIJTheme() : new FlatGrayIJTheme()); // or FlatGratIJTheme /
+      /---------------------------------------------------------------------------------------------------------------*/
+      UIManager.setLookAndFeel(new FlatGrayIJTheme());
     } catch (Exception e)
     {
       e.printStackTrace();

@@ -3,10 +3,12 @@
 package com.jackmeng.prismix.ux;
 
 import com.jackmeng.prismix._1const;
+import com.jackmeng.prismix._colors;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
+import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
@@ -135,6 +137,7 @@ public final class ui_ColorPicker
     public CPick_SuggestionsList()
     {
       JScrollPane masterScroll = new JScrollPane();
+      masterScroll.getHorizontalScrollBar().setForeground(stl_Colors.hexToRGB(_colors.ROSE));
       masterScroll.setBorder(BorderFactory.createEmptyBorder());
 
       ui_LazyViewport mainViewport = new ui_LazyViewport();

@@ -6,6 +6,8 @@ import java.awt.color.ColorSpace;
 import java.awt.geom.Point2D;
 
 import com.jackmeng.prismix._1const;
+import com.jackmeng.stl.stl_Colors;
+import com.jackmeng.stl.stl_Struct;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -114,6 +116,11 @@ public final class extend_stl_Colors
     }
 
     return generatedTints;
+  }
+
+  public static float[] stripHex(String hex)
+  {
+    return extend_stl_Colors.awt_strip_rgba(stl_Colors.hexToRGB(hex));
   }
 
   public static float[][] shades(float[] ir, int n)
@@ -307,7 +314,7 @@ public final class extend_stl_Colors
             : ((Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))
                 - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F)))
                 / Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))),
-        Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))};
+        Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) };
   }
 
   public static float[] rgbToCmyk(float[] rgb)

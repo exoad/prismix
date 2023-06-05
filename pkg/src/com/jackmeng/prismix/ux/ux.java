@@ -39,7 +39,6 @@ public final class ux
     implements
     Runnable
 {
-
   static
   {
     _1const.worker.scheduleAtFixedRate(new TimerTask() {
@@ -134,6 +133,11 @@ public final class ux
 
   private gui_Main mainui;
   private gui_Container childui;
+
+  public gui_Main getMainUI()
+  {
+    return mainui;
+  }
 
   @SuppressWarnings("unchecked") public ux()
   {
