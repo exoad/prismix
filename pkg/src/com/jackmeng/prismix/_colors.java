@@ -20,12 +20,11 @@ public final class _colors
   public static final String BLUE = "#4fb6f7";
   public static final String CYAN = "#4ff7f7";
   public static final String TEAL = "#4ff7a9";
+  public static final String MINT = "#4EFA74";
   public static final String GREEN = "#84f74f";
   public static final String YELLOW = "#f7e64f";
   public static final String ORANGE = "#f7ab4f";
-  /*-------------------------------------------------- /
-  / public static final String GRAPEFRUIT = "#f7554f"; /
-  /---------------------------------------------------*/
+  public static final String GRAPEFRUIT = "#f7554f";
   public static final String RED = "#f74f5d";
   public static final String ROSE = "#f74f8a";
   public static final String MAGENTA = "#f74fdb";

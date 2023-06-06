@@ -5,7 +5,6 @@ package com.jackmeng.prismix.ux;
 import javax.swing.*;
 
 import com.jackmeng.prismix._1const;
-import com.jackmeng.prismix._colors;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Function;
 import com.jackmeng.stl.stl_Struct;
@@ -234,11 +233,15 @@ public class gui_Container
 			JButton controls_randomColor = new JButton("Random Color");
 			controls_randomColor.setFocusPainted(false);
 			controls_randomColor.setBorderPainted(false);
+			controls_randomColor.setForeground(ux_Theme._theme.fg_awt());
+			controls_randomColor.setBackground(ux_Theme._theme.secondary_awt());
 			controls_randomColor.addActionListener(ev -> _1const.COLOR_ENQ
 					.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
 
 			JButton controls_screenColorPicker = new JButton("Screen Picker");
 			controls_screenColorPicker.setFocusPainted(false);
+			controls_screenColorPicker.setForeground(ux_Theme._theme.fg_awt());
+			controls_screenColorPicker.setBackground(ux_Theme._theme.secondary_awt());
 			controls_screenColorPicker.setBorderPainted(false);
 			/*-------------------------------------------------------------------------------------- /
 			/ controls_screenColorPicker.addActionListener(ev -> ux.sampled_MousePicker(100L, e -> { /
@@ -250,16 +253,22 @@ public class gui_Container
 			JButton controls_forceRevalidate = new JButton("Refresh UI");
 			controls_forceRevalidate.setFocusPainted(false);
 			controls_forceRevalidate.setBorderPainted(false);
+			controls_forceRevalidate.setForeground(ux_Theme._theme.fg_awt());
+			controls_forceRevalidate.setBackground(ux_Theme._theme.secondary_awt());
 			controls_forceRevalidate.addActionListener(ev -> ux.ux.force_redo());
 
 			JButton controls_gc = new JButton("GC");
 			controls_gc.setFocusPainted(false);
-			controls_gc.setBorder(new ui_BtnShadow(2));
+			controls_gc.setBorderPainted(false);
+			controls_gc.setForeground(ux_Theme._theme.fg_awt());
+			controls_gc.setBackground(ux_Theme._theme.secondary_awt());
 			controls_gc.addActionListener(ev -> System.gc());
 
 			JButton controls_randomScreenColor = new JButton("Random Screen Color");
 			controls_randomScreenColor.setFocusPainted(false);
 			controls_randomScreenColor.setBorderPainted(false);
+			controls_randomScreenColor.setForeground(ux_Theme._theme.fg_awt());
+			controls_randomScreenColor.setBackground(ux_Theme._theme.secondary_awt());
 			controls_randomScreenColor.addActionListener(
 					ev -> _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Ware.screen_colorAt_Rnd().get(), false)));
 
@@ -506,33 +515,43 @@ public class gui_Container
 					transparency.setText("<html><strong>Transparency</strong>: "
 							+ x.getTransparency() + "</html>");
 					colorFunction_RGB.setText(
-							"<html><strong>CSS rgb</strong>: <p style=\"background-color:black;color:" + _colors.BLUE
+							"<html><strong>CSS rgb</strong>: <p style=\"background-color:black;color:"
+									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
 									+ "\">rgb<span style=\"color:white\">("
 									+ x.getRed() + ", "
 									+ x.getGreen() + ", " + x.getBlue()
 									+ ")</span></p></html>");
 					colorFunction_RGBA.setText(
-							"<html><strong>CSS rgba</strong>: <p style=\"background-color:black;color:" + _colors.BLUE
+							"<html><strong>CSS rgba</strong>: <p style=\"background-color:black;color:"
+									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
 									+ "\">rgba<span style=\"color:white\">("
 									+ x.getRed() + ", "
 									+ x.getGreen() + ", " + x.getBlue()
 									+ ", "
 									+ x.getAlpha() + ")</span></p></html>");
 					colorFunction_HSV.setText(
-							"<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:" + _colors.BLUE
+							"<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:"
+									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
 									+ "\">hsv<span style=\"color:white\">("
 									+ hsv[0] + ", " + hsv[1] * 100F
 									+ "%, " + hsv[2] * 100F
 									+ "%)</span></p></html>");
 
 					colorFunction_HSL.setText(
-							"<html><strong>CSS hsl</strong>: <p style=\"background-color:black;color:" + _colors.BLUE
+							"<html><strong>CSS hsl</strong>: <p style=\"background-color:black;color:"
+									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
 									+ "\">hsl<span style=\"color:white\">("
 									+ hsv[0] + ", " + hsv[1] * 100F
 									+ "%, " + hsl[2] * 100F
 									+ "%)</span></p></html>");
 					colorFunction_CMYK
-							.setText("<html><strong>CSS cmyk</strong>: <p style=\"background-color:black;color:" + _colors.BLUE
+							.setText("<html><strong>CSS cmyk</strong>: <p style=\"background-color:black;color:"
+									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
 									+ "\">cmyk<span style=\"color:white\">("
 									+ cmyk[0] * 100F + "%, " + cmyk[1] * 100F
 									+ "%, " + cmyk[2] * 100F

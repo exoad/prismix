@@ -3,12 +3,10 @@
 package com.jackmeng.prismix.ux;
 
 import com.jackmeng.prismix._1const;
-import com.jackmeng.prismix._colors;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
-import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
@@ -112,7 +110,7 @@ public final class ui_ColorPicker
           return super.add(e);
         }
       };
-      jp.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5), name));
+      jp.setBorder(ux_Helper.cpick_suggestions_AttributesBorder(name));
       jp.setLayout(new GridBagLayout());
 
       return jp;
@@ -136,7 +134,7 @@ public final class ui_ColorPicker
     public CPick_SuggestionsList()
     {
       JScrollPane masterScroll = new JScrollPane();
-      masterScroll.getHorizontalScrollBar().setForeground(stl_Colors.hexToRGB(_colors.ROSE));
+      masterScroll.getHorizontalScrollBar().setUnitIncrement(5);
       masterScroll.setBorder(BorderFactory.createEmptyBorder());
 
       ui_LazyViewport mainViewport = new ui_LazyViewport();
@@ -144,9 +142,9 @@ public final class ui_ColorPicker
       contentWrapper.setBorder(BorderFactory.createEmptyBorder());
       contentWrapper.setLayout(new BoxLayout(contentWrapper, BoxLayout.X_AXIS));
 
-      shades_Tones = acquire_defpane("<html><strong>Tones</strong></html>");
-      shades_Tint = acquire_defpane("<html><strong>Tints</strong></html>");
-      shades_Shades = acquire_defpane("<html><strong>Shades</strong></html>");
+      shades_Tones = acquire_defpane("Tones");
+      shades_Tint = acquire_defpane("Tints");
+      shades_Shades = acquire_defpane("Shades");
 
       tones_List = new ArrayList<>(); // i originally used the bound initialCapacity param, but that is such a
       // scam, it doesnt actually work, so you have to use .add() in the loop, im
@@ -157,8 +155,10 @@ public final class ui_ColorPicker
 
       for (int i = 0; i < tones_cols * tones_rows; i++)
       {
-        System.out.println(
-            new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ToneButton[" + i + "]"));
+        /*------------------------------------------------------------------------------------------------------------ /
+        / System.out.println(                                                                                          /
+        /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ToneButton[" + i + "]")); /
+        /-------------------------------------------------------------------------------------------------------------*/
         JButton r = new JButton("");
         r.setFocusPainted(false);
         r.setBorderPainted(false);
@@ -186,8 +186,10 @@ public final class ui_ColorPicker
       }
       for (int i = 0; i < tint_cols * tint_rows; i++)
       {
-        System.out.println(
-            new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new TintButton[" + i + "]"));
+        /*------------------------------------------------------------------------------------------------------------ /
+        / System.out.println(                                                                                          /
+        /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new TintButton[" + i + "]")); /
+        /-------------------------------------------------------------------------------------------------------------*/
         JButton r = new JButton("");
         r.setRolloverEnabled(false);
         r.setFocusPainted(false);
@@ -208,8 +210,10 @@ public final class ui_ColorPicker
 
       for (int i = 0; i < shades_cols * shades_rows; i++)
       {
-        System.out.println(
-            new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ShadesButton[" + i + "]"));
+        /*------------------------------------------------------------------------------------------------------------ /
+        / System.out.println(                                                                                          /
+        /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ShadesButton[" + i + "]")); /
+        /-------------------------------------------------------------------------------------------------------------*/
         JButton r = new JButton("");
         r.setFocusPainted(false);
         r.setBorderPainted(false);
@@ -227,6 +231,10 @@ public final class ui_ColorPicker
 
         shades_Shades.add(shades_List.get(i), gbc);
       }
+
+      System.out.println(new stl_AnsiMake(stl_AnsiColors.BLUE_BG,
+          "[CPick_Suggestions] Registered " + shades_cols * shades_rows + " ShadesButtons | Registered "
+              + tones_cols * tones_rows + " TonesButtons | Registered " + tint_cols * tint_rows + " TintsButtons"));
 
       contentWrapper.add(shades_Tint);
       contentWrapper.add(shades_Shades);

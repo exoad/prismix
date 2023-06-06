@@ -9,7 +9,6 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 
-import javax.swing.JButton;
 import javax.swing.border.AbstractBorder;
 
 public class ui_BtnShadow extends AbstractBorder

@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_Colors;
-import com.jackmeng.stl.stl_Struct;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -167,6 +166,12 @@ public final class extend_stl_Colors
 
     return generatedTints;
   }
+
+  public static Color awt_empty()
+  {
+    return new Color(0, 0, 0, 0);
+  }
+
   /*---------------------------------------------------- /
   / private static int getMaxColorIndex(float[] color)   /
   / {                                                    /
@@ -191,6 +196,14 @@ public final class extend_stl_Colors
   {
     BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
     Graphics2D g = image.createGraphics();
+    g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
+    g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+    g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+    g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+    g.setRenderingHint(RenderingHints.KEY_RESOLUTION_VARIANT, RenderingHints.VALUE_RESOLUTION_VARIANT_SIZE_FIT);
     GradientPaint primary = new GradientPaint(
         0f, 0f, Color.WHITE, size, 0f, interest);
     GradientPaint shade = new GradientPaint(

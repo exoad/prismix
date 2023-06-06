@@ -11,11 +11,10 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
-import com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
+import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.ux.ux;
 import com.jackmeng.stl.stl_Callback;
-import com.jackmeng.stl.stl_Commons;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Wrap;
 
@@ -54,6 +53,15 @@ public class jm_Prismix
       / UIManager.setLookAndFeel(_1const.DARK_MODE ? new FlatHighContrastIJTheme() : new FlatGrayIJTheme()); // or FlatGratIJTheme /
       /---------------------------------------------------------------------------------------------------------------*/
       UIManager.setLookAndFeel(new FlatGrayIJTheme());
+      UIManager.put("ScrollBar.trackArc", 999);
+      UIManager.put("ScrollBar.background", null);
+      UIManager.put("ScrollBar.showButtons", false);
+      UIManager.put("JScrollPane.smoothScrolling", true);
+      UIManager.put("SplitPaneDivider.gripDotCount", 4);
+      UIManager.put("Component.focusedBorderColor", extend_stl_Colors.awt_empty());
+      UIManager.put("Component.focusColor", extend_stl_Colors.awt_empty());
+      UIManager.put("TabbedPane.tabSeparatorsFullHeight", false);
+      UIManager.put("TabbedPane.showTabSeparators", true);
     } catch (Exception e)
     {
       e.printStackTrace();

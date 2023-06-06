@@ -2,15 +2,42 @@
 
 package com.jackmeng.prismix.ux;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.jackmeng.stl.stl_AnsiColors;
+import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_ListenerPool;
 
 public class ux_Palette
 {
+
+  public static final PaletteManager PM = new PaletteManager();
+
+  private static final class PaletteManager
+      extends ArrayDeque< ux_Palette >
+  {
+    private transient ux_Palette history;
+
+    public PaletteManager()
+    {
+
+    }
+
+    public void hist_Add(float[] color)
+    {
+      history.append(color);
+    }
+
+    public void hist_Rmf(float[] color)
+    {
+      history.remove(color);
+    }
+  }
+
   private Set< List< Float > > colors_rgba;
 
   public static final class Palette_State
@@ -53,6 +80,9 @@ public class ux_Palette
 
   public final stl_ListenerPool< Palette_State > LISTENER_POOL;
 
+  private String str_Name;
+  private long palette_id;
+
   public ux_Palette(int initial, String name)
   {
     colors_rgba = new LinkedHashSet<>() {
@@ -70,9 +100,13 @@ public class ux_Palette
     };
     LISTENER_POOL = new stl_ListenerPool<>(name);
     LISTENER_POOL.add(x -> {
-      System.out.println("[UX_PALETTE] Palette " + name + " received operation: " + x);
+      System.out.println("[UX_PALETTE] Palette " + name + "[" + this.palette_id + "] received operation: " + x);
       return (Void) null;
     });
+    this.str_Name = name;
+    this.palette_id = this.hashCode() ^ str_Name.hashCode() * 81L;
+    System.out.println(
+        new stl_AnsiMake(stl_AnsiColors.GREEN_TXT, "[UX_PALETTE] ID: " + this.palette_id + " registered as: " + name));
   }
 
   public void append(float[] e)
@@ -112,5 +146,20 @@ public class ux_Palette
     int i = 0;
     colors_rgba.iterator().forEachRemaining(x -> temp[i] = $toprim(x));
     return temp;
+  }
+
+  public String name()
+  {
+    return str_Name;
+  }
+
+  public void name(String name)
+  {
+    this.str_Name = name;
+  }
+
+  public long id()
+  {
+    return palette_id;
   }
 }
