@@ -254,7 +254,7 @@ public class gui_Container
 
 			JButton controls_gc = new JButton("GC");
 			controls_gc.setFocusPainted(false);
-			controls_gc.setBorderPainted(false);
+			controls_gc.setBorder(new ui_BtnShadow(2));
 			controls_gc.addActionListener(ev -> System.gc());
 
 			JButton controls_randomScreenColor = new JButton("Random Screen Color");
