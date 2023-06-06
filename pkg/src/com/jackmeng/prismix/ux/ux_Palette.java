@@ -17,7 +17,7 @@ public class ux_Palette
 
   public static final PaletteManager PM = new PaletteManager();
 
-  private static final class PaletteManager
+  public static final class PaletteManager
       extends ArrayDeque< ux_Palette >
   {
     private transient ux_Palette history;
