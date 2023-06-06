@@ -47,7 +47,6 @@ public final class ui_ColorPicker
     public CPick_GenericDisp()
     {
       setFocusable(true);
-      setBorder(new ui_RoundBorder(10));
     }
 
     @Override public void paintComponent(Graphics g)

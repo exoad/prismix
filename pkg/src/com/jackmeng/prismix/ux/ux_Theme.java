@@ -1,22 +1,19 @@
-// Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
+
 
 package com.jackmeng.prismix.ux;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.SwingUtilities;
 
 import com.jackmeng.prismix._colors;
-import com.jackmeng.prismix.jm_Prismix;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_Colors;
-import com.jackmeng.stl.stl_Struct;
 
-// WIP and is unused
+
 public final class ux_Theme
 {
   public enum ThemeType {
@@ -35,12 +32,13 @@ public final class ux_Theme
     }
   }
 
+  @Deprecated
   public static final ux_Theme _theme = new ux_Theme();
 
-  // ! All color components should be treated as rgb values
+
   private ThemeType mainTheme;
   private float[] dominant;
-  // name, color(StringHex)
+
   private Map< String, String > colorCodes;
 
   private ux_Theme()
@@ -83,7 +81,7 @@ public final class ux_Theme
         : extend_stl_Colors.RGBToHex((int) dominant[0], (int) dominant[1], (int) dominant[2]);
   }
 
-  public void dominant(float[] dominant) // very bad to use!
+  public void dominant(float[] dominant)
   {
     this.dominant = dominant;
     System.out.println(new stl_AnsiMake(stl_AnsiColors.YELLOW_BG,
@@ -92,7 +90,7 @@ public final class ux_Theme
 
   }
 
-  public void dominant(String dominant) // suggested
+  public void dominant(String dominant)
   {
     this.dominant = extend_stl_Colors.stripHex(dominant);
     SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux.ux.getMainUI()));

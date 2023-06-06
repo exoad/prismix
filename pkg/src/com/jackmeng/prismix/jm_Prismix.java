@@ -7,12 +7,15 @@ import java.util.Map;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme;
+import com.formdev.flatlaf.util.SystemInfo;
 import com.jackmeng.prismix.ux.ux;
 import com.jackmeng.stl.stl_Callback;
+import com.jackmeng.stl.stl_Commons;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Wrap;
 
@@ -39,6 +42,14 @@ public class jm_Prismix
     {
       System.setProperty("sun.java2d.opengl", "True");
       System.setProperty("sun.java2d.trace", "count");
+      if (SystemInfo.isLinux || SystemInfo.isWindows_10_orLater)
+      {
+        System.setProperty("flatlaf.useWindowDecorations", "true");
+        System.setProperty("flatlaf.menuBarEmbedded", "true");
+        JFrame.setDefaultLookAndFeelDecorated(true);
+      }
+      else if (SystemInfo.isMacOS)
+        System.setProperty("apple.awt.application.appearance", "system");
       /*-------------------------------------------------------------------------------------------------------------- /
       / UIManager.setLookAndFeel(_1const.DARK_MODE ? new FlatHighContrastIJTheme() : new FlatGrayIJTheme()); // or FlatGratIJTheme /
       /---------------------------------------------------------------------------------------------------------------*/
