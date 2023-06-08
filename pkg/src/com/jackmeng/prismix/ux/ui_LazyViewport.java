@@ -2,9 +2,9 @@
 
 package com.jackmeng.prismix.ux;
 
-import javax.swing.JViewport;
-
 import java.awt.Point;
+
+import javax.swing.JViewport;
 
 /**
  * Mostly for a JScrollPane where an update in the component
@@ -18,19 +18,19 @@ public final class ui_LazyViewport
 
   private boolean locked = false;
 
-  @Override public void setViewPosition(Point p)
+  @Override public void setViewPosition(final Point p)
   {
-    if (locked())
+    if (this.locked())
       return;
     super.setViewPosition(p);
   }
 
   public boolean locked()
   {
-    return locked;
+    return this.locked;
   }
 
-  public void locked(boolean locked)
+  public void locked(final boolean locked)
   {
     this.locked = locked;
   }

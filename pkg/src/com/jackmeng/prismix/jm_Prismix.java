@@ -34,7 +34,7 @@ public class jm_Prismix
   {
     System.out.println(
         "==Prismix==\nGUI Color Picker and palette creator\nCopyright (C) Jack Meng (exoad) 2023\nEnjoy!");
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     System.getProperties().forEach((key, value) -> sb.append(key + " = " + value + "\n"));
     System.out.println("All initialized properties:\n" + sb.toString());
     try
@@ -62,25 +62,25 @@ public class jm_Prismix
       UIManager.put("Component.focusColor", extend_stl_Colors.awt_empty());
       UIManager.put("TabbedPane.tabSeparatorsFullHeight", false);
       UIManager.put("TabbedPane.showTabSeparators", true);
-    } catch (Exception e)
+    } catch (final Exception e)
     {
       e.printStackTrace();
     }
   }
 
-  public static void main(String... x) // !! fuck pre Java 11 users, fuck their dumb shit
+  public static void main(final String... x) // !! fuck pre Java 11 users, fuck their dumb shit
   {
     _1const.add(ux.ux, 10L);
-    stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
+    final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
     Runtime.getRuntime().addShutdownHook(
-        (new Thread(() -> System.out.println("[PROGRAM] Alive for: " + (System.currentTimeMillis() - time.get())))));
+        (new Thread(() -> System.out.println("[PROGRAM] Alive for: " + (System.currentTimeMillis() - jm_Prismix.time.get())))));
     _1const.worker.scheduleAtFixedRate(new TimerTask() {
       @Override public void run()
       {
-        String str = reader.obj.nextln();
+        final String str = reader.obj.nextln();
         System.out.println("[I/O] Received contract: " + str);
       }
     }, 100L, 650L);
-    System.out.println("[Program] Program took: " + (System.currentTimeMillis() - time.get()) + "ms to startup");
+    System.out.println("[Program] Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
   }
 }

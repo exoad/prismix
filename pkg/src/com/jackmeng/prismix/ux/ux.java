@@ -2,18 +2,23 @@
 
 package com.jackmeng.prismix.ux;
 
-import javax.swing.*;
-
-import org.w3c.dom.events.MouseEvent;
-
+import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.util.Arrays;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import org.w3c.dom.events.MouseEvent;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
@@ -23,8 +28,6 @@ import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_SwingHelper;
 import com.jackmeng.stl.jlib.jlib_Point;
 import com.jackmeng.stl.types.Null_t;
-
-import java.awt.*;
 
 /**
  * Main UI Handler class. This serves as a bridge between the
@@ -46,23 +49,23 @@ public final class ux
       {
         System.out.println(
             "[UX_SM_WATCHDOG] Cleanup watchdog checking if the AWT thread has a listener that is not needed...");
-        if (!sampledMousePicking_Started.get())
+        if (!ux.sampledMousePicking_Started.get())
         {
           try
           {
-            if (Arrays.binarySearch(Toolkit.getDefaultToolkit().getAWTEventListeners(), awt_1) >= 0)
+            if (Arrays.binarySearch(Toolkit.getDefaultToolkit().getAWTEventListeners(), ux.awt_1) >= 0)
             {
-              Toolkit.getDefaultToolkit().removeAWTEventListener(awt_1);
+              Toolkit.getDefaultToolkit().removeAWTEventListener(ux.awt_1);
               System.out.println("[UX_SM_WATCHDOG] Cleanup watchdog removed the click sampler listener");
             }
-            if (Arrays.binarySearch(Toolkit.getDefaultToolkit().getAWTEventListeners(), awt_2) >= 0)
+            if (Arrays.binarySearch(Toolkit.getDefaultToolkit().getAWTEventListeners(), ux.awt_2) >= 0)
             {
-              Toolkit.getDefaultToolkit().removeAWTEventListener(awt_2);
+              Toolkit.getDefaultToolkit().removeAWTEventListener(ux.awt_2);
               System.out.println("[UX_SM_WATCHDOG] Cleanup watchdog removed the motion sampler listener");
             }
-            if (!ux.mainui.isEnabled())
-              ux.mainui.setEnabled(true);
-          } catch (ClassCastException e)
+            if (!ux.ux.mainui.isEnabled())
+              ux.ux.mainui.setEnabled(true);
+          } catch (final ClassCastException e)
           {
             // this is an arbitrary error we can just ignore
           }
@@ -75,20 +78,18 @@ public final class ux
 
   public static final ux ux = new ux();
   /* sampling version listener */ static final AWTEventListener awt_1 = event -> {
-    if (event instanceof MouseEvent)
+    if (event instanceof MouseEvent evt)
     {
-      MouseEvent evt = (MouseEvent) event;
       System.out
           .println("[UX_SAMPLING_MOUSE] Mouse caught at: (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
 
-      ux.mainui.setEnabled(true);
+      ux.ux.mainui.setEnabled(true);
     }
   };
 
   /* motion sampler */ static final AWTEventListener awt_2 = event -> {
-    if (event instanceof MouseEvent)
+    if (event instanceof MouseEvent evt)
     {
-      MouseEvent evt = (MouseEvent) event;
       System.out
           .println("[UX_SAMPLING_MOUSE] Mouse sampled at: (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
     }
@@ -100,25 +101,25 @@ public final class ux
 
   // THE FOLLOWING IS BROKEN!!! DO NOT CALL THE FOLLOWING CODE PLS
   // launchs a callback for a screen picking action
-  public static synchronized void sampled_MousePicker(long sampleDelay,
-      stl_Callback< Void, stl_Struct.struct_Pair< jlib_Point, Color > > e)
+  public static synchronized void sampled_MousePicker(final long sampleDelay,
+      final stl_Callback< Void, stl_Struct.struct_Pair< jlib_Point, Color > > e)
   {
-    if (!sampledMousePicking_Started.get())
+    if (!ux.sampledMousePicking_Started.get())
     {
       System.out.println("[UX_SAMPLING_MOUSE] Mouse sampler attached for COLOR_PICKING");
-      ux.mainui.setEnabled(false);
+      ux.ux.mainui.setEnabled(false);
 
-      Toolkit.getDefaultToolkit().addAWTEventListener(awt_1::eventDispatched, AWTEvent.MOUSE_EVENT_MASK);
-      Toolkit.getDefaultToolkit().addAWTEventListener(awt_2, AWTEvent.MOUSE_MOTION_EVENT_MASK);
+      Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_1::eventDispatched, AWTEvent.MOUSE_EVENT_MASK);
+      Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_2, AWTEvent.MOUSE_MOTION_EVENT_MASK);
 
-      Thread t_worker = new Thread(() -> {
-        while (sampledMousePicking_Started.get())
+      final Thread t_worker = new Thread(() -> {
+        while (ux.sampledMousePicking_Started.get())
         {
           System.out.println("[UX_SAMPLING_MOUSE] Sampled at: ");
           try
           {
             Thread.sleep(sampleDelay);
-          } catch (InterruptedException $e)
+          } catch (final InterruptedException $e)
 
           {
             // ignore this bs exception
@@ -127,40 +128,40 @@ public final class ux
       });
       t_worker.start();
 
-      sampledMousePicking_Started.set(true);
+      ux.sampledMousePicking_Started.set(true);
     }
   }
 
-  private gui_Main mainui;
-  private gui_Container childui;
+  private final gui_Main mainui;
+  private final gui_Container childui;
 
   public gui_Main getMainUI()
   {
-    return mainui;
+    return this.mainui;
   }
 
   @SuppressWarnings("unchecked") public ux()
   {
-    childui = new gui_Container();
-    mainui = new gui_Main();
-    mainui.setPreferredSize(new Dimension(childui.getPreferredSize().width, childui.getPreferredSize().height));
-    mainui.wrapper.add(childui, BorderLayout.CENTER);
-    mainui.bar.setPreferredSize(new Dimension(childui.getPreferredSize().width, 25));
+    this.childui = new gui_Container();
+    this.mainui = new gui_Main();
+    this.mainui.setPreferredSize(new Dimension(this.childui.getPreferredSize().width, this.childui.getPreferredSize().height));
+    this.mainui.wrapper.add(this.childui, BorderLayout.CENTER);
+    this.mainui.bar.setPreferredSize(new Dimension(this.childui.getPreferredSize().width, 25));
 
-    stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > >[] e = new stl_Struct.struct_Pair[childui.top
+    final stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > >[] e = new stl_Struct.struct_Pair[this.childui.top
         .exports().length];
-    JPanel[] r = childui.top.exports();
+    final JPanel[] r = this.childui.top.exports();
     for (int i = 0; i < r.length; i++)
       e[i] = use_Maker.make(r[i].getName(), use_Maker.make(r[i]));
-    mainui.registerToBar("Color Attributes", use_Maker.make(e));
+    this.mainui.registerToBar("Color Attributes", use_Maker.make(e));
   }
 
   public synchronized void force_redo()
   {
     System.out.println("[UX] Attempting Force redo GUI...");
-    SwingUtilities.updateComponentTreeUI(mainui);
-    mainui.repaint();
-    mainui.revalidate();
+    SwingUtilities.updateComponentTreeUI(this.mainui);
+    this.mainui.repaint();
+    this.mainui.revalidate();
     System.out.println("[UX] Force redo GUI DONE");
   }
 
@@ -168,9 +169,9 @@ public final class ux
   {
     System.out.println("[UX] Dispatched a run event for the current UI creation! Hoping this goes well...");
     SwingUtilities.invokeLater(() -> {
-      childui.validate_size();
-      mainui.run();
-      childui.top.redo();
+      this.childui.validate_size();
+      this.mainui.run();
+      this.childui.top.redo();
       _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)); // moved this line
                                                                                                      // out of
                                                                                                      // gui_Container to
@@ -183,12 +184,12 @@ public final class ux
     if (_1const.DEBUG_GUI)
     {
       new Thread(() -> {
-        AtomicBoolean started = new AtomicBoolean(true);
+        final AtomicBoolean started = new AtomicBoolean(true);
         while (true)
         {
           if (!started.get())
             started.set(true);
-          stl_SwingHelper.listComponents_OfContainer(mainui).forEach(x -> {
+          stl_SwingHelper.listComponents_OfContainer(this.mainui).forEach(x -> {
             System.out.println("[DEBUG] Setting debug border for: " + x.hashCode());
             try
             {
@@ -204,7 +205,7 @@ public final class ux
                     : BorderFactory
                         .createLineBorder(
                             new Color((float) Math.random(), (float) Math.random(), (float) Math.random())));
-            } catch (Exception t)
+            } catch (final Exception t)
             {
               // IGNORE, probably some .setBorder() not supported bs
             }
@@ -212,7 +213,7 @@ public final class ux
           try
           {
             Thread.sleep(1500L);
-          } catch (InterruptedException e)
+          } catch (final InterruptedException e)
           {
             // IGNORE var "e"
           }

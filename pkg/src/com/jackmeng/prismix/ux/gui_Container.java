@@ -2,17 +2,34 @@
 
 package com.jackmeng.prismix.ux;
 
-import javax.swing.*;
+import static com.jackmeng.prismix._1const.COLOR_ENQ;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Ware;
-
-import static com.jackmeng.prismix._1const.*;
-
-import java.awt.*;
 
 /**
  * Represents the inner shell of the content of the GUI. The parent is the ux
@@ -30,15 +47,15 @@ public class gui_Container
 
 	public gui_Container()
 	{
-		top = new Container_TopPane();
-		bottom = new Container_BottomPane();
+		this.top = new Container_TopPane();
+		this.bottom = new Container_BottomPane();
 
-		setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT));
-		setOrientation(JSplitPane.VERTICAL_SPLIT);
-		setDividerLocation(_2const.HEIGHT / 2 + _2const.HEIGHT / 8);
-		setTopComponent(top);
-		setBottomComponent(bottom);
-		setBorder(BorderFactory.createEmptyBorder());
+		this.setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT));
+		this.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.setDividerLocation(_2const.HEIGHT / 2 + _2const.HEIGHT / 8);
+		this.setTopComponent(this.top);
+		this.setBottomComponent(this.bottom);
+		this.setBorder(BorderFactory.createEmptyBorder());
 	}
 
 	public static class Container_TopPane
@@ -46,7 +63,7 @@ public class gui_Container
 	{
 		public JPanel[] exports()
 		{
-			return new JPanel[] { rgbData, miscAttributes, colorSpace, hsvData, hslData, cmykData };
+			return new JPanel[] { this.rgbData, this.miscAttributes, this.colorSpace, this.hsvData, this.hslData, this.cmykData };
 		}
 
 		private JPanel rgbData, miscAttributes, colorSpace, hsvData, hslData, cmykData, controls; // controls should be the
@@ -61,26 +78,26 @@ public class gui_Container
 
 		public Container_TopPane()
 		{
-			setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 2));
-			setMinimumSize(getPreferredSize());
-			setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 13);
-			setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-			setBorder(BorderFactory.createEmptyBorder());
+			this.setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 2));
+			this.setMinimumSize(this.getPreferredSize());
+			this.setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 13);
+			this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+			this.setBorder(BorderFactory.createEmptyBorder());
 
-			colorChooser = new JTabbedPane();
-			colorChooser.setPreferredSize(new Dimension(getDividerLocation(), getPreferredSize().height));
-			colorChooser.setOpaque(true);
+			this.colorChooser = new JTabbedPane();
+			this.colorChooser.setPreferredSize(new Dimension(this.getDividerLocation(), this.getPreferredSize().height));
+			this.colorChooser.setOpaque(true);
 
-			ui_ColorPicker.CPick_SuggestionsList colorChooser_Shades = new ui_ColorPicker.CPick_SuggestionsList();
+			final ui_ColorPicker.CPick_SuggestionsList colorChooser_Shades = new ui_ColorPicker.CPick_SuggestionsList();
 			_1const.COLOR_ENQ.add(colorChooser_Shades);
-			colorChooser.addTab("Generator", colorChooser_Shades);
+			this.colorChooser.addTab("Generator", colorChooser_Shades);
 
 			if (_1const.SOFT_DEBUG)
 			{
-				ui_ColorPicker.CPick_GenericDisp colorChooser_Debug = new ui_ColorPicker.CPick_GenericDisp();
+				final ui_ColorPicker.CPick_GenericDisp colorChooser_Debug = new ui_ColorPicker.CPick_GenericDisp();
 				colorChooser_Debug.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 1));
 				_1const.COLOR_ENQ.add(colorChooser_Debug);
-				colorChooser.addTab("!Debug", colorChooser_Debug);
+				this.colorChooser.addTab("!Debug", colorChooser_Debug);
 			}
 
 			/*---------------------------------------------------------------------------- /
@@ -90,13 +107,13 @@ public class gui_Container
 			/                 (float) Math.random());                                      /
 			/-----------------------------------------------------------------------------*/
 
-			colorAttributes = new JScrollPane();
-			colorAttributes.setOpaque(true);
-			colorAttributes.getVerticalScrollBar().setUnitIncrement(8);
-			colorAttributes.setAutoscrolls(false);
-			colorAttributes.setBorder(BorderFactory.createEmptyBorder());
-			colorAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-			colorAttributes.setHorizontalScrollBarPolicy(
+			this.colorAttributes = new JScrollPane();
+			this.colorAttributes.setOpaque(true);
+			this.colorAttributes.getVerticalScrollBar().setUnitIncrement(8);
+			this.colorAttributes.setAutoscrolls(false);
+			this.colorAttributes.setBorder(BorderFactory.createEmptyBorder());
+			this.colorAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+			this.colorAttributes.setHorizontalScrollBarPolicy(
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 			/*-------------------------------------------------------------------------------------------------------------- /
@@ -108,33 +125,35 @@ public class gui_Container
 			/ otherwise things get funky in the ui due to layout conflicts                                                   /
 			/---------------------------------------------------------------------------------------------------------------*/
 
-			JPanel wrapper_ColorAttributes = new JPanel();
+			final JPanel wrapper_ColorAttributes = new JPanel();
 			wrapper_ColorAttributes.setOpaque(false);
 			wrapper_ColorAttributes.setLayout(new BoxLayout(wrapper_ColorAttributes, BoxLayout.Y_AXIS));
 			wrapper_ColorAttributes.setBorder(BorderFactory.createEmptyBorder());
 
-			JLabel colorDisplay = new JLabel("ABCDEFGHIJKLMNOPQ"); // IMPORTANT STARTUP OBJECT
+			final JLabel colorDisplay = new JLabel("ABCDEFGHIJKLMNOPQ"); // IMPORTANT STARTUP OBJECT
 			colorDisplay.setPreferredSize(new Dimension(50, 20));
 			colorDisplay.setOpaque(true);
 
-			JLabel colorDisplay_R = new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_R = new JLabel(colorDisplay.getText());
 			colorDisplay_R.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_R.setOpaque(true);
 			colorDisplay_R.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 
-			JLabel colorDisplay_G = new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_G = new JLabel(colorDisplay.getText());
 			colorDisplay_G.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_G.setOpaque(true);
 			colorDisplay_G.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
 
-			JLabel colorDisplay_B = new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_B = new JLabel(colorDisplay.getText());
 			colorDisplay_B.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_B.setOpaque(true);
 			colorDisplay_B.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
 
-			JLabel colorDisplay_A = new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_A = new JLabel("_Alpha__Strength_"); // 17 characters to be correct length
 			colorDisplay_A.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_A.setOpaque(true);
+			colorDisplay_A.setBorder(
+					BorderFactory.createLineBorder(Color.black, 2));
 
 			wrapper_ColorAttributes.add(colorDisplay);
 			wrapper_ColorAttributes.add(colorDisplay_R);
@@ -142,15 +161,15 @@ public class gui_Container
 			wrapper_ColorAttributes.add(colorDisplay_B);
 			wrapper_ColorAttributes.add(colorDisplay_A);
 
-			JPanel rawRGBData = new JPanel();
+			final JPanel rawRGBData = new JPanel();
 			rawRGBData.setOpaque(false);
 			rawRGBData.setLayout(new BoxLayout(rawRGBData, BoxLayout.Y_AXIS));
 
-			JLabel rgba_main = new JLabel();
-			JLabel rgba_R = new JLabel();
-			JLabel rgba_G = new JLabel();
-			JLabel rgba_B = new JLabel();
-			JLabel rgba_A = new JLabel();
+			final JLabel rgba_main = new JLabel();
+			final JLabel rgba_R = new JLabel();
+			final JLabel rgba_G = new JLabel();
+			final JLabel rgba_B = new JLabel();
+			final JLabel rgba_A = new JLabel();
 
 			rawRGBData.add(rgba_main);
 			rawRGBData.add(rgba_R);
@@ -158,45 +177,45 @@ public class gui_Container
 			rawRGBData.add(rgba_B);
 			rawRGBData.add(rgba_A);
 
-			rgbData = new JPanel();
-			rgbData.setName("RGBA");
-			rgbData.setOpaque(true);
-			rgbData.setAlignmentX(Component.LEFT_ALIGNMENT);
-			rgbData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- RGBA"));
-			rgbData.setLayout(new BoxLayout(rgbData, BoxLayout.X_AXIS));
-			rgbData.add(wrapper_ColorAttributes);
-			rgbData.add(rawRGBData);
+			this.rgbData = new JPanel();
+			this.rgbData.setName("RGBA");
+			this.rgbData.setOpaque(true);
+			this.rgbData.setAlignmentX(Component.LEFT_ALIGNMENT);
+			this.rgbData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- RGBA"));
+			this.rgbData.setLayout(new BoxLayout(this.rgbData, BoxLayout.X_AXIS));
+			this.rgbData.add(wrapper_ColorAttributes);
+			this.rgbData.add(rawRGBData);
 
-			miscAttributes = new JPanel();
-			miscAttributes.setName("Miscellaneous");
-			miscAttributes.setLayout(new BoxLayout(miscAttributes, BoxLayout.Y_AXIS));
-			miscAttributes.setAlignmentX(Component.LEFT_ALIGNMENT);
-			miscAttributes.setBorder(
+			this.miscAttributes = new JPanel();
+			this.miscAttributes.setName("Miscellaneous");
+			this.miscAttributes.setLayout(new BoxLayout(this.miscAttributes, BoxLayout.Y_AXIS));
+			this.miscAttributes.setAlignmentX(Component.LEFT_ALIGNMENT);
+			this.miscAttributes.setBorder(
 					ux_Helper.bottom_container_AttributesBorder("-- MISC"));
 
-			JLabel hexColor = new JLabel();
-			JLabel transparency = new JLabel();
-			JLabel colorFunction_RGB = new JLabel();
-			JLabel colorFunction_RGBA = new JLabel();
-			JLabel colorFunction_HSV = new JLabel();
-			JLabel colorFunction_HSL = new JLabel();
-			JLabel colorFunction_CMYK = new JLabel();
+			final JLabel hexColor = new JLabel();
+			final JLabel transparency = new JLabel();
+			final JLabel colorFunction_RGB = new JLabel();
+			final JLabel colorFunction_RGBA = new JLabel();
+			final JLabel colorFunction_HSV = new JLabel();
+			final JLabel colorFunction_HSL = new JLabel();
+			final JLabel colorFunction_CMYK = new JLabel();
 
-			miscAttributes.add(hexColor);
-			miscAttributes.add(transparency);
-			miscAttributes.add(colorFunction_RGB);
-			miscAttributes.add(colorFunction_RGBA);
-			miscAttributes.add(colorFunction_HSV);
-			miscAttributes.add(colorFunction_HSL);
-			miscAttributes.add(colorFunction_CMYK);
+			this.miscAttributes.add(hexColor);
+			this.miscAttributes.add(transparency);
+			this.miscAttributes.add(colorFunction_RGB);
+			this.miscAttributes.add(colorFunction_RGBA);
+			this.miscAttributes.add(colorFunction_HSV);
+			this.miscAttributes.add(colorFunction_HSL);
+			this.miscAttributes.add(colorFunction_CMYK);
 
-			colorSpace = new JPanel();
-			colorSpace.setName("Color Space");
-			colorSpace.setLayout(new BoxLayout(colorSpace, BoxLayout.Y_AXIS));
-			colorSpace.setAlignmentX(Component.LEFT_ALIGNMENT);
-			colorSpace.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Color Space"));
+			this.colorSpace = new JPanel();
+			this.colorSpace.setName("Color Space");
+			this.colorSpace.setLayout(new BoxLayout(this.colorSpace, BoxLayout.Y_AXIS));
+			this.colorSpace.setAlignmentX(Component.LEFT_ALIGNMENT);
+			this.colorSpace.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Color Space"));
 
-			JEditorPane colorSpace_scrollPane = new JEditorPane();
+			final JEditorPane colorSpace_scrollPane = new JEditorPane();
 			colorSpace_scrollPane.setContentType("text/html");
 			colorSpace_scrollPane.setEditable(false);
 			colorSpace_scrollPane.setFocusable(false);
@@ -208,29 +227,29 @@ public class gui_Container
 			/                 + extend_stl_Colors.awt_colorspace_NameMatch(defaultColor.getColorSpace())); /
 			/---------------------------------------------------------------------------------------------*/
 
-			colorSpace.add(colorSpace_scrollPane);
+			this.colorSpace.add(colorSpace_scrollPane);
 
-			hsvData = new JPanel();
-			hsvData.setName("HSV");
-			hsvData.setLayout(new BoxLayout(hsvData, BoxLayout.Y_AXIS));
-			hsvData.setAlignmentX(Component.LEFT_ALIGNMENT);
-			hsvData.setBorder(
+			this.hsvData = new JPanel();
+			this.hsvData.setName("HSV");
+			this.hsvData.setLayout(new BoxLayout(this.hsvData, BoxLayout.Y_AXIS));
+			this.hsvData.setAlignmentX(Component.LEFT_ALIGNMENT);
+			this.hsvData.setBorder(
 					ux_Helper.bottom_container_AttributesBorder("-- HSV"));
 
-			JLabel hsvData_hue = new JLabel();
-			JLabel hsvData_saturation = new JLabel();
-			JLabel hsvData_value = new JLabel();
+			final JLabel hsvData_hue = new JLabel();
+			final JLabel hsvData_saturation = new JLabel();
+			final JLabel hsvData_value = new JLabel();
 
-			hsvData.add(hsvData_hue);
-			hsvData.add(hsvData_saturation);
-			hsvData.add(hsvData_value);
+			this.hsvData.add(hsvData_hue);
+			this.hsvData.add(hsvData_saturation);
+			this.hsvData.add(hsvData_value);
 
-			controls = new JPanel();
-			controls.setLayout(new GridLayout(3, 2)); // 4 buttons
-			controls.setAlignmentX(Component.LEFT_ALIGNMENT);
-			controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
+			this.controls = new JPanel();
+			this.controls.setLayout(new GridLayout(3, 2)); // 4 buttons
+			this.controls.setAlignmentX(Component.LEFT_ALIGNMENT);
+			this.controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
 
-			JButton controls_randomColor = new JButton("Random Color");
+			final JButton controls_randomColor = new JButton("Random Color");
 			controls_randomColor.setFocusPainted(false);
 			controls_randomColor.setBorderPainted(false);
 			controls_randomColor.setForeground(ux_Theme._theme.fg_awt());
@@ -238,7 +257,7 @@ public class gui_Container
 			controls_randomColor.addActionListener(ev -> _1const.COLOR_ENQ
 					.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
 
-			JButton controls_screenColorPicker = new JButton("Screen Picker");
+			final JButton controls_screenColorPicker = new JButton("Screen Picker");
 			controls_screenColorPicker.setFocusPainted(false);
 			controls_screenColorPicker.setForeground(ux_Theme._theme.fg_awt());
 			controls_screenColorPicker.setBackground(ux_Theme._theme.secondary_awt());
@@ -250,21 +269,21 @@ public class gui_Container
 			/ }));                                                                                   /
 			/---------------------------------------------------------------------------------------*/
 
-			JButton controls_forceRevalidate = new JButton("Refresh UI");
+			final JButton controls_forceRevalidate = new JButton("Refresh UI");
 			controls_forceRevalidate.setFocusPainted(false);
 			controls_forceRevalidate.setBorderPainted(false);
 			controls_forceRevalidate.setForeground(ux_Theme._theme.fg_awt());
 			controls_forceRevalidate.setBackground(ux_Theme._theme.secondary_awt());
 			controls_forceRevalidate.addActionListener(ev -> ux.ux.force_redo());
 
-			JButton controls_gc = new JButton("GC");
+			final JButton controls_gc = new JButton("GC");
 			controls_gc.setFocusPainted(false);
 			controls_gc.setBorderPainted(false);
 			controls_gc.setForeground(ux_Theme._theme.fg_awt());
 			controls_gc.setBackground(ux_Theme._theme.secondary_awt());
 			controls_gc.addActionListener(ev -> System.gc());
 
-			JButton controls_randomScreenColor = new JButton("Random Screen Color");
+			final JButton controls_randomScreenColor = new JButton("Random Screen Color");
 			controls_randomScreenColor.setFocusPainted(false);
 			controls_randomScreenColor.setBorderPainted(false);
 			controls_randomScreenColor.setForeground(ux_Theme._theme.fg_awt());
@@ -272,58 +291,58 @@ public class gui_Container
 			controls_randomScreenColor.addActionListener(
 					ev -> _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Ware.screen_colorAt_Rnd().get(), false)));
 
-			controls.add(controls_randomColor);
-			controls.add(controls_randomScreenColor);
-			controls.add(controls_screenColorPicker);
-			controls.add(controls_forceRevalidate);
-			controls.add(controls_gc);
+			this.controls.add(controls_randomColor);
+			this.controls.add(controls_randomScreenColor);
+			this.controls.add(controls_screenColorPicker);
+			this.controls.add(controls_forceRevalidate);
+			this.controls.add(controls_gc);
 
-			hslData = new JPanel();
-			hslData.setName("HSL");
-			hslData.setLayout(new BoxLayout(hslData, BoxLayout.Y_AXIS));
-			hslData.setAlignmentX(Component.LEFT_ALIGNMENT);
-			hslData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- HSL"));
+			this.hslData = new JPanel();
+			this.hslData.setName("HSL");
+			this.hslData.setLayout(new BoxLayout(this.hslData, BoxLayout.Y_AXIS));
+			this.hslData.setAlignmentX(Component.LEFT_ALIGNMENT);
+			this.hslData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- HSL"));
 
-			JLabel hslData_hue = new JLabel();
-			JLabel hslData_saturation = new JLabel();
-			JLabel hslData_lightness = new JLabel();
+			final JLabel hslData_hue = new JLabel();
+			final JLabel hslData_saturation = new JLabel();
+			final JLabel hslData_lightness = new JLabel();
 
-			hslData.add(hslData_hue);
-			hslData.add(hslData_saturation);
-			hslData.add(hslData_lightness);
+			this.hslData.add(hslData_hue);
+			this.hslData.add(hslData_saturation);
+			this.hslData.add(hslData_lightness);
 
-			cmykData = new JPanel();
-			cmykData.setLayout(new BoxLayout(cmykData, BoxLayout.X_AXIS));
-			cmykData.setAlignmentX(Component.LEFT_ALIGNMENT);
-			cmykData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- CMYK"));
-			cmykData.setName("CMYK");
+			this.cmykData = new JPanel();
+			this.cmykData.setLayout(new BoxLayout(this.cmykData, BoxLayout.X_AXIS));
+			this.cmykData.setAlignmentX(Component.LEFT_ALIGNMENT);
+			this.cmykData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- CMYK"));
+			this.cmykData.setName("CMYK");
 
-			JPanel cmykData_Attributes = new JPanel();
+			final JPanel cmykData_Attributes = new JPanel();
 			cmykData_Attributes.setLayout(new BoxLayout(cmykData_Attributes, BoxLayout.Y_AXIS));
 
-			JLabel cmykData_C = new JLabel();
-			JLabel cmykData_M = new JLabel();
-			JLabel cmykData_Y = new JLabel();
-			JLabel cmykData_K = new JLabel();
+			final JLabel cmykData_C = new JLabel();
+			final JLabel cmykData_M = new JLabel();
+			final JLabel cmykData_Y = new JLabel();
+			final JLabel cmykData_K = new JLabel();
 
 			cmykData_Attributes.add(cmykData_C);
 			cmykData_Attributes.add(cmykData_M);
 			cmykData_Attributes.add(cmykData_Y);
 			cmykData_Attributes.add(cmykData_K);
 
-			JPanel cmykData_ColorDisplay = new JPanel();
+			final JPanel cmykData_ColorDisplay = new JPanel();
 			cmykData_ColorDisplay.setLayout(new BoxLayout(cmykData_ColorDisplay, BoxLayout.Y_AXIS));
 
-			JLabel cmykData_CD_C = new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_C = new JLabel(colorDisplay.getText());
 			cmykData_CD_C.setOpaque(true);
 			cmykData_CD_C.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
-			JLabel cmykData_CD_M = new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_M = new JLabel(colorDisplay.getText());
 			cmykData_CD_M.setOpaque(true);
 			cmykData_CD_M.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
-			JLabel cmykData_CD_Y = new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_Y = new JLabel(colorDisplay.getText());
 			cmykData_CD_Y.setOpaque(true);
 			cmykData_CD_Y.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
-			JLabel cmykData_CD_K = new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_K = new JLabel(colorDisplay.getText());
 			cmykData_CD_K.setOpaque(true);
 			cmykData_CD_K.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
@@ -332,9 +351,9 @@ public class gui_Container
 			cmykData_ColorDisplay.add(cmykData_CD_Y);
 			cmykData_ColorDisplay.add(cmykData_CD_K);
 
-			cmykData.add(cmykData_ColorDisplay);
-			cmykData.add(Box.createHorizontalStrut(6));
-			cmykData.add(cmykData_Attributes);
+			this.cmykData.add(cmykData_ColorDisplay);
+			this.cmykData.add(Box.createHorizontalStrut(6));
+			this.cmykData.add(cmykData_Attributes);
 
 			/*---------------------------------------------------------- /
 			/ idk why this was created so just commenting it out for now /
@@ -344,39 +363,39 @@ public class gui_Container
 			/ hsl_dataScrollPane.setFocusable(false);                    /
 			/-----------------------------------------------------------*/
 
-			attributes_List = new JPanel();
-			attributes_List.setLayout(new BoxLayout(attributes_List, BoxLayout.Y_AXIS));
-			attributes_List.setOpaque(true);
-			attributes_List.add(controls);
-			attributes_List.add(miscAttributes);
-			attributes_List.add(rgbData);
-			attributes_List.add(hsvData);
-			attributes_List.add(hslData);
-			attributes_List.add(cmykData);
-			attributes_List.add(colorSpace);
+			this.attributes_List = new JPanel();
+			this.attributes_List.setLayout(new BoxLayout(this.attributes_List, BoxLayout.Y_AXIS));
+			this.attributes_List.setOpaque(true);
+			this.attributes_List.add(this.controls);
+			this.attributes_List.add(this.miscAttributes);
+			this.attributes_List.add(this.rgbData);
+			this.attributes_List.add(this.hsvData);
+			this.attributes_List.add(this.hslData);
+			this.attributes_List.add(this.cmykData);
+			this.attributes_List.add(this.colorSpace);
 
-			ui_LazyViewport $0219430 = new ui_LazyViewport();
-			$0219430.setView(attributes_List);
+			final ui_LazyViewport $0219430 = new ui_LazyViewport();
+			$0219430.setView(this.attributes_List);
 
-			colorAttributes.setViewportView($0219430);
+			this.colorAttributes.setViewportView($0219430);
 
-			setLeftComponent(colorChooser);
-			setRightComponent(colorAttributes);
+			this.setLeftComponent(this.colorChooser);
+			this.setRightComponent(this.colorAttributes);
 
-			COLOR_ENQ.add(pair -> { // GUI ONLY LISTENER
-				Color x = pair.first;
-				float[] x_rgba = new float[] { x.getRed(), x.getGreen(), x.getBlue(), x.getAlpha() };
-				float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
-				float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
-				float[] cmyk = extend_stl_Colors.rgbToCmyk(x_rgba);
-				float[] ciexyz = x.getColorSpace().toCIEXYZ(new float[] { x.getRed(),
+			_1const.COLOR_ENQ.add(pair -> { // GUI ONLY LISTENER
+				final Color x = pair.first;
+				final float[] x_rgba = new float[] { x.getRed(), x.getGreen(), x.getBlue(), x.getAlpha() };
+				final float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
+				final float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
+				final float[] cmyk = extend_stl_Colors.rgbToCmyk(x_rgba);
+				final float[] ciexyz = x.getColorSpace().toCIEXYZ(new float[] { x.getRed(),
 						x.getGreen(), x.getBlue(), x.getAlpha() });
 				SwingUtilities.invokeLater(() -> {
 					System.out.println(
 							"[TopContainer] RGBA_Attributes.isVisible = true -> Rewashing all of the properties to set...");
 					colorDisplay.setForeground(x);
 					colorDisplay.setBackground(x);
-					colorDisplay.setBorder(BorderFactory.createLineBorder(x.brighter()));
+					colorDisplay.setBorder(BorderFactory.createLineBorder(stl_Colors.awt_ColorInvert(x), 2));
 
 					colorDisplay_R.setBackground(new Color(
 							colorDisplay.getBackground().getRed() / 255F, 0F, 0F));
@@ -415,21 +434,6 @@ public class gui_Container
 					/             : new Color(0F, 0F, x.getBlue() / 255F).darker(),                    /
 					/         2));                                                                     /
 					/---------------------------------------------------------------------------------*/
-
-					colorDisplay_A.setBorder(
-							BorderFactory.createLineBorder(
-									new Color((255F - colorDisplay
-											.getBackground()
-											.getRed()) / 255F,
-											(255F - colorDisplay
-													.getBackground()
-													.getGreen())
-													/ 255F,
-											(255F - colorDisplay
-													.getBackground()
-													.getBlue())
-													/ 255F),
-									2)); // ! not displayed correctly
 					colorDisplay_A.setBackground(new Color(
 							(colorDisplay.getBackground().getAlpha()) / 255F,
 							(colorDisplay.getBackground().getAlpha()) / 255F,
@@ -580,7 +584,7 @@ public class gui_Container
 					cmykData_K.setText("Key     (K): " + String.format("%,.4f", cmyk[3]) + " ["
 							+ String.format("%,.2f", 100 * cmyk[3]) + "%]");
 
-					float[][] rrr = extend_stl_Colors.cmykToRgb_Comps(cmyk);
+					final float[][] rrr = extend_stl_Colors.cmykToRgb_Comps(cmyk);
 					/*-------------------------------------------------------------------- /
 					/ System.out.println(Arrays.toString(cmyk) + "\n=====");               /
 					/ for (float[] t : rrr)                                                /
@@ -599,14 +603,14 @@ public class gui_Container
 
 					System.out.println(
 							"[TopContainer] COLOR_SPACE_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
-					StringBuilder sb = new StringBuilder(
+					final StringBuilder sb = new StringBuilder(
 							"<strong>Component Names</strong>:"),
 							sb2 = new StringBuilder(
 									"<strong>Component Min , Max</strong>:"),
 							sb3 = new StringBuilder(
 									"<strong>CIEXYZ Form</strong>:");
 
-					for (float rrtr : ciexyz)
+					for (final float rrtr : ciexyz)
 						sb3.append("<br>&nbsp;&nbsp;" + rrtr);
 
 					for (int i = 0; i < x.getColorSpace().getNumComponents(); i++)
@@ -631,7 +635,7 @@ public class gui_Container
 							+
 							"</html>");
 
-					revalidate();
+					this.revalidate();
 
 				});
 				return (Void) null;
@@ -648,11 +652,11 @@ public class gui_Container
 
 		public synchronized void redo()
 		{
-			controls.revalidate();
-			colorAttributes.setMaximumSize(
-					new Dimension(colorAttributes.getPreferredSize().width + 50, colorAttributes.getPreferredSize().height));
-			controls.doLayout();
-			setMinimumSize(new Dimension(getPreferredSize().width, getPreferredSize().height + 65));
+			this.controls.revalidate();
+			this.colorAttributes.setMaximumSize(
+					new Dimension(this.colorAttributes.getPreferredSize().width + 50, this.colorAttributes.getPreferredSize().height));
+			this.controls.doLayout();
+			this.setMinimumSize(new Dimension(this.getPreferredSize().width, this.getPreferredSize().height + 65));
 			this.doLayout();
 			this.revalidate();
 			this.repaint(100L);
@@ -660,18 +664,18 @@ public class gui_Container
 
 	}
 
-	public synchronized void append_attribute(JComponent e)
+	public synchronized void append_attribute(final JComponent e)
 	{
 		e.setAlignmentX(Component.CENTER_ALIGNMENT);
 		e.setAlignmentY(Component.LEFT_ALIGNMENT);
-		top.attributes_List.add(e);
-		top.attributes_List.validate();
+		this.top.attributes_List.add(e);
+		this.top.attributes_List.validate();
 	}
 
 	public void validate_size()
 	{
-		top.colorAttributes.setMinimumSize(top.colorAttributes.getPreferredSize());
-		top.setDividerLocation(top.colorChooser.getPreferredSize().width + 50);
+		this.top.colorAttributes.setMinimumSize(this.top.colorAttributes.getPreferredSize());
+		this.top.setDividerLocation(this.top.colorChooser.getPreferredSize().width + 50);
 	}
 
 	public static class Container_BottomPane
@@ -684,19 +688,19 @@ public class gui_Container
 
 		public Container_BottomPane()
 		{
-			setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 3));
-			setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-			setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 8);
-			setBorder(BorderFactory.createEmptyBorder());
+			this.setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 3));
+			this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+			this.setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 8);
+			this.setBorder(BorderFactory.createEmptyBorder());
 
-			history = new JTable();
-			currentPalette = new JTable();
+			this.history = new JTable();
+			this.currentPalette = new JTable();
 
-			setRightComponent(currentPalette);
-			setLeftComponent(history);
+			this.setRightComponent(this.currentPalette);
+			this.setLeftComponent(this.history);
 		}
 
-		@Override public Void apply(Color arg0)
+		@Override public Void apply(final Color arg0)
 		{
 			throw new UnsupportedOperationException("Unimplemented method 'apply'");
 		}

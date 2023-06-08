@@ -2,21 +2,29 @@
 
 package com.jackmeng.prismix.test;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public class test_BorderCurve extends JPanel
 {
 
-  @Override protected void paintComponent(Graphics g)
+  @Override protected void paintComponent(final Graphics g)
   {
     super.paintComponent(g);
 
-    int width = getWidth();
-    int height = getHeight();
-    int arcSize = 35;
+    final int width = this.getWidth();
+    final int height = this.getHeight();
+    final int arcSize = 35;
 
-    Graphics2D g2 = (Graphics2D) g;
+    final Graphics2D g2 = (Graphics2D) g;
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
     g2.setColor(Color.BLACK);
@@ -38,12 +46,12 @@ public class test_BorderCurve extends JPanel
     return new Dimension(200, 200);
   }
 
-  public static void main(String[] args)
+  public static void main(final String[] args)
   {
-    JFrame frame = new JFrame("uwu");
+    final JFrame frame = new JFrame("uwu");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-    test_BorderCurve panel = new test_BorderCurve();
+    final test_BorderCurve panel = new test_BorderCurve();
     panel.setBackground(Color.WHITE);
 
     frame.add(panel);

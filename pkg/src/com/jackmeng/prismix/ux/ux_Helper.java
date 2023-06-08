@@ -13,7 +13,7 @@ public final class ux_Helper
   {
   }
 
-  public static Border bottom_container_AttributesBorder(String name)
+  public static Border bottom_container_AttributesBorder(final String name)
   {
     return BorderFactory.createTitledBorder(
         BorderFactory.createEmptyBorder(5, 0, 5, 0),
@@ -23,7 +23,7 @@ public final class ux_Helper
             + "\">" + name + "</p></strong></strong>");
   }
 
-  public static Border cpick_suggestions_AttributesBorder(String name)
+  public static Border cpick_suggestions_AttributesBorder(final String name)
   { // basically the same thing as bottom_container_AttributesBorder(String)
     return BorderFactory.createTitledBorder(
       BorderFactory.createEmptyBorder(5, 4, 5, 4),

@@ -1,6 +1,8 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 package com.jackmeng.prismix;
 
+import java.awt.Color;
+import java.lang.ref.SoftReference;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,13 +10,10 @@ import java.util.TimerTask;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_AssetFetcher;
-import com.jackmeng.stl.stl_ListenerPool;
-import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_AssetFetcher.assetfetcher_FetcherStyle;
+import com.jackmeng.stl.stl_ListenerPool;
 import com.jackmeng.stl.stl_ListenerPool.ListenerPool_Attached.Attached_States;
-
-import java.awt.Color;
-import java.lang.ref.SoftReference;
+import com.jackmeng.stl.stl_Struct;
 
 /**
  * Critical constants for the program itself as a whole
@@ -38,7 +37,7 @@ public final class _1const
       "current-processing-pool");
   static
   {
-    COLOR_ENQ.attach(payload -> {
+    _1const.COLOR_ENQ.attach(payload -> {
       if (payload.first != null)
       {
         System.out
@@ -62,23 +61,23 @@ public final class _1const
       }
       return (Void) null;
     });
-    COLOR_ENQ.add(x -> {
+    _1const.COLOR_ENQ.add(x -> {
       System.out.println(new stl_AnsiMake(stl_AnsiColors.RED_BG,
           "[COLOR_POOL] Enqueued another color for GUI elements to process: rgba(" + x.first.getRed()
               + "," + x.first.getGreen() + "," + x.first.getBlue() + "," + x.first.getAlpha() + ")"));
-      lastColor = new SoftReference<>(x.first);
+      _1const.lastColor = new SoftReference<>(x.first);
       return (Void) null;
     });
   }
 
   public static Color last_color()
   {
-    return lastColor.get();
+    return _1const.lastColor.get();
   }
 
-  public static synchronized void add(Runnable r, long delay)
+  public static synchronized void add(final Runnable r, final long delay)
   {
-    worker.schedule(new TimerTask() {
+    _1const.worker.schedule(new TimerTask() {
       @Override public void run()
       {
         r.run();
@@ -86,9 +85,9 @@ public final class _1const
     }, delay);
   }
 
-  public static synchronized void add(Runnable r, long delay, long rep_delay)
+  public static synchronized void add(final Runnable r, final long delay, final long rep_delay)
   {
-    worker.scheduleAtFixedRate(new TimerTask() {
+    _1const.worker.scheduleAtFixedRate(new TimerTask() {
       @Override public void run()
       {
         r.run();

@@ -2,22 +2,39 @@
 
 package com.jackmeng.prismix.ux;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
+import java.awt.event.ActionListener;
+import java.awt.image.ImageObserver;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
+import java.awt.Toolkit;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
+import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Listener;
+import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
-
-import java.awt.event.ActionListener;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.swing.*;
 
 // Implementations of color pickers visually
 // All of these should be able to dispatch events to the color queue found in _1const
@@ -44,17 +61,17 @@ public final class ui_ColorPicker
 
     public CPick_GenericDisp()
     {
-      setFocusable(true);
+      this.setFocusable(true);
     }
 
-    @Override public void paintComponent(Graphics g)
+    @Override public void paintComponent(final Graphics g)
     {
       super.paintComponent(g);
       use_Maker.db_timed(() -> {
-        Graphics2D g2 = (Graphics2D) g;
+        final Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         g2.drawImage(
-            extend_stl_Colors.cpick_gradient2(getParent().getPreferredSize().height,
+            extend_stl_Colors.cpick_gradient2(this.getParent().getPreferredSize().height,
                 _1const.last_color()),
             null, 0,
             0);
@@ -62,12 +79,12 @@ public final class ui_ColorPicker
       });
     }
 
-    @Override public Void call(struct_Pair< Color, Boolean > arg0)
+    @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
       if (this.isVisible() || this.isFocusOwner())
       {
         System.out.println("[CPick_Debug" + this.hashCode() + "] Picks up a valid color call from the Color queue!");
-        repaint(75L);
+        this.repaint(75L);
       }
       return (Void) null;
     }
@@ -84,7 +101,7 @@ public final class ui_ColorPicker
                                                                // be always attached to the currently color picker
   {
 
-    @Override public Void call(struct_Pair< Color, Boolean > arg0)
+    @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
       // TODO Auto-generated method stub
       throw new UnsupportedOperationException("Unimplemented method 'call'");
@@ -95,17 +112,17 @@ public final class ui_ColorPicker
   // For creating a list of potential "suggestions" for a color using a table.
   // Shades, complementary, etc..
   // This should be a secondary option
-  public static final class CPick_SuggestionsList
+  @SuppressWarnings("unchecked") public static final class CPick_SuggestionsList
       extends JPanel
       implements stl_Listener< stl_Struct.struct_Pair< Color, Boolean > >
   {
 
-    private static JPanel acquire_defpane(String name)
+    private static JPanel acquire_defpane(final String name)
     {
-      JPanel jp = new JPanel() {
-        @Override public Component add(Component e)
+      final JPanel jp = new JPanel() {
+        @Override public Component add(final Component e)
         {
-          if (e instanceof JComponent r)
+          if (e instanceof final JComponent r)
             r.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
           return super.add(e);
         }
@@ -118,55 +135,85 @@ public final class ui_ColorPicker
 
     transient java.util.List< JButton > tones_List, tint_List, shades_List;
     transient ActionListener shades_Listeners = ev -> {
-      JButton e = ((JButton) ev.getSource()); // no additional checks needed
+      final JButton e = ((JButton) ev.getSource()); // no additional checks needed, we shld be assured that this
+                                                    // listener is
+      // only added to a JButton. additional checks can cause additional
+      // optimization strains on the jvm
 
       if (e.getText().length() > 0)
       {
-        Toolkit.getDefaultToolkit().getSystemClipboard()
-            .setContents(new java.awt.datatransfer.StringSelection(e.getText()), null);
-        System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
-            "[CPick_Suggestions] Copied the target color to the clipboard: " + e.getText()));
+        final Optional< JPopupMenu > r = use_Maker.jpop(e.getText(), new stl_Struct.struct_Pair[] {
+            stl_Struct.make_pair("Copy to clipboard", (stl_Callback< Void, Void >) nil -> {
+              Toolkit.getDefaultToolkit().getSystemClipboard()
+                  .setContents(new java.awt.datatransfer.StringSelection(e.getText()), null);
+              System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
+                  "[CPick_Suggestions] Copied the target color to the clipboard: " + e.getText()));
+              return (Void) null;
+            }),
+            stl_Struct.make_pair("Inspect color", (stl_Callback< Void, Void >) nil -> {
+              _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(e.getText()), false));
+              System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
+                  "[CPick_Suggestions] Dispatched the target color to the global inspect queue: " + e.getText()));
+              return (Void) null;
+            }),
+            stl_Struct.make_pair("Inspect & Copy", (stl_Callback< Void, Void >) nil -> {
+              Toolkit.getDefaultToolkit().getSystemClipboard()
+                  .setContents(new java.awt.datatransfer.StringSelection(e.getText()), null);
+              System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
+                  "[CPick_Suggestions] Copied the target color to the clipboard: " + e.getText()));
+              _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(e.getText()), false));
+              System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
+                  "[CPick_Suggestions] Dispatched the target color to the global inspect queue: " + e.getText()));
+              return (Void) null;
+            })
+        });
+        r.ifPresent(x -> {
+          System.out.println("[CPick_Suggestions] Rendering the final popup menu to the screen!");
+          ((javax.swing.JPopupMenu) x).show(this, e.getX(), e.getY());
+        });
+
       }
     };
+
     JPanel shades_Tones, shades_Tint, shades_Shades;
     final int tones_cols = 5, tones_rows = 9, tint_cols = 10, tint_rows = 15, shades_cols = 10, shades_rows = 15;
 
     public CPick_SuggestionsList()
     {
-      JScrollPane masterScroll = new JScrollPane();
+      final JScrollPane masterScroll = new JScrollPane();
       masterScroll.getHorizontalScrollBar().setUnitIncrement(5);
       masterScroll.setBorder(BorderFactory.createEmptyBorder());
 
-      ui_LazyViewport mainViewport = new ui_LazyViewport();
-      JPanel contentWrapper = new JPanel();
+      final ui_LazyViewport mainViewport = new ui_LazyViewport();
+      final JPanel contentWrapper = new JPanel();
       contentWrapper.setBorder(BorderFactory.createEmptyBorder());
       contentWrapper.setLayout(new BoxLayout(contentWrapper, BoxLayout.X_AXIS));
 
-      shades_Tones = acquire_defpane("Tones");
-      shades_Tint = acquire_defpane("Tints");
-      shades_Shades = acquire_defpane("Shades");
+      this.shades_Tones = CPick_SuggestionsList.acquire_defpane("Tones");
+      this.shades_Tint = CPick_SuggestionsList.acquire_defpane("Tints");
+      this.shades_Shades = CPick_SuggestionsList.acquire_defpane("Shades");
 
-      tones_List = new ArrayList<>(); // i originally used the bound initialCapacity param, but that is such a
+      this.tones_List = new ArrayList<>(); // i originally used the bound initialCapacity param, but that is such a
       // scam, it doesnt actually work, so you have to use .add() in the loop, im
       // dumb or is java dumb. i also thought 10*10 was 0 cuz Java kept sayign the
       // size was zero LOL
-      tint_List = new ArrayList<>();
-      shades_List = new ArrayList<>();
+      this.tint_List = new ArrayList<>();
+      this.shades_List = new ArrayList<>();
 
-      for (int i = 0; i < tones_cols * tones_rows; i++)
+      for (int i = 0; i < this.tones_cols * this.tones_rows; i++)
       {
         /*------------------------------------------------------------------------------------------------------------ /
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ToneButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-        JButton r = new JButton("");
+        final JButton r = new JButton("");
         r.setFocusPainted(false);
         r.setBorderPainted(false);
         r.setFocusable(false);
         r.setForeground(Color.WHITE);
-        r.addActionListener(shades_Listeners);
+        r.addActionListener(this.shades_Listeners);
         r.setRolloverEnabled(false); // technically if setFocusable -> false, then this should not be needed, but ok
-        tones_List.add(r);
+        this.tones_List.add(r);
         /*------------------------------------------------------------------------------------- /
         / if (_1const.SOFT_DEBUG)                                                               /
         /   tones_List.get(i).setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2)); /
@@ -175,100 +222,101 @@ public final class ui_ColorPicker
         / tones_List.get(i).setForeground(Color.WHITE); /
         / tones_List.get(i).setBackground(Color.BLACK); /
         /---------------------------------------------------*/
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = i % tones_cols;
-        gbc.gridy = i / tones_rows;
+        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = i % this.tones_cols;
+        gbc.gridy = i / this.tones_rows;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-        shades_Tones.add(tones_List.get(i), gbc);
+        this.shades_Tones.add(this.tones_List.get(i), gbc);
       }
-      for (int i = 0; i < tint_cols * tint_rows; i++)
+      for (int i = 0; i < this.tint_cols * this.tint_rows; i++)
       {
         /*------------------------------------------------------------------------------------------------------------ /
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new TintButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-        JButton r = new JButton("");
+        final JButton r = new JButton("");
         r.setRolloverEnabled(false);
         r.setFocusPainted(false);
         r.setBorderPainted(false);
         r.setFocusable(false);
         r.setForeground(Color.WHITE);
-        r.addActionListener(shades_Listeners);
-        tint_List.add(r);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = i % tint_cols;
-        gbc.gridy = i / tint_rows;
+        r.addActionListener(this.shades_Listeners);
+        this.tint_List.add(r);
+        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = i % this.tint_cols;
+        gbc.gridy = i / this.tint_rows;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-        shades_Tint.add(tint_List.get(i), gbc);
+        this.shades_Tint.add(this.tint_List.get(i), gbc);
       }
 
-      for (int i = 0; i < shades_cols * shades_rows; i++)
+      for (int i = 0; i < this.shades_cols * this.shades_rows; i++)
       {
         /*------------------------------------------------------------------------------------------------------------ /
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ShadesButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-        JButton r = new JButton("");
+        final JButton r = new JButton("");
         r.setFocusPainted(false);
         r.setBorderPainted(false);
         r.setFocusable(false);
         r.setForeground(Color.WHITE);
         r.setRolloverEnabled(false);
-        r.addActionListener(shades_Listeners);
-        shades_List.add(r);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = i % tint_cols;
-        gbc.gridy = i / tint_rows;
+        r.addActionListener(this.shades_Listeners);
+        this.shades_List.add(r);
+        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = i % this.tint_cols;
+        gbc.gridy = i / this.tint_rows;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-        shades_Shades.add(shades_List.get(i), gbc);
+        this.shades_Shades.add(this.shades_List.get(i), gbc);
       }
 
       System.out.println(new stl_AnsiMake(stl_AnsiColors.BLUE_BG,
-          "[CPick_Suggestions] Registered " + shades_cols * shades_rows + " ShadesButtons | Registered "
-              + tones_cols * tones_rows + " TonesButtons | Registered " + tint_cols * tint_rows + " TintsButtons"));
+          "[CPick_Suggestions] Registered " + this.shades_cols * this.shades_rows + " ShadesButtons | Registered "
+              + this.tones_cols * this.tones_rows + " TonesButtons | Registered " + this.tint_cols * this.tint_rows
+              + " TintsButtons"));
 
-      contentWrapper.add(shades_Tint);
-      contentWrapper.add(shades_Shades);
-      contentWrapper.add(shades_Tones);
+      contentWrapper.add(this.shades_Tint);
+      contentWrapper.add(this.shades_Shades);
+      contentWrapper.add(this.shades_Tones);
 
       mainViewport.setView(contentWrapper);
       masterScroll.setViewport(mainViewport);
 
-      setLayout(new BorderLayout());
-      add(masterScroll, BorderLayout.CENTER);
+      this.setLayout(new BorderLayout());
+      this.add(masterScroll, BorderLayout.CENTER);
     }
 
-    @Override public Void call(struct_Pair< Color, Boolean > arg0)
+    @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
       if (Boolean.FALSE.equals(arg0.second))
       {
         System.out.println("[CPick_Suggestions] Called to revalidate the current colors");
         use_Maker.db_timed(() -> {
-          if (shades_Tones.isVisible())
+          if (this.shades_Tones.isVisible())
           {
-            float[][] gen_tones = extend_stl_Colors.tones(extend_stl_Colors.awt_strip_rgba(arg0.first),
-                tones_cols * tones_rows);
+            final float[][] gen_tones = extend_stl_Colors.tones(extend_stl_Colors.awt_strip_rgba(arg0.first),
+                this.tones_cols * this.tones_rows);
             if (ux.PROPERTY_USE_SORTED_COLOR_SUGGESTIONS.get())
               for (float[] e : gen_tones)
               {
                 Arrays.sort(e);
                 e = use_Maker.rev(e);
               }
-            Color[] remadeTones = new Color[tones_cols * tones_rows];
-            String[] hexTones = new String[tones_cols * tones_rows];
+            final Color[] remadeTones = new Color[this.tones_cols * this.tones_rows];
+            final String[] hexTones = new String[this.tones_cols * this.tones_rows];
 
-            for (int i = 0; i < tones_cols * tones_rows; i++)
+            for (int i = 0; i < this.tones_cols * this.tones_rows; i++)
             {
-              JButton button = tones_List.get(i);
+              final JButton button = this.tones_List.get(i);
               remadeTones[i] = extend_stl_Colors.awt_remake(gen_tones[i]);
               button.setBackground(remadeTones[i]);
               button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tones[i])));
@@ -279,22 +327,22 @@ public final class ui_ColorPicker
             }
           }
 
-          if (shades_Tint.isVisible())
+          if (this.shades_Tint.isVisible())
           {
-            float[][] gen_tints = extend_stl_Colors.tints(extend_stl_Colors.awt_strip_rgba(arg0.first),
-                tint_cols * tint_rows);
+            final float[][] gen_tints = extend_stl_Colors.tints(extend_stl_Colors.awt_strip_rgba(arg0.first),
+                this.tint_cols * this.tint_rows);
             if (ux.PROPERTY_USE_SORTED_COLOR_SUGGESTIONS.get())
               for (float[] e : gen_tints)
               {
                 Arrays.sort(e);
                 e = use_Maker.rev(e);
               }
-            Color[] remadeTints = new Color[tint_cols * tint_rows];
-            String[] hexTints = new String[tint_cols * tint_rows];
+            final Color[] remadeTints = new Color[this.tint_cols * this.tint_rows];
+            final String[] hexTints = new String[this.tint_cols * this.tint_rows];
 
-            for (int i = 0; i < tint_cols * tint_rows; i++)
+            for (int i = 0; i < this.tint_cols * this.tint_rows; i++)
             {
-              JButton button = tint_List.get(i);
+              final JButton button = this.tint_List.get(i);
               remadeTints[i] = extend_stl_Colors.awt_remake(gen_tints[i]);
               button.setBackground(remadeTints[i]);
               button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tints[i])));
@@ -305,21 +353,21 @@ public final class ui_ColorPicker
             }
           }
 
-          if (shades_Shades.isVisible())
+          if (this.shades_Shades.isVisible())
           {
-            float[][] gen_shades = extend_stl_Colors.shades(extend_stl_Colors.awt_strip_rgba(arg0.first),
-                shades_cols * shades_rows);
+            final float[][] gen_shades = extend_stl_Colors.shades(extend_stl_Colors.awt_strip_rgba(arg0.first),
+                this.shades_cols * this.shades_rows);
             if (ux.PROPERTY_USE_SORTED_COLOR_SUGGESTIONS.get())
               for (float[] e : gen_shades)
               {
                 Arrays.sort(e);
                 e = use_Maker.rev(e);
               }
-            Color[] remadeShades = new Color[shades_cols * shades_rows];
-            String[] hexShades = new String[shades_cols * shades_rows];
-            for (int i = 0; i < shades_cols * shades_rows; i++)
+            final Color[] remadeShades = new Color[this.shades_cols * this.shades_rows];
+            final String[] hexShades = new String[this.shades_cols * this.shades_rows];
+            for (int i = 0; i < this.shades_cols * this.shades_rows; i++)
             {
-              JButton button = shades_List.get(i);
+              final JButton button = this.shades_List.get(i);
               remadeShades[i] = extend_stl_Colors.awt_remake(gen_shades[i]);
               button.setBackground(remadeShades[i]);
               button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_shades[i])));

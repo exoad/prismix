@@ -5,50 +5,50 @@ import java.awt.Color;
 
 public class test_ColorSway
 {
-  public static double calculateLuminance(Color color)
+  public static double calculateLuminance(final Color color)
   {
 
-    int r = color.getRed();
-    int g = color.getGreen();
-    int b = color.getBlue();
-    double luminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
+    final int r = color.getRed();
+    final int g = color.getGreen();
+    final int b = color.getBlue();
+    final double luminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
     return luminance;
   }
 
-  public static Color generateSwayedColor(Color foreground, Color background, Color color)
+  public static Color generateSwayedColor(final Color foreground, final Color background, final Color color)
   {
-    double foregroundLuminance = calculateLuminance(foreground);
-    double backgroundLuminance = calculateLuminance(background);
+    final double foregroundLuminance = calculateLuminance(foreground);
+    final double backgroundLuminance = calculateLuminance(background);
 
     if (foregroundLuminance == backgroundLuminance)
     {
       return color;
     }
 
-    double luminanceDifference = foregroundLuminance - backgroundLuminance;
+    final double luminanceDifference = foregroundLuminance - backgroundLuminance;
 
-    int r = color.getRed();
-    int g = color.getGreen();
-    int b = color.getBlue();
+    final int r = color.getRed();
+    final int g = color.getGreen();
+    final int b = color.getBlue();
 
     double swayFactor = luminanceDifference / (0.299 * r + 0.587 * g + 0.114 * b);
     swayFactor = Math.max(0, Math.min(swayFactor, 1));
 
-    int swayedRed = (int) Math.round(r + swayFactor * (foreground.getRed() - r));
-    int swayedGreen = (int) Math.round(g + swayFactor * (foreground.getGreen() - g));
-    int swayedBlue = (int) Math.round(b + swayFactor * (foreground.getBlue() - b));
+    final int swayedRed = (int) Math.round(r + swayFactor * (foreground.getRed() - r));
+    final int swayedGreen = (int) Math.round(g + swayFactor * (foreground.getGreen() - g));
+    final int swayedBlue = (int) Math.round(b + swayFactor * (foreground.getBlue() - b));
 
     return new Color(swayedRed, swayedGreen, swayedBlue);
   }
 
-  public static void main(String[] args)
+  public static void main(final String[] args)
   {
-    Color foreground = Color.GREEN;
-    Color background = Color.BLACK;
+    final Color foreground = Color.GREEN;
+    final Color background = Color.BLACK;
 
-    Color color = Color.BLUE;
+    final Color color = Color.BLUE;
 
-    Color swayedColor = generateSwayedColor(foreground, background, color);
+    final Color swayedColor = generateSwayedColor(foreground, background, color);
     System.out.println("Swayed Color: " + swayedColor);
   }
 }

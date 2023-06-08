@@ -2,18 +2,22 @@
 
 package com.jackmeng.prismix.ux;
 
-import javax.swing.*;
+import static com.jackmeng.prismix.use_Maker.makeJMenu;
+
+import java.awt.BorderLayout;
+import java.awt.KeyboardFocusManager;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.jm_Prismix;
+import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
-
-import java.awt.KeyboardFocusManager;
-
-import static com.jackmeng.prismix.use_Maker.*;
-
-import java.awt.BorderLayout;
 
 public class gui_Main
     extends JFrame
@@ -25,18 +29,18 @@ public class gui_Main
 
   public gui_Main()
   {
-    wrapper = new JPanel();
-    wrapper.setLayout(new BorderLayout());
+    this.wrapper = new JPanel();
+    this.wrapper.setLayout(new BorderLayout());
 
-    bar = new JMenuBar();
+    this.bar = new JMenuBar();
 
-    setTitle("Prismix ~ exoad (build_" + jm_Prismix._VERSION_ + ")");
-    setIconImage(_1const.fetcher.image("assets/_icon.png"));
-    wrapper.setPreferredSize(getPreferredSize());
-    setJMenuBar(bar); // should not be added with a wrapper JPanel! (i did not know this was a method)
-    getContentPane().add(wrapper);
-    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    setDefaultLookAndFeelDecorated(true);
+    this.setTitle("Prismix ~ exoad (build_" + jm_Prismix._VERSION_ + ")");
+    this.setIconImage(_1const.fetcher.image("assets/_icon.png"));
+    this.wrapper.setPreferredSize(this.getPreferredSize());
+    this.setJMenuBar(this.bar); // should not be added with a wrapper JPanel! (i did not know this was a method)
+    this.getContentPane().add(this.wrapper);
+    this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    JFrame.setDefaultLookAndFeelDecorated(true);
 
     if (_1const.SOFT_DEBUG)
     {
@@ -48,10 +52,10 @@ public class gui_Main
     }
   }
 
-  public void registerToBar(String name, JMenuItem... item)
+  public void registerToBar(final String name, final JMenuItem... item)
   {
-    bar.add(makeJMenu(name, item));
-    revalidate();
+    this.bar.add(use_Maker.makeJMenu(name, item));
+    this.revalidate();
   }
 
   @Override public void run()

@@ -8,17 +8,17 @@ import com.jackmeng.stl.stl_Wrap;
 // Requirement Level: None
 public class extend_stl_Wrap< T > extends stl_Wrap< T >
 {
-  public extend_stl_Wrap(T obj)
+  public extend_stl_Wrap(final T obj)
   {
     super(obj);
   }
 
   public T get()
   {
-    return obj;
+    return this.obj;
   }
 
-  public void set(T obj)
+  public void set(final T obj)
   {
     this.obj = obj;
   }

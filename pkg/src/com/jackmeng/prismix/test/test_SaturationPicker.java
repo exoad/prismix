@@ -2,10 +2,19 @@
 
 package com.jackmeng.prismix.test;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 public class test_SaturationPicker extends JPanel
 {
@@ -16,62 +25,62 @@ public class test_SaturationPicker extends JPanel
 
   public test_SaturationPicker()
   {
-    selectedColor = Color.BLACK;
-    saturation = 0;
-    value = 0;
+    this.selectedColor = Color.BLACK;
+    this.saturation = 0;
+    this.value = 0;
 
-    setPreferredSize(new Dimension(200, 200));
+    this.setPreferredSize(new Dimension(200, 200));
 
-    addMouseListener(new MouseAdapter() {
-      @Override public void mouseClicked(MouseEvent e)
+    this.addMouseListener(new MouseAdapter() {
+      @Override public void mouseClicked(final MouseEvent e)
       {
-        int x = e.getX();
-        int y = e.getY();
+        final int x = e.getX();
+        final int y = e.getY();
 
-        saturation = (int) (x / (double) getWidth() * 100);
-        value = (int) ((getHeight() - y) / (double) getHeight() * 100);
+        test_SaturationPicker.this.saturation = (int) (x / (double) test_SaturationPicker.this.getWidth() * 100);
+        test_SaturationPicker.this.value = (int) ((test_SaturationPicker.this.getHeight() - y) / (double) test_SaturationPicker.this.getHeight() * 100);
 
-        selectedColor = Color.getHSBColor(0, saturation / 100f, value / 100f);
-        repaint();
+        test_SaturationPicker.this.selectedColor = Color.getHSBColor(0, test_SaturationPicker.this.saturation / 100f, test_SaturationPicker.this.value / 100f);
+        test_SaturationPicker.this.repaint();
       }
     });
   }
 
-  @Override protected void paintComponent(Graphics g)
+  @Override protected void paintComponent(final Graphics g)
   {
     super.paintComponent(g);
-    int width = getWidth();
-    int height = getHeight();
+    final int width = this.getWidth();
+    final int height = this.getHeight();
 
-    Graphics2D g2d = (Graphics2D) g.create();
+    final Graphics2D g2d = (Graphics2D) g.create();
     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     for (int x = 0; x < width; x++)
     {
       for (int y = 0; y < height; y++)
       {
-        float saturation = x / (float) width;
-        float value = 1 - (y / (float) height);
-        Color color = Color.getHSBColor(0, saturation, value);
+        final float saturation = x / (float) width;
+        final float value = 1 - (y / (float) height);
+        final Color color = Color.getHSBColor(0, saturation, value);
         g2d.setColor(color);
         g2d.fillRect(x, y, 1, 1);
       }
     }
 
-    g2d.setColor(selectedColor);
+    g2d.setColor(this.selectedColor);
     g2d.setStroke(new BasicStroke(2.0f));
-    g2d.drawRect(saturation * width / 100, (100 - value) * height / 100, 10, 10);
+    g2d.drawRect(this.saturation * width / 100, (100 - this.value) * height / 100, 10, 10);
 
     g2d.dispose();
   }
 
-  public static void main(String[] args)
+  public static void main(final String[] args)
   {
     SwingUtilities.invokeLater(() -> {
-      JFrame frame = new JFrame("Saturation and Value Color Picker");
+      final JFrame frame = new JFrame("Saturation and Value Color Picker");
       frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-      test_SaturationPicker colorPicker = new test_SaturationPicker();
+      final test_SaturationPicker colorPicker = new test_SaturationPicker();
       frame.add(colorPicker);
       frame.pack();
       frame.setVisible(true);

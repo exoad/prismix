@@ -2,14 +2,17 @@
 
 package com.jackmeng.prismix.stl;
 
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
+import java.awt.LinearGradientPaint;
+import java.awt.RenderingHints;
 import java.awt.color.ColorSpace;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_Colors;
-
-import java.awt.*;
-import java.awt.image.*;
 
 public final class extend_stl_Colors
 {
@@ -47,12 +50,12 @@ public final class extend_stl_Colors
                                                                                                            // here
   }
 
-  public static String RGBToHex(int r, int g, int b)
+  public static String RGBToHex(final int r, final int g, final int b)
   {
     return String.format("#%02x%02x%02x", r, g, b);
   }
 
-  public static String color2hex_2(Color color)
+  public static String color2hex_2(final Color color)
   {
     String hex = Integer.toHexString(color.getRGB() & 0xffffff);
     if (hex.length() < 6)
@@ -68,22 +71,22 @@ public final class extend_stl_Colors
     return hex;
   }
 
-  public static boolean is_red(float[] e)
+  public static boolean is_red(final float[] e)
   {
     return e[0] > e[1] && e[0] > e[2];
   }
 
-  public static boolean is_blue(float[] e)
+  public static boolean is_blue(final float[] e)
   {
     return e[2] > e[1] && e[2] > e[0];
   }
 
-  public static boolean is_green(float[] e)
+  public static boolean is_green(final float[] e)
   {
     return e[1] > e[0] && e[1] > e[2];
   }
 
-  public static float[] binary_fg_decider(float[] bg)
+  public static float[] binary_fg_decider(final float[] bg)
   {
     return extend_stl_Colors
         .awt_strip_rgba(
@@ -94,12 +97,12 @@ public final class extend_stl_Colors
                                                                                                               // luminance
   }
 
-  public static float[][] tints(float[] ir, int n)
+  public static float[][] tints(final float[] ir, final int n)
   {
-    float[][] generatedTints = new float[n][3];
+    final float[][] generatedTints = new float[n][3];
     generatedTints[0] = ir;
-    float red = ir[0], green = ir[1], blue = ir[2], redStep = (255F - red) / (n - 1),
-        greenStep = (255F - green) / (n - 1), blueStep = (255F - blue) / (n - 1);
+    float red = ir[0], green = ir[1], blue = ir[2];
+		final float redStep = (255F - red) / (n - 1), greenStep = (255F - green) / (n - 1), blueStep = (255F - blue) / (n - 1);
 
     for (int i = 1; i < n; i++)
     {
@@ -117,17 +120,17 @@ public final class extend_stl_Colors
     return generatedTints;
   }
 
-  public static float[] stripHex(String hex)
+  public static float[] stripHex(final String hex)
   {
     return extend_stl_Colors.awt_strip_rgba(stl_Colors.hexToRGB(hex));
   }
 
-  public static float[][] shades(float[] ir, int n)
+  public static float[][] shades(final float[] ir, final int n)
   {
-    float[][] generatedTints = new float[n][3];
+    final float[][] generatedTints = new float[n][3];
     generatedTints[0] = ir;
-    float red = ir[0], green = ir[1], blue = ir[2], maxColor = Math.max(Math.max(red, green), blue),
-        blackStep = maxColor / (n - 1);
+    float red = ir[0], green = ir[1], blue = ir[2];
+		final float maxColor = Math.max(Math.max(red, green), blue), blackStep = maxColor / (n - 1);
     for (int i = 1; i < n; i++)
     {
       red -= blackStep;
@@ -144,12 +147,12 @@ public final class extend_stl_Colors
     return generatedTints;
   }
 
-  public static float[][] tones(float[] ir, int n)
+  public static float[][] tones(final float[] ir, final int n)
   {
-    float[][] generatedTints = new float[n][3];
+    final float[][] generatedTints = new float[n][3];
     generatedTints[0] = ir;
     float red = ir[0], green = ir[1], blue = ir[2];
-    float grayStep = Math.min((255 - red) / (n - 1), Math.min((255 - green) / (n - 1), (255 - blue) / (n - 1)));
+    final float grayStep = Math.min((255 - red) / (n - 1), Math.min((255 - green) / (n - 1), (255 - blue) / (n - 1)));
 
     for (int i = 1; i < n; i++)
     {
@@ -192,10 +195,10 @@ public final class extend_stl_Colors
   / }                                                    /
   /-----------------------------------------------------*/
 
-  public static BufferedImage cpick_gradient2(int size, Color interest)
+  public static BufferedImage cpick_gradient2(final int size, final Color interest)
   {
-    BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
-    Graphics2D g = image.createGraphics();
+    final BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
+    final Graphics2D g = image.createGraphics();
     g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
     g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
     g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
@@ -204,9 +207,9 @@ public final class extend_stl_Colors
     g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
     g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
     g.setRenderingHint(RenderingHints.KEY_RESOLUTION_VARIANT, RenderingHints.VALUE_RESOLUTION_VARIANT_SIZE_FIT);
-    GradientPaint primary = new GradientPaint(
+    final GradientPaint primary = new GradientPaint(
         0f, 0f, Color.WHITE, size, 0f, interest);
-    GradientPaint shade = new GradientPaint(
+    final GradientPaint shade = new GradientPaint(
         0f, 0f, new Color(0, 0, 0, 0),
         0f, size, new Color(0, 0, 0, 255));
     g.setPaint(primary);
@@ -217,11 +220,11 @@ public final class extend_stl_Colors
     return image;
   }
 
-  public static BufferedImage OLD_cpick_gradient(int size, Color interest)
+  public static BufferedImage OLD_cpick_gradient(final int size, final Color interest)
   {
-    BufferedImage image = new BufferedImage(
+    final BufferedImage image = new BufferedImage(
         size, size, BufferedImage.TYPE_INT_RGB);
-    Graphics2D g = image.createGraphics();
+    final Graphics2D g = image.createGraphics();
     g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
     g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
     g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
@@ -234,7 +237,7 @@ public final class extend_stl_Colors
     / LinearGradientPaint lgp_white_to_interest = new LinearGradientPaint(new Point2D.Float(0F, 0F),    /
     /     new Point2D.Float(size, 0F), new float[]{0.1F, 0.2F}, new Color[] { Color.WHITE, interest }); /
     /--------------------------------------------------------------------------------------------------*/
-    LinearGradientPaint lgp_shade = new LinearGradientPaint(new Point2D.Float(0F, 0F), new Point2D.Float(0F, size),
+    final LinearGradientPaint lgp_shade = new LinearGradientPaint(new Point2D.Float(0F, 0F), new Point2D.Float(0F, size),
         new float[] { 0.25F, 0.85F },
         new Color[] { new Color(Color.BLACK.getRed(), Color.BLACK.getBlue(), Color.BLACK.getBlue(), 0), Color.BLACK });
 
@@ -246,7 +249,7 @@ public final class extend_stl_Colors
     / g.dispose();                       /
     /-----------------------------------*/
 
-    GradientPaint primary = new GradientPaint(
+    final GradientPaint primary = new GradientPaint(
         0F, 0F, Color.white, size, size, interest);
     /*---------------------------------------- /
     / int rC = shadeColor.getRed();            /
@@ -278,12 +281,12 @@ public final class extend_stl_Colors
     return new Color(_1const.RNG.nextFloat(), _1const.RNG.nextFloat(), _1const.RNG.nextFloat());
   }
 
-  public static float[] awt_strip_rgba(Color awt)
+  public static float[] awt_strip_rgba(final Color awt)
   {
     return new float[] { awt.getRed(), awt.getGreen(), awt.getBlue(), awt.getAlpha() };
   }
 
-  public static Color awt_remake(float[] rgba)
+  public static Color awt_remake(final float[] rgba)
   {
     return rgba.length == 4 ? new Color(rgba[0] / 255F, rgba[1] / 255F, rgba[2] / 255F, rgba[3] / 255F)
         : rgba.length == 3 ? new Color(rgba[0] / 255F, rgba[1] / 255F, rgba[2] / 255F) : Color.MAGENTA; // debug color
@@ -295,7 +298,7 @@ public final class extend_stl_Colors
   / ternary operators bc uh idk (hey it works,but not as efficient)                            /
   /-------------------------------------------------------------------------------------------*/
 
-  public static float[] rgbToHsv(float[] rgb)
+  public static float[] rgbToHsv(final float[] rgb)
   {
     return new float[] {
         Math.max(
@@ -330,7 +333,7 @@ public final class extend_stl_Colors
         Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) };
   }
 
-  public static float[] rgbToCmyk(float[] rgb)
+  public static float[] rgbToCmyk(final float[] rgb)
   {
     // all elements here are multiplied by 100 to make them not like %
     return new float[] {
@@ -343,15 +346,15 @@ public final class extend_stl_Colors
         1 - Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) }; // values here should never be *100
   }
 
-  public static float[] rgbToHsl(float[] rgb)
+  public static float[] rgbToHsl(final float[] rgb)
   {
-    float M = Math.max(rgb[0], Math.max(rgb[1], rgb[2])), m = Math.min(rgb[0], Math.min(rgb[1], rgb[2]));
-    float L = ((0.5F * (M + m)) / 255F);
-    float S = Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == 0F ? 0F
+    final float M = Math.max(rgb[0], Math.max(rgb[1], rgb[2])), m = Math.min(rgb[0], Math.min(rgb[1], rgb[2]));
+    final float L = ((0.5F * (M + m)) / 255F);
+    final float S = Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)) == 0F ? 0F
         : ((Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F))
             - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F)))
             / Math.max(rgb[0] / 255F, Math.max(rgb[1] / 255F, rgb[2] / 255F)));
-    float H = Math.max(
+    final float H = Math.max(
         rgb[0] / 255F, Math
             .max(rgb[1] / 255F, rgb[2] / 255F)) == Math.min(rgb[0] / 255F,
                 Math.min(rgb[1] / 255F, rgb[2] / 255F)) ? 0F
@@ -379,70 +382,46 @@ public final class extend_stl_Colors
     return new float[] { H, S, L };
   }
 
-  public static float[] cmykToRgb(float[] cmyk)
+  public static float[] cmykToRgb(final float[] cmyk)
   {
     return new float[] { 255F * (1F - cmyk[0]) * (1F - cmyk[3]), 255F * (1F - cmyk[1]) * (1F - cmyk[3]),
         255 * (1F - cmyk[2]) * (1F - cmyk[3]) };
   }
 
-  public static float[][] cmykToRgb_Comps(float[] cmyk)
+  public static float[][] cmykToRgb_Comps(final float[] cmyk)
   {
-    return new float[][] { cmykToRgb(new float[] { cmyk[0], 0F, 0F, 0F }),
-        cmykToRgb(new float[] { 0F, cmyk[1], 0F, 0F }), cmykToRgb(new float[] { 0F, 0F, cmyk[2], 0F }),
-        cmykToRgb(new float[] { 0F, 0F, 0F, cmyk[3] }) };
+    return new float[][] { extend_stl_Colors.cmykToRgb(new float[] { cmyk[0], 0F, 0F, 0F }),
+        extend_stl_Colors.cmykToRgb(new float[] { 0F, cmyk[1], 0F, 0F }), extend_stl_Colors.cmykToRgb(new float[] { 0F, 0F, cmyk[2], 0F }),
+        extend_stl_Colors.cmykToRgb(new float[] { 0F, 0F, 0F, cmyk[3] }) };
   }
 
-  public static String awt_colorspace_NameMatch(ColorSpace e)
+  public static String awt_colorspace_NameMatch(final ColorSpace e)
   {
-    switch (e.getType()) {
-      case 0:
-        return "XYZ";
-      case 1:
-        return "Lab";
-      case 2:
-        return "Luv";
-      case 3:
-        return "YCbCr";
-      case 4:
-        return "Yxy";
-      case 5:
-        return "RGB";
-      case 6:
-        return "GRAY";
-      case 7:
-        return "HSV";
-      case 8:
-        return "HLS";
-      case 9:
-        return "CMYK";
-      case 11:
-        return "CMY";
-      case 12:
-        return "2CLR";
-      case 13:
-        return "3CLR";
-      case 14:
-        return "4CLR";
-      case 15:
-        return "5CLR";
-      case 16:
-        return "6CLR";
-      case 17:
-        return "7CLR";
-      case 18:
-        return "8CLR";
-      case 19:
-        return "9CLR";
-      case 20:
-        return "ACLR";
-      case 21:
-        return "BCLR";
-      case 22:
-        return "CCLR";
-      case 23:
-        return "DCLR";
-      default:
-        return "UNKNOWN";
-    }
+    return switch (e.getType()) {
+      case 0 -> "XYZ";
+      case 1 -> "Lab";
+      case 2 -> "Luv";
+      case 3 -> "YCbCr";
+      case 4 -> "Yxy";
+      case 5 -> "RGB";
+      case 6 -> "GRAY";
+      case 7 -> "HSV";
+      case 8 -> "HLS";
+      case 9 -> "CMYK";
+      case 11 -> "CMY";
+      case 12 -> "2CLR";
+      case 13 -> "3CLR";
+      case 14 -> "4CLR";
+      case 15 -> "5CLR";
+      case 16 -> "6CLR";
+      case 17 -> "7CLR";
+      case 18 -> "8CLR";
+      case 19 -> "9CLR";
+      case 20 -> "ACLR";
+      case 21 -> "BCLR";
+      case 22 -> "CCLR";
+      case 23 -> "DCLR";
+      default -> "UNKNOWN";
+    };
   }
 }

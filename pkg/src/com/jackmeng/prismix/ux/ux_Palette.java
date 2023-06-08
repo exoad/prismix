@@ -27,14 +27,14 @@ public class ux_Palette
 
     }
 
-    public void hist_Add(float[] color)
+    public void hist_Add(final float[] color)
     {
-      history.append(color);
+      this.history.append(color);
     }
 
-    public void hist_Rmf(float[] color)
+    public void hist_Rmf(final float[] color)
     {
-      history.remove(color);
+      this.history.remove(color);
     }
   }
 
@@ -55,7 +55,7 @@ public class ux_Palette
      *          Where the payload should be moved to (-1 for removal,
      *          colors_rgba.length for add to top)
      */
-    public Palette_State(List< Float > payload, int startIndex, int toIndex)
+    public Palette_State(final List< Float > payload, final int startIndex, final int toIndex)
     {
       this.payload = payload;
       this.startIndex = startIndex;
@@ -64,17 +64,17 @@ public class ux_Palette
 
     public List< Float > payload()
     {
-      return payload;
+      return this.payload;
     }
 
     public int start()
     {
-      return startIndex;
+      return this.startIndex;
     }
 
     public int end()
     {
-      return toIndex;
+      return this.toIndex;
     }
   }
 
@@ -83,13 +83,13 @@ public class ux_Palette
   private String str_Name;
   private long palette_id;
 
-  public ux_Palette(int initial, String name)
+  public ux_Palette(final int initial, final String name)
   {
-    colors_rgba = new LinkedHashSet<>() {
-      @Override public boolean add(List< Float > e) // this set simulates the functionality that the duplicate gets
+    this.colors_rgba = new LinkedHashSet<>() {
+      @Override public boolean add(final List< Float > e) // this set simulates the functionality that the duplicate gets
                                                     // appended to the end while the old value is deleted
       {
-        boolean added = super.add(e);
+        final boolean added = super.add(e);
         if (!added)
         {
           super.remove(e);
@@ -98,68 +98,68 @@ public class ux_Palette
         return added;
       }
     };
-    LISTENER_POOL = new stl_ListenerPool<>(name);
-    LISTENER_POOL.add(x -> {
+    this.LISTENER_POOL = new stl_ListenerPool<>(name);
+    this.LISTENER_POOL.add(x -> {
       System.out.println("[UX_PALETTE] Palette " + name + "[" + this.palette_id + "] received operation: " + x);
       return (Void) null;
     });
     this.str_Name = name;
-    this.palette_id = this.hashCode() ^ str_Name.hashCode() * 81L;
+    this.palette_id = this.hashCode() ^ this.str_Name.hashCode() * 81L;
     System.out.println(
         new stl_AnsiMake(stl_AnsiColors.GREEN_TXT, "[UX_PALETTE] ID: " + this.palette_id + " registered as: " + name));
   }
 
-  public void append(float[] e)
+  public void append(final float[] e)
   {
     if (e == null || e.length < 4 || e.length > 4)
     {
-      System.out.println("[UX_PALETTE] Palette" + hashCode() + " received an inproper constructed color array");
+      System.out.println("[UX_PALETTE] Palette" + this.hashCode() + " received an inproper constructed color array");
       return;
     }
-    colors_rgba.add($toarr(e));
+    this.colors_rgba.add(ux_Palette.$toarr(e));
   }
 
-  private static List< Float > $toarr(float[] r) // similar to Arrays.asList but instead provides a writable ArrayList
+  private static List< Float > $toarr(final float[] r) // similar to Arrays.asList but instead provides a writable ArrayList
   {
-    List< Float > temp = new ArrayList<>(r.length);
-    for (float e : r)
+    final List< Float > temp = new ArrayList<>(r.length);
+    for (final float e : r)
       temp.add(e);
     return temp;
   }
 
-  private static float[] $toprim(List< Float > r)
+  private static float[] $toprim(final List< Float > r)
   {
-    float[] temp = new float[r.size()];
+    final float[] temp = new float[r.size()];
     for (int i = 0; i < r.size(); i++)
       temp[i] = r.get(i);
     return temp;
   }
 
-  public boolean remove(float[] e)
+  public boolean remove(final float[] e)
   {
-    return colors_rgba.contains($toarr(e)) ? colors_rgba.remove($toarr(e)) : false;
+    return this.colors_rgba.contains(ux_Palette.$toarr(e)) ? this.colors_rgba.remove(ux_Palette.$toarr(e)) : false;
   }
 
   public float[][] fetch()
   {
-    float[][] temp = new float[colors_rgba.size()][4];
-    int i = 0;
-    colors_rgba.iterator().forEachRemaining(x -> temp[i] = $toprim(x));
+    final float[][] temp = new float[this.colors_rgba.size()][4];
+    final int i = 0;
+    this.colors_rgba.iterator().forEachRemaining(x -> temp[i] = ux_Palette.$toprim(x));
     return temp;
   }
 
   public String name()
   {
-    return str_Name;
+    return this.str_Name;
   }
 
-  public void name(String name)
+  public void name(final String name)
   {
     this.str_Name = name;
   }
 
   public long id()
   {
-    return palette_id;
+    return this.palette_id;
   }
 }

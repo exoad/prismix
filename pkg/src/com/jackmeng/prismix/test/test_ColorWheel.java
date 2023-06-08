@@ -1,11 +1,20 @@
 package com.jackmeng.prismix.test;
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 public class test_ColorWheel extends JPanel
 {
@@ -14,64 +23,64 @@ public class test_ColorWheel extends JPanel
 
   public test_ColorWheel()
   {
-    selectedColor = Color.WHITE;
-    setPreferredSize(new Dimension(300, 300));
-    addMouseListener(new MouseAdapter() {
-      @Override public void mouseClicked(MouseEvent e)
+    this.selectedColor = Color.WHITE;
+    this.setPreferredSize(new Dimension(300, 300));
+    this.addMouseListener(new MouseAdapter() {
+      @Override public void mouseClicked(final MouseEvent e)
       {
-        int x = e.getX();
-        int y = e.getY();
-        int radius = getWidth() / 2;
-        double dx = (double) x - radius;
-        double dy = (double) y - radius;
-        double distance = Math.sqrt(dx * dx + dy * dy);
+        final int x = e.getX();
+        final int y = e.getY();
+        final int radius = test_ColorWheel.this.getWidth() / 2;
+        final double dx = (double) x - radius;
+        final double dy = (double) y - radius;
+        final double distance = Math.sqrt(dx * dx + dy * dy);
         if (distance <= radius)
         {
           double theta = Math.atan2(dy, dx);
           if (theta < 0)
             theta += 2 * Math.PI;
-          float hue = (float) (theta / (2 * Math.PI));
-          selectedColor = Color.getHSBColor(hue, 1.0f, 1.0f);
-          repaint();
+          final float hue = (float) (theta / (2 * Math.PI));
+          test_ColorWheel.this.selectedColor = Color.getHSBColor(hue, 1.0f, 1.0f);
+          test_ColorWheel.this.repaint();
         }
       }
     });
   }
 
-  @Override protected void paintComponent(Graphics g)
+  @Override protected void paintComponent(final Graphics g)
   {
     super.paintComponent(g);
-    int width = getWidth();
-    int height = getHeight();
-    int radius = Math.min(width, height) / 2;
+    final int width = this.getWidth();
+    final int height = this.getHeight();
+    final int radius = Math.min(width, height) / 2;
 
-    Graphics2D g2d = (Graphics2D) g.create();
+    final Graphics2D g2d = (Graphics2D) g.create();
     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     for (int angle = 0; angle < 360; angle++)
     {
-      float hue = (float) angle / 360;
+      final float hue = (float) angle / 360;
       g2d.setColor(Color.getHSBColor(hue, 1.0f, 1.0f));
-      double theta = Math.toRadians(angle);
-      double x = width / 2D + radius * Math.cos(theta);
-      double y = height / 2D + radius * Math.sin(theta);
+      final double theta = Math.toRadians(angle);
+      final double x = width / 2D + radius * Math.cos(theta);
+      final double y = height / 2D + radius * Math.sin(theta);
       g2d.draw(new Ellipse2D.Double(x, y, 1, 1));
     }
 
-    g2d.setColor(selectedColor);
+    g2d.setColor(this.selectedColor);
     g2d.setStroke(new BasicStroke(2.0f));
     g2d.drawOval(width / 2 - 10, height / 2 - 10, 20, 20);
 
     g2d.dispose();
   }
 
-  public static void main(String[] args)
+  public static void main(final String[] args)
   {
     SwingUtilities.invokeLater(() -> {
-      JFrame frame = new JFrame("Color Wheel");
+      final JFrame frame = new JFrame("Color Wheel");
       frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-      test_ColorWheel colorWheel = new test_ColorWheel();
+      final test_ColorWheel colorWheel = new test_ColorWheel();
       frame.add(colorWheel);
       frame.pack();
       frame.setVisible(true);

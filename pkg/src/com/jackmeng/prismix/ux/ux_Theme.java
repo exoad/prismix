@@ -24,14 +24,14 @@ public final class ux_Theme
 
     final String code;
 
-    ThemeType(String code)
+    ThemeType(final String code)
     {
       this.code = code;
     }
 
     public String code()
     {
-      return code;
+      return this.code;
     }
   }
 
@@ -39,16 +39,16 @@ public final class ux_Theme
 
   public static synchronized void light_preset_1()
   {
-    _theme.dominant(_colors.ROSE);
-    _theme.secondary(_colors.MINT);
-    _theme.theme(ThemeType.LIGHT);
+    ux_Theme._theme.dominant(_colors.ROSE);
+    ux_Theme._theme.secondary(_colors.MINT);
+    ux_Theme._theme.theme(ThemeType.LIGHT);
   }
 
   public static synchronized void dark_preset_1()
   {
-    _theme.dominant(_colors.GRAPEFRUIT);
-    _theme.dominant(_colors.MAGENTA);
-    _theme.theme(ThemeType.DARK);
+    ux_Theme._theme.dominant(_colors.GRAPEFRUIT);
+    ux_Theme._theme.dominant(_colors.MAGENTA);
+    ux_Theme._theme.theme(ThemeType.DARK);
   }
 
   private ThemeType mainTheme;
@@ -57,100 +57,100 @@ public final class ux_Theme
   public static final Map< String, String > colorCodes = new HashMap<>();
   static
   {
-    colorCodes.put("rose", _colors.ROSE);
-    colorCodes.put("ocean", _colors.OCEAN);
-    colorCodes.put("blue", _colors.BLUE);
-    colorCodes.put("cyan", _colors.CYAN);
-    colorCodes.put("teal", _colors.TEAL);
-    colorCodes.put("green", _colors.GREEN);
-    colorCodes.put("yellow", _colors.YELLOW);
-    colorCodes.put("orange", _colors.ORANGE);
-    colorCodes.put("red", _colors.RED);
-    colorCodes.put("magenta", _colors.MAGENTA);
-    colorCodes.put("purple", _colors.PURPLE);
+    ux_Theme.colorCodes.put("rose", _colors.ROSE);
+    ux_Theme.colorCodes.put("ocean", _colors.OCEAN);
+    ux_Theme.colorCodes.put("blue", _colors.BLUE);
+    ux_Theme.colorCodes.put("cyan", _colors.CYAN);
+    ux_Theme.colorCodes.put("teal", _colors.TEAL);
+    ux_Theme.colorCodes.put("green", _colors.GREEN);
+    ux_Theme.colorCodes.put("yellow", _colors.YELLOW);
+    ux_Theme.colorCodes.put("orange", _colors.ORANGE);
+    ux_Theme.colorCodes.put("red", _colors.RED);
+    ux_Theme.colorCodes.put("magenta", _colors.MAGENTA);
+    ux_Theme.colorCodes.put("purple", _colors.PURPLE);
   }
 
   private ux_Theme()
   {
     // default theme
-    dominant(_colors.ROSE);
-    secondary(_colors.MINT);
-    theme(ThemeType.LIGHT);
+    this.dominant(_colors.ROSE);
+    this.secondary(_colors.MINT);
+    this.theme(ThemeType.LIGHT);
   }
 
   public ThemeType theme()
   {
-    return mainTheme;
+    return this.mainTheme;
   }
 
-  public void theme(ThemeType e)
+  public void theme(final ThemeType e)
   {
     this.mainTheme = e;
-    reload();
+    this.reload();
   }
 
   public float[] dominant()
   {
-    return dominant;
+    return this.dominant;
   }
 
   public float[] secondary()
   {
-    return secondary;
+    return this.secondary;
   }
 
   public float[] fg()
   {
-    return extend_stl_Colors.binary_fg_decider(mainTheme == ThemeType.DARK ? new float[] { 0F, 0F, 0F }
-        : mainTheme == ThemeType.LIGHT ? new float[] { 255F, 255F, 255F }
+    return extend_stl_Colors.binary_fg_decider(this.mainTheme == ThemeType.DARK ? new float[] { 0F, 0F, 0F }
+        : this.mainTheme == ThemeType.LIGHT ? new float[] { 255F, 255F, 255F }
             : new float[] { 255F / 2F, 255F / 2F, 255F / 2F });
   }
 
   public java.awt.Color fg_awt()
   {
-    return extend_stl_Colors.awt_remake(fg());
+    return extend_stl_Colors.awt_remake(this.fg());
   }
 
   public java.awt.Color secondary_awt()
   {
-    return extend_stl_Colors.awt_remake(secondary);
+    return extend_stl_Colors.awt_remake(this.secondary);
   }
 
   public java.awt.Color dominant_awt()
   {
-    return extend_stl_Colors.awt_remake(dominant);
+    return extend_stl_Colors.awt_remake(this.dominant);
   }
 
   public String get(String colorName)
   {
     colorName = colorName.toLowerCase();
-    return colorCodes.containsKey(colorName) ? colorCodes.get(colorName)
-        : extend_stl_Colors.RGBToHex((int) dominant[0], (int) dominant[1], (int) dominant[2]);
+    return ux_Theme.colorCodes.containsKey(colorName) ? ux_Theme.colorCodes.get(colorName)
+        : extend_stl_Colors.RGBToHex((int) this.dominant[0], (int) this.dominant[1], (int) this.dominant[2]);
   }
 
-  public void dominant(float[] dominant)
+  public void dominant(final float[] dominant)
   {
     this.dominant = dominant;
     System.out.println(new stl_AnsiMake(stl_AnsiColors.YELLOW_BG,
-        "[UX_THEME] Themer " + hashCode() + " made an unsuggested move using **dominant(float[])!"));
+        "[UX_THEME] Themer " + this.hashCode() + " made an unsuggested move using **dominant(float[])!"));
     SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux.ux.getMainUI()));
   }
 
-  public void secondary(float[] secondary)
+  public void secondary(final float[] secondary)
   {
     this.secondary = secondary;
     System.out.println(new stl_AnsiMake(stl_AnsiColors.YELLOW_BG,
-        "[UX_THEME] Themer " + hashCode() + " made an unsuggested move using **secondary(float[])!"));
+        "[UX_THEME] Themer " + this.hashCode() + " made an unsuggested move using **secondary(float[])!"));
     SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux.ux.getMainUI()));
   }
 
-  public void secondary(String secondary)
+  public void secondary(final String secondary)
   {
     this.secondary = extend_stl_Colors.stripHex(secondary);
     SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux.ux.getMainUI()));
   }
 
-  public void dominant(String dominant)
+  public void dominant(final String dominant)
   {
     this.dominant = extend_stl_Colors.stripHex(dominant);
     SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux.ux.getMainUI()));
@@ -161,18 +161,20 @@ public final class ux_Theme
     SwingUtilities.invokeLater(() -> {
       try
       {
-        ColorUIResource rsc_dominant_1 = new ColorUIResource(ux_Theme._theme.dominant_awt());
+        System.out.println(new stl_AnsiMake(stl_AnsiColors.YELLOW_TXT, "[UX_THEME] Refreshing the entire theme"));
+        final ColorUIResource rsc_dominant_1 = new ColorUIResource(ux_Theme._theme.dominant_awt());
         UIManager.put("ScrollBar.thumb", rsc_dominant_1);
         UIManager.put("Scrollbar.pressedThumbColor", rsc_dominant_1);
         UIManager.put("ScrollBar.hoverThumbColor", rsc_dominant_1);
         UIManager.put("Component.focusColor", rsc_dominant_1);
         UIManager.put("Component.focusedBorderColor", rsc_dominant_1);
         UIManager.put("TabbedPane.underlineColor", rsc_dominant_1);
-        UIManager.setLookAndFeel(theme() == ThemeType.DARK ? new FlatHighContrastIJTheme()
-            : theme() == ThemeType.LIGHT ? new FlatGrayIJTheme() : new FlatCarbonIJTheme());
+        UIManager.put("TabbedPane.selectedColor", rsc_dominant_1);
+        UIManager.setLookAndFeel(this.theme() == ThemeType.DARK ? new FlatHighContrastIJTheme()
+            : this.theme() == ThemeType.LIGHT ? new FlatGrayIJTheme() : new FlatCarbonIJTheme());
         SwingUtilities.updateComponentTreeUI(ux.ux.getMainUI());
         ux.ux.getMainUI().pack();
-      } catch (UnsupportedLookAndFeelException e)
+      } catch (final UnsupportedLookAndFeelException e)
       {
         e.printStackTrace();
       }

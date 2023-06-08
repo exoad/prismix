@@ -1,8 +1,17 @@
 
 package com.jackmeng.prismix.test;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import javax.swing.border.AbstractBorder;
 
 public class test_DropShadow extends AbstractBorder
@@ -10,46 +19,46 @@ public class test_DropShadow extends AbstractBorder
   private final Color shadowColor;
   private final int shadowSize;
 
-  public test_DropShadow(Color shadowColor, int shadowSize)
+  public test_DropShadow(final Color shadowColor, final int shadowSize)
   {
     this.shadowColor = shadowColor;
     this.shadowSize = shadowSize;
   }
 
-  @Override public Insets getBorderInsets(Component c)
+  @Override public Insets getBorderInsets(final Component c)
   {
-    return new Insets(shadowSize, shadowSize, shadowSize, shadowSize);
+    return new Insets(this.shadowSize, this.shadowSize, this.shadowSize, this.shadowSize);
   }
 
-  @Override public Insets getBorderInsets(Component c, Insets insets)
+  @Override public Insets getBorderInsets(final Component c, final Insets insets)
   {
-    insets.left = insets.top = insets.right = insets.bottom = shadowSize;
+    insets.left = insets.top = insets.right = insets.bottom = this.shadowSize;
     return insets;
   }
 
-  @Override public void paintBorder(Component c, Graphics g, int x, int y, int width, int height)
+  @Override public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height)
   {
-    Graphics2D g2 = (Graphics2D) g.create();
+    final Graphics2D g2 = (Graphics2D) g.create();
 
-    g2.setColor(shadowColor);
+    g2.setColor(this.shadowColor);
 
-    g2.fillRect(x + shadowSize, y + height - shadowSize, width - 2 * shadowSize, shadowSize);
-    g2.fillRect(x + width - shadowSize, y + shadowSize, shadowSize, height - 2 * shadowSize);
+    g2.fillRect(x + this.shadowSize, y + height - this.shadowSize, width - 2 * this.shadowSize, this.shadowSize);
+    g2.fillRect(x + width - this.shadowSize, y + this.shadowSize, this.shadowSize, height - 2 * this.shadowSize);
 
     g2.setColor(c.getForeground());
-    g2.drawRect(x + shadowSize, y + shadowSize, width - 2 * shadowSize, height - 2 * shadowSize);
+    g2.drawRect(x + this.shadowSize, y + this.shadowSize, width - 2 * this.shadowSize, height - 2 * this.shadowSize);
 
     g2.dispose();
   }
 
-  public static void main(String[] args)
+  public static void main(final String[] args)
   {
     SwingUtilities.invokeLater(() -> {
-      JFrame frame = new JFrame("uwu");
+      final JFrame frame = new JFrame("uwu");
       frame.setDefaultCloseOperation(
           WindowConstants.EXIT_ON_CLOSE);
 
-      JButton button = new JButton("owo");
+      final JButton button = new JButton("owo");
       button.setForeground(Color.WHITE);
       button.setBackground(Color.GRAY);
       button.setFont(new Font("Arial", Font.BOLD, 14));

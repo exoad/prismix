@@ -4,5 +4,5 @@ package com.jackmeng.prismix;
 
 public final class _Theme
 {
-  
+
 }
