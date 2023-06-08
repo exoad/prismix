@@ -63,8 +63,8 @@ public final class ux
               Toolkit.getDefaultToolkit().removeAWTEventListener(ux.awt_2);
               System.out.println("[UX_SM_WATCHDOG] Cleanup watchdog removed the motion sampler listener");
             }
-            if (!ux.ux.mainui.isEnabled())
-              ux.ux.mainui.setEnabled(true);
+            if (!ux._ux.mainui.isEnabled())
+              ux._ux.mainui.setEnabled(true);
           } catch (final ClassCastException e)
           {
             // this is an arbitrary error we can just ignore
@@ -76,19 +76,19 @@ public final class ux
     }, 500L, 650L);
   }
 
-  public static final ux ux = new ux();
+  public static final ux _ux = new ux();
   /* sampling version listener */ static final AWTEventListener awt_1 = event -> {
-    if (event instanceof MouseEvent evt)
+    if (event instanceof final MouseEvent evt)
     {
       System.out
           .println("[UX_SAMPLING_MOUSE] Mouse caught at: (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
 
-      ux.ux.mainui.setEnabled(true);
+      ux._ux.mainui.setEnabled(true);
     }
   };
 
   /* motion sampler */ static final AWTEventListener awt_2 = event -> {
-    if (event instanceof MouseEvent evt)
+    if (event instanceof final MouseEvent evt)
     {
       System.out
           .println("[UX_SAMPLING_MOUSE] Mouse sampled at: (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
@@ -107,7 +107,7 @@ public final class ux
     if (!ux.sampledMousePicking_Started.get())
     {
       System.out.println("[UX_SAMPLING_MOUSE] Mouse sampler attached for COLOR_PICKING");
-      ux.ux.mainui.setEnabled(false);
+      ux._ux.mainui.setEnabled(false);
 
       Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_1::eventDispatched, AWTEvent.MOUSE_EVENT_MASK);
       Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_2, AWTEvent.MOUSE_MOTION_EVENT_MASK);

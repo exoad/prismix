@@ -11,7 +11,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -313,18 +312,21 @@ public final class ui_ColorPicker
               }
             final Color[] remadeTones = new Color[this.tones_cols * this.tones_rows];
             final String[] hexTones = new String[this.tones_cols * this.tones_rows];
+            _render.unify_(this.shades_Shades, nil -> {
+              for (int i = 0; i < this.tones_cols * this.tones_rows; i++)
+              {
+                final JButton button = this.tones_List.get(i);
+                remadeTones[i] = extend_stl_Colors.awt_remake(gen_tones[i]);
+                button.setBackground(remadeTones[i]);
+                button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tones[i])));
+                hexTones[i] = extend_stl_Colors.RGBToHex((int) gen_tones[i][0], (int) gen_tones[i][1],
+                    (int) gen_tones[i][2]);
+                button.setText(hexTones[i]);
+                button.setToolTipText(hexTones[i]);
+              }
+              return (Void) null;
+            });
 
-            for (int i = 0; i < this.tones_cols * this.tones_rows; i++)
-            {
-              final JButton button = this.tones_List.get(i);
-              remadeTones[i] = extend_stl_Colors.awt_remake(gen_tones[i]);
-              button.setBackground(remadeTones[i]);
-              button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tones[i])));
-              hexTones[i] = extend_stl_Colors.RGBToHex((int) gen_tones[i][0], (int) gen_tones[i][1],
-                  (int) gen_tones[i][2]);
-              button.setText(hexTones[i]);
-              button.setToolTipText(hexTones[i]);
-            }
           }
 
           if (this.shades_Tint.isVisible())
@@ -339,18 +341,20 @@ public final class ui_ColorPicker
               }
             final Color[] remadeTints = new Color[this.tint_cols * this.tint_rows];
             final String[] hexTints = new String[this.tint_cols * this.tint_rows];
-
-            for (int i = 0; i < this.tint_cols * this.tint_rows; i++)
-            {
-              final JButton button = this.tint_List.get(i);
-              remadeTints[i] = extend_stl_Colors.awt_remake(gen_tints[i]);
-              button.setBackground(remadeTints[i]);
-              button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tints[i])));
-              hexTints[i] = extend_stl_Colors.RGBToHex((int) gen_tints[i][0], (int) gen_tints[i][1],
-                  (int) gen_tints[i][2]);
-              button.setText(hexTints[i]);
-              button.setToolTipText(hexTints[i]);
-            }
+            _render.unify_(this.shades_Tint, nil -> {
+              for (int i = 0; i < this.tint_cols * this.tint_rows; i++)
+              {
+                final JButton button = this.tint_List.get(i);
+                remadeTints[i] = extend_stl_Colors.awt_remake(gen_tints[i]);
+                button.setBackground(remadeTints[i]);
+                button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tints[i])));
+                hexTints[i] = extend_stl_Colors.RGBToHex((int) gen_tints[i][0], (int) gen_tints[i][1],
+                    (int) gen_tints[i][2]);
+                button.setText(hexTints[i]);
+                button.setToolTipText(hexTints[i]);
+              }
+              return (Void) null;
+            });
           }
 
           if (this.shades_Shades.isVisible())
@@ -365,17 +369,21 @@ public final class ui_ColorPicker
               }
             final Color[] remadeShades = new Color[this.shades_cols * this.shades_rows];
             final String[] hexShades = new String[this.shades_cols * this.shades_rows];
-            for (int i = 0; i < this.shades_cols * this.shades_rows; i++)
-            {
-              final JButton button = this.shades_List.get(i);
-              remadeShades[i] = extend_stl_Colors.awt_remake(gen_shades[i]);
-              button.setBackground(remadeShades[i]);
-              button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_shades[i])));
-              hexShades[i] = extend_stl_Colors.RGBToHex((int) gen_shades[i][0], (int) gen_shades[i][1],
-                  (int) gen_shades[i][2]);
-              button.setText(hexShades[i]);
-              button.setToolTipText(hexShades[i]);
-            }
+            _render.unify_(this.shades_Shades, nil -> {
+              for (int i = 0; i < this.shades_cols * this.shades_rows; i++)
+              {
+                final JButton button = this.shades_List.get(i);
+                remadeShades[i] = extend_stl_Colors.awt_remake(gen_shades[i]);
+                button.setBackground(remadeShades[i]);
+                button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_shades[i])));
+                hexShades[i] = extend_stl_Colors.RGBToHex((int) gen_shades[i][0], (int) gen_shades[i][1],
+                    (int) gen_shades[i][2]);
+                button.setText(hexShades[i]);
+                button.setToolTipText(hexShades[i]);
+              }
+              return (Void) null;
+            });
+
           }
         });
       }

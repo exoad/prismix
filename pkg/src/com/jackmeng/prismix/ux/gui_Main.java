@@ -2,8 +2,6 @@
 
 package com.jackmeng.prismix.ux;
 
-import static com.jackmeng.prismix.use_Maker.makeJMenu;
-
 import java.awt.BorderLayout;
 import java.awt.KeyboardFocusManager;
 

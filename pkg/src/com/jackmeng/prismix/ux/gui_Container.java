@@ -2,8 +2,6 @@
 
 package com.jackmeng.prismix.ux;
 
-import static com.jackmeng.prismix._1const.COLOR_ENQ;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -274,7 +272,7 @@ public class gui_Container
 			controls_forceRevalidate.setBorderPainted(false);
 			controls_forceRevalidate.setForeground(ux_Theme._theme.fg_awt());
 			controls_forceRevalidate.setBackground(ux_Theme._theme.secondary_awt());
-			controls_forceRevalidate.addActionListener(ev -> ux.ux.force_redo());
+			controls_forceRevalidate.addActionListener(ev -> ux._ux.force_redo());
 
 			final JButton controls_gc = new JButton("GC");
 			controls_gc.setFocusPainted(false);
