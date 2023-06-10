@@ -133,26 +133,35 @@ public class gui_Container
 			colorDisplay.setPreferredSize(new Dimension(50, 20));
 			colorDisplay.setOpaque(true);
 
-			final JLabel colorDisplay_R = new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_R = new ui_R_ColorLabel(colorDisplay.getText(), 11, Color.RED, 2);
 			colorDisplay_R.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_R.setOpaque(true);
-			colorDisplay_R.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+			/*----------------------------------------------------------------------- /
+			/ colorDisplay_R.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); /
+			/------------------------------------------------------------------------*/
 
-			final JLabel colorDisplay_G = new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_G = new ui_R_ColorLabel(colorDisplay.getText(), 11, Color.GREEN, 2);
 			colorDisplay_G.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_G.setOpaque(true);
-			colorDisplay_G.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+			/*------------------------------------------------------------------------- /
+			/ colorDisplay_G.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2)); /
+			/--------------------------------------------------------------------------*/
 
-			final JLabel colorDisplay_B = new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_B = new ui_R_ColorLabel(colorDisplay.getText(), 11, Color.BLUE, 2);
 			colorDisplay_B.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_B.setOpaque(true);
-			colorDisplay_B.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+			/*------------------------------------------------------------------------ /
+			/ colorDisplay_B.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2)); /
+			/-------------------------------------------------------------------------*/
 
-			final JLabel colorDisplay_A = new JLabel("_Alpha__Strength_"); // 17 characters to be correct length
+			final JLabel colorDisplay_A = new ui_R_ColorLabel("_Alpha__Strength_", 11, Color.BLACK, 2); // 17 characters to be
+																																																	// correct length
 			colorDisplay_A.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_A.setOpaque(true);
-			colorDisplay_A.setBorder(
-					BorderFactory.createLineBorder(Color.black, 2));
+			/*---------------------------------------------------- /
+			/ colorDisplay_A.setBorder(                            /
+			/     BorderFactory.createLineBorder(Color.black, 2)); /
+			/-----------------------------------------------------*/
 
 			wrapper_ColorAttributes.add(colorDisplay);
 			wrapper_ColorAttributes.add(colorDisplay_R);

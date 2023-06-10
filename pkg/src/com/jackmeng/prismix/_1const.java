@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.jackmeng.prismix.user.use_Map;
+import static com.jackmeng.prismix.user.use_Map.*;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_AssetFetcher;
@@ -32,27 +33,27 @@ public final class _1const
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
   private static SoftReference< Color > lastColor = new SoftReference<>(new Color(1F, 1F, 1F, 0F));
 
-  static final String[] type_Bool = new String[] { "true", "false" };
-
   // property-name, {property_type, default_value, {valid_values},
   // description}
   public static final use_Map val = new use_Map("com_jackmeng_prismix_CONFIG");
 
   static
   {
-    val.put("debug_gui", new Object[] { "bool", "false", type_Bool,
+    val.put_("debug_gui", parse_Bool, new Object[] { Bool, "false", type_Bool,
         "Draw the GUI differently in order to debug layout issues and other graphical issues." });
-    val.put("soft_debug", new Object[] { "bool", "true", type_Bool,
+    val.put_("soft_debug", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Enable basic debug layers, like CLI debug, and more." });
-    val.put("smart_gui", new Object[] { "bool", "true", type_Bool,
+    val.put_("smart_gui", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Uses a hide and show paint schema instead of showing and painting." });
-    val.put("use_current_dir",
-        new Object[] { "bool", "true", type_Bool,
+    val.put_("use_current_dir", parse_Bool,
+        new Object[] { Bool, "true", type_Bool,
             "Uses the current directory of the program instead of HOME for storage." });
-    val.put("suggestions_sorted", new Object[] { "bool", "true", type_Bool,
+    val.put_("suggestions_sorted", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Try to make sure the colors in a color picker are sorted (especially for suggestions)" });
-    val.put("suggestions_sort_light_to_dark", new Object[] { "bool", "true", type_Bool,
+    val.put_("suggestions_sort_light_to_dark", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "When suggestions_sorted is set to true, use lightest to darkest sorting, else if false, use darkest to lightest." });
+    val.put_("container_round_factor", parse_IntBound(5, 15), new Object[] { IntBound, "10", type_IntBound(5, 15),
+        "Used to determine how rounded components in the color info panel should be (higher = more rounded)" });
   } // put program properties
 
   /**
