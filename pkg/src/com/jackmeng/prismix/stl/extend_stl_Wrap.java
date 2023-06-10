@@ -22,4 +22,9 @@ public class extend_stl_Wrap< T > extends stl_Wrap< T >
   {
     this.obj = obj;
   }
+
+  public static <T> T copy(final T e)
+  {
+    return e;
+  }
 }

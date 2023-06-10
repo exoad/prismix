@@ -5,7 +5,6 @@ package com.jackmeng.prismix;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
@@ -36,9 +35,10 @@ public final class use_Maker
   {
   }
 
+
   public static void db_timed(final Runnable r)
   {
-    if (_1const.SOFT_DEBUG)
+    if ("true".equalsIgnoreCase(_1const.val.get_value("soft_debug")))
     {
       final long i = System.currentTimeMillis();
       r.run();
@@ -48,8 +48,6 @@ public final class use_Maker
     }
     else r.run();
   }
-
-
 
   public static JMenu makeJMenu(final String text, final JMenuItem... items)
   {
@@ -102,16 +100,58 @@ public final class use_Maker
     return r;
   }
 
-  public static Optional< JPopupMenu > jpop(final String name,
-      final stl_Struct.struct_Pair< String, stl_Callback< Void, Void > >[] entities)
+  public static Optional< JPopupMenu > jpop(String name,
+      stl_Struct.struct_Pair< String, stl_Callback< Void, Void > >[] entities)
   {
     if (entities != null && entities.length > 0)
     {
       final JPopupMenu jp = new JPopupMenu(name);
-      for (final AtomicInteger i = new AtomicInteger(0); i.get() < entities.length; i.set(i.get()))
+      jp.setName(name);
+      jp.setLightWeightPopupEnabled(true);
+      // for some reaosn the below with a regular for loop never works, and im too
+      // tired to figure out why. so im going to try with a for-each
+      /*-------------------------------------------------------------------------------------------------------------- /
+      / for (AtomicInteger i = new AtomicInteger(0); i.get() < entities.length; i.accumulateAndGet(1, (a, b) -> a + b)) // do /
+      / // not                                                                                                         /
+      / // use                                                                                                         /
+      / // an                                                                                                          /
+      / // AtomicInteger,                                                                                              /
+      / // causes                                                                                                      /
+      / // this shit                                                                                                   /
+      / // to lag tf                                                                                                   /
+      / // out (LOL,                                                                                                   /
+      / // always use                                                                                                  /
+      / // a wrap for                                                                                                  /
+      / // these                                                                                                       /
+      / // simple                                                                                                      /
+      / // operations                                                                                                  /
+      / // instead of                                                                                                  /
+      / // trying to                                                                                                   /
+      / // force with                                                                                                  /
+      / // atomicity)                                                                                                  /
+      / {                                                                                                              /
+      /   System.out.println(new stl_AnsiMake(stl_AnsiColors.BLUE_BG, "[DEBUG] JPOP_" + i));                           /
+      /   final JMenuItem item = new JMenuItem(entities[i.get()].first); // name of the component                      /
+      /   item.setBorderPainted(false);                                                                                /
+      /   item.addActionListener(ev -> {                                                                               /
+      /     int l = i.getAcquire() - 1;                                                                                /
+      /     final stl_Struct.struct_Pair< String, stl_Callback< Void, Void > > rr = entities[l];                       /
+      /     System.out.println(new stl_AnsiMake(new stl_AnsiColors[] { stl_AnsiColors.BOLD, stl_AnsiColors.UNDERLINE }, /
+      /         new Object[] {                                                                                         /
+      /             "[use_Maker_JPOP#" + item.hashCode() + "] {" + l + "} Got called for: " + rr.first + " with -> "   /
+      /                 + rr.second }));                                                                               /
+      /     rr.second.call((Void) null);                                                                               /
+      /   });                                                                                                          /
+      /   jp.add(item);                                                                                                /
+      / }                                                                                                              /
+      /---------------------------------------------------------------------------------------------------------------*/
+
+      // ok for-each works LOL
+      for (stl_Struct.struct_Pair< String, stl_Callback< Void, Void > > e : entities)
       {
-        final JMenuItem item = new JMenuItem(entities[i.get()].first);
-        item.addActionListener(ev -> entities[i.get()].second.call((Void) null));
+        JMenuItem item = new JMenuItem(e.first);
+        item.setBorderPainted(false);
+        item.addActionListener(ev -> e.second.call((Void) null));
         jp.add(item);
       }
       return Optional.of(jp);

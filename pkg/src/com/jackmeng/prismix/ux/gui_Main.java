@@ -40,7 +40,7 @@ public class gui_Main
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     JFrame.setDefaultLookAndFeelDecorated(true);
 
-    if (_1const.SOFT_DEBUG)
+    if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
     {
       System.out.println(new stl_AnsiMake(stl_AnsiColors.BLUE_TXT, "[GUI_MAIN] Arming a global key listener"));
       KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(v -> {

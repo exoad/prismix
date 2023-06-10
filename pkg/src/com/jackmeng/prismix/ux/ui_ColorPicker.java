@@ -23,6 +23,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
@@ -141,36 +142,41 @@ public final class ui_ColorPicker
 
       if (e.getText().length() > 0)
       {
-        final Optional< JPopupMenu > r = use_Maker.jpop(e.getText(), new stl_Struct.struct_Pair[] {
-            stl_Struct.make_pair("Copy to clipboard", (stl_Callback< Void, Void >) nil -> {
-              Toolkit.getDefaultToolkit().getSystemClipboard()
-                  .setContents(new java.awt.datatransfer.StringSelection(e.getText()), null);
-              System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
-                  "[CPick_Suggestions] Copied the target color to the clipboard: " + e.getText()));
-              return (Void) null;
-            }),
-            stl_Struct.make_pair("Inspect color", (stl_Callback< Void, Void >) nil -> {
-              _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(e.getText()), false));
-              System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
-                  "[CPick_Suggestions] Dispatched the target color to the global inspect queue: " + e.getText()));
-              return (Void) null;
-            }),
-            stl_Struct.make_pair("Inspect & Copy", (stl_Callback< Void, Void >) nil -> {
-              Toolkit.getDefaultToolkit().getSystemClipboard()
-                  .setContents(new java.awt.datatransfer.StringSelection(e.getText()), null);
-              System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
-                  "[CPick_Suggestions] Copied the target color to the clipboard: " + e.getText()));
-              _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(e.getText()), false));
-              System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
-                  "[CPick_Suggestions] Dispatched the target color to the global inspect queue: " + e.getText()));
-              return (Void) null;
-            })
+        System.out.println(
+            new stl_AnsiMake(stl_AnsiColors.YELLOW_TXT, "[CPick_Suggestions] Actions acquiring a proper menu handle"));
+        SwingUtilities.invokeLater(() -> {
+          final Optional< JPopupMenu > r = use_Maker.jpop(e.getText(), new stl_Struct.struct_Pair[] {
+              stl_Struct.make_pair("Copy to clipboard", (stl_Callback< Void, Void >) nil -> {
+                Toolkit.getDefaultToolkit().getSystemClipboard()
+                    .setContents(new java.awt.datatransfer.StringSelection(e.getText()), null);
+                System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
+                    "[CPick_Suggestions] {1} Copied the target color to the clipboard: " + e.getText()));
+                return (Void) null;
+              }),
+              stl_Struct.make_pair("Inspect color", (stl_Callback< Void, Void >) nil -> {
+                _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(e.getText()), false));
+                System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
+                    "[CPick_Suggestions] {1} Dispatched the target color to the global inspect queue: " + e.getText()));
+                return (Void) null;
+              }),
+              stl_Struct.make_pair("Inspect & Copy", (stl_Callback< Void, Void >) nil -> {
+                Toolkit.getDefaultToolkit().getSystemClipboard()
+                    .setContents(new java.awt.datatransfer.StringSelection(e.getText()), null);
+                System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
+                    "[CPick_Suggestions] {2} Copied the target color to the clipboard: " + e.getText()));
+                _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(e.getText()), false));
+                System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
+                    "[CPick_Suggestions] {2} Dispatched the target color to the global inspect queue: " + e.getText()));
+                return (Void) null;
+              })
+          });
+          System.out.println(
+              new stl_AnsiMake(stl_AnsiColors.BLUE_TXT, "[CPick_Suggestions] Action received the desired state!"));
+          r.ifPresent(x -> {
+            System.out.println("[CPick_Suggestions] Rendering the final popup menu to the screen!");
+            ((javax.swing.JPopupMenu) x).show(this, e.getX(), e.getY() + 30);
+          });
         });
-        r.ifPresent(x -> {
-          System.out.println("[CPick_Suggestions] Rendering the final popup menu to the screen!");
-          ((javax.swing.JPopupMenu) x).show(this, e.getX(), e.getY());
-        });
-
       }
     };
 

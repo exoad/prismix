@@ -25,10 +25,12 @@ import com.jackmeng.stl.stl_Wrap;
  */
 public class jm_Prismix
 {
+  // ! Any IO that happens here should be deemed important and not purely for
+  // debug purposes!
 
+  public static final AtomicLong time = new AtomicLong(System.currentTimeMillis());
   public static final long _VERSION_ = 2023_06_01L; // YYYY_MM_DD of the closest month
 
-  static AtomicLong time = new AtomicLong(System.currentTimeMillis());
   static final Map< String, stl_Callback< Void, String > > IO_COMMANDS = new HashMap<>();
   static
   {
@@ -70,10 +72,11 @@ public class jm_Prismix
 
   public static void main(final String... x) // !! fuck pre Java 11 users, fuck their dumb shit
   {
-    _1const.add(ux.ux, 10L);
+    _1const.add(ux._ux, 10L);
     final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
     Runtime.getRuntime().addShutdownHook(
-        (new Thread(() -> System.out.println("[PROGRAM] Alive for: " + (System.currentTimeMillis() - jm_Prismix.time.get())))));
+        (new Thread(
+            () -> System.out.println("[PROGRAM] Alive for: " + (System.currentTimeMillis() - jm_Prismix.time.get())))));
     _1const.worker.scheduleAtFixedRate(new TimerTask() {
       @Override public void run()
       {
@@ -81,6 +84,7 @@ public class jm_Prismix
         System.out.println("[I/O] Received contract: " + str);
       }
     }, 100L, 650L);
-    System.out.println("[Program] Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
+    System.out
+        .println("[Program] Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
   }
 }

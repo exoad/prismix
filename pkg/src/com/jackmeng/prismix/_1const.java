@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.jackmeng.prismix.user.use_Map;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_AssetFetcher;
@@ -22,13 +23,33 @@ import com.jackmeng.stl.stl_Struct;
  */
 public final class _1const
 {
-  public static final boolean DEBUG_GUI = false;
-  public static final boolean SOFT_DEBUG = true;
+  /*---------------------------------------------- /
+  / public static final boolean DEBUG_GUI = false; /
+  / public static final boolean SOFT_DEBUG = true; /
+  /-----------------------------------------------*/
   public static final Random RNG = new Random();
   public static Timer worker = new Timer("com-jackmeng-clrplte-worker01");
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
   private static SoftReference< Color > lastColor = new SoftReference<>(new Color(1F, 1F, 1F, 0F));
-  public static final String working_dir = System.getProperty("user.dir");
+
+  static final String[] type_Bool = new String[] { "true", "false" };
+
+  // property-name, {property_type, default_value, {valid_values},
+  // description}
+  public static final use_Map val = new use_Map("com_jackmeng_prismix_CONFIG");
+
+  static
+  {
+    val.put("debug_gui", new Object[] { "bool", "false", type_Bool,
+        "Draw the GUI differently in order to debug layout issues and other graphical issues." });
+    val.put("soft_debug", new Object[] { "bool", "true", type_Bool,
+        "Enable basic debug layers, like CLI debug, and more." });
+    val.put("smart_gui", new Object[] { "bool", "true", type_Bool,
+        "Uses a hide and show paint schema instead of showing and painting." });
+    val.put("use_current_dir",
+        new Object[] { "bool", "true", type_Bool, "Uses the current directory of the program instead of HOME for storage." });
+  } // put program properties
+
   /**
    * PAIR[0] = (java.awt.Color) Color payload
    * PAIR[1] = (java.lang.Boolean) Ignore Payload for storage

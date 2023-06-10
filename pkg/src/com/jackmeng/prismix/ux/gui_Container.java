@@ -61,7 +61,8 @@ public class gui_Container
 	{
 		public JPanel[] exports()
 		{
-			return new JPanel[] { this.rgbData, this.miscAttributes, this.colorSpace, this.hsvData, this.hslData, this.cmykData };
+			return new JPanel[] { this.rgbData, this.miscAttributes, this.colorSpace, this.hsvData, this.hslData,
+					this.cmykData };
 		}
 
 		private JPanel rgbData, miscAttributes, colorSpace, hsvData, hslData, cmykData, controls; // controls should be the
@@ -90,7 +91,7 @@ public class gui_Container
 			_1const.COLOR_ENQ.add(colorChooser_Shades);
 			this.colorChooser.addTab("Generator", colorChooser_Shades);
 
-			if (_1const.SOFT_DEBUG)
+			if ("true".equalsIgnoreCase(_1const.val.get_value("soft_debug")))
 			{
 				final ui_ColorPicker.CPick_GenericDisp colorChooser_Debug = new ui_ColorPicker.CPick_GenericDisp();
 				colorChooser_Debug.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 1));
@@ -652,7 +653,8 @@ public class gui_Container
 		{
 			this.controls.revalidate();
 			this.colorAttributes.setMaximumSize(
-					new Dimension(this.colorAttributes.getPreferredSize().width + 50, this.colorAttributes.getPreferredSize().height));
+					new Dimension(this.colorAttributes.getPreferredSize().width + 50,
+							this.colorAttributes.getPreferredSize().height));
 			this.controls.doLayout();
 			this.setMinimumSize(new Dimension(this.getPreferredSize().width, this.getPreferredSize().height + 65));
 			this.doLayout();

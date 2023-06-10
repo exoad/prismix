@@ -181,7 +181,7 @@ public final class ux
                                                                                                      // components for
                                                                                                      // listening
     });
-    if (_1const.DEBUG_GUI)
+    if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
     {
       new Thread(() -> {
         final AtomicBoolean started = new AtomicBoolean(true);
