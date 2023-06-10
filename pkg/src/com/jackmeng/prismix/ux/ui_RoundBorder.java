@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 
 import javax.swing.border.AbstractBorder;
 
@@ -19,7 +20,8 @@ public class ui_RoundBorder extends AbstractBorder
   private final int rightThickness;
   private final Color color;
 
-  public ui_RoundBorder(final int topThickness, final int leftThickness, final int bottomThickness, final int rightThickness, final Color color)
+  public ui_RoundBorder(final int topThickness, final int leftThickness, final int bottomThickness,
+      final int rightThickness, final Color color)
   {
     this.topThickness = topThickness;
     this.leftThickness = leftThickness;
@@ -28,9 +30,11 @@ public class ui_RoundBorder extends AbstractBorder
     this.color = color;
   }
 
-  @Override public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height)
+  @Override public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width,
+      final int height)
   {
     final Graphics2D g2 = (Graphics2D) g.create();
+    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setColor(this.color);
     g2.setStroke(new BasicStroke(1));
 

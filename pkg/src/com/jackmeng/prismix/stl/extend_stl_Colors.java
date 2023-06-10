@@ -190,29 +190,32 @@ public final class extend_stl_Colors
     Arrays.sort(colors, (color1, color2) -> Float.compare(brightness(color2), brightness(color1)));
   }
 
-  public static float[][] complementaries(float[] color, int n)
+  public static float[][] complementaries(float[] initialColor, int n)
   {
     float[][] complementaryColors = new float[n][3];
 
-    float red = color[0];
-    float green = color[1];
-    float blue = color[2];
+    // Scale the initial color values to the range of 0-1
+    float red = initialColor[0] / 255.0f;
+    float green = initialColor[1] / 255.0f;
+    float blue = initialColor[2] / 255.0f;
 
-    for (int i = 0; i < n; i++)
-    {
-      float complementaryAmount = (float) i / (n - 1);
+    // Calculate the complementary color by adding 0.5 and taking modulo 1
+    float complementaryRed = (red + 0.5f) % 1.0f;
+    float complementaryGreen = (green + 0.5f) % 1.0f;
+    float complementaryBlue = (blue + 0.5f) % 1.0f;
 
-      float complementaryRed = 1.0f - red;
-      float complementaryGreen = 1.0f - green;
-      float complementaryBlue = 1.0f - blue;
+    for (int i = 0; i < n; i++) {
+        float complementaryAmount = (float) i / (n - 1);
 
-      float toneRed = red + complementaryRed * complementaryAmount;
-      float toneGreen = green + complementaryGreen * complementaryAmount;
-      float toneBlue = blue + complementaryBlue * complementaryAmount;
+        // Calculate the tone by interpolating the initial color and its complementary color
+        float toneRed = red + (complementaryRed - red) * complementaryAmount;
+        float toneGreen = green + (complementaryGreen - green) * complementaryAmount;
+        float toneBlue = blue + (complementaryBlue - blue) * complementaryAmount;
 
-      complementaryColors[i][0] = toneRed;
-      complementaryColors[i][1] = toneGreen;
-      complementaryColors[i][2] = toneBlue;
+        // Store the tone color in the complementaryColors array
+        complementaryColors[i][0] = toneRed * 255.0f;
+        complementaryColors[i][1] = toneGreen * 255.0f;
+        complementaryColors[i][2] = toneBlue * 255.0f;
     }
 
     return complementaryColors;
