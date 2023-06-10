@@ -133,7 +133,7 @@ public final class ui_ColorPicker
       return jp;
     }
 
-    transient java.util.List< JButton > tones_List, tint_List, shades_List;
+    transient java.util.List< JButton > tones_List, tint_List, shades_List, complements_List;
     transient ActionListener shades_Listeners = ev -> {
       final JButton e = ((JButton) ev.getSource()); // no additional checks needed, we shld be assured that this
                                                     // listener is
@@ -180,8 +180,9 @@ public final class ui_ColorPicker
       }
     };
 
-    JPanel shades_Tones, shades_Tint, shades_Shades;
-    final int tones_cols = 5, tones_rows = 9, tint_cols = 10, tint_rows = 15, shades_cols = 10, shades_rows = 15;
+    JPanel shades_Tones, shades_Tint, shades_Shades, shades_Complements;
+    final int tones_cols = 10, tones_rows = 15, tint_cols = 10, tint_rows = 15, shades_cols = 10, shades_rows = 15,
+        complement_cols = 2, complement_rows = 3;
 
     public CPick_SuggestionsList()
     {
@@ -197,6 +198,7 @@ public final class ui_ColorPicker
       this.shades_Tones = CPick_SuggestionsList.acquire_defpane("Tones");
       this.shades_Tint = CPick_SuggestionsList.acquire_defpane("Tints");
       this.shades_Shades = CPick_SuggestionsList.acquire_defpane("Shades");
+      this.shades_Complements = CPick_SuggestionsList.acquire_defpane("Complementary");
 
       this.tones_List = new ArrayList<>(); // i originally used the bound initialCapacity param, but that is such a
       // scam, it doesnt actually work, so you have to use .add() in the loop, im
@@ -204,6 +206,31 @@ public final class ui_ColorPicker
       // size was zero LOL
       this.tint_List = new ArrayList<>();
       this.shades_List = new ArrayList<>();
+      this.complements_List = new ArrayList<>();
+
+      for (int i = 0; i < this.complement_cols * this.complement_rows; i++)
+      {
+        /*------------------------------------------------------------------------------------------------------------ /
+        / System.out.println(                                                                                          /
+        /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ComplementsButton[" + i + "]")); /
+        /-------------------------------------------------------------------------------------------------------------*/
+        final JButton r = new JButton("");
+        r.setFocusPainted(false);
+        r.setBorderPainted(false);
+        r.setFocusable(false);
+        r.setForeground(Color.WHITE);
+        r.addActionListener(this.shades_Listeners);
+        r.setRolloverEnabled(false); // technically if setFocusable -> false, then this should not be needed, but ok
+        this.complements_List.add(r);
+        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = i % this.tones_cols;
+        gbc.gridy = i / this.tones_rows;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        this.shades_Tones.add(this.complements_List.get(i), gbc);
+      }
 
       for (int i = 0; i < this.tones_cols * this.tones_rows; i++)
       {
@@ -305,17 +332,18 @@ public final class ui_ColorPicker
       if (Boolean.FALSE.equals(arg0.second))
       {
         System.out.println("[CPick_Suggestions] Called to revalidate the current colors");
+        boolean use_sorted = "true".equalsIgnoreCase(_1const.val.get_value("suggestions-sorted")),
+            use_l2d = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sorted_light_to_dark"));
         use_Maker.db_timed(() -> {
           if (this.shades_Tones.isVisible())
           {
             final float[][] gen_tones = extend_stl_Colors.tones(extend_stl_Colors.awt_strip_rgba(arg0.first),
                 this.tones_cols * this.tones_rows);
-            if (ux.PROPERTY_USE_SORTED_COLOR_SUGGESTIONS.get())
-              for (float[] e : gen_tones)
-              {
-                Arrays.sort(e);
-                e = use_Maker.rev(e);
-              }
+            if (use_sorted)
+            {
+              if(use_l2d) extend_stl_Colors.sort_l2d(gen_tones);
+              else extend_stl_Colors.sort_d2l(gen_tones);
+            }
             final Color[] remadeTones = new Color[this.tones_cols * this.tones_rows];
             final String[] hexTones = new String[this.tones_cols * this.tones_rows];
             _render.unify_(this.shades_Shades, nil -> {
@@ -335,16 +363,27 @@ public final class ui_ColorPicker
 
           }
 
-          if (this.shades_Tint.isVisible())
+          if (this.shades_Complements.isVisible())
           {
-            final float[][] gen_tints = extend_stl_Colors.tints(extend_stl_Colors.awt_strip_rgba(arg0.first),
-                this.tint_cols * this.tint_rows);
-            if (ux.PROPERTY_USE_SORTED_COLOR_SUGGESTIONS.get())
-              for (float[] e : gen_tints)
+            float[][] gen_complements = extend_stl_Colors.complementaries(extend_stl_Colors.awt_strip_rgba(arg0.first),
+                this.complement_cols * this.complement_rows);
+            if (use_sorted)
+            {
+              for (float[] e : gen_complements)
               {
                 Arrays.sort(e);
                 e = use_Maker.rev(e);
               }
+            }
+
+          }
+
+          if (this.shades_Tint.isVisible())
+          {
+            final float[][] gen_tints = extend_stl_Colors.tints(extend_stl_Colors.awt_strip_rgba(arg0.first),
+                this.tint_cols * this.tint_rows);
+            if (use_sorted)
+              extend_stl_Colors.sort_l2d(gen_tints);
             final Color[] remadeTints = new Color[this.tint_cols * this.tint_rows];
             final String[] hexTints = new String[this.tint_cols * this.tint_rows];
             _render.unify_(this.shades_Tint, nil -> {
@@ -367,7 +406,7 @@ public final class ui_ColorPicker
           {
             final float[][] gen_shades = extend_stl_Colors.shades(extend_stl_Colors.awt_strip_rgba(arg0.first),
                 this.shades_cols * this.shades_rows);
-            if (ux.PROPERTY_USE_SORTED_COLOR_SUGGESTIONS.get())
+            if (use_sorted)
               for (float[] e : gen_shades)
               {
                 Arrays.sort(e);

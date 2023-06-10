@@ -47,7 +47,12 @@ public final class _1const
     val.put("smart_gui", new Object[] { "bool", "true", type_Bool,
         "Uses a hide and show paint schema instead of showing and painting." });
     val.put("use_current_dir",
-        new Object[] { "bool", "true", type_Bool, "Uses the current directory of the program instead of HOME for storage." });
+        new Object[] { "bool", "true", type_Bool,
+            "Uses the current directory of the program instead of HOME for storage." });
+    val.put("suggestions_sorted", new Object[] { "bool", "true", type_Bool,
+        "Try to make sure the colors in a color picker are sorted (especially for suggestions)" });
+    val.put("suggestions_sort_light_to_dark", new Object[] { "bool", "true", type_Bool,
+        "When suggestions_sorted is set to true, use lightest to darkest sorting, else if false, use darkest to lightest." });
   } // put program properties
 
   /**

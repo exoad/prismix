@@ -10,6 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.color.ColorSpace;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_Colors;
@@ -102,7 +103,8 @@ public final class extend_stl_Colors
     final float[][] generatedTints = new float[n][3];
     generatedTints[0] = ir;
     float red = ir[0], green = ir[1], blue = ir[2];
-		final float redStep = (255F - red) / (n - 1), greenStep = (255F - green) / (n - 1), blueStep = (255F - blue) / (n - 1);
+    final float redStep = (255F - red) / (n - 1), greenStep = (255F - green) / (n - 1),
+        blueStep = (255F - blue) / (n - 1);
 
     for (int i = 1; i < n; i++)
     {
@@ -130,7 +132,7 @@ public final class extend_stl_Colors
     final float[][] generatedTints = new float[n][3];
     generatedTints[0] = ir;
     float red = ir[0], green = ir[1], blue = ir[2];
-		final float maxColor = Math.max(Math.max(red, green), blue), blackStep = maxColor / (n - 1);
+    final float maxColor = Math.max(Math.max(red, green), blue), blackStep = maxColor / (n - 1);
     for (int i = 1; i < n; i++)
     {
       red -= blackStep;
@@ -149,25 +151,71 @@ public final class extend_stl_Colors
 
   public static float[][] tones(final float[] ir, final int n)
   {
-    final float[][] generatedTints = new float[n][3];
-    generatedTints[0] = ir;
-    float red = ir[0], green = ir[1], blue = ir[2];
-    final float grayStep = Math.min((255 - red) / (n - 1), Math.min((255 - green) / (n - 1), (255 - blue) / (n - 1)));
+    float[][] tones = new float[n][3];
 
-    for (int i = 1; i < n; i++)
+    float red = ir[0];
+    float green = ir[1];
+    float blue = ir[2];
+
+    float toneStep = 1.0f / (n - 1);
+
+    for (int i = 0; i < n; i++)
     {
-      red += grayStep;
-      green += grayStep;
-      blue += grayStep;
+      float toneAmount = i * toneStep;
 
-      red = Math.max(0.0f, Math.min(red, 255F));
-      green = Math.max(0.0f, Math.min(green, 255F));
-      blue = Math.max(0.0f, Math.min(blue, 255F));
+      float toneRed = red * (1 - toneAmount) + toneAmount;
+      float toneGreen = green * (1 - toneAmount) + toneAmount;
+      float toneBlue = blue * (1 - toneAmount) + toneAmount;
 
-      generatedTints[i] = new float[] { red, green, blue };
+      tones[i][0] = toneRed;
+      tones[i][1] = toneGreen;
+      tones[i][2] = toneBlue;
     }
 
-    return generatedTints;
+    return tones;
+  }
+
+  public static float brightness(float[] color)
+  {
+    return (0.299f * color[0] + 0.587f * color[1] + 0.114f * color[2]);
+  }
+
+  public static void sort_l2d(float[][] colors)
+  {
+    Arrays.sort(colors, (color1, color2) -> Float.compare(brightness(color1), brightness(color2)));
+  }
+
+  public static void sort_d2l(float[][] colors)
+  {
+    Arrays.sort(colors, (color1, color2) -> Float.compare(brightness(color2), brightness(color1)));
+  }
+
+  public static float[][] complementaries(float[] color, int n)
+  {
+    float[][] complementaryColors = new float[n][3];
+
+    float red = color[0];
+    float green = color[1];
+    float blue = color[2];
+
+    for (int i = 0; i < n; i++)
+    {
+      float complementaryAmount = (float) i / (n - 1);
+
+      float complementaryRed = 1.0f - red;
+      float complementaryGreen = 1.0f - green;
+      float complementaryBlue = 1.0f - blue;
+
+      float toneRed = red + complementaryRed * complementaryAmount;
+      float toneGreen = green + complementaryGreen * complementaryAmount;
+      float toneBlue = blue + complementaryBlue * complementaryAmount;
+
+      complementaryColors[i][0] = toneRed;
+      complementaryColors[i][1] = toneGreen;
+      complementaryColors[i][2] = toneBlue;
+    }
+
+    return complementaryColors;
   }
 
   public static Color awt_empty()
@@ -237,7 +285,8 @@ public final class extend_stl_Colors
     / LinearGradientPaint lgp_white_to_interest = new LinearGradientPaint(new Point2D.Float(0F, 0F),    /
     /     new Point2D.Float(size, 0F), new float[]{0.1F, 0.2F}, new Color[] { Color.WHITE, interest }); /
     /--------------------------------------------------------------------------------------------------*/
-    final LinearGradientPaint lgp_shade = new LinearGradientPaint(new Point2D.Float(0F, 0F), new Point2D.Float(0F, size),
+    final LinearGradientPaint lgp_shade = new LinearGradientPaint(new Point2D.Float(0F, 0F),
+        new Point2D.Float(0F, size),
         new float[] { 0.25F, 0.85F },
         new Color[] { new Color(Color.BLACK.getRed(), Color.BLACK.getBlue(), Color.BLACK.getBlue(), 0), Color.BLACK });
 
@@ -391,7 +440,8 @@ public final class extend_stl_Colors
   public static float[][] cmykToRgb_Comps(final float[] cmyk)
   {
     return new float[][] { extend_stl_Colors.cmykToRgb(new float[] { cmyk[0], 0F, 0F, 0F }),
-        extend_stl_Colors.cmykToRgb(new float[] { 0F, cmyk[1], 0F, 0F }), extend_stl_Colors.cmykToRgb(new float[] { 0F, 0F, cmyk[2], 0F }),
+        extend_stl_Colors.cmykToRgb(new float[] { 0F, cmyk[1], 0F, 0F }),
+        extend_stl_Colors.cmykToRgb(new float[] { 0F, 0F, cmyk[2], 0F }),
         extend_stl_Colors.cmykToRgb(new float[] { 0F, 0F, 0F, cmyk[3] }) };
   }
 
