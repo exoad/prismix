@@ -149,8 +149,9 @@ public final class use_Map
   {
     StringBuilder sb = new StringBuilder();
     sb.append("use_Map[" + name + "@" + hashCode()
-        + "]");
-    for(String )
+        + "] contains:\n");
+    this.forEach((key, val) -> sb.append(key + " -> " + ((String) get(key)[0]) + " is " + ((String) get(key)[1]) + " for "
+        + Arrays.toString((String[]) get(key)[2]) + " descriptor: " + ((String) get(key)[3]) + "\n"));
     return sb.toString();
   }
 

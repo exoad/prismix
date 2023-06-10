@@ -144,7 +144,8 @@ public final class ux
   {
     this.childui = new gui_Container();
     this.mainui = new gui_Main();
-    this.mainui.setPreferredSize(new Dimension(this.childui.getPreferredSize().width, this.childui.getPreferredSize().height));
+    this.mainui
+        .setPreferredSize(new Dimension(this.childui.getPreferredSize().width, this.childui.getPreferredSize().height));
     this.mainui.wrapper.add(this.childui, BorderLayout.CENTER);
     this.mainui.bar.setPreferredSize(new Dimension(this.childui.getPreferredSize().width, 25));
 
@@ -181,6 +182,7 @@ public final class ux
                                                                                                      // components for
                                                                                                      // listening
     });
+    System.out.println("[SYS_VAL_DEBUG]: " + _1const.val);
     if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
     {
       new Thread(() -> {
