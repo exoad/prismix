@@ -258,7 +258,6 @@ public class gui_Container
 			this.controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
 
 			final JButton controls_randomColor = new JButton("Random Color");
-			controls_randomColor.setFocusPainted(false);
 			controls_randomColor.setBorderPainted(false);
 			controls_randomColor.setForeground(ux_Theme._theme.fg_awt());
 			controls_randomColor.setBackground(ux_Theme._theme.secondary_awt());
@@ -266,7 +265,6 @@ public class gui_Container
 					.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
 
 			final JButton controls_screenColorPicker = new JButton("Screen Picker");
-			controls_screenColorPicker.setFocusPainted(false);
 			controls_screenColorPicker.setForeground(ux_Theme._theme.fg_awt());
 			controls_screenColorPicker.setBackground(ux_Theme._theme.secondary_awt());
 			controls_screenColorPicker.setBorderPainted(false);
@@ -278,21 +276,18 @@ public class gui_Container
 			/---------------------------------------------------------------------------------------*/
 
 			final JButton controls_forceRevalidate = new JButton("Refresh UI");
-			controls_forceRevalidate.setFocusPainted(false);
 			controls_forceRevalidate.setBorderPainted(false);
 			controls_forceRevalidate.setForeground(ux_Theme._theme.fg_awt());
 			controls_forceRevalidate.setBackground(ux_Theme._theme.secondary_awt());
 			controls_forceRevalidate.addActionListener(ev -> ux._ux.force_redo());
 
 			final JButton controls_gc = new JButton("GC");
-			controls_gc.setFocusPainted(false);
 			controls_gc.setBorderPainted(false);
 			controls_gc.setForeground(ux_Theme._theme.fg_awt());
 			controls_gc.setBackground(ux_Theme._theme.secondary_awt());
 			controls_gc.addActionListener(ev -> System.gc());
 
 			final JButton controls_randomScreenColor = new JButton("Random Screen Color");
-			controls_randomScreenColor.setFocusPainted(false);
 			controls_randomScreenColor.setBorderPainted(false);
 			controls_randomScreenColor.setForeground(ux_Theme._theme.fg_awt());
 			controls_randomScreenColor.setBackground(ux_Theme._theme.secondary_awt());

@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -134,6 +135,7 @@ public final class ux
 
   private final gui_Main mainui;
   private final gui_Container childui;
+  private final gui_Config configui;
 
   public gui_Main getMainUI()
   {
@@ -144,6 +146,7 @@ public final class ux
   {
     this.childui = new gui_Container();
     this.mainui = new gui_Main();
+    this.configui = new gui_Config();
     this.mainui
         .setPreferredSize(new Dimension(this.childui.getPreferredSize().width, this.childui.getPreferredSize().height));
     this.mainui.wrapper.add(this.childui, BorderLayout.CENTER);
@@ -155,6 +158,9 @@ public final class ux
     for (int i = 0; i < r.length; i++)
       e[i] = use_Maker.make(r[i].getName(), use_Maker.make(r[i]));
     this.mainui.registerToBar("Color Attributes", use_Maker.make(e));
+    JMenuItem gui_Config_item = new JMenuItem("Config.");
+    gui_Config_item.addActionListener(ev -> configui.setVisible(true));
+    this.mainui.registerToBar("Preferences", new JMenuItem[] { gui_Config_item });
   }
 
   public synchronized void force_redo()

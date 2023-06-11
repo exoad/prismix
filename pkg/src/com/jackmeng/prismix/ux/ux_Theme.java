@@ -166,7 +166,7 @@ public final class ux_Theme
         UIManager.put("ScrollBar.thumb", rsc_dominant_1);
         UIManager.put("Scrollbar.pressedThumbColor", rsc_dominant_1);
         UIManager.put("ScrollBar.hoverThumbColor", rsc_dominant_1);
-        UIManager.put("Component.focusColor", rsc_dominant_1);
+        UIManager.put("Component.focusColor", rsc_dominant_1.darker());
         UIManager.put("Component.focusedBorderColor", rsc_dominant_1);
         UIManager.put("TabbedPane.underlineColor", rsc_dominant_1);
         UIManager.put("TabbedPane.selectedColor", rsc_dominant_1);
