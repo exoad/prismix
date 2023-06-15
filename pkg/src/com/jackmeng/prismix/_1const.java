@@ -7,10 +7,10 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.user.use_Map;
 import static com.jackmeng.prismix.user.use_Map.*;
-import com.jackmeng.stl.stl_AnsiColors;
-import com.jackmeng.stl.stl_AnsiMake;
+import static com.jackmeng.prismix.jm_Prismix.*;
 import com.jackmeng.stl.stl_AssetFetcher;
 import com.jackmeng.stl.stl_AssetFetcher.assetfetcher_FetcherStyle;
 import com.jackmeng.stl.stl_ListenerPool;
@@ -35,8 +35,7 @@ public final class _1const
 
   // property-name, {property_type, default_value, {valid_values},
   // description}
-  public static final use_Map val = new use_Map("com_jackmeng_prismix_CONFIG");
-
+  public static final use_Map val = new use_Map("com_jackmeng_prismix_CONFIG", "com.jackmeng.prismix.");
   static
   {
     val.put_("debug_gui", parse_Bool, new Object[] { Bool, "false", type_Bool,
@@ -67,30 +66,26 @@ public final class _1const
     _1const.COLOR_ENQ.attach(payload -> {
       if (payload.first != null)
       {
-        System.out
-            .println(new stl_AnsiMake(stl_AnsiColors.MAGENTA_BG, "[COLOR_POOL] Pool Listener:  received: " + payload));
+        log("CLRPL", jm_Ansi.make().white_bg().black_fg().toString("Pool Listener:  received: " + payload));
         if (payload.second == Attached_States.ADD_LISTENER)
-          System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_BG,
-              "[COLOR_POOL] Enqueued a POOL Listener: " + payload.first.toString()));
+          log("CLRPL", jm_Ansi.make().blue().toString("Enqueued a POOL Listener: " + payload.first.toString()));
         else if (payload.second == Attached_States.ATTACHED)
-          System.out.println(
-              new stl_AnsiMake(stl_AnsiColors.GREEN_TXT, "[COLOR_POOL] The current pool listener  has been attached"));
+          log("CLRPL", jm_Ansi.make().green().toString("The current pool listener  has been attached"));
         else if (payload.second == Attached_States.DETACHED)
-          System.out.println(
-              new stl_AnsiMake(stl_AnsiColors.MAGENTA_BG, "[COLOR_POOL] The current pool listener  has been detached"));
+          log("CLRPL", jm_Ansi.make().yellow_fg().toString("The current pool listener  has been detached"));
         else if (payload.second == Attached_States.RMF_LISTENER)
-          System.out.println(new stl_AnsiMake(stl_AnsiColors.RED_BG,
-              "[COLOR_POOL] Dequeued a POOL_LISTENER: " + payload.first.toString()));
+          log("CLRPL", jm_Ansi.make().yellow_bg().black_fg().toString(
+              "Dequeued a POOL_LISTENER: " + payload.first.toString()));
         else
-          System.out.println(new stl_AnsiMake(stl_AnsiColors.BOLD,
-              "[COLOR_POOL] The current pool listener  received an invalid signal: "
+          log("CLRPL", jm_Ansi.make().red_bg().bold().white_fg().toString(
+              "The current pool listener  received an invalid signal: "
                   + payload.toString()));
       }
       return (Void) null;
     });
     _1const.COLOR_ENQ.add(x -> {
-      System.out.println(new stl_AnsiMake(stl_AnsiColors.RED_BG,
-          "[COLOR_POOL] Enqueued another color for GUI elements to process: rgba(" + x.first.getRed()
+      log("CLRPL", jm_Ansi.make().blue_fg().toString(
+          "Enqueued another color for GUI elements to process: rgba(" + x.first.getRed()
               + "," + x.first.getGreen() + "," + x.first.getBlue() + "," + x.first.getAlpha() + ")"));
       _1const.lastColor = new SoftReference<>(x.first);
       return (Void) null;

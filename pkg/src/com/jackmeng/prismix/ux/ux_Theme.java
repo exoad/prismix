@@ -12,10 +12,10 @@ import javax.swing.plaf.ColorUIResource;
 import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme;
+import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._colors;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.stl.stl_AnsiColors;
-import com.jackmeng.stl.stl_AnsiMake;
+import static com.jackmeng.prismix.jm_Prismix.*;
 
 public final class ux_Theme
 {
@@ -131,16 +131,18 @@ public final class ux_Theme
   public void dominant(final float[] dominant)
   {
     this.dominant = dominant;
-    System.out.println(new stl_AnsiMake(stl_AnsiColors.YELLOW_BG,
-        "[UX_THEME] Themer " + this.hashCode() + " made an unsuggested move using **dominant(float[])!"));
+    log("UXTHEME",
+        jm_Ansi.make().yellow_bg().black()
+            .toString("Themer " + this.hashCode() + " made an unsuggested move using **dominant(float[])!"));
     SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux._ux.getMainUI()));
   }
 
   public void secondary(final float[] secondary)
   {
     this.secondary = secondary;
-    System.out.println(new stl_AnsiMake(stl_AnsiColors.YELLOW_BG,
-        "[UX_THEME] Themer " + this.hashCode() + " made an unsuggested move using **secondary(float[])!"));
+    log("UXTHEME",
+        jm_Ansi.make().yellow_bg().black()
+            .toString("Themer " + this.hashCode() + " made an unsuggested move using **secondary(float[])!"));
     SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux._ux.getMainUI()));
   }
 
@@ -161,7 +163,7 @@ public final class ux_Theme
     SwingUtilities.invokeLater(() -> {
       try
       {
-        System.out.println(new stl_AnsiMake(stl_AnsiColors.YELLOW_TXT, "[UX_THEME] Refreshing the entire theme"));
+        log("UXTHEME", jm_Ansi.make().blue().toString("Refreshing the entire theme"));
         final ColorUIResource rsc_dominant_1 = new ColorUIResource(ux_Theme._theme.dominant_awt());
         UIManager.put("ScrollBar.thumb", rsc_dominant_1);
         UIManager.put("Scrollbar.pressedThumbColor", rsc_dominant_1);

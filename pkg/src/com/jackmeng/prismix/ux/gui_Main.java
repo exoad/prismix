@@ -3,7 +3,6 @@
 package com.jackmeng.prismix.ux;
 
 import java.awt.BorderLayout;
-import java.awt.KeyboardFocusManager;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -14,8 +13,10 @@ import javax.swing.WindowConstants;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.jm_Prismix;
 import com.jackmeng.prismix.use_Maker;
-import com.jackmeng.stl.stl_AnsiColors;
-import com.jackmeng.stl.stl_AnsiMake;
+
+/*------------------------------------------------ /
+/ import static com.jackmeng.prismix.jm_Prismix.*; /
+/-------------------------------------------------*/
 
 public class gui_Main
     extends JFrame
@@ -40,14 +41,16 @@ public class gui_Main
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     JFrame.setDefaultLookAndFeelDecorated(true);
 
-    if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
-    {
-      System.out.println(new stl_AnsiMake(stl_AnsiColors.BLUE_TXT, "[GUI_MAIN] Arming a global key listener"));
-      KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(v -> {
-        System.out.println("[UX] Received a keyboard press: " + v.getKeyCode() + " -> " + v.getKeyChar());
-        return false;
-      });
-    }
+    /*------------------------------------------------------------------------------------------------------ /
+    / if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))                                       /
+    / {                                                                                                      /
+    /   log("GUIMAIN", jm_Ansi.make().yellow().toString("Arming a global key listener"));                    /
+    /   KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(v -> {                   /
+    /     System.out.println("[UX] Received a keyboard press: " + v.getKeyCode() + " -> " + v.getKeyChar()); /
+    /     return false;                                                                                      /
+    /   });                                                                                                  /
+    / }                                                                                                      /
+    /-------------------------------------------------------------------------------------------------------*/
   }
 
   public void registerToBar(final String name, final JMenuItem... item)

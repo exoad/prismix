@@ -22,12 +22,14 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
+import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Function;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Ware;
+
+import static com.jackmeng.prismix.jm_Prismix.*;
 
 /**
  * Represents the inner shell of the content of the GUI. The parent is the ux
@@ -90,8 +92,11 @@ public class gui_Container
 			final ui_ColorPicker.CPick_SuggestionsList colorChooser_Shades = new ui_ColorPicker.CPick_SuggestionsList();
 			_1const.COLOR_ENQ.add(colorChooser_Shades);
 			this.colorChooser.addTab("Generator", colorChooser_Shades);
+			final ui_ColorPicker.CPick_GradRect colorChooser_gradientRect = new ui_ColorPicker.CPick_GradRect(); // RGBA Gradient Rectangle
+			_1const.COLOR_ENQ.add(colorChooser_gradientRect);
+			this.colorChooser.addTab("RGBA Rectangle", colorChooser_gradientRect);
 
-			if ("true".equalsIgnoreCase(_1const.val.get_value("soft_debug")))
+			if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
 			{
 				final ui_ColorPicker.CPick_GenericDisp colorChooser_Debug = new ui_ColorPicker.CPick_GenericDisp();
 				colorChooser_Debug.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 1));
@@ -128,34 +133,37 @@ public class gui_Container
 			wrapper_ColorAttributes.setOpaque(false);
 			wrapper_ColorAttributes.setLayout(new BoxLayout(wrapper_ColorAttributes, BoxLayout.Y_AXIS));
 			wrapper_ColorAttributes.setBorder(BorderFactory.createEmptyBorder());
-
-			final JLabel colorDisplay = new JLabel("ABCDEFGHIJKLMNOPQ"); // IMPORTANT STARTUP OBJECT
+			Integer round = (Integer) (_1const.val.parse("container_round_factor").isEmpty() ? 10
+					: _1const.val.parse("container_round_factor").get());
+			final JLabel colorDisplay = new ui_R_ColorLabel("ABCDEFGHIJKLMNOPQ", round, Color.BLACK, 2); // IMPORTANT STARTUP
+			// OBJECT
 			colorDisplay.setPreferredSize(new Dimension(50, 20));
 			colorDisplay.setOpaque(true);
 
-			final JLabel colorDisplay_R = new ui_R_ColorLabel(colorDisplay.getText(), 11, Color.RED, 2);
+			final JLabel colorDisplay_R = new ui_R_ColorLabel(colorDisplay.getText(), round, Color.RED, 2);
 			colorDisplay_R.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_R.setOpaque(true);
 			/*----------------------------------------------------------------------- /
 			/ colorDisplay_R.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); /
 			/------------------------------------------------------------------------*/
 
-			final JLabel colorDisplay_G = new ui_R_ColorLabel(colorDisplay.getText(), 11, Color.GREEN, 2);
+			final JLabel colorDisplay_G = new ui_R_ColorLabel(colorDisplay.getText(), round, Color.GREEN, 2);
 			colorDisplay_G.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_G.setOpaque(true);
 			/*------------------------------------------------------------------------- /
 			/ colorDisplay_G.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2)); /
 			/--------------------------------------------------------------------------*/
 
-			final JLabel colorDisplay_B = new ui_R_ColorLabel(colorDisplay.getText(), 11, Color.BLUE, 2);
+			final JLabel colorDisplay_B = new ui_R_ColorLabel(colorDisplay.getText(), round, Color.BLUE, 2);
 			colorDisplay_B.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_B.setOpaque(true);
 			/*------------------------------------------------------------------------ /
 			/ colorDisplay_B.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2)); /
 			/-------------------------------------------------------------------------*/
 
-			final JLabel colorDisplay_A = new ui_R_ColorLabel("_Alpha__Strength_", 11, Color.BLACK, 2); // 17 characters to be
-																																																	// correct length
+			final JLabel colorDisplay_A = new ui_R_ColorLabel("_Alpha__Strength_", round, Color.BLACK, 2); // 17 characters to
+																																																			// be
+			// correct length
 			colorDisplay_A.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_A.setOpaque(true);
 			/*---------------------------------------------------- /
@@ -336,18 +344,14 @@ public class gui_Container
 			final JPanel cmykData_ColorDisplay = new JPanel();
 			cmykData_ColorDisplay.setLayout(new BoxLayout(cmykData_ColorDisplay, BoxLayout.Y_AXIS));
 
-			final JLabel cmykData_CD_C = new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_C = new ui_R_ColorLabel(colorDisplay.getText(), round, Color.CYAN, 2);
 			cmykData_CD_C.setOpaque(true);
-			cmykData_CD_C.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
-			final JLabel cmykData_CD_M = new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_M = new ui_R_ColorLabel(colorDisplay.getText(), round, Color.MAGENTA, 2);
 			cmykData_CD_M.setOpaque(true);
-			cmykData_CD_M.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
-			final JLabel cmykData_CD_Y = new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_Y = new ui_R_ColorLabel(colorDisplay.getText(), round, new Color(0.88F, 0.88F, 0F), 2);
 			cmykData_CD_Y.setOpaque(true);
-			cmykData_CD_Y.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
-			final JLabel cmykData_CD_K = new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_K = new ui_R_ColorLabel(colorDisplay.getText(), round, Color.BLACK, 2);
 			cmykData_CD_K.setOpaque(true);
-			cmykData_CD_K.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
 			cmykData_ColorDisplay.add(cmykData_CD_C);
 			cmykData_ColorDisplay.add(cmykData_CD_M);
@@ -394,11 +398,10 @@ public class gui_Container
 				final float[] ciexyz = x.getColorSpace().toCIEXYZ(new float[] { x.getRed(),
 						x.getGreen(), x.getBlue(), x.getAlpha() });
 				SwingUtilities.invokeLater(() -> {
-					System.out.println(
-							"[TopContainer] RGBA_Attributes.isVisible = true -> Rewashing all of the properties to set...");
+					log("TOP_G", jm_Ansi.make().yellow().toString("Rewashing all of the color text properties to set"));
 					colorDisplay.setForeground(x);
 					colorDisplay.setBackground(x);
-					colorDisplay.setBorder(BorderFactory.createLineBorder(stl_Colors.awt_ColorInvert(x), 2));
+					((ui_R_ColorLabel) colorDisplay).borderColor(x);
 
 					colorDisplay_R.setBackground(new Color(
 							colorDisplay.getBackground().getRed() / 255F, 0F, 0F));
@@ -515,8 +518,6 @@ public class gui_Container
 							+ 100 * x.getAlpha() / 255F + "%]");
 					colorDisplay_A.setToolTipText(rgba_A.getToolTipText());
 
-					System.out.println(
-							"[TopContainer] MISC_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 					hexColor.setText(
 							"<html><strong>Hex</strong>: " + extend_stl_Colors.color2hex_2(x) + "</html>");
 					transparency.setText("<html><strong>Transparency</strong>: "
@@ -564,20 +565,14 @@ public class gui_Container
 									+ "%, " + cmyk[2] * 100F
 									+ "%" + cmyk[3] * 100F + "%)</span></p></html>");
 
-					System.out.println(
-							"[TopContainer] HSV_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 					hsvData_hue.setText("Hue        (H): " + hsv[0]);
 					hsvData_saturation.setText("Saturation (S): " + hsv[1]);
 					hsvData_value.setText("Value      (V): " + hsv[2]);
 
-					System.out.println(
-							"[TopContainer] HSL_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 					hslData_hue.setText("Hue        (H): " + hsl[0]);
 					hslData_saturation.setText("Saturation (S): " + hsl[1]);
 					hslData_lightness.setText("Lightness  (L): " + hsl[2]);
 
-					System.out.println(
-							"[TopContainer CMYK_DATA_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 					cmykData_C.setText("Cyan    (C): " + String.format("%,.4f", cmyk[0]) + " ["
 							+ String.format("%,.2f", 100 * cmyk[0]) + "%]");
 					cmykData_M.setText("Magenta (M): " + String.format("%,.4f", cmyk[1]) + " ["
@@ -604,8 +599,6 @@ public class gui_Container
 					cmykData_CD_K.setBackground(extend_stl_Colors.awt_remake(rrr[3]));
 					cmykData_CD_K.setForeground(cmykData_CD_K.getBackground());
 
-					System.out.println(
-							"[TopContainer] COLOR_SPACE_ATTRIBUTES.isVisible = true -> Rewashing all of the properties to set...");
 					final StringBuilder sb = new StringBuilder(
 							"<strong>Component Names</strong>:"),
 							sb2 = new StringBuilder(

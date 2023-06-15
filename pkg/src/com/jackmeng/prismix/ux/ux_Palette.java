@@ -8,9 +8,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.jackmeng.stl.stl_AnsiColors;
-import com.jackmeng.stl.stl_AnsiMake;
+import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.stl.stl_ListenerPool;
+
+import static com.jackmeng.prismix.jm_Prismix.*;
 
 public class ux_Palette
 {
@@ -86,8 +87,9 @@ public class ux_Palette
   public ux_Palette(final int initial, final String name)
   {
     this.colors_rgba = new LinkedHashSet<>() {
-      @Override public boolean add(final List< Float > e) // this set simulates the functionality that the duplicate gets
-                                                    // appended to the end while the old value is deleted
+      @Override public boolean add(final List< Float > e) // this set simulates the functionality that the duplicate
+                                                          // gets
+      // appended to the end while the old value is deleted
       {
         final boolean added = super.add(e);
         if (!added)
@@ -100,26 +102,28 @@ public class ux_Palette
     };
     this.LISTENER_POOL = new stl_ListenerPool<>(name);
     this.LISTENER_POOL.add(x -> {
-      System.out.println("[UX_PALETTE] Palette " + name + "[" + this.palette_id + "] received operation: " + x);
+      log("UXPALETTE", "Palette " + name + "[" + this.palette_id + "] received operation: " + x);
       return (Void) null;
     });
     this.str_Name = name;
     this.palette_id = this.hashCode() ^ this.str_Name.hashCode() * 81L;
-    System.out.println(
-        new stl_AnsiMake(stl_AnsiColors.GREEN_TXT, "[UX_PALETTE] ID: " + this.palette_id + " registered as: " + name));
+
+    log("UXPALETTE", jm_Ansi.make().green().toString("ID: " + this.palette_id + " registered as: " + name));
   }
 
   public void append(final float[] e)
   {
     if (e == null || e.length < 4 || e.length > 4)
     {
-      System.out.println("[UX_PALETTE] Palette" + this.hashCode() + " received an inproper constructed color array");
+      log("UXPALETTE",
+          jm_Ansi.make().red().toString("Palette" + this.hashCode() + " received an inproper constructed color array"));
       return;
     }
     this.colors_rgba.add(ux_Palette.$toarr(e));
   }
 
-  private static List< Float > $toarr(final float[] r) // similar to Arrays.asList but instead provides a writable ArrayList
+  private static List< Float > $toarr(final float[] r) // similar to Arrays.asList but instead provides a writable
+                                                       // ArrayList
   {
     final List< Float > temp = new ArrayList<>(r.length);
     for (final float e : r)

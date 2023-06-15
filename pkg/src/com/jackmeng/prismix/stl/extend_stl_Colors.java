@@ -204,18 +204,20 @@ public final class extend_stl_Colors
     float complementaryGreen = (green + 0.5f) % 1.0f;
     float complementaryBlue = (blue + 0.5f) % 1.0f;
 
-    for (int i = 0; i < n; i++) {
-        float complementaryAmount = (float) i / (n - 1);
+    for (int i = 0; i < n; i++)
+    {
+      float complementaryAmount = (float) i / (n - 1);
 
-        // Calculate the tone by interpolating the initial color and its complementary color
-        float toneRed = red + (complementaryRed - red) * complementaryAmount;
-        float toneGreen = green + (complementaryGreen - green) * complementaryAmount;
-        float toneBlue = blue + (complementaryBlue - blue) * complementaryAmount;
+      // Calculate the tone by interpolating the initial color and its complementary
+      // color
+      float toneRed = red + (complementaryRed - red) * complementaryAmount;
+      float toneGreen = green + (complementaryGreen - green) * complementaryAmount;
+      float toneBlue = blue + (complementaryBlue - blue) * complementaryAmount;
 
-        // Store the tone color in the complementaryColors array
-        complementaryColors[i][0] = toneRed * 255.0f;
-        complementaryColors[i][1] = toneGreen * 255.0f;
-        complementaryColors[i][2] = toneBlue * 255.0f;
+      // Store the tone color in the complementaryColors array
+      complementaryColors[i][0] = toneRed * 255.0f;
+      complementaryColors[i][1] = toneGreen * 255.0f;
+      complementaryColors[i][2] = toneBlue * 255.0f;
     }
 
     return complementaryColors;
@@ -430,7 +432,7 @@ public final class extend_stl_Colors
                                                 Math.max(rgb[1] / 255F, rgb[2] / 255F))
                                                 - Math.min(rgb[0] / 255F, Math.min(rgb[1] / 255F, rgb[2] / 255F))))
                                                 + 240) % 360
-                                            : -1;
+                                            : 0;
     return new float[] { H, S, L };
   }
 

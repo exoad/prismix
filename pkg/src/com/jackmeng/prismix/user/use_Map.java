@@ -6,12 +6,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 
+import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
+
+import static com.jackmeng.prismix.jm_Prismix.*;
 
 public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_Callback< ?, String >, Object[] > >
 {
@@ -51,16 +54,18 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   public static final stl_Callback< Object, String > parse_Any = x -> x;
 
   public final String name;
+  public final String prefix;
 
   public use_Map()
   {
-    this(_1const.RNG.nextLong(4000) + "");
+    this(_1const.RNG.nextLong(4000) + "", "");
   }
 
-  public use_Map(String name)
+  public use_Map(String name, String prefix)
   {
     super();
     this.name = name;
+    this.prefix = prefix;
   }
 
   /**
@@ -75,7 +80,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   {
     if (this.containsKey(key))
     {
-      key = key.toLowerCase();
+      key = prefix + key.toLowerCase();
       // perform preliminary checks on if the value is allowed
       if (((String[]) this.get(key).second[2]).length > 0)
       {
@@ -83,27 +88,21 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
         {
           this.put(key, stl_Struct.make_pair(this.get(key).first,
               new Object[] { this.get(key).second[0], new_value, this.get(key).second[2], this.get(key).second[3] }));
-          System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_BG,
-              "[SYS_VAL" + hashCode() + "] Changed value of " + key + " to " + new_value));
+          log("SYSVAL", jm_Ansi.make().green().toString(name + " changed value of " + key + " to " + new_value));
         }
         else
-          System.out.println(new stl_AnsiMake(stl_AnsiColors.RED_BG,
-              "[SYS_VAL" + hashCode() + "] Failed to set property: " + key + " to " + new_value
-                  + " | Value unchanged"));
+          log("SYSVAL", jm_Ansi.make().yellow().toString(name + " failed to set property " + key + " to " + new_value)
+              + " | Value unaltered");
       }
       else
       {
-        System.out.println(new stl_AnsiMake(stl_AnsiColors.YELLOW_TXT,
-            "SYS_VAL" + hashCode()
-                + "] This is a dangerous operation for a property to not have proper checked values!"));
+        log("SYSVAL", jm_Ansi.make().magenta()
+            .toString(name + " this is a dangerous operation for a property to not have property checked values!"));
         this.put(key,
             stl_Struct.make_pair(this.get(key).first,
                 new Object[] { this.get(key).second[0], new_value, this.get(key).second[2], this.get(key).second[3] }));
-        System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_BG,
-            "[SYS_VAL" + hashCode() + "] Changed value of " + key + " to " + new_value));
-
+        log("SYSVAL", jm_Ansi.make().green().toString(name + " changed value of " + key + " to " + new_value));
       }
-
     }
   }
 
@@ -111,8 +110,12 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   // cast to the correct type would work (especially useful for dynamics)
   public String get_value(String key)
   {
-    key = key.toLowerCase();
-    return this.containsKey(key) ? (String) this.get(key).second[1] : "undef"; // casting guranteed due
+    key = prefix + key.toLowerCase();
+
+    if (!this.containsKey(key))
+      log("SYSVAL", jm_Ansi.make().red().bold().toString(name + " failed to retrieve an element with key: ") + " " + key
+          + " | " + jm_Ansi.make().yellow().toString("{!} This is a bug!"));
+    return (String) this.get(key).second[1]; // casting guranteed due
     // to #put override
     // implementation
   }
@@ -161,78 +164,76 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
 
   public void put_(String key, stl_Callback< ?, String > func, Object[] value)
   {
+    if (key.contains("-"))
+    {
+      log("SYSVAL", jm_Ansi.make().red()
+          .toString("Property " + key + " cannot have this invalid character '-', changing '-' to '_'"));
+      key = key.replace("-", "_");
+    }
     put(key, stl_Struct.make_pair(func, value));
   }
 
   @Override public synchronized struct_Pair< stl_Callback< ?, String >, Object[] > put(String key,
       struct_Pair< stl_Callback< ?, String >, Object[] > value)
   {
-    key = key.toLowerCase();
-    System.out.println(
-        new stl_AnsiMake(stl_AnsiColors.MAGENTA_BG,
-            "[SYS_VAL" + hashCode() + "] Validating {program_value}: jm.prismix." + key));
+    key = prefix + key.toLowerCase();
+    log("SYSVAL", jm_Ansi.make().magenta().toString(name + " validating: " + key));
     try
     {
-      System.out.println("[SYS_VAL" + hashCode() + "] value.length == 4 -> " + (value.second.length == 4));
+      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString("value.length == 4 -> " + (value.second.length == 4)));
       if (value.second.length != 4)
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
-            "[SYS_VAL" + hashCode() + "] Failed component: " + key + " for: value.length == 4").toString());
+            "[SYS_VAL#" + name + "] Failed component: " + key + " for: value.length == 4").toString());
 
-      System.out.println(
-          "[SYS_VAL" + hashCode() + "] " + value.second[0].getClass().getCanonicalName()
-              + " in value[0].getClass().equals(String.class) "
-              + String.class.getCanonicalName() + " -> "
-              + (value.second[0].getClass().equals(String.class)));
+      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString(value.second[0].getClass().getCanonicalName()
+          + " in value.second[0].getClass().equals(String.class) "
+          + String.class.getCanonicalName() + " -> "
+          + (value.second[0].getClass().equals(String.class))));
+
       if (!value.second[0].getClass().equals(String.class))
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
-            "[SYS_VAL" + hashCode() + "] Failed component: " + key + " for: value[0].getClass().equals(String.class)")
+            "[SYS_VAL#" + name + "] Failed component: " + key + " for: value[0].getClass().equals(String.class)")
                 .toString());
-
-      System.out.println(
-          "[SYS_VAL" + hashCode() + "] " + value.second[1].getClass().getCanonicalName()
-              + " in value[1].getClass().equals(String.class) "
-              + String.class.getCanonicalName() + " -> "
-              + (value.second[1].getClass().equals(String.class)));
+      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString(value.second[1].getClass().getCanonicalName()
+          + " in value.second[1].getClass().equals(String.class) "
+          + String.class.getCanonicalName() + " -> "
+          + (value.second[1].getClass().equals(String.class))));
       if (!value.second[1].getClass().equals(String.class))
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
-            "[SYS_VAL" + hashCode() + "] Failed component: " + key + " for: value[1].getClass().equals(String.class)")
+            "[SYS_VAL#" + name + "] Failed component: " + key + " for: value[1].getClass().equals(String.class)")
                 .toString());
-      System.out.println(
-          "[SYS_VAL" + hashCode() + "] " + value.second[2].getClass().getCanonicalName()
-              + " in value[2].getClass().equals(String[].class) "
-              + String[].class.getCanonicalName() + "-> "
-              + (value.second[2].getClass().equals(String[].class)));
+      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString(value.second[2].getClass().getCanonicalName()
+          + " in value.second[2].getClass().equals(String[].class) "
+          + String[].class.getCanonicalName() + "-> "
+          + (value.second[2].getClass().equals(String[].class))));
       if (!value.second[2].getClass().equals(String[].class))
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
-            "[SYS_VAL" + hashCode() + "] Failed component: " + key + " for: value[2].getClass().equals(String[].class)")
+            "[SYS_VAL#" + name + "] Failed component: " + key + " for: value[2].getClass().equals(String[].class)")
                 .toString());
-      System.out.println(
-          "[SYS_VAL" + hashCode() + "] " + value.second[3].getClass().getCanonicalName()
-              + " in value[3].getClass().equals(String.class) "
-              + String.class.getCanonicalName() + "-> "
-              + (value.second[3].getClass().equals(String.class)));
+      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString(value.second[3].getClass().getCanonicalName()
+          + " in value[3].getClass().equals(String.class) "
+          + String.class.getCanonicalName() + "-> "
+          + (value.second[3].getClass().equals(String.class))));
       if (!value.second[3].getClass().equals(String.class))
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
-            "[SYS_VAL" + hashCode() + "] Failed component: " + key + " for:  value[3].getClass().equals(String.class)")
+            "[SYS_VAL#" + name + "] Failed component: " + key + " for:  value[3].getClass().equals(String.class)")
                 .toString());
     } catch (Exception e)
     {
-      System.out.println(
-          new stl_AnsiMake(stl_AnsiColors.RED_BG, "[SYS_VAL] Failed component: " + key + " with: " + e.getMessage()));
+      log("SYSVAL", jm_Ansi.make().red().toString("Failed component " + key + " with: " + e.getMessage()));
       throw e;
     }
 
     // checker phase for making sure the property are all met
     for (Object r : value.second)
-      System.out.println("[SYS_VAL] Checked property instance: " + r.getClass().getSimpleName() + " typed");
-
-    return super.put("jm.prismix." + key, value); // for simplification purposes
+      log("SYSVAL", "Checked property instance: " + r.getClass().getSimpleName() + " typed");
+    return super.put(key, value); // for simplification purposes
   }
 
   @Override public String toString()
   {
     StringBuilder sb = new StringBuilder();
-    sb.append("use_Map[" + name + "@" + hashCode()
+    sb.append("use_Map[#" + name + "@" + hashCode()
         + "] contains:\n");
     this.forEach(
         (key, val) -> sb.append(key + " -> " + ((String) get(key).second[0]) + " is " + ((String) get(key).second[1])

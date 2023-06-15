@@ -9,10 +9,10 @@ import javax.swing.WindowConstants;
 public class gui_Config
     extends JFrame
 {
+  
   public gui_Config()
   {
     super("Prismix [Config]");
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    setLocationRelativeTo(ux._ux.getMainUI());
   }
 }

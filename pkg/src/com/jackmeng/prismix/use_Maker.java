@@ -15,13 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
+import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.stl.extend_stl_Wrap;
-import com.jackmeng.stl.stl_AnsiColors;
-import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Wrap;
 import com.jackmeng.stl.types.Null_t;
+
+import static com.jackmeng.prismix.jm_Prismix.*;
 
 /**
  * Utility methods container
@@ -35,16 +36,15 @@ public final class use_Maker
   {
   }
 
-
   public static void db_timed(final Runnable r)
   {
     if ("true".equalsIgnoreCase(_1const.val.get_value("soft_debug")))
     {
       final long i = System.currentTimeMillis();
       r.run();
-      System.out
-          .println(new stl_AnsiMake(stl_AnsiColors.RED_TXT,
-              "[DEBUG] Timed a run for: " + r.toString() + " took " + (System.currentTimeMillis() - i) + "ms"));
+      log("DEBUG",
+          jm_Ansi.make().yellow()
+              .toString("Timed a run for: " + r.toString() + " took " + (System.currentTimeMillis() - i) + "ms"));
     }
     else r.run();
   }
@@ -75,7 +75,7 @@ public final class use_Maker
     {
       final stl_Callback< Boolean, Null_t > callback = items[i.get()].second;
       final String name = items[i.get()].first;
-      System.out.println("[MenuBar] Checks for: " + name + "\n[Menubar] Itr: " + i.get());
+      log("MENUBAR", "Checks for: " + name + " | Itr: " + i.get());
       e[i.get()] = new JCheckBoxMenuItem(name);
       ((JCheckBoxMenuItem) e[i.get()]).setState(items[i.get()].second.call((Null_t) null));
       e[i.get()].addActionListener(ev -> callback.call((Null_t) null));

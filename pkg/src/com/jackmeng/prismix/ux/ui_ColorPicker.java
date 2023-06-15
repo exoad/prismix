@@ -7,10 +7,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.*;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.awt.Toolkit;
@@ -24,16 +24,17 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
+import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.stl.stl_AnsiColors;
-import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
+
+import static com.jackmeng.prismix.jm_Prismix.*;
 
 // Implementations of color pickers visually
 // All of these should be able to dispatch events to the color queue found in _1const
@@ -82,7 +83,7 @@ public final class ui_ColorPicker
     {
       if (this.isVisible() || this.isFocusOwner())
       {
-        System.out.println("[CPick_Debug" + this.hashCode() + "] Picks up a valid color call from the Color queue!");
+        log("CPickDB", hashCode() + " Picks up a valid color call from the color queue!");
         this.repaint(75L);
       }
       return (Void) null;
@@ -93,17 +94,34 @@ public final class ui_ColorPicker
   // Creates a Gradient of White-Black-Color rectangular with sliders to adjust
   // the colors only
   // This should be the default option for the color picker
-  public static final class CPick_GradRect
+  public static final class CPick_GradRect // This for picking RGBA colors
       extends JPanel
       implements
       stl_Listener< stl_Struct.struct_Pair< Color, Boolean > > // Optional to be added but the color picker should
                                                                // be always attached to the currently color picker
+      , MouseMotionListener
   {
+
+    public CPick_GradRect()
+    {
+
+    }
 
     @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
+      return (Void) null;
+    }
+
+    @Override public void mouseDragged(MouseEvent e)
+    {
       // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'call'");
+      throw new UnsupportedOperationException("Unimplemented method 'mouseDragged'");
+    }
+
+    @Override public void mouseMoved(MouseEvent e)
+    {
+      // TODO Auto-generated method stub
+      throw new UnsupportedOperationException("Unimplemented method 'mouseMoved'");
     }
 
   }
@@ -141,39 +159,40 @@ public final class ui_ColorPicker
 
       if (e.getText().length() > 0)
       {
-        System.out.println(
-            new stl_AnsiMake(stl_AnsiColors.YELLOW_TXT, "[CPick_Suggestions] Actions acquiring a proper menu handle"));
+        log("CPickSGTN", "Actions acquiring a proper menu handle");
         SwingUtilities.invokeLater(() -> {
           final Optional< JPopupMenu > r = use_Maker.jpop(e.getText(), new stl_Struct.struct_Pair[] {
               stl_Struct.make_pair("Copy to clipboard", (stl_Callback< Void, Void >) nil -> {
                 Toolkit.getDefaultToolkit().getSystemClipboard()
                     .setContents(new java.awt.datatransfer.StringSelection(e.getText()), null);
-                System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
-                    "[CPick_Suggestions] {1} Copied the target color to the clipboard: " + e.getText()));
+                log("CPickSGTN",
+                    jm_Ansi.make().green().toString("{1} Copied the target color to the clipboard: ") + e.getText());
                 return (Void) null;
               }),
               stl_Struct.make_pair("Inspect color", (stl_Callback< Void, Void >) nil -> {
                 _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(e.getText()), false));
-                System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
-                    "[CPick_Suggestions] {1} Dispatched the target color to the global inspect queue: " + e.getText()));
+                log("CPickSGTN",
+                    jm_Ansi.make().green().toString("{2} Dispatched the target color to the global inspect queue: ")
+                        + e.getText());
                 return (Void) null;
               }),
               stl_Struct.make_pair("Inspect & Copy", (stl_Callback< Void, Void >) nil -> {
                 Toolkit.getDefaultToolkit().getSystemClipboard()
                     .setContents(new java.awt.datatransfer.StringSelection(e.getText()), null);
-                System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
-                    "[CPick_Suggestions] {2} Copied the target color to the clipboard: " + e.getText()));
                 _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(e.getText()), false));
-                System.out.println(new stl_AnsiMake(stl_AnsiColors.GREEN_TXT,
-                    "[CPick_Suggestions] {2} Dispatched the target color to the global inspect queue: " + e.getText()));
+
+                log("CPickSGTN", jm_Ansi.make().green().toString(
+                    "{3} Dispatched & Copied the target color: ")
+                    + e.getText());
                 return (Void) null;
               })
           });
-          System.out.println(
-              new stl_AnsiMake(stl_AnsiColors.BLUE_TXT, "[CPick_Suggestions] Action received the desired state!"));
+          log("CPickSGTN", "Action received the desired state!");
           r.ifPresent(x -> {
-            System.out.println("[CPick_Suggestions] Rendering the final popup menu to the screen!");
-            ((javax.swing.JPopupMenu) x).show(this, e.getX(), e.getY() + 30);
+            java.awt.Point pt = e.getMousePosition();
+            log("CPickSGTN", "Rendering the final popup menu to the screen at: " + pt.x + ","
+                + pt.y);
+            ((javax.swing.JPopupMenu) x).show(this, pt.x, pt.y); // !needs fix
           });
         });
       }
@@ -310,10 +329,9 @@ public final class ui_ColorPicker
         this.shades_Shades.add(this.shades_List.get(i), gbc);
       }
 
-      System.out.println(new stl_AnsiMake(stl_AnsiColors.BLUE_BG,
-          "[CPick_Suggestions] Registered " + this.shades_cols * this.shades_rows + " ShadesButtons | Registered "
-              + this.tones_cols * this.tones_rows + " TonesButtons | Registered " + this.tint_cols * this.tint_rows
-              + " TintsButtons"));
+      log("CPickSGTN", "Registered " + this.shades_cols * this.shades_rows + " ShadesButtons | Registered "
+          + this.tones_cols * this.tones_rows + " TonesButtons | Registered " + this.tint_cols * this.tint_rows
+          + " TintsButtons");
 
       contentWrapper.add(this.shades_Tint);
       contentWrapper.add(this.shades_Shades);
@@ -331,9 +349,9 @@ public final class ui_ColorPicker
     {
       if (Boolean.FALSE.equals(arg0.second))
       {
-        System.out.println("[CPick_Suggestions] Called to revalidate the current colors");
-        boolean use_sorted = "true".equalsIgnoreCase(_1const.val.get_value("suggestions-sorted")),
-            use_l2d = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sorted_light_to_dark"));
+        log("CPickSGTN", jm_Ansi.make().blue().toString("Called to revalidate the current colors"));
+        boolean use_sorted = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sorted")),
+            use_l2d = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sort_light_to_dark"));
         use_Maker.db_timed(() -> {
           if (this.shades_Tones.isVisible())
           {

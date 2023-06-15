@@ -2,6 +2,9 @@
 
 package com.jackmeng.prismix;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
@@ -12,10 +15,13 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
+import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.ux.ux;
 import com.jackmeng.stl.stl_Callback;
+import com.jackmeng.stl.stl_Chrono;
 import com.jackmeng.stl.stl_In;
+import com.jackmeng.stl.stl_Str;
 import com.jackmeng.stl.stl_Wrap;
 
 /**
@@ -25,17 +31,34 @@ import com.jackmeng.stl.stl_Wrap;
  */
 public class jm_Prismix
 {
+
   // ! Any IO that happens here should be deemed important and not purely for
   // debug purposes!
 
   public static final AtomicLong time = new AtomicLong(System.currentTimeMillis());
   public static final long _VERSION_ = 2023_06_01L; // YYYY_MM_DD of the closest month
+  public static final PrintStream IO = System.out;
 
   static final Map< String, stl_Callback< Void, String > > IO_COMMANDS = new HashMap<>();
   static
   {
     System.out.println(
         "==Prismix==\nGUI Color Picker and palette creator\nCopyright (C) Jack Meng (exoad) 2023\nEnjoy!");
+
+    System.setOut(new PrintStream(new OutputStream() {
+      @Override public void write(byte[] buffer, int offset, int length)
+      {
+        log("SYS", new String(buffer, offset, length));
+      }
+
+      @Override public void write(int b) throws IOException
+      {
+        write(new byte[] { (byte) b }, 0, 1);
+      }
+    }));
+
+    System.setErr(System.out);
+
     final StringBuilder sb = new StringBuilder();
     System.getProperties().forEach((key, value) -> sb.append(key + " = " + value + "\n"));
     System.out.println("All initialized properties:\n" + sb.toString());
@@ -68,6 +91,7 @@ public class jm_Prismix
     {
       e.printStackTrace();
     }
+
   }
 
   public static void main(final String... x) // !! fuck pre Java 11 users, fuck their dumb shit
@@ -76,15 +100,39 @@ public class jm_Prismix
     final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
     Runtime.getRuntime().addShutdownHook(
         (new Thread(
-            () -> System.out.println("[PROGRAM] Alive for: " + (System.currentTimeMillis() - jm_Prismix.time.get())))));
+            () -> log("PRISMIX", "Alive for: " + (System.currentTimeMillis() - jm_Prismix.time.get())))));
     _1const.worker.scheduleAtFixedRate(new TimerTask() {
       @Override public void run()
       {
         final String str = reader.obj.nextln();
-        System.out.println("[I/O] Received contract: " + str);
+        log("I/O", "Received contract " + str);
       }
     }, 100L, 650L);
-    System.out
-        .println("[Program] Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
+    log("PRISMIX", "Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
+  }
+
+  public static void log(String name, String content)
+  {
+    name = name.length() > 8 ? name.substring(0, 8)
+        : name.length() < 8 ? name + (stl_Str.n_copies(8 - name.length(), "_")) : name;
+    for (String str : content.split("\n"))
+    {
+      IO.println(
+          jm_Ansi.make().bold().toString("| ") + jm_Ansi.make().white_bg().red_fg().toString(name)
+              + jm_Ansi.make().bold().toString(" |") + " " + jm_Ansi.make().bold().toString("| ")
+              + jm_Ansi.make().white().magenta()
+                  .toString(stl_Chrono.format_time("HH:mm:ss:SSS", System.currentTimeMillis() - time.get()))
+              + jm_Ansi.make().bold().toString(" |") + "\t"
+              + jm_Ansi.make().cyan().bold().toString("||") + "\t\t" + str);
+    }
+    /*------------------------------------------------------------------------------------------------------ /
+    / IO.println(                                                                                            /
+    /     jm_Ansi.make().bold().toString("| ") + jm_Ansi.make().white_bg().red_fg().toString(name)           /
+    /         + jm_Ansi.make().bold().toString(" |") + " " + jm_Ansi.make().bold().toString("| ")            /
+    /         + jm_Ansi.make().white().magenta()                                                             /
+    /             .toString(stl_Chrono.format_time("HH:mm:ss:SSS", System.currentTimeMillis() - time.get())) /
+    /         + jm_Ansi.make().bold().toString(" |") + "\t"                                                  /
+    /         + jm_Ansi.make().cyan().bold().toString("||") + "\t\t" + content);                             /
+    /-------------------------------------------------------------------------------------------------------*/
   }
 }

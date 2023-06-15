@@ -21,6 +21,7 @@ import javax.swing.SwingUtilities;
 
 import org.w3c.dom.events.MouseEvent;
 
+import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
@@ -29,6 +30,8 @@ import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_SwingHelper;
 import com.jackmeng.stl.jlib.jlib_Point;
 import com.jackmeng.stl.types.Null_t;
+
+import static com.jackmeng.prismix.jm_Prismix.*;
 
 /**
  * Main UI Handler class. This serves as a bridge between the
@@ -43,13 +46,23 @@ public final class ux
     implements
     Runnable
 {
+
+  public static final ux _ux = new ux();
+  /* sampling version listener */ static final AWTEventListener awt_1 = event -> {
+    if (event instanceof final MouseEvent evt)
+    {
+      log("MOUSESAMPLE", "Mouse caught at (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
+      ux._ux.mainui.setEnabled(true);
+    }
+  };
+
   static
   {
     _1const.worker.scheduleAtFixedRate(new TimerTask() {
       @Override public void run()
       {
-        System.out.println(
-            "[UX_SM_WATCHDOG] Cleanup watchdog checking if the AWT thread has a listener that is not needed...");
+        log("MOUSESAMPLE", jm_Ansi.make().blue()
+            .toString("Cleanup watchdog checking if the AWT thread has a listener that is not needed..."));
         if (!ux.sampledMousePicking_Started.get())
         {
           try
@@ -57,12 +70,12 @@ public final class ux
             if (Arrays.binarySearch(Toolkit.getDefaultToolkit().getAWTEventListeners(), ux.awt_1) >= 0)
             {
               Toolkit.getDefaultToolkit().removeAWTEventListener(ux.awt_1);
-              System.out.println("[UX_SM_WATCHDOG] Cleanup watchdog removed the click sampler listener");
+              log("MOUSESAMPLE", "Cleanup watchdog removed the unnecessary click sampler listener");
             }
             if (Arrays.binarySearch(Toolkit.getDefaultToolkit().getAWTEventListeners(), ux.awt_2) >= 0)
             {
               Toolkit.getDefaultToolkit().removeAWTEventListener(ux.awt_2);
-              System.out.println("[UX_SM_WATCHDOG] Cleanup watchdog removed the motion sampler listener");
+              log("MOUSESAMPLE", "Cleanup watchdog removed the unnecessary mouse motion sampler listener");
             }
             if (!ux._ux.mainui.isEnabled())
               ux._ux.mainui.setEnabled(true);
@@ -71,28 +84,16 @@ public final class ux
             // this is an arbitrary error we can just ignore
           }
         }
-        else System.out.println("[UX_SM_WATCHDOG] Cleanup watchdog not needed...");
+        else log("MOUSESAMPLE", "Cleanup watchdog didn't find anything to clean up");
 
       }
     }, 500L, 650L);
   }
 
-  public static final ux _ux = new ux();
-  /* sampling version listener */ static final AWTEventListener awt_1 = event -> {
-    if (event instanceof final MouseEvent evt)
-    {
-      System.out
-          .println("[UX_SAMPLING_MOUSE] Mouse caught at: (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
-
-      ux._ux.mainui.setEnabled(true);
-    }
-  };
-
   /* motion sampler */ static final AWTEventListener awt_2 = event -> {
     if (event instanceof final MouseEvent evt)
     {
-      System.out
-          .println("[UX_SAMPLING_MOUSE] Mouse sampled at: (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
+      log("MOUSESAMPLE", "Mouse sampled at: (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
     }
   };
 
@@ -107,7 +108,7 @@ public final class ux
   {
     if (!ux.sampledMousePicking_Started.get())
     {
-      System.out.println("[UX_SAMPLING_MOUSE] Mouse sampler attached for COLOR_PICKING");
+      log("MOUSESAMPLE", jm_Ansi.make().blue().toString("Sampler attached for job: COLOR_PICKING"));
       ux._ux.mainui.setEnabled(false);
 
       Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_1::eventDispatched, AWTEvent.MOUSE_EVENT_MASK);
@@ -116,7 +117,6 @@ public final class ux
       final Thread t_worker = new Thread(() -> {
         while (ux.sampledMousePicking_Started.get())
         {
-          System.out.println("[UX_SAMPLING_MOUSE] Sampled at: ");
           try
           {
             Thread.sleep(sampleDelay);
@@ -151,7 +151,6 @@ public final class ux
         .setPreferredSize(new Dimension(this.childui.getPreferredSize().width, this.childui.getPreferredSize().height));
     this.mainui.wrapper.add(this.childui, BorderLayout.CENTER);
     this.mainui.bar.setPreferredSize(new Dimension(this.childui.getPreferredSize().width, 25));
-
     final stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > >[] e = new stl_Struct.struct_Pair[this.childui.top
         .exports().length];
     final JPanel[] r = this.childui.top.exports();
@@ -165,16 +164,16 @@ public final class ux
 
   public synchronized void force_redo()
   {
-    System.out.println("[UX] Attempting Force redo GUI...");
+    log("UX", jm_Ansi.make().yellow().toString("Forcing a GUI redo..."));
     SwingUtilities.updateComponentTreeUI(this.mainui);
     this.mainui.repaint();
     this.mainui.revalidate();
-    System.out.println("[UX] Force redo GUI DONE");
+    log("UX", jm_Ansi.make().green().toString("Force GUI redo DONE"));
   }
 
   @Override public void run()
   {
-    System.out.println("[UX] Dispatched a run event for the current UI creation! Hoping this goes well...");
+    log("UX", "Dispatched a run event for the current UI creation! Hoping this goes well...");
     SwingUtilities.invokeLater(() -> {
       this.childui.validate_size();
       this.mainui.run();
@@ -188,7 +187,6 @@ public final class ux
                                                                                                      // components for
                                                                                                      // listening
     });
-    System.out.println("[SYS_VAL_DEBUG]: " + _1const.val);
     if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
     {
       new Thread(() -> {
@@ -198,7 +196,7 @@ public final class ux
           if (!started.get())
             started.set(true);
           stl_SwingHelper.listComponents_OfContainer(this.mainui).forEach(x -> {
-            System.out.println("[DEBUG] Setting debug border for: " + x.hashCode());
+            log("DEBUG", jm_Ansi.make().cyan_bg().toString("Setting DEBUG border for: " + x.hashCode()));
             try
             {
               if (x instanceof JComponent)
