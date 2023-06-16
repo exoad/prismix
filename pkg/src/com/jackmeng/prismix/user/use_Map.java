@@ -56,6 +56,16 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   public final String name;
   public final String prefix;
 
+  /**
+   * The cache will always reset a property if it has the target value but is out
+   * of sync. If however, it is not out of sync (lazy-load), the getters would
+   * always default to the cache instead of reparsing in order to save computation
+   * time and resources.
+   *
+   * It stores: <key, key's cached value>
+   */
+  private transient HashMap< String, String > cache;
+
   public use_Map()
   {
     this(_1const.RNG.nextLong(4000) + "", "");
@@ -66,10 +76,12 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
     super();
     this.name = name;
     this.prefix = prefix;
+    cache = new HashMap<>();
   }
 
   /**
-   * Sets just the property or the second element of the array
+   * Sets just the property or the second element of the array.
+   *
    *
    * @param key
    *          The property name
@@ -82,12 +94,13 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
     {
       key = prefix + key.toLowerCase();
       // perform preliminary checks on if the value is allowed
-      if (((String[]) this.get(key).second[2]).length > 0)
+      if (((String[]) this.get(key).second[2]).length > 0) // this part checks if <key, pair<fx, vals>> where vals.length > 0
       {
         if (Arrays.binarySearch((String[]) this.get(key).second[2], key) >= 0)
         {
           this.put(key, stl_Struct.make_pair(this.get(key).first,
               new Object[] { this.get(key).second[0], new_value, this.get(key).second[2], this.get(key).second[3] }));
+          cache.put(key, new_value);
           log("SYSVAL", jm_Ansi.make().green().toString(name + " changed value of " + key + " to " + new_value));
         }
         else
@@ -125,9 +138,10 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   }
 
   // asserts that the value returned will be in the correct type to be casted.
-  // this is for properties where values can be dynamic. it also helps the map
-  // perform lazy checking where the value is checked and set
-  public Optional< Object > parse(String key)
+  // this is for properties where values can be dynamic.
+  //! it also helps the map
+  //! perform lazy checking where the value is checked and set
+  @SuppressWarnings("unchecked") public Optional< Object > parse(String key)
   {
     String value = get_value(key);
     return switch (get_type(key)) {
@@ -138,8 +152,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
         yield Optional.of(result_bool);
       case IntBound:
         log("SYSVAL", "Parsing: " + key + " as type " + IntBound);
-        int result_intbound = parse_IntBound(Integer.parseInt(get_allowed(key)[0]),
-            Integer.parseInt(get_allowed(key)[1])).call(value);
+        int result_intbound = ((stl_Callback< Integer, String >) get(prefix + key).first).call(value);
         set_property(key,
             "" + result_intbound);
         yield Optional.of(result_intbound);

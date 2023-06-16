@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
@@ -114,26 +115,37 @@ public final class ui_ColorPicker
       lazyViewport_controls.setView(controls);
       controls_ScrollView.setViewportView(lazyViewport_controls);
 
-      JPanel gradientView = new JPanel();
-      if (Boolean.TRUE.equals((Boolean) _1const.val.parse("debug_gui").get()))
-      {
-        gradientView.setOpaque(true);
-        gradientView.setBackground(Color.MAGENTA);
-
-        controls.setOpaque(true);
-        controls.setBackground(Color.GREEN);
-      }
+      JPanel gradientView = new JPanel() {
+        @Override public void paintComponent(final Graphics g)
+        {
+          revalidate();
+          super.paintComponent(g);
+          use_Maker.db_timed(() -> {
+            final Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+            BufferedImage v = extend_stl_Colors.cpick_gradient2(this.getSize().width,
+                _1const.last_color());
+            g2.drawImage(v,
+                null, 2,
+                (this.getHeight() - v.getHeight()) / 2);
+            g2.dispose();
+          });
+        }
+      };
 
       setLeftComponent(gradientView);
       setRightComponent(controls_ScrollView);
       setOrientation(JSplitPane.HORIZONTAL_SPLIT);
       setAutoscrolls(false);
-      setDividerLocation(0.5D);
+      setName("ui_CPick_GradRect");
+      addComponentListener(ux_Listen.VISIBILITY());
 
     }
 
     @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
+      if (isVisible())
+        this.repaint(75L);
       return (Void) null;
     }
 
@@ -366,11 +378,15 @@ public final class ui_ColorPicker
 
       this.setLayout(new BorderLayout());
       this.add(masterScroll, BorderLayout.CENTER);
+
+      setName("ui_CPick_SuggestionsList");
+      addComponentListener(ux_Listen.VISIBILITY());
     }
 
     @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
-      if (Boolean.FALSE.equals(arg0.second))
+      if (Boolean.FALSE.equals(arg0.second) && this.isVisible()) // second arg to make sure that this does not paint
+                                                                 // when the user is on a different tab
       {
         log("CPickSGTN", jm_Ansi.make().blue().toString("Called to revalidate the current colors"));
         boolean use_sorted = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sorted")),
