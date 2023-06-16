@@ -22,6 +22,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 import com.jackmeng.ansicolors.jm_Ansi;
@@ -95,7 +96,7 @@ public final class ui_ColorPicker
   // the colors only
   // This should be the default option for the color picker
   public static final class CPick_GradRect // This for picking RGBA colors
-      extends JPanel
+      extends JSplitPane
       implements
       stl_Listener< stl_Struct.struct_Pair< Color, Boolean > > // Optional to be added but the color picker should
                                                                // be always attached to the currently color picker
@@ -104,6 +105,30 @@ public final class ui_ColorPicker
 
     public CPick_GradRect()
     {
+      final JScrollPane controls_ScrollView = new JScrollPane();
+
+      JPanel controls = new JPanel();
+      controls.setLayout(new BoxLayout(controls, BoxLayout.X_AXIS));
+
+      ui_LazyViewport lazyViewport_controls = new ui_LazyViewport();
+      lazyViewport_controls.setView(controls);
+      controls_ScrollView.setViewportView(lazyViewport_controls);
+
+      JPanel gradientView = new JPanel();
+      if (Boolean.TRUE.equals((Boolean) _1const.val.parse("debug_gui").get()))
+      {
+        gradientView.setOpaque(true);
+        gradientView.setBackground(Color.MAGENTA);
+
+        controls.setOpaque(true);
+        controls.setBackground(Color.GREEN);
+      }
+
+      setLeftComponent(gradientView);
+      setRightComponent(controls_ScrollView);
+      setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+      setAutoscrolls(false);
+      setDividerLocation(0.5D);
 
     }
 
@@ -114,14 +139,12 @@ public final class ui_ColorPicker
 
     @Override public void mouseDragged(MouseEvent e)
     {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'mouseDragged'");
+      // We don't need this method, moseMoved takes care of it
     }
 
     @Override public void mouseMoved(MouseEvent e)
     {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'mouseMoved'");
+      log("CPickGRT", "Mouse located at: " + e.getX() + ", " + e.getY());
     }
 
   }

@@ -111,10 +111,14 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   public String get_value(String key)
   {
     key = prefix + key.toLowerCase();
-
-    if (!this.containsKey(key))
-      log("SYSVAL", jm_Ansi.make().red().bold().toString(name + " failed to retrieve an element with key: ") + " " + key
-          + " | " + jm_Ansi.make().yellow().toString("{!} This is a bug!"));
+    log("SYSVAL",
+        !this.containsKey(key)
+            ? jm_Ansi.make().red().bold().toString(name + " failed to retrieve an element with key: ") + " " + key
+                + " | " + jm_Ansi.make().yellow().toString("{!} This is a bug!")
+            : jm_Ansi.make().green().bold().toString(name + " found key: ")
+                + jm_Ansi.make().underline().black().cyan_bg().toString(key)
+                + jm_Ansi.make().green().bold().toString(" with value: ")
+                + this.get(key).second[1]);
     return (String) this.get(key).second[1]; // casting guranteed due
     // to #put override
     // implementation
@@ -128,24 +132,30 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
     String value = get_value(key);
     return switch (get_type(key)) {
       case Bool:
+        log("SYSVAL", "Parsing: " + key + " as type " + Bool);
         boolean result_bool = parse_Bool.call(value);
         set_property(key, "" + result_bool);
         yield Optional.of(result_bool);
       case IntBound:
+        log("SYSVAL", "Parsing: " + key + " as type " + IntBound);
         int result_intbound = parse_IntBound(Integer.parseInt(get_allowed(key)[0]),
             Integer.parseInt(get_allowed(key)[1])).call(value);
         set_property(key,
             "" + result_intbound);
         yield Optional.of(result_intbound);
       case StrBound:
+        log("SYSVAL", "Parsing: " + key + " as type " + StrBound);
         String[] temp_1 = get_allowed(key);
         String result_strbound = parse_StrBound(temp_1, temp_1[0])
             .call(value);
         set_property(key, result_strbound);
         yield Optional.of(result_strbound);
       case Any:
+        log("SYSVAL", "Parsing: " + key + " as type " + Any);
         yield Optional.of(parse_Any.call(value));
       default:
+        log("SYSVAL", jm_Ansi.make().yellow().bold().toString("Parsing: " + key + " could not find a proper type")
+            + " | " + jm_Ansi.make().underline().toString("{!} This is a bug"));
         yield Optional.empty();
     };
   }
@@ -158,7 +168,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
 
   public String get_type(String key)
   {
-    key = key.toLowerCase();
+    key = prefix + key.toLowerCase();
     return this.containsKey(key) ? (String) this.get(key).second[0] : "undef";
   }
 

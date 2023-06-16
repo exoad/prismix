@@ -94,7 +94,7 @@ public class gui_Container
 			this.colorChooser.addTab("Generator", colorChooser_Shades);
 			final ui_ColorPicker.CPick_GradRect colorChooser_gradientRect = new ui_ColorPicker.CPick_GradRect(); // RGBA Gradient Rectangle
 			_1const.COLOR_ENQ.add(colorChooser_gradientRect);
-			this.colorChooser.addTab("RGBA Rectangle", colorChooser_gradientRect);
+			//this.colorChooser.addTab("RGBA Rectangle", colorChooser_gradientRect);
 
 			if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
 			{

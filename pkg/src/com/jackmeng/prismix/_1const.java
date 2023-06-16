@@ -3,6 +3,7 @@ package com.jackmeng.prismix;
 
 import java.awt.Color;
 import java.lang.ref.SoftReference;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;

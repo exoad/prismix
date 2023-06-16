@@ -111,6 +111,21 @@ public class jm_Prismix
     log("PRISMIX", "Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
   }
 
+  public static void debug(String content)
+  {
+    for (String str : content.split("\n"))
+    {
+      IO.println(
+          jm_Ansi.make().bold().toString("| ") + jm_Ansi.make().red().white().toString("DEBUG")
+              + jm_Ansi.make().bold().toString(" |") + " " + jm_Ansi.make().bold().toString("| ")
+              + jm_Ansi.make().white().cyan()
+                  .toString(stl_Chrono.format_time("HH:mm:ss:SSS", System.currentTimeMillis() - time.get()))
+              + jm_Ansi.make().bold().toString(" |") + "\t"
+              + jm_Ansi.make().cyan().bold().toString("||") + "\t\t" + str);
+    }
+  }
+
+
   public static void log(String name, String content)
   {
     name = name.length() > 8 ? name.substring(0, 8)
