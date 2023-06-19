@@ -393,250 +393,254 @@ public class gui_Container
 			this.setRightComponent(this.colorAttributes);
 
 			_1const.COLOR_ENQ.add(pair -> { // GUI ONLY LISTENER
-				final Color x = pair.first;
-				final float[] x_rgba = new float[] { x.getRed(), x.getGreen(), x.getBlue(), x.getAlpha() };
-				final float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
-				final float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
-				final float[] cmyk = extend_stl_Colors.rgbToCmyk(x_rgba);
-				final float[] ciexyz = x.getColorSpace().toCIEXYZ(new float[] { x.getRed(),
-						x.getGreen(), x.getBlue(), x.getAlpha() });
-				SwingUtilities.invokeLater(() -> {
-					log("TOP_G_PANE", jm_Ansi.make().yellow().toString("Rewashing all of the color text properties to set"));
-					colorDisplay.setForeground(x);
-					colorDisplay.setBackground(x);
-					((ui_R_ColorLabel) colorDisplay).borderColor(x);
+				_render.unify_(this, nil -> {
+					final Color x = pair.first;
+					final float[] x_rgba = new float[] { x.getRed(), x.getGreen(), x.getBlue(), x.getAlpha() };
+					final float[] hsl = extend_stl_Colors.rgbToHsl(x_rgba);
+					final float[] hsv = extend_stl_Colors.rgbToHsv(x_rgba);
+					final float[] cmyk = extend_stl_Colors.rgbToCmyk(x_rgba);
+					final float[] ciexyz = x.getColorSpace().toCIEXYZ(new float[] { x.getRed(),
+							x.getGreen(), x.getBlue(), x.getAlpha() });
+					SwingUtilities.invokeLater(() -> {
+						log("TOP_G_PANE", jm_Ansi.make().yellow().toString("Rewashing all of the color text properties to set"));
+						colorDisplay.setForeground(x);
+						colorDisplay.setBackground(x);
+						((ui_R_ColorLabel) colorDisplay).borderColor(x);
 
-					colorDisplay_R.setBackground(new Color(
-							colorDisplay.getBackground().getRed() / 255F, 0F, 0F));
-					colorDisplay_R.setForeground(colorDisplay_R.getBackground());
-					/*--------------------------------------------------------------- /
-					/ colorDisplay_R.setBorder(BorderFactory                          /
-					/     .createLineBorder(                                          /
-					/         x.getRed() < 255 / 2 ? new Color(x.getRed() / 255F, 0F, /
-					/             0F).brighter()                                      /
-					/             : new Color(x.getRed() / 255F, 0F,                  /
-					/                 0F).darker(),                                   /
-					/         2));                                                    /
-					/                                                                 /
-					/----------------------------------------------------------------*/
-					colorDisplay_G.setBackground(new Color(0F,
-							colorDisplay.getBackground().getGreen() / 255F, 0F));
-					colorDisplay_G.setForeground(colorDisplay_G.getBackground());
-					/*----------------------------------------------------------------------- /
-					/ colorDisplay_G                                                          /
-					/     .setBorder(BorderFactory                                            /
-					/         .createLineBorder(                                              /
-					/             x.getGreen() < 255 / 2 ? new Color(0F, x.getGreen() / 255F, /
-					/                 0F).brighter()                                          /
-					/                 : new Color(0F, x.getGreen() / 255F,                    /
-					/                     0F).darker(),                                       /
-					/             2));                                                        /
-					/------------------------------------------------------------------------*/
+						colorDisplay_R.setBackground(new Color(
+								colorDisplay.getBackground().getRed() / 255F, 0F, 0F));
+						colorDisplay_R.setForeground(colorDisplay_R.getBackground());
+						/*--------------------------------------------------------------- /
+						/ colorDisplay_R.setBorder(BorderFactory                          /
+						/     .createLineBorder(                                          /
+						/         x.getRed() < 255 / 2 ? new Color(x.getRed() / 255F, 0F, /
+						/             0F).brighter()                                      /
+						/             : new Color(x.getRed() / 255F, 0F,                  /
+						/                 0F).darker(),                                   /
+						/         2));                                                    /
+						/                                                                 /
+						/----------------------------------------------------------------*/
+						colorDisplay_G.setBackground(new Color(0F,
+								colorDisplay.getBackground().getGreen() / 255F, 0F));
+						colorDisplay_G.setForeground(colorDisplay_G.getBackground());
+						/*----------------------------------------------------------------------- /
+						/ colorDisplay_G                                                          /
+						/     .setBorder(BorderFactory                                            /
+						/         .createLineBorder(                                              /
+						/             x.getGreen() < 255 / 2 ? new Color(0F, x.getGreen() / 255F, /
+						/                 0F).brighter()                                          /
+						/                 : new Color(0F, x.getGreen() / 255F,                    /
+						/                     0F).darker(),                                       /
+						/             2));                                                        /
+						/------------------------------------------------------------------------*/
 
-					colorDisplay_B.setBackground(new Color(0F, 0F,
-							colorDisplay.getBackground().getBlue() / 255F));
-					colorDisplay_B.setForeground(colorDisplay_B.getBackground());
-					/*-------------------------------------------------------------------------------- /
-					/ colorDisplay_B                                                                   /
-					/     .setBorder(BorderFactory.createLineBorder(                                   /
-					/         x.getBlue() < 255 / 2 ? new Color(0F, 0F, x.getBlue() / 255F).brighter() /
-					/             : new Color(0F, 0F, x.getBlue() / 255F).darker(),                    /
-					/         2));                                                                     /
-					/---------------------------------------------------------------------------------*/
-					colorDisplay_A.setBackground(new Color(
-							(colorDisplay.getBackground().getAlpha()) / 255F,
-							(colorDisplay.getBackground().getAlpha()) / 255F,
-							(colorDisplay.getBackground().getAlpha()) / 255F));
-					colorDisplay_A.setForeground(colorDisplay_A.getBackground());
+						colorDisplay_B.setBackground(new Color(0F, 0F,
+								colorDisplay.getBackground().getBlue() / 255F));
+						colorDisplay_B.setForeground(colorDisplay_B.getBackground());
+						/*-------------------------------------------------------------------------------- /
+						/ colorDisplay_B                                                                   /
+						/     .setBorder(BorderFactory.createLineBorder(                                   /
+						/         x.getBlue() < 255 / 2 ? new Color(0F, 0F, x.getBlue() / 255F).brighter() /
+						/             : new Color(0F, 0F, x.getBlue() / 255F).darker(),                    /
+						/         2));                                                                     /
+						/---------------------------------------------------------------------------------*/
+						colorDisplay_A.setBackground(new Color(
+								(colorDisplay.getBackground().getAlpha()) / 255F,
+								(colorDisplay.getBackground().getAlpha()) / 255F,
+								(colorDisplay.getBackground().getAlpha()) / 255F));
+						colorDisplay_A.setForeground(colorDisplay_A.getBackground());
 
-					/*----------------------------------------------------------------------------------------------------- /
-					/ rgba_main.setText("<html><strong>RGB</strong>      :  " + x.getRGB() + "</html>");                    /
-					/ colorDisplay.setToolTipText(rgba_main.getText());                                                     /
-					/                                                                                                       /
-					/ rgba_R.setText("<html><strong>Red   (R)</strong>:  " + x.getRed() + " ["                              /
-					/     + String.format("%,.2f", x.getRed() / 255F) + "%]</html>");                                       /
-					/ rgba_R.setToolTipText(                                                                                /
-					/     "<html><strong>Red   (R)</strong>:  " + x.getRed() + " [" + x.getRed() / 255F + "%]</html>");     /
-					/ colorDisplay_G.setToolTipText(rgba_G.getToolTipText());                                               /
-					/                                                                                                       /
-					/ rgba_G.setText("<html><strong>Green (G)</strong>:  " + x.getGreen() + " ["                            /
-					/     + String.format("%,.2f", x.getGreen() / 255F) + "%]</html>");                                     /
-					/ rgba_G.setToolTipText(                                                                                /
-					/     "<html><strong>Green (G)</strong>:  " + x.getGreen() + " [" + x.getGreen() / 255F + "%]</html>"); /
-					/ colorDisplay_G.setToolTipText(rgba_G.getToolTipText());                                               /
-					/                                                                                                       /
-					/ rgba_B.setText("<html><strong>Blue  (B)</strong>:  " + x.getBlue() + " ["                             /
-					/     + String.format("%,.2f", x.getBlue() / 255F) + "%]</html>");                                      /
-					/ rgba_B.setToolTipText("<html><strong>Blue  (B)</strong>:  " + x.getBlue() + " [" + x.getBlue() / 255F /
-					/     + "%]</html>");                                                                                   /
-					/ colorDisplay_B.setToolTipText(rgba_B.getToolTipText());                                               /
-					/                                                                                                       /
-					/ rgba_A.setText("<html><strong>Alpha (A)</strong>:  " + x.getAlpha() + " ["                            /
-					/     + String.format("%,.2f", x.getAlpha() / 255F) + "%]</html>");                                     /
-					/ rgba_A.setToolTipText(                                                                                /
-					/     "<html><strong>Alpha (A)</strong>:  " + x.getAlpha() + " [" + x.getAlpha() / 255F + "%]</html>"); /
-					/ colorDisplay_A.setToolTipText(rgba_A.getToolTipText());                                               /
-					/------------------------------------------------------------------------------------------------------*/
+						/*----------------------------------------------------------------------------------------------------- /
+						/ rgba_main.setText("<html><strong>RGB</strong>      :  " + x.getRGB() + "</html>");                    /
+						/ colorDisplay.setToolTipText(rgba_main.getText());                                                     /
+						/                                                                                                       /
+						/ rgba_R.setText("<html><strong>Red   (R)</strong>:  " + x.getRed() + " ["                              /
+						/     + String.format("%,.2f", x.getRed() / 255F) + "%]</html>");                                       /
+						/ rgba_R.setToolTipText(                                                                                /
+						/     "<html><strong>Red   (R)</strong>:  " + x.getRed() + " [" + x.getRed() / 255F + "%]</html>");     /
+						/ colorDisplay_G.setToolTipText(rgba_G.getToolTipText());                                               /
+						/                                                                                                       /
+						/ rgba_G.setText("<html><strong>Green (G)</strong>:  " + x.getGreen() + " ["                            /
+						/     + String.format("%,.2f", x.getGreen() / 255F) + "%]</html>");                                     /
+						/ rgba_G.setToolTipText(                                                                                /
+						/     "<html><strong>Green (G)</strong>:  " + x.getGreen() + " [" + x.getGreen() / 255F + "%]</html>"); /
+						/ colorDisplay_G.setToolTipText(rgba_G.getToolTipText());                                               /
+						/                                                                                                       /
+						/ rgba_B.setText("<html><strong>Blue  (B)</strong>:  " + x.getBlue() + " ["                             /
+						/     + String.format("%,.2f", x.getBlue() / 255F) + "%]</html>");                                      /
+						/ rgba_B.setToolTipText("<html><strong>Blue  (B)</strong>:  " + x.getBlue() + " [" + x.getBlue() / 255F /
+						/     + "%]</html>");                                                                                   /
+						/ colorDisplay_B.setToolTipText(rgba_B.getToolTipText());                                               /
+						/                                                                                                       /
+						/ rgba_A.setText("<html><strong>Alpha (A)</strong>:  " + x.getAlpha() + " ["                            /
+						/     + String.format("%,.2f", x.getAlpha() / 255F) + "%]</html>");                                     /
+						/ rgba_A.setToolTipText(                                                                                /
+						/     "<html><strong>Alpha (A)</strong>:  " + x.getAlpha() + " [" + x.getAlpha() / 255F + "%]</html>"); /
+						/ colorDisplay_A.setToolTipText(rgba_A.getToolTipText());                                               /
+						/------------------------------------------------------------------------------------------------------*/
 
-					rgba_main.setText(" RGB      :  " + x.getRGB());
-					colorDisplay.setToolTipText(rgba_main.getText());
+						rgba_main.setText(" RGB      :  " + x.getRGB());
+						colorDisplay.setToolTipText(rgba_main.getText());
 
-					rgba_R
-							.setText(" Red   (R):  " + x.getRed() + " ["
-									+ String.format("%,.2f",
-											100 * x.getRed() / 255F)
-									+ "%]");
-					rgba_R.setToolTipText("Red   (R):  " + x.getRed() + " ["
-							+ 100 * x.getRed() / 255F + "%]");
-					colorDisplay_G.setToolTipText(rgba_G.getToolTipText());
+						rgba_R
+								.setText(" Red   (R):  " + x.getRed() + " ["
+										+ String.format("%,.2f",
+												100 * x.getRed() / 255F)
+										+ "%]");
+						rgba_R.setToolTipText("Red   (R):  " + x.getRed() + " ["
+								+ 100 * x.getRed() / 255F + "%]");
+						colorDisplay_G.setToolTipText(rgba_G.getToolTipText());
 
-					rgba_G.setText(
-							" Green (G):  " + x.getGreen() + " ["
-									+ String.format("%,.2f",
-											100 * x.getGreen()
-													/ 255F)
-									+ "%]");
-					rgba_G.setToolTipText("Green (G):  " + x.getGreen() + " ["
-							+ 100 * x.getGreen() / 255F + "%]");
-					colorDisplay_G.setToolTipText(rgba_G.getToolTipText());
+						rgba_G.setText(
+								" Green (G):  " + x.getGreen() + " ["
+										+ String.format("%,.2f",
+												100 * x.getGreen()
+														/ 255F)
+										+ "%]");
+						rgba_G.setToolTipText("Green (G):  " + x.getGreen() + " ["
+								+ 100 * x.getGreen() / 255F + "%]");
+						colorDisplay_G.setToolTipText(rgba_G.getToolTipText());
 
-					rgba_B.setText(
-							" Blue  (B):  " + x.getBlue() + " ["
-									+ String.format("%,.2f",
-											100 * x.getBlue()
-													/ 255F)
-									+ "%]");
-					rgba_B.setToolTipText("Blue  (B):  " + x.getBlue() + " ["
-							+ 100 * x.getBlue() / 255F
-							+ "%]");
-					colorDisplay_B.setToolTipText(rgba_B.getToolTipText());
+						rgba_B.setText(
+								" Blue  (B):  " + x.getBlue() + " ["
+										+ String.format("%,.2f",
+												100 * x.getBlue()
+														/ 255F)
+										+ "%]");
+						rgba_B.setToolTipText("Blue  (B):  " + x.getBlue() + " ["
+								+ 100 * x.getBlue() / 255F
+								+ "%]");
+						colorDisplay_B.setToolTipText(rgba_B.getToolTipText());
 
-					rgba_A.setText(
-							" Alpha (A):  " + x.getAlpha() + " ["
-									+ String.format("%,.2f",
-											100 * x.getAlpha()
-													/ 255F)
-									+ "%]");
-					rgba_A.setToolTipText("Alpha (A):  " + x.getAlpha() + " ["
-							+ 100 * x.getAlpha() / 255F + "%]");
-					colorDisplay_A.setToolTipText(rgba_A.getToolTipText());
+						rgba_A.setText(
+								" Alpha (A):  " + x.getAlpha() + " ["
+										+ String.format("%,.2f",
+												100 * x.getAlpha()
+														/ 255F)
+										+ "%]");
+						rgba_A.setToolTipText("Alpha (A):  " + x.getAlpha() + " ["
+								+ 100 * x.getAlpha() / 255F + "%]");
+						colorDisplay_A.setToolTipText(rgba_A.getToolTipText());
 
-					hexColor.setText(
-							"<html><strong>Hex</strong>: " + extend_stl_Colors.color2hex_2(x) + "</html>");
-					transparency.setText("<html><strong>Transparency</strong>: "
-							+ x.getTransparency() + "</html>");
-					colorFunction_RGB.setText(
-							"<html><strong>CSS rgb</strong>: <p style=\"background-color:black;color:"
-									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
-											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
-									+ "\">rgb<span style=\"color:white\">("
-									+ x.getRed() + ", "
-									+ x.getGreen() + ", " + x.getBlue()
-									+ ")</span></p></html>");
-					colorFunction_RGBA.setText(
-							"<html><strong>CSS rgba</strong>: <p style=\"background-color:black;color:"
-									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
-											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
-									+ "\">rgba<span style=\"color:white\">("
-									+ x.getRed() + ", "
-									+ x.getGreen() + ", " + x.getBlue()
-									+ ", "
-									+ x.getAlpha() + ")</span></p></html>");
-					colorFunction_HSV.setText(
-							"<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:"
-									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
-											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
-									+ "\">hsv<span style=\"color:white\">("
-									+ hsv[0] + ", " + hsv[1] * 100F
-									+ "%, " + hsv[2] * 100F
-									+ "%)</span></p></html>");
+						hexColor.setText(
+								"<html><strong>Hex</strong>: " + extend_stl_Colors.color2hex_2(x) + "</html>");
+						transparency.setText("<html><strong>Transparency</strong>: "
+								+ x.getTransparency() + "</html>");
+						colorFunction_RGB.setText(
+								"<html><strong>CSS rgb</strong>: <p style=\"background-color:black;color:"
+										+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+												(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
+										+ "\">rgb<span style=\"color:white\">("
+										+ x.getRed() + ", "
+										+ x.getGreen() + ", " + x.getBlue()
+										+ ")</span></p></html>");
+						colorFunction_RGBA.setText(
+								"<html><strong>CSS rgba</strong>: <p style=\"background-color:black;color:"
+										+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+												(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
+										+ "\">rgba<span style=\"color:white\">("
+										+ x.getRed() + ", "
+										+ x.getGreen() + ", " + x.getBlue()
+										+ ", "
+										+ x.getAlpha() + ")</span></p></html>");
+						colorFunction_HSV.setText(
+								"<html><strong>CSS hsv</strong>: <p style=\"background-color:black;color:"
+										+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+												(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
+										+ "\">hsv<span style=\"color:white\">("
+										+ hsv[0] + ", " + hsv[1] * 100F
+										+ "%, " + hsv[2] * 100F
+										+ "%)</span></p></html>");
 
-					colorFunction_HSL.setText(
-							"<html><strong>CSS hsl</strong>: <p style=\"background-color:black;color:"
-									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
-											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
-									+ "\">hsl<span style=\"color:white\">("
-									+ hsv[0] + ", " + hsv[1] * 100F
-									+ "%, " + hsl[2] * 100F
-									+ "%)</span></p></html>");
-					colorFunction_CMYK
-							.setText("<html><strong>CSS cmyk</strong>: <p style=\"background-color:black;color:"
-									+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
-											(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
-									+ "\">cmyk<span style=\"color:white\">("
-									+ cmyk[0] * 100F + "%, " + cmyk[1] * 100F
-									+ "%, " + cmyk[2] * 100F
-									+ "%" + cmyk[3] * 100F + "%)</span></p></html>");
+						colorFunction_HSL.setText(
+								"<html><strong>CSS hsl</strong>: <p style=\"background-color:black;color:"
+										+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+												(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
+										+ "\">hsl<span style=\"color:white\">("
+										+ hsv[0] + ", " + hsv[1] * 100F
+										+ "%, " + hsl[2] * 100F
+										+ "%)</span></p></html>");
+						colorFunction_CMYK
+								.setText("<html><strong>CSS cmyk</strong>: <p style=\"background-color:black;color:"
+										+ (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
+												(int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
+										+ "\">cmyk<span style=\"color:white\">("
+										+ cmyk[0] * 100F + "%, " + cmyk[1] * 100F
+										+ "%, " + cmyk[2] * 100F
+										+ "%" + cmyk[3] * 100F + "%)</span></p></html>");
 
-					hsvData_hue.setText("Hue        (H): " + hsv[0]);
-					hsvData_saturation.setText("Saturation (S): " + hsv[1]);
-					hsvData_value.setText("Value      (V): " + hsv[2]);
+						hsvData_hue.setText("Hue        (H): " + hsv[0]);
+						hsvData_saturation.setText("Saturation (S): " + hsv[1]);
+						hsvData_value.setText("Value      (V): " + hsv[2]);
 
-					hslData_hue.setText("Hue        (H): " + hsl[0]);
-					hslData_saturation.setText("Saturation (S): " + hsl[1]);
-					hslData_lightness.setText("Lightness  (L): " + hsl[2]);
+						hslData_hue.setText("Hue        (H): " + hsl[0]);
+						hslData_saturation.setText("Saturation (S): " + hsl[1]);
+						hslData_lightness.setText("Lightness  (L): " + hsl[2]);
 
-					cmykData_C.setText("Cyan    (C): " + String.format("%,.4f", cmyk[0]) + " ["
-							+ String.format("%,.2f", 100 * cmyk[0]) + "%]");
-					cmykData_M.setText("Magenta (M): " + String.format("%,.4f", cmyk[1]) + " ["
-							+ String.format("%,.2f", 100 * cmyk[1]) + "%]");
-					cmykData_Y.setText("Yellow  (Y): " + String.format("%,.4f", cmyk[2]) + " ["
-							+ String.format("%,.2f", 100 * cmyk[2]) + "%]");
-					cmykData_K.setText("Key     (K): " + String.format("%,.4f", cmyk[3]) + " ["
-							+ String.format("%,.2f", 100 * cmyk[3]) + "%]");
+						cmykData_C.setText("Cyan    (C): " + String.format("%,.4f", cmyk[0]) + " ["
+								+ String.format("%,.2f", 100 * cmyk[0]) + "%]");
+						cmykData_M.setText("Magenta (M): " + String.format("%,.4f", cmyk[1]) + " ["
+								+ String.format("%,.2f", 100 * cmyk[1]) + "%]");
+						cmykData_Y.setText("Yellow  (Y): " + String.format("%,.4f", cmyk[2]) + " ["
+								+ String.format("%,.2f", 100 * cmyk[2]) + "%]");
+						cmykData_K.setText("Key     (K): " + String.format("%,.4f", cmyk[3]) + " ["
+								+ String.format("%,.2f", 100 * cmyk[3]) + "%]");
 
-					final float[][] rrr = extend_stl_Colors.cmykToRgb_Comps(cmyk);
-					/*-------------------------------------------------------------------- /
-					/ System.out.println(Arrays.toString(cmyk) + "\n=====");               /
-					/ for (float[] t : rrr)                                                /
-					/   for (float tt : t)                                                 /
-					/     System.out.println(tt); // test for cmyk conversion inaccuracies /
-					/ System.out.println();                                                /
-					/---------------------------------------------------------------------*/
-					cmykData_CD_C.setBackground(extend_stl_Colors.awt_remake(rrr[0]));
-					cmykData_CD_C.setForeground(cmykData_CD_C.getBackground());
-					cmykData_CD_M.setBackground(extend_stl_Colors.awt_remake(rrr[1]));
-					cmykData_CD_M.setForeground(cmykData_CD_M.getBackground());
-					cmykData_CD_Y.setBackground(extend_stl_Colors.awt_remake(rrr[2]));
-					cmykData_CD_Y.setForeground(cmykData_CD_Y.getBackground());
-					cmykData_CD_K.setBackground(extend_stl_Colors.awt_remake(rrr[3]));
-					cmykData_CD_K.setForeground(cmykData_CD_K.getBackground());
+						final float[][] rrr = extend_stl_Colors.cmykToRgb_Comps(cmyk);
+						/*-------------------------------------------------------------------- /
+						/ System.out.println(Arrays.toString(cmyk) + "\n=====");               /
+						/ for (float[] t : rrr)                                                /
+						/   for (float tt : t)                                                 /
+						/     System.out.println(tt); // test for cmyk conversion inaccuracies /
+						/ System.out.println();                                                /
+						/---------------------------------------------------------------------*/
+						cmykData_CD_C.setBackground(extend_stl_Colors.awt_remake(rrr[0]));
+						cmykData_CD_C.setForeground(cmykData_CD_C.getBackground());
+						cmykData_CD_M.setBackground(extend_stl_Colors.awt_remake(rrr[1]));
+						cmykData_CD_M.setForeground(cmykData_CD_M.getBackground());
+						cmykData_CD_Y.setBackground(extend_stl_Colors.awt_remake(rrr[2]));
+						cmykData_CD_Y.setForeground(cmykData_CD_Y.getBackground());
+						cmykData_CD_K.setBackground(extend_stl_Colors.awt_remake(rrr[3]));
+						cmykData_CD_K.setForeground(cmykData_CD_K.getBackground());
 
-					final StringBuilder sb = new StringBuilder(
-							"<strong>Component Names</strong>:"),
-							sb2 = new StringBuilder(
-									"<strong>Component Min , Max</strong>:"),
-							sb3 = new StringBuilder(
-									"<strong>CIEXYZ Form</strong>:");
+						final StringBuilder sb = new StringBuilder(
+								"<strong>Component Names</strong>:"),
+								sb2 = new StringBuilder(
+										"<strong>Component Min , Max</strong>:"),
+								sb3 = new StringBuilder(
+										"<strong>CIEXYZ Form</strong>:");
 
-					for (final float rrtr : ciexyz)
-						sb3.append("<br>&nbsp;&nbsp;" + rrtr);
+						for (final float rrtr : ciexyz)
+							sb3.append("<br>&nbsp;&nbsp;" + rrtr);
 
-					for (int i = 0; i < x.getColorSpace().getNumComponents(); i++)
-					{
-						sb.append("<br>&nbsp;&nbsp;" + (i + 1) + ": "
-								+ x.getColorSpace().getName(i));
-						sb2.append("<br>&nbsp;&nbsp;" + (i + 1) + ": "
-								+ x.getColorSpace().getMinValue(i) + " , "
-								+ x.getColorSpace().getMaxValue(i));
+						for (int i = 0; i < x.getColorSpace().getNumComponents(); i++)
+						{
+							sb.append("<br>&nbsp;&nbsp;" + (i + 1) + ": "
+									+ x.getColorSpace().getName(i));
+							sb2.append("<br>&nbsp;&nbsp;" + (i + 1) + ": "
+									+ x.getColorSpace().getMinValue(i) + " , "
+									+ x.getColorSpace().getMaxValue(i));
 
-					}
+						}
 
-					colorSpace_scrollPane.setText("<html><strong>Components</strong>: "
-							+ x.getColorSpace().getNumComponents()
-							+ "<br><strong>Color Space</strong>: "
-							+ extend_stl_Colors.awt_colorspace_NameMatch(
-									x.getColorSpace())
-							+ "<br>"
-							+ sb.toString() + "<br>" + sb2.toString()
-							+ "<br>" +
-							sb3.toString()
-							+
-							"</html>");
+						colorSpace_scrollPane.setText("<html><strong>Components</strong>: "
+								+ x.getColorSpace().getNumComponents()
+								+ "<br><strong>Color Space</strong>: "
+								+ extend_stl_Colors.awt_colorspace_NameMatch(
+										x.getColorSpace())
+								+ "<br>"
+								+ sb.toString() + "<br>" + sb2.toString()
+								+ "<br>" +
+								sb3.toString()
+								+
+								"</html>");
 
-					this.revalidate();
+						this.revalidate();
 
+					});
+					return (Void) null;
 				});
+
 				return (Void) null;
 			});
 			/*------------------------------------------------------------------------------------------ /
@@ -684,16 +688,17 @@ public class gui_Container
 			stl_Listener< stl_Struct.struct_Pair< Color, Boolean > >
 	{
 
-		JTable history, currentPalette;
+		JTable currentPalette;
+		JPanel history;
 
 		public Container_BottomPane()
 		{
 			this.setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 3));
 			this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-			this.setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 8);
+			this.setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 10);
 			this.setBorder(BorderFactory.createEmptyBorder());
 
-			this.history = new JTable();
+			this.history = new JPanel();
 			this.currentPalette = new JTable();
 
 			this.setRightComponent(this.currentPalette);
@@ -704,14 +709,12 @@ public class gui_Container
 
 		@Override public Void call(struct_Pair< Color, Boolean > arg0)
 		{
-			if(Boolean.FALSE.equals(arg0.second))
+			if (Boolean.FALSE.equals(arg0.second))
 			{
 
 			}
 			return (Void) null;
 		}
-
-
 
 	}
 }

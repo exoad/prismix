@@ -5,6 +5,7 @@ package com.jackmeng.prismix.ux;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.*;
@@ -37,6 +38,7 @@ import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Struct;
+import com.jackmeng.stl.stl_Ware;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
@@ -108,10 +110,14 @@ public final class ui_ColorPicker
   {
     private JPanel gradientView;
     private transient extend_stl_Wrap< Integer > size_SquareGrad;
+    private transient int transformed_x = -1, transformed_y = -1; // transformed which represent the relative mouse
+    // location relative to prismix
+    private int selector_cursor_radius = 10, selector_cursor_stroke = 2;
 
     public CPick_GradRect()
     {
       final JScrollPane controls_ScrollView = new JScrollPane();
+      controls_ScrollView.setBorder(BorderFactory.createEmptyBorder());
 
       JPanel controls = new JPanel();
       controls.setLayout(new BoxLayout(controls, BoxLayout.X_AXIS));
@@ -128,11 +134,37 @@ public final class ui_ColorPicker
           use_Maker.db_timed(() -> {
             final Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+
+            // draw the gradient
             BufferedImage v = extend_stl_Colors.cpick_gradient2(this.getSize().width,
                 _1const.last_color());
             g2.drawImage(v,
                 null, 0,
                 (getHeight() - v.getHeight()) / 2);
+            if (transformed_x != -1 && transformed_y != -1)
+            {
+
+              // draw the color cursor
+              g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE); // prob does
+                                                                                                        // something
+              g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // we are drawing
+                                                                                                       // a
+                                                                                                       // circle here,
+                                                                                                       // so
+                                                                                                       // gotta make
+                                                                                                       // sure
+                                                                                                       // the strokes
+                                                                                                       // are
+                                                                                                       // smooth
+              g2.setStroke(new java.awt.BasicStroke(selector_cursor_stroke));
+              g2.setColor(Color.white);
+              g2.drawOval(transformed_x - (selector_cursor_radius / 2), transformed_y - (selector_cursor_radius / 2),
+                  selector_cursor_radius, selector_cursor_radius); // i got so confused, i
+              // thought it took
+              // x,y,x2,y2 so cringe
+
+            }
+
             g2.dispose();
             size_SquareGrad.obj(v.getWidth()); // width == height
           });
@@ -162,22 +194,44 @@ public final class ui_ColorPicker
     {
       if (ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
           new Dimension(size_SquareGrad.get(), size_SquareGrad.get())))
+      {
         log("CPick_GradRect",
-            "Mouse [ DRAGGED ] at: " + e.getX() + ", " + (e.getY() - (getHeight() - size_SquareGrad.get()) / 2)); // we have
-                                                                                                              // to
-                                                                                                              // normalize
-                                                                                                              // Y
+            "Mouse [ DRAGGED ] at: " + e.getX() + ", " + (e.getY() - (getHeight() - size_SquareGrad.get()) / 2)); // we
+                                                                                                                  // have
+        // to
+        // normalize
+        // Y
+        transformed_x = e.getX(); // wtf
+        transformed_y = e.getY(); // wtf here i got confused with relative coordinates and absolute coordintes in
+                                  // regards to the components (screen versus prismix)
+        setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        SwingUtilities.invokeLater(() -> repaint(70L));
+      }
+      else
+        setCursor(Cursor.getDefaultCursor());
+
     }
 
     @Override public void mouseMoved(MouseEvent e)
     {
-      if (ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
+      log("CPick_GradRect",
+          "Mouse within? " + ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
+              new Dimension(size_SquareGrad.get(), size_SquareGrad.get())));
+      if (!ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
           new Dimension(size_SquareGrad.get(), size_SquareGrad.get())))
-        log("CPick_GradRect",
-            "Mouse [ MOVED ] at: " + e.getX() + ", " + (e.getY() - (getHeight() - size_SquareGrad.get()) / 2)); // we have
-                                                                                                            // to
-                                                                                                            // normalize
-                                                                                                            // Y
+        setCursor(Cursor.getDefaultCursor());
+
+      /*----------------------------------------------------------------------------------------------------------------- /
+      / // we ignore this event                                                                                           /
+      / if (ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),                       /
+      /     new Dimension(size_SquareGrad.get(), size_SquareGrad.get())))                                                 /
+      /   log("CPick_GradRect",                                                                                           /
+      /       "Mouse [ MOVED ] at: " + e.getX() + ", " + (e.getY() - (getHeight() - size_SquareGrad.get()) / 2)); // we   /
+      /                                                                                                           // have /
+      / // to                                                                                                             /
+      / // normalize                                                                                                      /
+      / // Y                                                                                                              /
+      /------------------------------------------------------------------------------------------------------------------*/
     }
 
   }

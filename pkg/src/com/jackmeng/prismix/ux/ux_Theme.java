@@ -1,6 +1,7 @@
 
 package com.jackmeng.prismix.ux;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -172,6 +173,7 @@ public final class ux_Theme
         UIManager.put("Component.focusedBorderColor", rsc_dominant_1);
         UIManager.put("TabbedPane.underlineColor", rsc_dominant_1);
         UIManager.put("TabbedPane.selectedColor", rsc_dominant_1);
+        UIManager.put("TabbedPane.selectedBackground", this.theme() == ThemeType.DARK ? Color.BLACK : Color.WHITE);
         UIManager.setLookAndFeel(this.theme() == ThemeType.DARK ? new FlatHighContrastIJTheme()
             : this.theme() == ThemeType.LIGHT ? new FlatGrayIJTheme() : new FlatCarbonIJTheme());
         SwingUtilities.updateComponentTreeUI(ux._ux.getMainUI());

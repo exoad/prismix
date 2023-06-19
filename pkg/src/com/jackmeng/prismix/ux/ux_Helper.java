@@ -3,6 +3,10 @@
 package com.jackmeng.prismix.ux;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
 import java.awt.Point;
@@ -34,6 +38,21 @@ public final class ux_Helper
             + (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
                 (int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
             + "\">" + name + "</p></strong></strong>");
+  }
+
+  public static JScrollPane cpick_zoomer_jsp(JComponent component) // originally made for the gradient rectangle color
+                                                                   // picker
+  {
+    ui_LazyViewport viewport = new ui_LazyViewport();
+    viewport.setView(component);
+
+    JScrollPane jsp = new JScrollPane();
+    jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    jsp.setViewportView(viewport);
+
+    return jsp;
+
   }
 
   public static boolean within(Point target, Point topLeft, Dimension dim)
