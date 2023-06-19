@@ -111,6 +111,8 @@ public class jm_Prismix
     log("PRISMIX", "Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
   }
 
+  static final int MAX_LOG_NAME_LEN = 13;
+
   public static void debug(String content)
   {
     for (String str : content.split("\n"))
@@ -128,8 +130,8 @@ public class jm_Prismix
 
   public static void log(String name, String content)
   {
-    name = name.length() > 8 ? name.substring(0, 8)
-        : name.length() < 8 ? name + (stl_Str.n_copies(8 - name.length(), "_")) : name;
+    name = name.length() > MAX_LOG_NAME_LEN ? name.substring(0, MAX_LOG_NAME_LEN)
+        : name.length() < MAX_LOG_NAME_LEN ? name + (stl_Str.n_copies(MAX_LOG_NAME_LEN - name.length(), "_")) : name;
     for (String str : content.split("\n"))
     {
       IO.println(

@@ -8,6 +8,8 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.*;
+import java.awt.Point;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,6 +32,7 @@ import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.prismix.stl.extend_stl_Wrap;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Colors;
@@ -103,6 +106,8 @@ public final class ui_ColorPicker
                                                                // be always attached to the currently color picker
       , MouseMotionListener
   {
+    private JPanel gradientView;
+    private transient extend_stl_Wrap< Integer > size_SquareGrad;
 
     public CPick_GradRect()
     {
@@ -115,7 +120,7 @@ public final class ui_ColorPicker
       lazyViewport_controls.setView(controls);
       controls_ScrollView.setViewportView(lazyViewport_controls);
 
-      JPanel gradientView = new JPanel() {
+      gradientView = new JPanel() {
         @Override public void paintComponent(final Graphics g)
         {
           revalidate();
@@ -126,37 +131,53 @@ public final class ui_ColorPicker
             BufferedImage v = extend_stl_Colors.cpick_gradient2(this.getSize().width,
                 _1const.last_color());
             g2.drawImage(v,
-                null, 2,
-                (this.getHeight() - v.getHeight()) / 2);
+                null, 0,
+                (getHeight() - v.getHeight()) / 2);
             g2.dispose();
+            size_SquareGrad.obj(v.getWidth()); // width == height
           });
         }
       };
 
+      size_SquareGrad = new extend_stl_Wrap<>(gradientView.getSize().width); // width == height
+
       setLeftComponent(gradientView);
       setRightComponent(controls_ScrollView);
       setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+      setDividerLocation(0.75);
       setAutoscrolls(false);
       setName("ui_CPick_GradRect");
       addComponentListener(ux_Listen.VISIBILITY());
-
+      addMouseMotionListener(this);
     }
 
     @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
       if (isVisible())
-        this.repaint(75L);
+        SwingUtilities.invokeLater(() -> this.repaint(75L));
       return (Void) null;
     }
 
     @Override public void mouseDragged(MouseEvent e)
     {
-      // We don't need this method, moseMoved takes care of it
+      if (ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
+          new Dimension(size_SquareGrad.get(), size_SquareGrad.get())))
+        log("CPick_GradRect",
+            "Mouse [ DRAGGED ] at: " + e.getX() + ", " + (e.getY() - (getHeight() - size_SquareGrad.get()) / 2)); // we have
+                                                                                                              // to
+                                                                                                              // normalize
+                                                                                                              // Y
     }
 
     @Override public void mouseMoved(MouseEvent e)
     {
-      log("CPickGRT", "Mouse located at: " + e.getX() + ", " + e.getY());
+      if (ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
+          new Dimension(size_SquareGrad.get(), size_SquareGrad.get())))
+        log("CPick_GradRect",
+            "Mouse [ MOVED ] at: " + e.getX() + ", " + (e.getY() - (getHeight() - size_SquareGrad.get()) / 2)); // we have
+                                                                                                            // to
+                                                                                                            // normalize
+                                                                                                            // Y
     }
 
   }

@@ -24,12 +24,12 @@ public final class ux_Listen
     return new ComponentAdapter() {
       @Override public void componentHidden(ComponentEvent e)
       {
-        log("VIS_LOG", e.getComponent().getName() + " IS NOW " + jm_Ansi.make().red().toString("HIDDEN"));
+        log("VISIBILITY", e.getComponent().getName() + " IS NOW " + jm_Ansi.make().red().toString("HIDDEN"));
       }
 
       @Override public void componentShown(ComponentEvent r)
       {
-        log("VIS_LOG", r.getComponent().getName() + " IS NOW " + jm_Ansi.make().green().toString("VISIBLE"));
+        log("VISIBILITY", r.getComponent().getName() + " IS NOW " + jm_Ansi.make().green().toString("VISIBLE"));
       }
     };
   }

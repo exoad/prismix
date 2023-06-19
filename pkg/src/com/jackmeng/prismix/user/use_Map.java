@@ -101,20 +101,20 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
           this.put(key, stl_Struct.make_pair(this.get(key).first,
               new Object[] { this.get(key).second[0], new_value, this.get(key).second[2], this.get(key).second[3] }));
           cache.put(key, new_value);
-          log("SYSVAL", jm_Ansi.make().green().toString(name + " changed value of " + key + " to " + new_value));
+          log("MAP_REGISTRY", jm_Ansi.make().green().toString(name + " changed value of " + key + " to " + new_value));
         }
         else
-          log("SYSVAL", jm_Ansi.make().yellow().toString(name + " failed to set property " + key + " to " + new_value)
+          log("MAP_REGISTRY", jm_Ansi.make().yellow().toString(name + " failed to set property " + key + " to " + new_value)
               + " | Value unaltered");
       }
       else
       {
-        log("SYSVAL", jm_Ansi.make().magenta()
+        log("MAP_REGISTRY", jm_Ansi.make().magenta()
             .toString(name + " this is a dangerous operation for a property to not have property checked values!"));
         this.put(key,
             stl_Struct.make_pair(this.get(key).first,
                 new Object[] { this.get(key).second[0], new_value, this.get(key).second[2], this.get(key).second[3] }));
-        log("SYSVAL", jm_Ansi.make().green().toString(name + " changed value of " + key + " to " + new_value));
+        log("MAP_REGISTRY", jm_Ansi.make().green().toString(name + " changed value of " + key + " to " + new_value));
       }
     }
   }
@@ -124,7 +124,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   public String get_value(String key)
   {
     key = prefix + key.toLowerCase();
-    log("SYSVAL",
+    log("MAP_REGISTRY",
         !this.containsKey(key)
             ? jm_Ansi.make().red().bold().toString(name + " failed to retrieve an element with key: ") + " " + key
                 + " | " + jm_Ansi.make().yellow().toString("{!} This is a bug!")
@@ -146,28 +146,28 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
     String value = get_value(key);
     return switch (get_type(key)) {
       case Bool:
-        log("SYSVAL", "Parsing: " + key + " as type " + Bool);
+        log("MAP_REGISTRY", "Parsing: " + key + " as type " + Bool);
         boolean result_bool = parse_Bool.call(value);
         set_property(key, "" + result_bool);
         yield Optional.of(result_bool);
       case IntBound:
-        log("SYSVAL", "Parsing: " + key + " as type " + IntBound);
+        log("MAP_REGISTRY", "Parsing: " + key + " as type " + IntBound);
         int result_intbound = ((stl_Callback< Integer, String >) get(prefix + key).first).call(value);
         set_property(key,
             "" + result_intbound);
         yield Optional.of(result_intbound);
       case StrBound:
-        log("SYSVAL", "Parsing: " + key + " as type " + StrBound);
+        log("MAP_REGISTRY", "Parsing: " + key + " as type " + StrBound);
         String[] temp_1 = get_allowed(key);
         String result_strbound = parse_StrBound(temp_1, temp_1[0])
             .call(value);
         set_property(key, result_strbound);
         yield Optional.of(result_strbound);
       case Any:
-        log("SYSVAL", "Parsing: " + key + " as type " + Any);
+        log("MAP_REGISTRY", "Parsing: " + key + " as type " + Any);
         yield Optional.of(parse_Any.call(value));
       default:
-        log("SYSVAL", jm_Ansi.make().yellow().bold().toString("Parsing: " + key + " could not find a proper type")
+        log("MAP_REGISTRY", jm_Ansi.make().yellow().bold().toString("Parsing: " + key + " could not find a proper type")
             + " | " + jm_Ansi.make().underline().toString("{!} This is a bug"));
         yield Optional.empty();
     };
@@ -189,7 +189,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   {
     if (key.contains("-"))
     {
-      log("SYSVAL", jm_Ansi.make().red()
+      log("MAP_REGISTRY", jm_Ansi.make().red()
           .toString("Property " + key + " cannot have this invalid character '-', changing '-' to '_'"));
       key = key.replace("-", "_");
     }
@@ -200,15 +200,15 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
       struct_Pair< stl_Callback< ?, String >, Object[] > value)
   {
     key = prefix + key.toLowerCase();
-    log("SYSVAL", jm_Ansi.make().magenta().toString(name + " validating: " + key));
+    log("MAP_REGISTRY", jm_Ansi.make().magenta().toString(name + " validating: " + key));
     try
     {
-      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString("value.length == 4 -> " + (value.second.length == 4)));
+      log("MAP_REGISTRY", name + " " + jm_Ansi.make().blue().toString("value.length == 4 -> " + (value.second.length == 4)));
       if (value.second.length != 4)
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
             "[SYS_VAL#" + name + "] Failed component: " + key + " for: value.length == 4").toString());
 
-      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString(value.second[0].getClass().getCanonicalName()
+      log("MAP_REGISTRY", name + " " + jm_Ansi.make().blue().toString(value.second[0].getClass().getCanonicalName()
           + " in value.second[0].getClass().equals(String.class) "
           + String.class.getCanonicalName() + " -> "
           + (value.second[0].getClass().equals(String.class))));
@@ -217,7 +217,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
             "[SYS_VAL#" + name + "] Failed component: " + key + " for: value[0].getClass().equals(String.class)")
                 .toString());
-      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString(value.second[1].getClass().getCanonicalName()
+      log("MAP_REGISTRY", name + " " + jm_Ansi.make().blue().toString(value.second[1].getClass().getCanonicalName()
           + " in value.second[1].getClass().equals(String.class) "
           + String.class.getCanonicalName() + " -> "
           + (value.second[1].getClass().equals(String.class))));
@@ -225,7 +225,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
             "[SYS_VAL#" + name + "] Failed component: " + key + " for: value[1].getClass().equals(String.class)")
                 .toString());
-      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString(value.second[2].getClass().getCanonicalName()
+      log("MAP_REGISTRY", name + " " + jm_Ansi.make().blue().toString(value.second[2].getClass().getCanonicalName()
           + " in value.second[2].getClass().equals(String[].class) "
           + String[].class.getCanonicalName() + "-> "
           + (value.second[2].getClass().equals(String[].class))));
@@ -233,7 +233,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
             "[SYS_VAL#" + name + "] Failed component: " + key + " for: value[2].getClass().equals(String[].class)")
                 .toString());
-      log("SYSVAL", name + " " + jm_Ansi.make().blue().toString(value.second[3].getClass().getCanonicalName()
+      log("MAP_REGISTRY", name + " " + jm_Ansi.make().blue().toString(value.second[3].getClass().getCanonicalName()
           + " in value[3].getClass().equals(String.class) "
           + String.class.getCanonicalName() + "-> "
           + (value.second[3].getClass().equals(String.class))));
@@ -243,13 +243,13 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
                 .toString());
     } catch (Exception e)
     {
-      log("SYSVAL", jm_Ansi.make().red().toString("Failed component " + key + " with: " + e.getMessage()));
+      log("MAP_REGISTRY", jm_Ansi.make().red().toString("Failed component " + key + " with: " + e.getMessage()));
       throw e;
     }
 
     // checker phase for making sure the property are all met
     for (Object r : value.second)
-      log("SYSVAL", "Checked property instance: " + r.getClass().getSimpleName() + " typed");
+      log("MAP_REGISTRY", "Checked property instance: " + r.getClass().getSimpleName() + " typed");
     return super.put(key, value); // for simplification purposes
   }
 

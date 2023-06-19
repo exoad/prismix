@@ -25,8 +25,9 @@ import javax.swing.SwingUtilities;
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.stl.stl_Function;
+import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
+import com.jackmeng.stl.stl_Struct.struct_Pair;
 import com.jackmeng.stl.stl_Ware;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
@@ -92,7 +93,9 @@ public class gui_Container
 			final ui_ColorPicker.CPick_SuggestionsList colorChooser_Shades = new ui_ColorPicker.CPick_SuggestionsList();
 			_1const.COLOR_ENQ.add(colorChooser_Shades);
 			this.colorChooser.addTab("Generator", colorChooser_Shades);
-			final ui_ColorPicker.CPick_GradRect colorChooser_gradientRect = new ui_ColorPicker.CPick_GradRect(); // RGBA Gradient Rectangle
+			final ui_ColorPicker.CPick_GradRect colorChooser_gradientRect = new ui_ColorPicker.CPick_GradRect(); // RGBA
+																																																						// Gradient
+																																																						// Rectangle
 			_1const.COLOR_ENQ.add(colorChooser_gradientRect);
 			this.colorChooser.addTab("GradRect Pick", colorChooser_gradientRect);
 
@@ -398,7 +401,7 @@ public class gui_Container
 				final float[] ciexyz = x.getColorSpace().toCIEXYZ(new float[] { x.getRed(),
 						x.getGreen(), x.getBlue(), x.getAlpha() });
 				SwingUtilities.invokeLater(() -> {
-					log("TOP_G", jm_Ansi.make().yellow().toString("Rewashing all of the color text properties to set"));
+					log("TOP_G_PANE", jm_Ansi.make().yellow().toString("Rewashing all of the color text properties to set"));
 					colorDisplay.setForeground(x);
 					colorDisplay.setBackground(x);
 					((ui_R_ColorLabel) colorDisplay).borderColor(x);
@@ -678,7 +681,7 @@ public class gui_Container
 	public static class Container_BottomPane
 			extends JSplitPane
 			implements
-			stl_Function< Color, Void >
+			stl_Listener< stl_Struct.struct_Pair< Color, Boolean > >
 	{
 
 		JTable history, currentPalette;
@@ -695,12 +698,20 @@ public class gui_Container
 
 			this.setRightComponent(this.currentPalette);
 			this.setLeftComponent(this.history);
+
+			_1const.COLOR_ENQ.add(this);
 		}
 
-		@Override public Void apply(final Color arg0)
+		@Override public Void call(struct_Pair< Color, Boolean > arg0)
 		{
-			throw new UnsupportedOperationException("Unimplemented method 'apply'");
+			if(Boolean.FALSE.equals(arg0.second))
+			{
+
+			}
+			return (Void) null;
 		}
+
+
 
 	}
 }

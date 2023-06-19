@@ -3,7 +3,6 @@ package com.jackmeng.prismix;
 
 import java.awt.Color;
 import java.lang.ref.SoftReference;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -67,25 +66,25 @@ public final class _1const
     _1const.COLOR_ENQ.attach(payload -> {
       if (payload.first != null)
       {
-        log("CLRPL", jm_Ansi.make().white_bg().black_fg().toString("Pool Listener:  received: " + payload));
+        log("COLORPANEL", jm_Ansi.make().white_bg().black_fg().toString("Pool Listener:  received: " + payload));
         if (payload.second == Attached_States.ADD_LISTENER)
-          log("CLRPL", jm_Ansi.make().blue().toString("Enqueued a POOL Listener: " + payload.first.toString()));
+          log("COLORPANEL", jm_Ansi.make().blue().toString("Enqueued a POOL Listener: " + payload.first.toString()));
         else if (payload.second == Attached_States.ATTACHED)
-          log("CLRPL", jm_Ansi.make().green().toString("The current pool listener  has been attached"));
+          log("COLORPANEL", jm_Ansi.make().green().toString("The current pool listener  has been attached"));
         else if (payload.second == Attached_States.DETACHED)
-          log("CLRPL", jm_Ansi.make().yellow_fg().toString("The current pool listener  has been detached"));
+          log("COLORPANEL", jm_Ansi.make().yellow_fg().toString("The current pool listener  has been detached"));
         else if (payload.second == Attached_States.RMF_LISTENER)
-          log("CLRPL", jm_Ansi.make().yellow_bg().black_fg().toString(
+          log("COLORPANEL", jm_Ansi.make().yellow_bg().black_fg().toString(
               "Dequeued a POOL_LISTENER: " + payload.first.toString()));
         else
-          log("CLRPL", jm_Ansi.make().red_bg().bold().white_fg().toString(
+          log("COLORPANEL", jm_Ansi.make().red_bg().bold().white_fg().toString(
               "The current pool listener  received an invalid signal: "
                   + payload.toString()));
       }
       return (Void) null;
     });
     _1const.COLOR_ENQ.add(x -> {
-      log("CLRPL", jm_Ansi.make().blue_fg().toString(
+      log("COLORPANEL", jm_Ansi.make().blue_fg().toString(
           "Enqueued another color for GUI elements to process: rgba(" + x.first.getRed()
               + "," + x.first.getGreen() + "," + x.first.getBlue() + "," + x.first.getAlpha() + ")"));
       _1const.lastColor = new SoftReference<>(x.first);
