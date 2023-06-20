@@ -11,6 +11,8 @@ import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_Callback;
+import com.jackmeng.stl.stl_Listener;
+import com.jackmeng.stl.stl_ListenerPool;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
 
@@ -66,6 +68,10 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
    */
   private transient HashMap< String, String > cache;
 
+  // <key, listener<key_value>>
+  // this is for listening in on change listening for a specific property name
+  private final transient HashMap< String, stl_ListenerPool< String > > listeners;
+
   public use_Map()
   {
     this(_1const.RNG.nextLong(4000) + "", "");
@@ -75,6 +81,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   {
     super();
     this.name = name;
+    listeners = new HashMap<>();
     this.prefix = prefix;
     cache = new HashMap<>();
   }
@@ -94,18 +101,21 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
     {
       key = prefix + key.toLowerCase();
       // perform preliminary checks on if the value is allowed
-      if (((String[]) this.get(key).second[2]).length > 0) // this part checks if <key, pair<fx, vals>> where vals.length > 0
+      if (((String[]) this.get(key).second[2]).length > 0) // this part checks if <key, pair<fx, vals>> where
+                                                           // vals.length > 0
       {
         if (Arrays.binarySearch((String[]) this.get(key).second[2], key) >= 0)
         {
           this.put(key, stl_Struct.make_pair(this.get(key).first,
               new Object[] { this.get(key).second[0], new_value, this.get(key).second[2], this.get(key).second[3] }));
           cache.put(key, new_value);
+          listeners.get(key).dispatch(new_value);
           log("MAP_REGISTRY", jm_Ansi.make().green().toString(name + " changed value of " + key + " to " + new_value));
         }
         else
-          log("MAP_REGISTRY", jm_Ansi.make().yellow().toString(name + " failed to set property " + key + " to " + new_value)
-              + " | Value unaltered");
+          log("MAP_REGISTRY",
+              jm_Ansi.make().yellow().toString(name + " failed to set property " + key + " to " + new_value)
+                  + " | Value unaltered");
       }
       else
       {
@@ -114,9 +124,36 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
         this.put(key,
             stl_Struct.make_pair(this.get(key).first,
                 new Object[] { this.get(key).second[0], new_value, this.get(key).second[2], this.get(key).second[3] }));
+        listeners.get(key).dispatch(new_value);
         log("MAP_REGISTRY", jm_Ansi.make().green().toString(name + " changed value of " + key + " to " + new_value));
       }
     }
+  }
+
+  public void rmf_change_listener(String keyName, stl_Listener< String > listener)
+  {
+    if (listeners.containsKey(keyName))
+    {
+      log("MAP_REGISTRY", "{1} Was able to find the target key: " + jm_Ansi.make().blue().toString(keyName)
+          + " removing the listener: " + listener);
+      listeners.get(keyName).rmf(listener);
+    }
+    else
+      log("MAP_REGISTRY", "{1}" + jm_Ansi.make().red_bg().white()
+          .toString("Was unable to find the requested key: " + keyName + " for this map: " + name));
+  }
+
+  public void add_change_listener(String keyName, stl_Listener< String > listener)
+  {
+    if (listeners.containsKey(keyName))
+    {
+      log("MAP_REGISTRY", "{2} Was able to find the target key: " + jm_Ansi.make().blue().toString(keyName)
+          + " attaching the listener: " + listener);
+      listeners.get(keyName).add(listener);
+    }
+    else
+      log("MAP_REGISTRY", "{2}" + jm_Ansi.make().red_bg().white()
+          .toString("Was unable to find the requested key: " + keyName + " for this map: " + name));
   }
 
   // you should prefer to use #parse instead of this in order to assert that a
@@ -139,8 +176,8 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
 
   // asserts that the value returned will be in the correct type to be casted.
   // this is for properties where values can be dynamic.
-  //! it also helps the map
-  //! perform lazy checking where the value is checked and set
+  // ! it also helps the map
+  // ! perform lazy checking where the value is checked and set
   @SuppressWarnings("unchecked") public Optional< Object > parse(String key)
   {
     String value = get_value(key);
@@ -203,7 +240,8 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
     log("MAP_REGISTRY", jm_Ansi.make().magenta().toString(name + " validating: " + key));
     try
     {
-      log("MAP_REGISTRY", name + " " + jm_Ansi.make().blue().toString("value.length == 4 -> " + (value.second.length == 4)));
+      log("MAP_REGISTRY",
+          name + " " + jm_Ansi.make().blue().toString("value.length == 4 -> " + (value.second.length == 4)));
       if (value.second.length != 4)
         throw new ExceptionInInitializerError(new stl_AnsiMake(stl_AnsiColors.RED_BG,
             "[SYS_VAL#" + name + "] Failed component: " + key + " for: value.length == 4").toString());
@@ -250,6 +288,8 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
     // checker phase for making sure the property are all met
     for (Object r : value.second)
       log("MAP_REGISTRY", "Checked property instance: " + r.getClass().getSimpleName() + " typed");
+    if (!listeners.containsKey(key))
+      listeners.put(key, new stl_ListenerPool<>(name + "_" + key + "_listener"));
     return super.put(key, value); // for simplification purposes
   }
 

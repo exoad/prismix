@@ -1,21 +1,29 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 package com.jackmeng.prismix;
 
+import static com.jackmeng.prismix.jm_Prismix.log;
+import static com.jackmeng.prismix.user.use_Map.Bool;
+import static com.jackmeng.prismix.user.use_Map.parse_Bool;
+import static com.jackmeng.prismix.user.use_Map.type_Bool;
+
 import java.awt.Color;
+import java.awt.event.MouseMotionAdapter;
 import java.lang.ref.SoftReference;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.user.use_Map;
-import static com.jackmeng.prismix.user.use_Map.*;
-import static com.jackmeng.prismix.jm_Prismix.*;
 import com.jackmeng.stl.stl_AssetFetcher;
 import com.jackmeng.stl.stl_AssetFetcher.assetfetcher_FetcherStyle;
 import com.jackmeng.stl.stl_ListenerPool;
 import com.jackmeng.stl.stl_ListenerPool.ListenerPool_Attached.Attached_States;
 import com.jackmeng.stl.stl_Struct;
+import com.jackmeng.stl.stl_Struct.struct_Pair;
+
 
 /**
  * Critical constants for the program itself as a whole
@@ -51,7 +59,7 @@ public final class _1const
         "Try to make sure the colors in a color picker are sorted (especially for suggestions)" });
     val.put_("suggestions_sort_light_to_dark", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "When suggestions_sorted is set to true, use lightest to darkest sorting, else if false, use darkest to lightest." });
-    val.put_("containers_rounded", parse_Bool, new Object[] { Bool, "false", type_Bool,
+    val.put_("containers_rounded", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Used to determine whether to use rounded components or not. (For that eye candy ^_^)" });
   } // put program properties
 
@@ -92,9 +100,13 @@ public final class _1const
     });
   }
 
+    public static final stl_Struct.struct_Pair< Integer, Integer > MOUSE_LOCATION = new struct_Pair<>(0, 0);
+
+
+
   public static Color last_color()
   {
-    return _1const.lastColor.get();
+    return _1const.lastColor.get() == null ? Color.gray : _1const.lastColor.get();
   }
 
   public static synchronized void add(final Runnable r, final long delay)

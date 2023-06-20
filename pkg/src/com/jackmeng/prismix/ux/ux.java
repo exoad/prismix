@@ -56,7 +56,6 @@ public final class ux
     }
   };
 
-
   static
   {
     _1const.worker.scheduleAtFixedRate(new TimerTask() {
@@ -188,6 +187,14 @@ public final class ux
                                                                                                      // components for
                                                                                                      // listening
     });
+    ux._ux.getMainUI().addMouseMotionListener(new MouseMotionAdapter() {
+      @Override public void mouseMoved(MouseEvent r)
+      {
+        MOUSE_LOCATION.first = r.getXOnScreen();
+        MOUSE_LOCATION.second = r.getYOnScreen();
+      }
+    });
+
     if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
     {
       new Thread(() -> {

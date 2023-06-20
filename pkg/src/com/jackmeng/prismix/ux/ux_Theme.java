@@ -5,15 +5,20 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
 import javax.swing.plaf.ColorUIResource;
 
 import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme;
 import com.jackmeng.ansicolors.jm_Ansi;
+import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix._colors;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import static com.jackmeng.prismix.jm_Prismix.*;
@@ -69,6 +74,16 @@ public final class ux_Theme
     ux_Theme.colorCodes.put("red", _colors.RED);
     ux_Theme.colorCodes.put("magenta", _colors.MAGENTA);
     ux_Theme.colorCodes.put("purple", _colors.PURPLE);
+  }
+
+  public static void based_set_rrect(JButton r)
+  {
+    r.setBorderPainted(false);
+
+    if (!Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()))
+    {
+      r.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+    }
   }
 
   private ux_Theme()

@@ -141,35 +141,43 @@ public class gui_Container
 			wrapper_ColorAttributes.setBorder(BorderFactory.createEmptyBorder());
 
 			final JLabel colorDisplay = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get())
-					? new ui_R_ColorLabel("ABCDEFGHIJKLMNOPQ", 10, Color.BLACK, 2)
+					? new ui_R_ColorLabel("ABCDEFGHIJKLMNOPQ", 6, Color.BLACK, 2)
 					: new JLabel("ABCDEFGHIJKLMNOPQ"); // IMPORTANT STARTUP
 			// OBJECT
 			colorDisplay.setPreferredSize(new Dimension(50, 20));
 			colorDisplay.setOpaque(true);
 
-			final JLabel colorDisplay_R =  Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()) ? new ui_R_ColorLabel(colorDisplay.getText(), 10 , Color.RED, 2) : new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_R = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get())
+					? new ui_R_ColorLabel(colorDisplay.getText(), 6, Color.RED, 2)
+					: new JLabel(colorDisplay.getText());
 			colorDisplay_R.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_R.setOpaque(true);
 			/*----------------------------------------------------------------------- /
 			/ colorDisplay_R.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); /
 			/------------------------------------------------------------------------*/
 
-			final JLabel colorDisplay_G = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()) ? new ui_R_ColorLabel(colorDisplay.getText(), 10 , Color.GREEN, 2) : new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_G = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get())
+					? new ui_R_ColorLabel(colorDisplay.getText(), 6, Color.GREEN, 2)
+					: new JLabel(colorDisplay.getText());
 			colorDisplay_G.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_G.setOpaque(true);
 			/*------------------------------------------------------------------------- /
 			/ colorDisplay_G.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2)); /
 			/--------------------------------------------------------------------------*/
 
-			final JLabel colorDisplay_B = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()) ? new ui_R_ColorLabel(colorDisplay.getText(), 10 , Color.BLUE, 2) : new JLabel(colorDisplay.getText());
+			final JLabel colorDisplay_B = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get())
+					? new ui_R_ColorLabel(colorDisplay.getText(), 6, Color.BLUE, 2)
+					: new JLabel(colorDisplay.getText());
 			colorDisplay_B.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_B.setOpaque(true);
 			/*------------------------------------------------------------------------ /
 			/ colorDisplay_B.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2)); /
 			/-------------------------------------------------------------------------*/
 
-			final JLabel colorDisplay_A = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()) ? new ui_R_ColorLabel(colorDisplay.getText(), 10 , Color.BLACK, 2) : new JLabel(colorDisplay.getText()); // 17 characters to
-																																																			// be
+			final JLabel colorDisplay_A = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get())
+					? new ui_R_ColorLabel(colorDisplay.getText(), 6, Color.BLACK, 2)
+					: new JLabel(colorDisplay.getText()); // 17 characters to
+			// be
 			// correct length
 			colorDisplay_A.setPreferredSize(new Dimension(50, 20));
 			colorDisplay_A.setOpaque(true);
@@ -268,12 +276,13 @@ public class gui_Container
 			this.hsvData.add(hsvData_value);
 
 			this.controls = new JPanel();
-			this.controls.setLayout(new GridLayout(3, 2)); // 4 buttons
+			this.controls.setLayout(new GridLayout(3, 2, 4, 4)); // 4 buttons
 			this.controls.setAlignmentX(Component.LEFT_ALIGNMENT);
 			this.controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
 
 			final JButton controls_randomColor = new JButton("Random Color");
-			controls_randomColor.setBorderPainted(false);
+			ux_Theme.based_set_rrect(controls_randomColor);
+
 			controls_randomColor.setForeground(ux_Theme._theme.fg_awt());
 			controls_randomColor.setBackground(ux_Theme._theme.secondary_awt());
 			controls_randomColor.addActionListener(ev -> _1const.COLOR_ENQ
@@ -282,7 +291,8 @@ public class gui_Container
 			final JButton controls_screenColorPicker = new JButton("Screen Picker");
 			controls_screenColorPicker.setForeground(ux_Theme._theme.fg_awt());
 			controls_screenColorPicker.setBackground(ux_Theme._theme.secondary_awt());
-			controls_screenColorPicker.setBorderPainted(false);
+			ux_Theme.based_set_rrect(controls_screenColorPicker);
+
 			/*-------------------------------------------------------------------------------------- /
 			/ controls_screenColorPicker.addActionListener(ev -> ux.sampled_MousePicker(100L, e -> { /
 			/   _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(e.second, false));                   /
@@ -291,19 +301,22 @@ public class gui_Container
 			/---------------------------------------------------------------------------------------*/
 
 			final JButton controls_forceRevalidate = new JButton("Refresh UI");
-			controls_forceRevalidate.setBorderPainted(false);
+			ux_Theme.based_set_rrect(controls_forceRevalidate);
+
 			controls_forceRevalidate.setForeground(ux_Theme._theme.fg_awt());
 			controls_forceRevalidate.setBackground(ux_Theme._theme.secondary_awt());
 			controls_forceRevalidate.addActionListener(ev -> ux._ux.force_redo());
 
 			final JButton controls_gc = new JButton("GC");
+			ux_Theme.based_set_rrect(controls_gc);
 			controls_gc.setBorderPainted(false);
 			controls_gc.setForeground(ux_Theme._theme.fg_awt());
 			controls_gc.setBackground(ux_Theme._theme.secondary_awt());
 			controls_gc.addActionListener(ev -> System.gc());
 
 			final JButton controls_randomScreenColor = new JButton("Random Screen Color");
-			controls_randomScreenColor.setBorderPainted(false);
+			ux_Theme.based_set_rrect(controls_randomScreenColor);
+
 			controls_randomScreenColor.setForeground(ux_Theme._theme.fg_awt());
 			controls_randomScreenColor.setBackground(ux_Theme._theme.secondary_awt());
 			controls_randomScreenColor.addActionListener(
@@ -350,13 +363,21 @@ public class gui_Container
 
 			final JPanel cmykData_ColorDisplay = new JPanel();
 			cmykData_ColorDisplay.setLayout(new BoxLayout(cmykData_ColorDisplay, BoxLayout.Y_AXIS));
-			final JLabel cmykData_CD_C = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()) ? new ui_R_ColorLabel(colorDisplay.getText(), 10, Color.CYAN, 2) : new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_C = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get())
+					? new ui_R_ColorLabel(colorDisplay.getText(), 6, Color.CYAN, 2)
+					: new JLabel(colorDisplay.getText());
 			cmykData_CD_C.setOpaque(true);
-			final JLabel cmykData_CD_M = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()) ? new ui_R_ColorLabel(colorDisplay.getText(), 10, Color.MAGENTA, 2) : new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_M = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get())
+					? new ui_R_ColorLabel(colorDisplay.getText(), 6, Color.MAGENTA, 2)
+					: new JLabel(colorDisplay.getText());
 			cmykData_CD_M.setOpaque(true);
-			final JLabel cmykData_CD_Y = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()) ? new ui_R_ColorLabel(colorDisplay.getText(), 10, new Color(0.88F, 0.88F, 0.88F, 1F), 2) : new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_Y = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get())
+					? new ui_R_ColorLabel(colorDisplay.getText(), 6, new Color(0.88F, 0.88F, 0.88F, 1F), 2)
+					: new JLabel(colorDisplay.getText());
 			cmykData_CD_Y.setOpaque(true);
-			final JLabel cmykData_CD_K = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()) ? new ui_R_ColorLabel(colorDisplay.getText(), 10, Color.BLACK, 2) : new JLabel(colorDisplay.getText());
+			final JLabel cmykData_CD_K = Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get())
+					? new ui_R_ColorLabel(colorDisplay.getText(), 6, Color.BLACK, 2)
+					: new JLabel(colorDisplay.getText());
 			cmykData_CD_K.setOpaque(true);
 
 			cmykData_ColorDisplay.add(cmykData_CD_C);
@@ -408,7 +429,7 @@ public class gui_Container
 						log("TOP_G_PANE", jm_Ansi.make().yellow().toString("Rewashing all of the color text properties to set"));
 						colorDisplay.setForeground(x);
 						colorDisplay.setBackground(x);
-						if(Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()))
+						if (Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()))
 							((ui_R_ColorLabel) colorDisplay).borderColor(x);
 
 						colorDisplay_R.setBackground(new Color(
@@ -733,8 +754,8 @@ public class gui_Container
 				// preferably also make a global one and then spawn a unique one for just this
 				log("BOT_G_HISTORY", "Logs a new color to history: " + arg0.first);
 				JButton jb = ux_Helper.history_palette_btn(arg0.first, HISTORY_BUTTON_WIDTH, HISTORY_BUTTON_HEIGHT);
-				jb.setBorderPainted(true);
-				jb.setBorder(stl_SwingHelper.rrect_border_uniform(15, arg0.first, 2));
+				jb.setBorderPainted(false);
+				ux_Theme.based_set_rrect(jb);
 				history.add(jb);
 				listHistory.add(jb, 0);
 				listHistory.revalidate();

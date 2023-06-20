@@ -61,6 +61,14 @@ public final class use_Maker
     return menu;
   }
 
+  public static JPanel wrap(JComponent r)
+  {
+    JPanel t = new JPanel();
+    t.setLayout(new BorderLayout());
+    t.add(r, BorderLayout.CENTER);
+    return t;
+  }
+
   public static void debug(final JComponent e)
   {
     if (e != null)
