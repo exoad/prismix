@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.*;
 import java.awt.Point;
+import java.awt.Insets;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.GridBagConstraints;
@@ -38,6 +39,8 @@ import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Struct;
+import com.jackmeng.stl.stl_SwingHelper;
+
 import com.jackmeng.stl.stl_Ware;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
 
@@ -246,14 +249,7 @@ public final class ui_ColorPicker
 
     private static JPanel acquire_defpane(final String name)
     {
-      final JPanel jp = new JPanel() {
-        @Override public Component add(final Component e)
-        {
-          if (e instanceof final JComponent r)
-            r.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-          return super.add(e);
-        }
-      };
+      final JPanel jp = new JPanel();
       jp.setBorder(ux_Helper.cpick_suggestions_AttributesBorder(name));
       jp.setLayout(new GridBagLayout());
 
@@ -345,6 +341,8 @@ public final class ui_ColorPicker
         final JButton r = new JButton("");
         r.setFocusPainted(false);
         r.setBorderPainted(false);
+        r.setBorder(BorderFactory.createEmptyBorder());
+
         r.setFocusable(false);
         r.setForeground(Color.WHITE);
         r.addActionListener(this.shades_Listeners);
@@ -354,8 +352,10 @@ public final class ui_ColorPicker
         gbc.gridx = i % this.complement_cols;
         gbc.gridy = i / this.complement_rows;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
+        gbc.weightx = 0.5;
         gbc.weighty = 1.0;
+        gbc.ipadx = 30;
+        gbc.insets = new Insets(3, 3, 3, 3);
 
         this.shades_Complements.add(this.complements_List.get(i), gbc);
       }
@@ -368,9 +368,11 @@ public final class ui_ColorPicker
         /-------------------------------------------------------------------------------------------------------------*/
         final JButton r = new JButton("");
         r.setFocusPainted(false);
-        r.setBorderPainted(false);
+        r.setBorderPainted(true);
         r.setFocusable(false);
         r.setForeground(Color.WHITE);
+        r.setBorder(BorderFactory.createEmptyBorder());
+
         r.addActionListener(this.shades_Listeners);
         r.setRolloverEnabled(false); // technically if setFocusable -> false, then this should not be needed, but ok
         this.tones_List.add(r);
@@ -386,8 +388,10 @@ public final class ui_ColorPicker
         gbc.gridx = i % this.tones_cols;
         gbc.gridy = i / this.tones_rows;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
+        gbc.weightx = 0.5;
         gbc.weighty = 1.0;
+        gbc.ipadx = 30;
+        gbc.insets = new Insets(3, 3, 3, 3);
 
         this.shades_Tones.add(this.tones_List.get(i), gbc);
       }
@@ -400,8 +404,9 @@ public final class ui_ColorPicker
         final JButton r = new JButton("");
         r.setRolloverEnabled(false);
         r.setFocusPainted(false);
-        r.setBorderPainted(false);
+        r.setBorderPainted(true);
         r.setFocusable(false);
+        r.setBorder(BorderFactory.createEmptyBorder());
         r.setForeground(Color.WHITE);
         r.addActionListener(this.shades_Listeners);
         this.tint_List.add(r);
@@ -409,8 +414,10 @@ public final class ui_ColorPicker
         gbc.gridx = i % this.tint_cols;
         gbc.gridy = i / this.tint_rows;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
+        gbc.weightx = 0.5;
         gbc.weighty = 1.0;
+        gbc.ipadx = 30;
+        gbc.insets = new Insets(3, 3, 3, 3);
 
         this.shades_Tint.add(this.tint_List.get(i), gbc);
       }
@@ -423,8 +430,10 @@ public final class ui_ColorPicker
         /-------------------------------------------------------------------------------------------------------------*/
         final JButton r = new JButton("");
         r.setFocusPainted(false);
-        r.setBorderPainted(false);
+        r.setBorderPainted(true);
         r.setFocusable(false);
+        r.setBorder(BorderFactory.createEmptyBorder());
+
         r.setForeground(Color.WHITE);
         r.setRolloverEnabled(false);
         r.addActionListener(this.shades_Listeners);
@@ -433,8 +442,10 @@ public final class ui_ColorPicker
         gbc.gridx = i % this.tint_cols;
         gbc.gridy = i / this.tint_rows;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
+        gbc.weightx = 0.5;
         gbc.weighty = 1.0;
+        gbc.ipadx = 30;
+        gbc.insets = new Insets(3, 3, 3, 3);
 
         this.shades_Shades.add(this.shades_List.get(i), gbc);
       }
@@ -489,6 +500,10 @@ public final class ui_ColorPicker
                 hexTones[i] = extend_stl_Colors.RGBToHex((int) gen_tones[i][0], (int) gen_tones[i][1],
                     (int) gen_tones[i][2]);
                 button.setText(hexTones[i]);
+                button.setBorderPainted(true);
+                /*-------------------------------------------------------------- /
+                / button.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3)); /
+                /---------------------------------------------------------------*/
                 button.setToolTipText(hexTones[i]);
               }
               return (Void) null;
@@ -519,6 +534,10 @@ public final class ui_ColorPicker
                 hexComplements[i] = extend_stl_Colors.RGBToHex((int) gen_complements[i][0], (int) gen_complements[i][1],
                     (int) gen_complements[i][2]);
                 button.setText(hexComplements[i]);
+                button.setBorderPainted(true);
+                /*-------------------------------------------------------------- /
+                / button.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3)); /
+                /---------------------------------------------------------------*/
                 button.setToolTipText(hexComplements[i]);
               }
               return (Void) null;
@@ -548,6 +567,10 @@ public final class ui_ColorPicker
                 hexTints[i] = extend_stl_Colors.RGBToHex((int) gen_tints[i][0], (int) gen_tints[i][1],
                     (int) gen_tints[i][2]);
                 button.setText(hexTints[i]);
+                button.setBorderPainted(true);
+                /*-------------------------------------------------------------- /
+                / button.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3)); /
+                /---------------------------------------------------------------*/
                 button.setToolTipText(hexTints[i]);
               }
               return (Void) null;
@@ -576,6 +599,10 @@ public final class ui_ColorPicker
                 hexShades[i] = extend_stl_Colors.RGBToHex((int) gen_shades[i][0], (int) gen_shades[i][1],
                     (int) gen_shades[i][2]);
                 button.setText(hexShades[i]);
+                button.setBorderPainted(true);
+                /*-------------------------------------------------------------- /
+                / button.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3)); /
+                /---------------------------------------------------------------*/
                 button.setToolTipText(hexShades[i]);
               }
               return (Void) null;

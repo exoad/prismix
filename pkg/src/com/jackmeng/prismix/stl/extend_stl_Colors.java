@@ -190,35 +190,38 @@ public final class extend_stl_Colors
     Arrays.sort(colors, (color1, color2) -> Float.compare(brightness(color2), brightness(color1)));
   }
 
-  public static float[][] complementaries(float[] originalColor, int n)
+  public static float[][] complementaries(float[] initialColor, int n)
   {
-    float[][] result = new float[n][3];
-    float originalHue = Color.RGBtoHSB((int) (originalColor[0] * 255), (int) (originalColor[1] * 255),
-        (int) (originalColor[2] * 255), null)[0];
+    float[][] complementaryColors = new float[n][3];
 
-    // Generate 30%*n different shades of the original color
-    for (int i = 0; i < n * 0.3; i++)
+    // Scale the initial color values to the range of 0-1
+    float red = initialColor[0] / 255.0f;
+    float green = initialColor[1] / 255.0f;
+    float blue = initialColor[2] / 255.0f;
+
+    // Calculate the complementary color by adding 0.5 and taking modulo 1
+    float complementaryRed = (red + 0.5f) % 1.0f;
+    float complementaryGreen = (green + 0.5f) % 1.0f;
+    float complementaryBlue = (blue + 0.5f) % 1.0f;
+
+    for (int i = 0; i < n; i++)
     {
-      float shade = (i + 1) / (float) (n * 0.3);
-      Color shadeColor = Color.getHSBColor(originalHue, 1.0f, shade);
-      result[i][0] = shadeColor.getRed() / 255.0f;
-      result[i][1] = shadeColor.getGreen() / 255.0f;
-      result[i][2] = shadeColor.getBlue() / 255.0f;
+      float complementaryAmount = (float) i / (n - 1);
+
+      // Calculate the tone by interpolating the initial color and its complementary
+      // color
+      float toneRed = red + (complementaryRed - red) * complementaryAmount;
+      float toneGreen = green + (complementaryGreen - green) * complementaryAmount;
+      float toneBlue = blue + (complementaryBlue - blue) * complementaryAmount;
+
+      // Store the tone color in the complementaryColors array
+      complementaryColors[i][0] = toneRed * 255.0f;
+      complementaryColors[i][1] = toneGreen * 255.0f;
+      complementaryColors[i][2] = toneBlue * 255.0f;
     }
 
-    // Generate 70%*n complementary colors of the original color
-    for (int i = (int) (n * 0.3); i < n; i++)
-    {
-      float complementaryHue = (originalHue + 0.5f) % 1.0f;
-      Color complementaryColor = Color.getHSBColor(complementaryHue, 1.0f, 1.0f);
-      result[i][0] = complementaryColor.getRed() / 255.0f;
-      result[i][1] = complementaryColor.getGreen() / 255.0f;
-      result[i][2] = complementaryColor.getBlue() / 255.0f;
-    }
-
-    return result;
+    return complementaryColors;
   }
-
 
   public static Color awt_empty()
   {

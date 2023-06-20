@@ -78,7 +78,6 @@ public class jm_Prismix
       / UIManager.setLookAndFeel(_1const.DARK_MODE ? new FlatHighContrastIJTheme() : new FlatGrayIJTheme()); // or FlatGratIJTheme /
       /---------------------------------------------------------------------------------------------------------------*/
       UIManager.setLookAndFeel(new FlatGrayIJTheme());
-      UIManager.put("ScrollBar.trackArc", 999);
       UIManager.put("ScrollBar.background", null);
       UIManager.put("ScrollBar.showButtons", false);
       UIManager.put("JScrollPane.smoothScrolling", true);

@@ -3,16 +3,23 @@
 package com.jackmeng.prismix.ux;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
 import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
+import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.stl.stl_Colors;
 
 public final class ux_Helper
 {
@@ -52,7 +59,21 @@ public final class ux_Helper
     jsp.setViewportView(viewport);
 
     return jsp;
+  }
 
+  public static JButton history_palette_btn(Color clr, int w, int h)
+  {
+    JButton r = new JButton(extend_stl_Colors.RGBToHex(clr.getRed(), clr.getGreen(), clr.getBlue()));
+    r.setPreferredSize(new Dimension(w, h));
+    r.setMinimumSize(r.getPreferredSize());
+    r.setRolloverEnabled(false);
+    r.setFocusPainted(false);
+    r.setBorderPainted(false);
+    r.setFocusable(false);
+    float color = extend_stl_Colors.binary_fg_decider(extend_stl_Colors.awt_strip_rgba(clr))[0];
+    r.setForeground(new Color(color / 255F, color / 255F, color / 255F, 1F));
+    r.setBackground(clr);
+    return r;
   }
 
   public static boolean within(Point target, Point topLeft, Dimension dim)

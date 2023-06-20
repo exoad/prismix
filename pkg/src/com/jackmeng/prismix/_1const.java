@@ -51,8 +51,8 @@ public final class _1const
         "Try to make sure the colors in a color picker are sorted (especially for suggestions)" });
     val.put_("suggestions_sort_light_to_dark", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "When suggestions_sorted is set to true, use lightest to darkest sorting, else if false, use darkest to lightest." });
-    val.put_("container_round_factor", parse_IntBound(5, 15), new Object[] { IntBound, "10", type_IntBound(5, 15),
-        "Used to determine how rounded components in the color info panel should be (higher = more rounded)" });
+    val.put_("containers_rounded", parse_Bool, new Object[] { Bool, "false", type_Bool,
+        "Used to determine whether to use rounded components or not. (For that eye candy ^_^)" });
   } // put program properties
 
   /**
