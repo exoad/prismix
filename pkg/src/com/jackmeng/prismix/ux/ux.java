@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
+import java.awt.event.MouseMotionAdapter;
 import java.util.Arrays;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -19,7 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.w3c.dom.events.MouseEvent;
+import java.awt.event.MouseEvent;
 
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
@@ -48,54 +49,6 @@ public final class ux
 {
 
   public static final ux _ux = new ux();
-  /* sampling version listener */ static final AWTEventListener awt_1 = event -> {
-    if (event instanceof final MouseEvent evt)
-    {
-      log("MOUSESAMPLE", "Mouse caught at (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
-      ux._ux.mainui.setEnabled(true);
-    }
-  };
-
-  static
-  {
-    _1const.worker.scheduleAtFixedRate(new TimerTask() {
-      @Override public void run()
-      {
-        log("MOUSESAMPLE", jm_Ansi.make().blue()
-            .toString("Cleanup watchdog checking if the AWT thread has a listener that is not needed..."));
-        if (!ux.sampledMousePicking_Started.get())
-        {
-          try
-          {
-            if (Arrays.binarySearch(Toolkit.getDefaultToolkit().getAWTEventListeners(), ux.awt_1) >= 0)
-            {
-              Toolkit.getDefaultToolkit().removeAWTEventListener(ux.awt_1);
-              log("MOUSESAMPLE", "Cleanup watchdog removed the unnecessary click sampler listener");
-            }
-            if (Arrays.binarySearch(Toolkit.getDefaultToolkit().getAWTEventListeners(), ux.awt_2) >= 0)
-            {
-              Toolkit.getDefaultToolkit().removeAWTEventListener(ux.awt_2);
-              log("MOUSESAMPLE", "Cleanup watchdog removed the unnecessary mouse motion sampler listener");
-            }
-            if (!ux._ux.mainui.isEnabled())
-              ux._ux.mainui.setEnabled(true);
-          } catch (final ClassCastException e)
-          {
-            // this is an arbitrary error we can just ignore
-          }
-        }
-        else log("MOUSESAMPLE", "Cleanup watchdog didn't find anything to clean up");
-
-      }
-    }, 500L, 650L);
-  }
-
-  /* motion sampler */ static final AWTEventListener awt_2 = event -> {
-    if (event instanceof final MouseEvent evt)
-    {
-      log("MOUSESAMPLE", "Mouse sampled at: (" + evt.getScreenX() + ", " + evt.getScreenY() + ")");
-    }
-  };
 
   static final AtomicBoolean sampledMousePicking_Started = new AtomicBoolean(false);
   public static final AtomicBoolean PROPERTY_USE_SORTED_COLOR_SUGGESTIONS = new AtomicBoolean(false);
@@ -111,8 +64,10 @@ public final class ux
       log("MOUSESAMPLE", jm_Ansi.make().blue().toString("Sampler attached for job: COLOR_PICKING"));
       ux._ux.mainui.setEnabled(false);
 
-      Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_1::eventDispatched, AWTEvent.MOUSE_EVENT_MASK);
-      Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_2, AWTEvent.MOUSE_MOTION_EVENT_MASK);
+      /*------------------------------------------------------------------------------------------------------ /
+      / Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_1::eventDispatched, AWTEvent.MOUSE_EVENT_MASK); /
+      / Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_2, AWTEvent.MOUSE_MOTION_EVENT_MASK);           /
+      /-------------------------------------------------------------------------------------------------------*/
 
       final Thread t_worker = new Thread(() -> {
         while (ux.sampledMousePicking_Started.get())
@@ -187,13 +142,15 @@ public final class ux
                                                                                                      // components for
                                                                                                      // listening
     });
-    ux._ux.getMainUI().addMouseMotionListener(new MouseMotionAdapter() {
-      @Override public void mouseMoved(MouseEvent r)
-      {
-        MOUSE_LOCATION.first = r.getXOnScreen();
-        MOUSE_LOCATION.second = r.getYOnScreen();
-      }
-    });
+    /*-------------------------------------------------------------------- /
+    / ux._ux.getMainUI().addMouseMotionListener(new MouseMotionAdapter() { /
+    /   @Override public void mouseMoved(MouseEvent r)                     /
+    /   {                                                                  /
+    /     MOUSE_LOCATION.first = r.getXOnScreen();                         /
+    /     MOUSE_LOCATION.second = r.getYOnScreen();                        /
+    /   }                                                                  /
+    / });                                                                  /
+    /---------------------------------------------------------------------*/
 
     if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
     {

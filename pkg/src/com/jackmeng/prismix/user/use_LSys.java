@@ -22,4 +22,9 @@ public final class use_LSys
   {
     return System.getProperty("user.dir");
   }
+
+  public static void init()
+  {
+    
+  }
 }
