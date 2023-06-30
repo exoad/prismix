@@ -12,8 +12,6 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.user.use_Map;
 import com.jackmeng.stl.stl_AssetFetcher;
@@ -22,7 +20,6 @@ import com.jackmeng.stl.stl_ListenerPool;
 import com.jackmeng.stl.stl_ListenerPool.ListenerPool_Attached.Attached_States;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
-
 
 /**
  * Critical constants for the program itself as a whole
@@ -36,8 +33,9 @@ public final class _1const
   / public static final boolean SOFT_DEBUG = true; /
   /-----------------------------------------------*/
   public static final Random RNG = new Random();
-  public static Timer worker = new Timer("com-jackmeng-clrplte-worker01");
+  public static Timer worker = new Timer("com-jackmeng-prismix-worker01");
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
+
   private static SoftReference< Color > lastColor = new SoftReference<>(new Color(1F, 1F, 1F, 0F));
 
   // property-name, {property_type, default_value, {valid_values},
@@ -67,7 +65,16 @@ public final class _1const
    * PAIR[1] = (java.lang.Boolean) Ignore Payload for storage
    */
   public static stl_ListenerPool.ListenerPool_Attached< stl_Struct.struct_Pair< Color, Boolean > > COLOR_ENQ = new stl_ListenerPool.ListenerPool_Attached<>(
-      "current-processing-pool");
+      "current-processing-pool") {
+    @Override public synchronized void dispatch(stl_Struct.struct_Pair< Color, Boolean > e)
+    {
+      // Here we want it so that the same color would not be reused and redispatched
+      // everytime causing unnecessary GUI updates. Note: all GUI updates are heavily
+      // tied to this queue system
+      if (Boolean.TRUE.equals(!e.second) && !e.first.equals(last_color()))
+        super.dispatch(e);
+    }
+  };
   static
   {
     _1const.COLOR_ENQ.attach(payload -> {
@@ -99,9 +106,7 @@ public final class _1const
     });
   }
 
-    public static final stl_Struct.struct_Pair< Integer, Integer > MOUSE_LOCATION = new struct_Pair<>(0, 0);
-
-
+  public static final stl_Struct.struct_Pair< Integer, Integer > MOUSE_LOCATION = new struct_Pair<>(0, 0);
 
   public static Color last_color()
   {

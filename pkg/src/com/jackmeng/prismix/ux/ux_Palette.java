@@ -2,10 +2,11 @@
 
 package com.jackmeng.prismix.ux;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.jackmeng.ansicolors.jm_Ansi;
@@ -15,31 +16,9 @@ import static com.jackmeng.prismix.jm_Prismix.*;
 
 public class ux_Palette
 {
-
-  public static final PaletteManager PM = new PaletteManager();
-
-  public static final class PaletteManager
-      extends ArrayDeque< ux_Palette >
-  {
-    private transient ux_Palette history;
-
-    public PaletteManager()
-    {
-
-    }
-
-    public void hist_Add(final float[] color)
-    {
-      this.history.append(color);
-    }
-
-    public void hist_Rmf(final float[] color)
-    {
-      this.history.remove(color);
-    }
-  }
-
   private Set< List< Float > > colors_rgba;
+
+  public static final Map< String, ux_Palette > PALETTES = new HashMap<>();
 
   public static final class Palette_State
   {
@@ -80,12 +59,11 @@ public class ux_Palette
   }
 
   public final stl_ListenerPool< Palette_State > LISTENER_POOL;
+  private boolean isInternal;
 
-  private String str_Name;
-  private long palette_id;
-
-  public ux_Palette(final int initial, final String name)
+  public ux_Palette(final int initial, final String name, boolean isInternal)
   {
+    this.isInternal = isInternal;
     this.colors_rgba = new LinkedHashSet<>() {
       @Override public boolean add(final List< Float > e) // this set simulates the functionality that the duplicate
                                                           // gets
@@ -102,13 +80,20 @@ public class ux_Palette
     };
     this.LISTENER_POOL = new stl_ListenerPool<>(name);
     this.LISTENER_POOL.add(x -> {
-      log("UXPALETTE", "Palette " + name + "[" + this.palette_id + "] received operation: " + x);
+      log("UXPALETTE", "Palette " + name + "received operation: " + x);
       return (Void) null;
     });
-    this.str_Name = name;
-    this.palette_id = this.hashCode() ^ this.str_Name.hashCode() * 81L;
+    PALETTES.put(name, this);
+  }
 
-    log("UXPALETTE", jm_Ansi.make().green().toString("ID: " + this.palette_id + " registered as: " + name));
+  public boolean isInternal()
+  {
+    return isInternal;
+  }
+
+  public void setIsInternal(boolean v)
+  {
+    this.isInternal = v;
   }
 
   public void append(final float[] e)
@@ -150,20 +135,5 @@ public class ux_Palette
     final int i = 0;
     this.colors_rgba.iterator().forEachRemaining(x -> temp[i] = ux_Palette.$toprim(x));
     return temp;
-  }
-
-  public String name()
-  {
-    return this.str_Name;
-  }
-
-  public void name(final String name)
-  {
-    this.str_Name = name;
-  }
-
-  public long id()
-  {
-    return this.palette_id;
   }
 }

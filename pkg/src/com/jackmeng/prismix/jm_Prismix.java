@@ -17,6 +17,7 @@ import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.prismix.user._lua;
 import com.jackmeng.prismix.ux.ux;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Chrono;
@@ -90,6 +91,7 @@ public class jm_Prismix
     {
       e.printStackTrace();
     }
+    _lua.simple_load(_1const.fetcher.file("assets/lua/_.lua").getAbsolutePath());
 
   }
 
@@ -108,6 +110,7 @@ public class jm_Prismix
       }
     }, 100L, 650L);
     log("PRISMIX", "Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
+
   }
 
   static final int MAX_LOG_NAME_LEN = 13;
@@ -125,7 +128,6 @@ public class jm_Prismix
               + jm_Ansi.make().cyan().bold().toString("||") + "\t\t" + str);
     }
   }
-
 
   public static void log(String name, String content)
   {

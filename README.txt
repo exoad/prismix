@@ -16,6 +16,10 @@ Requirements:
 - OpenGL compatible system
 
 ___
+
+SCRAPED FOR NOW:
+
+
 Color Pipeline:
 The color pipeline is a proposed way for users to directly create images representing different versions of their colors in different styles. These styles range from simple mesh based gradient paints to unique color animations. All of this is done via the LuaJ interop and allows for users to implement beautiful combinations of colors in whatever way they want right in the prismix program.
 

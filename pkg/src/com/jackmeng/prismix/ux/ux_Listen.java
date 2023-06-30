@@ -5,7 +5,6 @@ package com.jackmeng.prismix.ux;
 import java.awt.event.*;
 
 import com.jackmeng.ansicolors.jm_Ansi;
-import com.jackmeng.stl.stl_Callback;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 

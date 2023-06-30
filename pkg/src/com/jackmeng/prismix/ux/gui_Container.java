@@ -29,7 +29,6 @@ import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
-import com.jackmeng.stl.stl_SwingHelper;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
 import com.jackmeng.stl.stl_Ware;
 
@@ -713,6 +712,7 @@ public class gui_Container
 			stl_Listener< stl_Struct.struct_Pair< Color, Boolean > >
 	{
 
+		// we don't care about implementation for History as a palette component
 		JTable currentPalette;
 		ArrayList< JButton > history;
 		JPanel listHistory;
