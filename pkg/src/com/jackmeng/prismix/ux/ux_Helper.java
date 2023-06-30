@@ -5,21 +5,14 @@ package com.jackmeng.prismix.ux;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
 import java.awt.Point;
-import java.awt.RenderingHints;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
-import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.stl.stl_Colors;
 
 public final class ux_Helper
 {

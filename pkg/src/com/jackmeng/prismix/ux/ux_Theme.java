@@ -7,11 +7,9 @@ import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
 import javax.swing.plaf.ColorUIResource;
 
 import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme;

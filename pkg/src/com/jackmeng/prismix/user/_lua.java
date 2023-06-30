@@ -13,11 +13,18 @@ import org.luaj.vm2.lib.jse.JsePlatform;
  */
 public final class _lua
 {
+  public static _lua instance;
 
-  String r
+  private _lua()
+  {
 
-  private _lua() {
+  }
 
+  public static _lua instance() // lazy loaded singleton
+  {
+    if (instance == null)
+      instance = new _lua();
+    return instance;
   }
 
   public static LuaValue G()
