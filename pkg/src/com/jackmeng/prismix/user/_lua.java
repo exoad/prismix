@@ -13,7 +13,12 @@ import org.luaj.vm2.lib.jse.JsePlatform;
  */
 public final class _lua
 {
-  private static Map<String, 
+
+  String r
+
+  private _lua() {
+
+  }
 
   public static LuaValue G()
   {

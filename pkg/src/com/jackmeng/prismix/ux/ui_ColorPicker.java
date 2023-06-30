@@ -4,7 +4,6 @@ package com.jackmeng.prismix.ux;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,7 +23,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -40,10 +38,8 @@ import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.stl.extend_stl_Wrap;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Listener;
-import com.jackmeng.stl.stl_Str;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Struct;
-import com.jackmeng.stl.stl_SwingHelper;
 
 import com.jackmeng.stl.stl_Ware;
 import com.jackmeng.stl.stl_Wrap;
@@ -55,6 +51,8 @@ import static com.jackmeng.prismix.jm_Prismix.*;
 // All of these should be able to dispatch events to the color queue found in _1const
 public final class ui_ColorPicker
 {
+
+
   private ui_ColorPicker()
   {
   }

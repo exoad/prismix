@@ -7,7 +7,6 @@ import static com.jackmeng.prismix.user.use_Map.parse_Bool;
 import static com.jackmeng.prismix.user.use_Map.type_Bool;
 
 import java.awt.Color;
-import java.awt.event.MouseMotionAdapter;
 import java.lang.ref.SoftReference;
 import java.util.Random;
 import java.util.Timer;
