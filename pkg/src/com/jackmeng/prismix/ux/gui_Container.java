@@ -27,6 +27,7 @@ import javax.swing.SwingUtilities;
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.prismix.ux.ui_Tag.ui_PTag;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
@@ -714,7 +715,7 @@ public class gui_Container
 
 		// we don't care about implementation for History as a palette component
 		JTable currentPalette;
-		ArrayList< JButton > history;
+		ArrayList< ui_PTag > history;
 		JPanel listHistory;
 
 		static int HISTORY_BUTTON_HEIGHT = 35, HISTORY_BUTTON_WIDTH = 115;
@@ -753,8 +754,7 @@ public class gui_Container
 				// make a popupmenu for this so we can have proper controls for this button
 				// preferably also make a global one and then spawn a unique one for just this
 				log("BOT_G_HISTORY", "Logs a new color to history: " + arg0.first);
-				JButton jb = ux_Helper.history_palette_btn(arg0.first, HISTORY_BUTTON_WIDTH, HISTORY_BUTTON_HEIGHT);
-				jb.setBorderPainted(false);
+				ui_PTag jb = ux_Helper.history_palette_btn(arg0.first, HISTORY_BUTTON_WIDTH, HISTORY_BUTTON_HEIGHT);
 				ux_Theme.based_set_rrect(jb);
 				history.add(jb);
 				listHistory.add(jb, 0);

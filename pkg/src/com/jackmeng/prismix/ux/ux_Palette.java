@@ -75,12 +75,13 @@ public class ux_Palette
           super.remove(e);
           super.add(e);
         }
+        LISTENER_POOL.dispatch(new Palette_State(e, super.size() - 2, super.size() - 1));
         return added;
       }
     };
     this.LISTENER_POOL = new stl_ListenerPool<>(name);
     this.LISTENER_POOL.add(x -> {
-      log("UXPALETTE", "Palette " + name + "received operation: " + x);
+      log("UXPALETTE", "Palette " + name + " received operation: " + x);
       return (Void) null;
     });
     PALETTES.put(name, this);

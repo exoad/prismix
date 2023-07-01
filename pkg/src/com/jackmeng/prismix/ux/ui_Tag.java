@@ -32,7 +32,46 @@ public class ui_Tag
   public static class ui_PTag
       extends ui_Tag
   {
-    
+    private static ActionListener paletteListener = ev -> {
+      ui_PTag tag = (ui_PTag) ev.getSource();
+      String color = tag.getText();
+
+      log("PTAG", "Building a PopupMenu for: " + tag.hashCode());
+      JPopupMenu menu = new JPopupMenu("Operations");
+
+      JMenuItem printToConsole = new JMenuItem("Print to console");
+      printToConsole.addActionListener(evrr -> log("USER", "Requested: " + color));
+
+      menu.add(printToConsole);
+
+      JMenu addToPalettes = new JMenu("Add to palette");
+
+      ux_Palette.PALETTES.forEach((name, pool) -> {
+        JMenuItem e = new JMenuItem(name);
+        e.setBorderPainted(false);
+        e.addActionListener(evrrrr -> pool.append(extend_stl_Colors.stripHex(color)));
+        addToPalettes.add(e);
+      });
+
+      menu.add(addToPalettes);
+
+      java.awt.Point pt = new Point(ux._ux.getMainUI().getMousePosition().x + 15,
+          ux._ux.getMainUI().getMousePosition().y + 20);
+      menu.show(ux._ux.getMainUI(), pt.x, pt.y);
+    };
+
+    public ui_PTag()
+    {
+      super();
+      addActionListener(paletteListener);
+    }
+
+    public ui_PTag(Color initialColor, boolean depositsInPool, boolean copyToClipboard)
+    {
+      super(initialColor, depositsInPool, copyToClipboard);
+      addActionListener(paletteListener);
+    }
+
   }
 
   @SuppressWarnings("unchecked") private static ActionListener colorListener = ev -> {
@@ -73,7 +112,7 @@ public class ui_Tag
       log("UICTAG", "Action received the desired state!");
       menu.ifPresent(x -> {
         java.awt.Point pt = new Point(ux._ux.getMainUI().getMousePosition().x + 15,
-            ux._ux.getMainUI().getMousePosition().y + 15);
+            ux._ux.getMainUI().getMousePosition().y);
         log("UICTAG", "Rendering the final popup menu to the screen at: " + pt.x + ","
             + pt.y);
         ((javax.swing.JPopupMenu) x).show(ux._ux.getMainUI(), pt.x, pt.y);

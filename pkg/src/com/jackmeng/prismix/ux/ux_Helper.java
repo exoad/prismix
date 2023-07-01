@@ -13,6 +13,7 @@ import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.prismix.ux.ui_Tag.ui_PTag;
 
 public final class ux_Helper
 {
@@ -54,18 +55,15 @@ public final class ux_Helper
     return jsp;
   }
 
-  public static JButton history_palette_btn(Color clr, int w, int h)
+  public static ui_PTag history_palette_btn(Color clr, int w, int h)
   {
-    JButton r = new JButton(extend_stl_Colors.RGBToHex(clr.getRed(), clr.getGreen(), clr.getBlue()));
+    ui_PTag r = new ui_PTag(clr, true, true);
     r.setPreferredSize(new Dimension(w, h));
     r.setMinimumSize(r.getPreferredSize());
     r.setRolloverEnabled(false);
     r.setFocusPainted(false);
     r.setBorderPainted(false);
     r.setFocusable(false);
-    float color = extend_stl_Colors.binary_fg_decider(extend_stl_Colors.awt_strip_rgba(clr))[0];
-    r.setForeground(new Color(color / 255F, color / 255F, color / 255F, 1F));
-    r.setBackground(clr);
     return r;
   }
 
