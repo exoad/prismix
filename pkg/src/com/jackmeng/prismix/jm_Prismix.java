@@ -37,7 +37,7 @@ public class jm_Prismix
   // debug purposes!
 
   public static final AtomicLong time = new AtomicLong(System.currentTimeMillis());
-  public static final long _VERSION_ = 2023_06_01L; // YYYY_MM_DD of the closest month
+  public static final long _VERSION_ = 2023_07_01L; // YYYY_MM_DD of the closest month
   public static final PrintStream IO = System.out;
 
   static final Map< String, stl_Callback< Void, String > > IO_COMMANDS = new HashMap<>();
