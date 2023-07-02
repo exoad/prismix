@@ -183,7 +183,6 @@ public final class ui_ColorPicker
       gradientView = new JPanel() {
         @Override public void paintComponent(final Graphics g)
         {
-          revalidate();
           super.paintComponent(g);
           use_Maker.db_timed(() -> {
             final Graphics2D g2 = (Graphics2D) g;
@@ -431,7 +430,7 @@ public final class ui_ColorPicker
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ComplementsButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-        final ui_Tag r = new ui_Tag();
+        ui_Tag r = new ui_Tag();
         r.setFocusPainted(false);
         r.setBorderPainted(false);
 
@@ -439,7 +438,7 @@ public final class ui_ColorPicker
         r.setForeground(Color.WHITE);
         r.setRolloverEnabled(false); // technically if setFocusable -> false, then this should not be needed, but ok
         this.complements_List.add(r);
-        final GridBagConstraints gbc = new GridBagConstraints();
+         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = i % this.complement_cols;
         gbc.gridy = i / this.complement_rows;
         gbc.fill = GridBagConstraints.BOTH;
@@ -457,7 +456,7 @@ public final class ui_ColorPicker
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ToneButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-        final ui_Tag r = new ui_Tag();
+         ui_Tag r = new ui_Tag();
         r.setFocusPainted(false);
         ux_Theme.based_set_rrect(r);
         r.setFocusable(false);
@@ -473,7 +472,7 @@ public final class ui_ColorPicker
         / tones_List.get(i).setForeground(Color.WHITE); /
         / tones_List.get(i).setBackground(Color.BLACK); /
         /---------------------------------------------------*/
-        final GridBagConstraints gbc = new GridBagConstraints();
+         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = i % this.tones_cols;
         gbc.gridy = i / this.tones_rows;
         gbc.fill = GridBagConstraints.BOTH;
@@ -490,7 +489,7 @@ public final class ui_ColorPicker
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new TintButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-        final ui_Tag r = new ui_Tag();
+         ui_Tag r = new ui_Tag();
         r.setRolloverEnabled(false);
         r.setFocusPainted(false);
         ux_Theme.based_set_rrect(r);
@@ -516,7 +515,7 @@ public final class ui_ColorPicker
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ShadesButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-        final ui_Tag r = new ui_Tag();
+         ui_Tag r = new ui_Tag();
         r.setFocusPainted(false);
         ux_Theme.based_set_rrect(r);
         r.setFocusable(false);
