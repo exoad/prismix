@@ -7,7 +7,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -28,6 +27,7 @@ import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.ux.ui_Tag.ui_PTag;
+import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
@@ -322,9 +322,19 @@ public class gui_Container
 			controls_randomScreenColor.addActionListener(
 					ev -> _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Ware.screen_colorAt_Rnd().get(), false)));
 
+			final JButton controls_ClearHistory = new JButton("Clear Palette History");
+			ux_Theme.based_set_rrect(controls_ClearHistory);
+			controls_randomScreenColor.setForeground(ux_Theme._theme.fg_awt());
+			controls_randomScreenColor.setBackground(stl_Colors.hexToRGB(ux_Theme._theme.get("blue")));
+			controls_randomScreenColor.addActionListener(
+					ev -> ux._ux.clear_history());
+
 			this.controls.add(controls_randomColor);
 			this.controls.add(controls_randomScreenColor);
 			this.controls.add(controls_screenColorPicker);
+			this.controls.add(controls_ClearHistory);
+
+			// system level
 			this.controls.add(controls_forceRevalidate);
 			this.controls.add(controls_gc);
 
@@ -715,7 +725,6 @@ public class gui_Container
 
 		// we don't care about implementation for History as a palette component
 		JTable currentPalette;
-		ArrayList< ui_PTag > history;
 		JPanel listHistory;
 
 		static int HISTORY_BUTTON_HEIGHT = 35, HISTORY_BUTTON_WIDTH = 115;
@@ -729,7 +738,6 @@ public class gui_Container
 
 			this.listHistory = new JPanel();
 			this.listHistory.setLayout(new ui_WrapLayout(FlowLayout.LEADING));
-			this.history = new ArrayList<>();
 			this.currentPalette = new JTable();
 
 			JScrollPane history_JSP = new JScrollPane();
@@ -747,6 +755,24 @@ public class gui_Container
 			_1const.COLOR_ENQ.add(this);
 		}
 
+		public synchronized void clear_history() // ! EXPORT
+		{
+			/*------------------------------------------------------------------------------------------------------- /
+			/ if (listHistory.getComponents().length > 0)                                                             /
+			/ {                                                                                                       /
+			/   log("BOT_G_HISTORY",                                                                                  /
+			/       jm_Ansi.make().blue().toString("Cleared the current history, requested by user!") + "Timestamp: " /
+			/           + System.currentTimeMillis()                                                                  /
+			/           + " To remove: " + listHistory.getComponents().length);                                       /
+			/   SwingUtilities.invokeLater(() -> {                                                                    /
+			/     for(int i = 0; i < listHistory.getComponentCount(); i++) listHistory.remove(i);                     /
+			/     listHistory.repaint(75L);                                                                           /
+			/   });                                                                                                   /
+			/ }                                                                                                       /
+			/ else log("BOT_H_HISTORY", "Ignored clear request: history is empty!");                                  /
+			/--------------------------------------------------------------------------------------------------------*/
+		}
+
 		@Override public Void call(struct_Pair< Color, Boolean > arg0)
 		{
 			if (Boolean.FALSE.equals(arg0.second))
@@ -756,10 +782,11 @@ public class gui_Container
 				log("BOT_G_HISTORY", "Logs a new color to history: " + arg0.first);
 				ui_PTag jb = ux_Helper.history_palette_btn(arg0.first, HISTORY_BUTTON_WIDTH, HISTORY_BUTTON_HEIGHT);
 				ux_Theme.based_set_rrect(jb);
-				history.add(jb);
 				listHistory.add(jb, 0);
-				listHistory.revalidate();
-				listHistory.repaint(75L);
+				SwingUtilities.invokeLater(() -> {
+					listHistory.revalidate();
+					listHistory.repaint(75L);
+				});
 			}
 			return (Void) null;
 		}

@@ -89,6 +89,11 @@ public final class ux
     return this.mainui;
   }
 
+  public synchronized void clear_history()
+  {
+    childui.bottom.clear_history();
+  }
+
   @SuppressWarnings("unchecked") public ux()
   {
     this.childui = new gui_Container();

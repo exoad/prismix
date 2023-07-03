@@ -17,6 +17,7 @@ import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,12 +25,14 @@ import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeListener;
 
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.stl.extend_stl_Wrap;
+import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 
@@ -107,64 +110,79 @@ public final class ui_ColorPicker
       MouseListener
   {
     private JPanel gradientView;
-    private final JSlider x_pos, y_pos;
     private transient boolean toPaintCurr = true;
     private transient extend_stl_Wrap< Integer > size_SquareGrad;
     private transient int transformed_x = -1, transformed_y = -1; // transformed which represent the relative mouse
     // location relative to prismix
     private int selector_cursor_radius = 10, selector_cursor_stroke = 2;
     private transient stl_Wrap< Color > c = new stl_Wrap<>(Color.gray);
-    private boolean first = true;
+    private boolean first = true, rgb_Sliders_Listen = true;
+    private JSlider controls_RED, controls_GREEN, controls_BLUE;
+
+    private transient ChangeListener syncSliders = Boolean.TRUE
+        .equals((Boolean) _1const.val.parse("stoopid_sliders").get()) ? ev -> {
+          rgb_Sliders_Listen = false;
+          _1const.COLOR_ENQ.dispatch(stl_Struct
+              .make_pair(new Color(controls_RED.getValue(), controls_GREEN.getValue(), controls_BLUE.getValue()),
+                  false));
+          rgb_Sliders_Listen = true;
+        } : ev -> {
+          if (!((JSlider) ev.getSource()).getValueIsAdjusting())
+          {
+            rgb_Sliders_Listen = false;
+            _1const.COLOR_ENQ.dispatch(stl_Struct
+                .make_pair(new Color(controls_RED.getValue(), controls_GREEN.getValue(), controls_BLUE.getValue()),
+                    false));
+            rgb_Sliders_Listen = true;
+          }
+
+        };
 
     public CPick_GradRect()
     {
-      /*----------------------------------------------------------------- /
-      / final JScrollPane controls_ScrollView = new JScrollPane();        /
-      / controls_ScrollView.setBorder(BorderFactory.createEmptyBorder()); /
-      /------------------------------------------------------------------*/
+      final JScrollPane controls_ScrollView = new JScrollPane();
+      controls_ScrollView.setBorder(BorderFactory.createEmptyBorder());
 
-      /*-------------------------------------------------------------------------------- /
-      / JPanel controls = new JPanel();                                                  /
-      / controls.setLayout(new BoxLayout(controls, BoxLayout.X_AXIS));                   /
-      /                                                                                  /
-      / JSlider controls_RED = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);    /
-      / controls_RED.setPaintTrack(true);                                                /
-      / controls_RED.setPaintTicks(true);                                                /
-      / controls_RED.setMajorTickSpacing(20);                                            /
-      / controls_RED.setMinorTickSpacing(5);                                             /
-      / controls_RED.setPaintLabels(true);                                               /
-      / controls_RED.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("red")));     /
-      /                                                                                  /
-      / JSlider controls_GREEN = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);  /
-      / controls_GREEN.setPaintTrack(true);                                              /
-      / controls_GREEN.setPaintTicks(true);                                              /
-      / controls_GREEN.setMajorTickSpacing(20);                                          /
-      / controls_GREEN.setMinorTickSpacing(5);                                           /
-      / controls_GREEN.setPaintLabels(true);                                             /
-      / controls_GREEN.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("green"))); /
-      /                                                                                  /
-      / JSlider controls_BLUE = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);   /
-      / controls_BLUE.setPaintTrack(true);                                               /
-      / controls_BLUE.setPaintTicks(true);                                               /
-      / controls_BLUE.setMajorTickSpacing(20);                                           /
-      / controls_BLUE.setMinorTickSpacing(5);                                            /
-      / controls_BLUE.setPaintLabels(true);                                              /
-      / controls_BLUE.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("blue")));   /
-      /                                                                                  /
-      / controls.add(Box.createHorizontalStrut(30));                                     /
-      / controls.add(controls_RED);                                                      /
-      / controls.add(Box.createHorizontalStrut(20));                                     /
-      / controls.add(controls_GREEN);                                                    /
-      / controls.add(Box.createHorizontalStrut(20));                                     /
-      / controls.add(controls_BLUE);                                                     /
-      /---------------------------------------------------------------------------------*/
+      JPanel controls = new JPanel();
+      controls.setLayout(new BoxLayout(controls, BoxLayout.X_AXIS));
 
-      /*-------------------------------------------------------------- /
-      / ui_LazyViewport lazyViewport_controls = new ui_LazyViewport(); /
-      / lazyViewport_controls.setView(controls);                       /
-      / controls_ScrollView.setViewportView(lazyViewport_controls);    /
-      /---------------------------------------------------------------*/
+      controls_RED = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);
+      controls_RED.setPaintTrack(true);
+      controls_RED.setPaintTicks(true);
+      controls_RED.setMajorTickSpacing(20);
+      controls_RED.setMinorTickSpacing(5);
+      controls_RED.setPaintLabels(true);
+      controls_RED.addChangeListener(syncSliders);
+            controls_RED.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("rose")));
 
+      controls_GREEN = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);
+      controls_GREEN.setPaintTrack(true);
+      controls_GREEN.setPaintTicks(true);
+      controls_GREEN.setMajorTickSpacing(20);
+      controls_GREEN.setMinorTickSpacing(5);
+      controls_GREEN.setPaintLabels(true);
+      controls_GREEN.addChangeListener(syncSliders);
+      controls_GREEN.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("green")));
+
+      controls_BLUE = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);
+      controls_BLUE.setPaintTrack(true);
+      controls_BLUE.setPaintTicks(true);
+      controls_BLUE.setMajorTickSpacing(20);
+      controls_BLUE.setMinorTickSpacing(5);
+      controls_BLUE.setPaintLabels(true);
+      controls_BLUE.addChangeListener(syncSliders);
+      controls_BLUE.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("ocean")));
+
+      controls.add(Box.createHorizontalStrut(30));
+      controls.add(controls_RED);
+      controls.add(Box.createHorizontalStrut(20));
+      controls.add(controls_GREEN);
+      controls.add(Box.createHorizontalStrut(20));
+      controls.add(controls_BLUE);
+
+      ui_LazyViewport lazyViewport_controls = new ui_LazyViewport();
+      lazyViewport_controls.setView(controls);
+      controls_ScrollView.setViewportView(lazyViewport_controls);
       _1const.COLOR_ENQ.add(x -> {
         debug("RECEIVED: " + toPaintCurr + " " + Boolean.TRUE.equals(!x.second));
         if (first)
@@ -231,23 +249,7 @@ public final class ui_ColorPicker
 
       size_SquareGrad = new extend_stl_Wrap<>(gradientView.getSize().width); // width == height
 
-      JPanel manualControls = new JPanel();
-      manualControls.setLayout(new BoxLayout(manualControls, BoxLayout.X_AXIS));
-
-      x_pos = new JSlider(0, size_SquareGrad.obj);
-      x_pos.setBorder(
-          BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), BorderFactory.createTitledBorder("X")));
-      x_pos.setOrientation(SwingConstants.HORIZONTAL);
-
-      y_pos = new JSlider(0, size_SquareGrad.obj);
-      y_pos.setBorder(
-          BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), BorderFactory.createTitledBorder("Y")));
-      y_pos.setOrientation(SwingConstants.VERTICAL);
-
-      manualControls.add(x_pos);
-      manualControls.add(y_pos);
-
-      setRightComponent(manualControls);
+      setRightComponent(lazyViewport_controls);
       setLeftComponent(gradientView);
       setOrientation(JSplitPane.HORIZONTAL_SPLIT);
       setDividerLocation(0.75);
@@ -258,15 +260,15 @@ public final class ui_ColorPicker
       addMouseListener(this);
     }
 
-    private void sync_scrollers()
-    {
-      x_pos.setMaximum(size_SquareGrad.obj);
-      y_pos.setMaximum(size_SquareGrad.obj);
-    }
-
     @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
       SwingUtilities.invokeLater(() -> this.repaint(75L));
+      if (rgb_Sliders_Listen)
+      {
+        controls_RED.setValue(arg0.first.getRed());
+        controls_GREEN.setValue(arg0.first.getGreen());
+        controls_BLUE.setValue(arg0.first.getBlue());
+      }
       return (Void) null;
     }
 
@@ -275,7 +277,6 @@ public final class ui_ColorPicker
       if (ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
           new Dimension(size_SquareGrad.get(), size_SquareGrad.get())))
       {
-        sync_scrollers();
         log("CPick_GradRect",
             "Mouse [ DRAGGED ] at: " + e.getX() + ", " + (e.getY() - (getHeight() - size_SquareGrad.get()) / 2)); // we
                                                                                                                   // have
@@ -285,8 +286,6 @@ public final class ui_ColorPicker
         transformed_x = e.getX(); // wtf
         transformed_y = e.getY(); // wtf here i got confused with relative coordinates and absolute coordintes in
                                   // regards to the components (screen versus prismix)
-        x_pos.setValue(transformed_x);
-        y_pos.setValue(transformed_y);
         setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         toPaintCurr = false;
         SwingUtilities.invokeLater(() -> repaint(70L));
