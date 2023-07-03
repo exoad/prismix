@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.HashSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -726,6 +727,7 @@ public class gui_Container
 		// we don't care about implementation for History as a palette component
 		JTable currentPalette;
 		JPanel listHistory;
+		HashSet< String > history;
 
 		static int HISTORY_BUTTON_HEIGHT = 35, HISTORY_BUTTON_WIDTH = 115;
 
@@ -739,6 +741,7 @@ public class gui_Container
 			this.listHistory = new JPanel();
 			this.listHistory.setLayout(new ui_WrapLayout(FlowLayout.LEADING));
 			this.currentPalette = new JTable();
+			this.history = new HashSet<>(20);
 
 			JScrollPane history_JSP = new JScrollPane();
 			history_JSP.setBorder(BorderFactory.createEmptyBorder());
@@ -775,19 +778,35 @@ public class gui_Container
 
 		@Override public Void call(struct_Pair< Color, Boolean > arg0)
 		{
-			if (Boolean.FALSE.equals(arg0.second))
+			String colorHex = extend_stl_Colors.RGBToHex(arg0.first.getRed(), arg0.first.getGreen(), arg0.first.getBlue());
+
+			if (Boolean.FALSE.equals(arg0.second) && !history.contains(colorHex))
 			{
 				// make a popupmenu for this so we can have proper controls for this button
 				// preferably also make a global one and then spawn a unique one for just this
 				log("BOT_G_HISTORY", "Logs a new color to history: " + arg0.first);
 				ui_PTag jb = ux_Helper.history_palette_btn(arg0.first, HISTORY_BUTTON_WIDTH, HISTORY_BUTTON_HEIGHT);
+				jb.setName(colorHex);
 				ux_Theme.based_set_rrect(jb);
+
+				// Remove duplicate if it exists
+				for (Component component : listHistory.getComponents())
+				{
+					if (component instanceof ui_PTag && colorHex.equals(component.getName()))
+					{
+						listHistory.remove(component);
+						break;
+					}
+				}
+
 				listHistory.add(jb, 0);
+
 				SwingUtilities.invokeLater(() -> {
 					listHistory.revalidate();
 					listHistory.repaint(75L);
 				});
 			}
+
 			return (Void) null;
 		}
 
