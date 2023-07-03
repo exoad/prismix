@@ -17,9 +17,7 @@ import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -33,7 +31,6 @@ import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.stl.extend_stl_Wrap;
 import com.jackmeng.stl.stl_Listener;
-import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Struct;
 
 import com.jackmeng.stl.stl_Ware;
