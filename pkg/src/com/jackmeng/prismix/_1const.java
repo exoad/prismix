@@ -59,7 +59,7 @@ public final class _1const
     val.put_("containers_rounded", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Used to determine whether to use rounded components or not. (For that eye candy ^_^)" });
     val.put_("stoopid_sliders", parse_Bool, new Object[] { Bool, "false", type_Bool,
-        "Determines whether sliders should only wait till they come to rest to dispatch their value or dispatch a value everytime they move." });
+        "Determines whether sliders should only wait till they come to rest to dispatch their value or dispatch a value everytime they move. Requires a restart!" });
   } // put program properties
 
   /**
