@@ -2,6 +2,7 @@
 
 package com.jackmeng.prismix.user;
 
+import java.rmi.UnexpectedException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
@@ -164,7 +165,7 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
     log("MAP_REGISTRY",
         !this.containsKey(key)
             ? jm_Ansi.make().red().bold().toString(name + " failed to retrieve an element with key: ") + " " + key
-                + " | " + jm_Ansi.make().yellow().toString("{!} This is a bug!")
+                + " | " + jm_Ansi.make().bold().underline().yellow().toString("{!} This is a bug!")
             : jm_Ansi.make().green().bold().toString(name + " found key: ")
                 + jm_Ansi.make().underline().black().cyan_bg().toString(key)
                 + jm_Ansi.make().green().bold().toString(" with value: ")

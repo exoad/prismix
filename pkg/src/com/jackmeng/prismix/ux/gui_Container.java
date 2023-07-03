@@ -102,7 +102,7 @@ public class gui_Container
 			_1const.COLOR_ENQ.add(colorChooser_gradientRect);
 			this.colorChooser.addTab("GradRect Pick", colorChooser_gradientRect);
 
-			if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
+			if ("true".equalsIgnoreCase(_1const.val.get_value("soft_debug")))
 			{
 				final ui_ColorPicker.CPick_GenericDisp colorChooser_Debug = new ui_ColorPicker.CPick_GenericDisp();
 				colorChooser_Debug.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 1));

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -109,6 +110,7 @@ public final class ui_ColorPicker
       MouseListener
   {
     private JPanel gradientView;
+    private final JSlider x_pos, y_pos;
     private transient boolean toPaintCurr = true;
     private transient extend_stl_Wrap< Integer > size_SquareGrad;
     private transient int transformed_x = -1, transformed_y = -1; // transformed which represent the relative mouse
@@ -119,46 +121,52 @@ public final class ui_ColorPicker
 
     public CPick_GradRect()
     {
-      final JScrollPane controls_ScrollView = new JScrollPane();
-      controls_ScrollView.setBorder(BorderFactory.createEmptyBorder());
+      /*----------------------------------------------------------------- /
+      / final JScrollPane controls_ScrollView = new JScrollPane();        /
+      / controls_ScrollView.setBorder(BorderFactory.createEmptyBorder()); /
+      /------------------------------------------------------------------*/
 
-      JPanel controls = new JPanel();
-      controls.setLayout(new BoxLayout(controls, BoxLayout.X_AXIS));
+      /*-------------------------------------------------------------------------------- /
+      / JPanel controls = new JPanel();                                                  /
+      / controls.setLayout(new BoxLayout(controls, BoxLayout.X_AXIS));                   /
+      /                                                                                  /
+      / JSlider controls_RED = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);    /
+      / controls_RED.setPaintTrack(true);                                                /
+      / controls_RED.setPaintTicks(true);                                                /
+      / controls_RED.setMajorTickSpacing(20);                                            /
+      / controls_RED.setMinorTickSpacing(5);                                             /
+      / controls_RED.setPaintLabels(true);                                               /
+      / controls_RED.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("red")));     /
+      /                                                                                  /
+      / JSlider controls_GREEN = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);  /
+      / controls_GREEN.setPaintTrack(true);                                              /
+      / controls_GREEN.setPaintTicks(true);                                              /
+      / controls_GREEN.setMajorTickSpacing(20);                                          /
+      / controls_GREEN.setMinorTickSpacing(5);                                           /
+      / controls_GREEN.setPaintLabels(true);                                             /
+      / controls_GREEN.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("green"))); /
+      /                                                                                  /
+      / JSlider controls_BLUE = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);   /
+      / controls_BLUE.setPaintTrack(true);                                               /
+      / controls_BLUE.setPaintTicks(true);                                               /
+      / controls_BLUE.setMajorTickSpacing(20);                                           /
+      / controls_BLUE.setMinorTickSpacing(5);                                            /
+      / controls_BLUE.setPaintLabels(true);                                              /
+      / controls_BLUE.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("blue")));   /
+      /                                                                                  /
+      / controls.add(Box.createHorizontalStrut(30));                                     /
+      / controls.add(controls_RED);                                                      /
+      / controls.add(Box.createHorizontalStrut(20));                                     /
+      / controls.add(controls_GREEN);                                                    /
+      / controls.add(Box.createHorizontalStrut(20));                                     /
+      / controls.add(controls_BLUE);                                                     /
+      /---------------------------------------------------------------------------------*/
 
-      JSlider controls_RED = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);
-      controls_RED.setPaintTrack(true);
-      controls_RED.setPaintTicks(true);
-      controls_RED.setMajorTickSpacing(20);
-      controls_RED.setMinorTickSpacing(5);
-      controls_RED.setPaintLabels(true);
-      controls_RED.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("red")));
-
-      JSlider controls_GREEN = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);
-      controls_GREEN.setPaintTrack(true);
-      controls_GREEN.setPaintTicks(true);
-      controls_GREEN.setMajorTickSpacing(20);
-      controls_GREEN.setMinorTickSpacing(5);
-      controls_GREEN.setPaintLabels(true);
-      controls_GREEN.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("green")));
-
-      JSlider controls_BLUE = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);
-      controls_BLUE.setPaintTrack(true);
-      controls_BLUE.setPaintTicks(true);
-      controls_BLUE.setMajorTickSpacing(20);
-      controls_BLUE.setMinorTickSpacing(5);
-      controls_BLUE.setPaintLabels(true);
-      controls_BLUE.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("blue")));
-
-      controls.add(Box.createHorizontalStrut(30));
-      controls.add(controls_RED);
-      controls.add(Box.createHorizontalStrut(20));
-      controls.add(controls_GREEN);
-      controls.add(Box.createHorizontalStrut(20));
-      controls.add(controls_BLUE);
-
-      ui_LazyViewport lazyViewport_controls = new ui_LazyViewport();
-      lazyViewport_controls.setView(controls);
-      controls_ScrollView.setViewportView(lazyViewport_controls);
+      /*-------------------------------------------------------------- /
+      / ui_LazyViewport lazyViewport_controls = new ui_LazyViewport(); /
+      / lazyViewport_controls.setView(controls);                       /
+      / controls_ScrollView.setViewportView(lazyViewport_controls);    /
+      /---------------------------------------------------------------*/
 
       _1const.COLOR_ENQ.add(x -> {
         debug("RECEIVED: " + toPaintCurr + " " + Boolean.TRUE.equals(!x.second));
@@ -226,8 +234,24 @@ public final class ui_ColorPicker
 
       size_SquareGrad = new extend_stl_Wrap<>(gradientView.getSize().width); // width == height
 
+      JPanel manualControls = new JPanel();
+      manualControls.setLayout(new BoxLayout(manualControls, BoxLayout.X_AXIS));
+
+      x_pos = new JSlider(0, size_SquareGrad.obj);
+      x_pos.setBorder(
+          BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), BorderFactory.createTitledBorder("X")));
+      x_pos.setOrientation(SwingConstants.HORIZONTAL);
+
+      y_pos = new JSlider(0, size_SquareGrad.obj);
+      y_pos.setBorder(
+          BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), BorderFactory.createTitledBorder("Y")));
+      y_pos.setOrientation(SwingConstants.VERTICAL);
+
+      manualControls.add(x_pos);
+      manualControls.add(y_pos);
+
+      setRightComponent(manualControls);
       setLeftComponent(gradientView);
-      setRightComponent(controls_ScrollView);
       setOrientation(JSplitPane.HORIZONTAL_SPLIT);
       setDividerLocation(0.75);
       setAutoscrolls(false);
@@ -237,10 +261,15 @@ public final class ui_ColorPicker
       addMouseListener(this);
     }
 
+    private void sync_scrollers()
+    {
+      x_pos.setMaximum(size_SquareGrad.obj);
+      y_pos.setMaximum(size_SquareGrad.obj);
+    }
+
     @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
-      if (isVisible())
-        SwingUtilities.invokeLater(() -> this.repaint(75L));
+      SwingUtilities.invokeLater(() -> this.repaint(75L));
       return (Void) null;
     }
 
@@ -249,6 +278,7 @@ public final class ui_ColorPicker
       if (ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
           new Dimension(size_SquareGrad.get(), size_SquareGrad.get())))
       {
+        sync_scrollers();
         log("CPick_GradRect",
             "Mouse [ DRAGGED ] at: " + e.getX() + ", " + (e.getY() - (getHeight() - size_SquareGrad.get()) / 2)); // we
                                                                                                                   // have
@@ -258,6 +288,8 @@ public final class ui_ColorPicker
         transformed_x = e.getX(); // wtf
         transformed_y = e.getY(); // wtf here i got confused with relative coordinates and absolute coordintes in
                                   // regards to the components (screen versus prismix)
+        x_pos.setValue(transformed_x);
+        y_pos.setValue(transformed_y);
         setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         toPaintCurr = false;
         SwingUtilities.invokeLater(() -> repaint(70L));
@@ -438,7 +470,7 @@ public final class ui_ColorPicker
         r.setForeground(Color.WHITE);
         r.setRolloverEnabled(false); // technically if setFocusable -> false, then this should not be needed, but ok
         this.complements_List.add(r);
-         GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = i % this.complement_cols;
         gbc.gridy = i / this.complement_rows;
         gbc.fill = GridBagConstraints.BOTH;
@@ -456,7 +488,7 @@ public final class ui_ColorPicker
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ToneButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-         ui_Tag r = new ui_Tag();
+        ui_Tag r = new ui_Tag();
         r.setFocusPainted(false);
         ux_Theme.based_set_rrect(r);
         r.setFocusable(false);
@@ -472,7 +504,7 @@ public final class ui_ColorPicker
         / tones_List.get(i).setForeground(Color.WHITE); /
         / tones_List.get(i).setBackground(Color.BLACK); /
         /---------------------------------------------------*/
-         GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = i % this.tones_cols;
         gbc.gridy = i / this.tones_rows;
         gbc.fill = GridBagConstraints.BOTH;
@@ -489,7 +521,7 @@ public final class ui_ColorPicker
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new TintButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-         ui_Tag r = new ui_Tag();
+        ui_Tag r = new ui_Tag();
         r.setRolloverEnabled(false);
         r.setFocusPainted(false);
         ux_Theme.based_set_rrect(r);
@@ -515,7 +547,7 @@ public final class ui_ColorPicker
         / System.out.println(                                                                                          /
         /     new stl_AnsiMake(stl_AnsiColors.MAGENTA_TXT, "[CPick_Suggestions] Creating a new ShadesButton[" + i + "]")); /
         /-------------------------------------------------------------------------------------------------------------*/
-         ui_Tag r = new ui_Tag();
+        ui_Tag r = new ui_Tag();
         r.setFocusPainted(false);
         ux_Theme.based_set_rrect(r);
         r.setFocusable(false);
@@ -557,53 +589,178 @@ public final class ui_ColorPicker
     @Override public Void call(final struct_Pair< Color, Boolean > arg0)
     {
       if (Boolean.FALSE.equals(arg0.second)) // second arg to make sure that this does not paint
-                                             // when the user is on a different tab
-      {
+        // when the user is on a different tab
+        /*------------------------------------------------------------------------------------------------------------------ /
+        / {                                                                                                                  /
+        /   log("CPickSGTN", jm_Ansi.make().blue().toString("Called to revalidate the current colors"));                     /
+        /   boolean use_sorted = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sorted")),                       /
+        /       use_l2d = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sort_light_to_dark"));                  /
+        /   use_Maker.db_timed(() -> {                                                                                       /
+        /     if (this.shades_Tones.isVisible())                                                                             /
+        /     {                                                                                                              /
+        /       final float[][] gen_tones = extend_stl_Colors.tones(extend_stl_Colors.awt_strip_rgba(arg0.first),            /
+        /           this.tones_cols * this.tones_rows);                                                                      /
+        /       if (use_sorted)                                                                                              /
+        /       {                                                                                                            /
+        /         if (use_l2d)                                                                                               /
+        /           extend_stl_Colors.sort_l2d(gen_tones);                                                                   /
+        /         else extend_stl_Colors.sort_d2l(gen_tones);                                                                /
+        /       }                                                                                                            /
+        /       final Color[] remadeTones = new Color[this.tones_cols * this.tones_rows];                                    /
+        /       final String[] hexTones = new String[this.tones_cols * this.tones_rows];                                     /
+        /       _render.unify_(this.shades_Shades, nil -> {                                                                  /
+        /         for (int i = 0; i < this.tones_cols * this.tones_rows; i++)                                                /
+        /         {                                                                                                          /
+        /           final JButton button = this.tones_List.get(i);                                                           /
+        /           remadeTones[i] = extend_stl_Colors.awt_remake(gen_tones[i]);                                             /
+        /           button.setBackground(remadeTones[i]);                                                                    /
+        /           button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tones[i])));   /
+        /           hexTones[i] = extend_stl_Colors.RGBToHex((int) gen_tones[i][0], (int) gen_tones[i][1],                   /
+        /               (int) gen_tones[i][2]);                                                                              /
+        /           button.setText(hexTones[i]);                                                                             /
+        /           button.setBorderPainted(true);                                                                           /
+        /           button.setToolTipText(hexTones[i]);                                                                      /
+        /         }                                                                                                          /
+        /         return (Void) null;                                                                                        /
+        /       });                                                                                                          /
+        /                                                                                                                    /
+        /     }                                                                                                              /
+        /                                                                                                                    /
+        /     if (this.shades_Complements.isVisible())                                                                       /
+        /     {                                                                                                              /
+        /       float[][] gen_complements = extend_stl_Colors.complementaries(extend_stl_Colors.awt_strip_rgba(arg0.first),  /
+        /           this.complement_cols * this.complement_rows);                                                            /
+        /       if (use_sorted)                                                                                              /
+        /       {                                                                                                            /
+        /         if (use_l2d)                                                                                               /
+        /           extend_stl_Colors.sort_l2d(gen_complements);                                                             /
+        /         else extend_stl_Colors.sort_d2l(gen_complements);                                                          /
+        /       }                                                                                                            /
+        /       final Color[] remadeComplements = new Color[this.complement_cols * this.complement_rows];                    /
+        /       final String[] hexComplements = new String[this.complement_cols * this.complement_rows];                     /
+        /       _render.unify_(this.shades_Tint, nil -> {                                                                    /
+        /         for (int i = 0; i < this.complement_cols * this.complement_rows; i++)                                      /
+        /         {                                                                                                          /
+        /           final JButton button = this.complements_List.get(i);                                                     /
+        /           remadeComplements[i] = extend_stl_Colors.awt_remake(gen_complements[i]);                                 /
+        /           button.setBackground(remadeComplements[i]);                                                              /
+        /           button.setForeground(                                                                                    /
+        /               extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_complements[i])));              /
+        /           hexComplements[i] = extend_stl_Colors.RGBToHex((int) gen_complements[i][0], (int) gen_complements[i][1], /
+        /               (int) gen_complements[i][2]);                                                                        /
+        /           button.setText(hexComplements[i]);                                                                       /
+        /           button.setBorderPainted(true);                                                                           /                                    /
+        /           button.setToolTipText(hexComplements[i]);                                                                /
+        /         }                                                                                                          /
+        /         return (Void) null;                                                                                        /
+        /       });                                                                                                          /
+        /                                                                                                                    /
+        /     }                                                                                                              /
+        /                                                                                                                    /
+        /     if (this.shades_Tint.isVisible())                                                                              /
+        /     {                                                                                                              /
+        /       final float[][] gen_tints = extend_stl_Colors.tints(extend_stl_Colors.awt_strip_rgba(arg0.first),            /
+        /           this.tint_cols * this.tint_rows);                                                                        /
+        /       if (use_sorted)                                                                                              /
+        /       {                                                                                                            /
+        /         if (use_l2d)                                                                                               /
+        /           extend_stl_Colors.sort_l2d(gen_tints);                                                                   /
+        /         else extend_stl_Colors.sort_d2l(gen_tints);                                                                /
+        /       }                                                                                                            /
+        /       final Color[] remadeTints = new Color[this.tint_cols * this.tint_rows];                                      /
+        /       final String[] hexTints = new String[this.tint_cols * this.tint_rows];                                       /
+        /       _render.unify_(this.shades_Tint, nil -> {                                                                    /
+        /         for (int i = 0; i < this.tint_cols * this.tint_rows; i++)                                                  /
+        /         {                                                                                                          /
+        /           final JButton button = this.tint_List.get(i);                                                            /
+        /           remadeTints[i] = extend_stl_Colors.awt_remake(gen_tints[i]);                                             /
+        /           button.setBackground(remadeTints[i]);                                                                    /
+        /           button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_tints[i])));   /
+        /           hexTints[i] = extend_stl_Colors.RGBToHex((int) gen_tints[i][0], (int) gen_tints[i][1],                   /
+        /               (int) gen_tints[i][2]);                                                                              /
+        /           button.setText(hexTints[i]);                                                                             /
+        /           button.setBorderPainted(true);                                                                           //
+        /           button.setToolTipText(hexTints[i]);                                                                      /
+        /         }                                                                                                          /
+        /         return (Void) null;                                                                                        /
+        /       });                                                                                                          /
+        /     }                                                                                                              /
+        /                                                                                                                    /
+        /     if (this.shades_Shades.isVisible())                                                                            /
+        /     {                                                                                                              /
+        /       final float[][] gen_shades = extend_stl_Colors.shades(extend_stl_Colors.awt_strip_rgba(arg0.first),          /
+        /           this.shades_cols * this.shades_rows);                                                                    /
+        /       if (use_sorted)                                                                                              /
+        /       {                                                                                                            /
+        /         if (use_l2d)                                                                                               /
+        /           extend_stl_Colors.sort_l2d(gen_shades);                                                                  /
+        /         else extend_stl_Colors.sort_d2l(gen_shades);                                                               /
+        /       }                                                                                                            /
+        /       final Color[] remadeShades = new Color[this.shades_cols * this.shades_rows];                                 /
+        /       final String[] hexShades = new String[this.shades_cols * this.shades_rows];                                  /
+        /       _render.unify_(this.shades_Shades, nil -> {                                                                  /
+        /         for (int i = 0; i < this.shades_cols * this.shades_rows; i++)                                              /
+        /         {                                                                                                          /
+        /           final JButton button = this.shades_List.get(i);                                                          /
+        /           remadeShades[i] = extend_stl_Colors.awt_remake(gen_shades[i]);                                           /
+        /           button.setBackground(remadeShades[i]);                                                                   /
+        /           button.setForeground(extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(gen_shades[i])));  /
+        /           hexShades[i] = extend_stl_Colors.RGBToHex((int) gen_shades[i][0], (int) gen_shades[i][1],                /
+        /               (int) gen_shades[i][2]);                                                                             /
+        /           button.setText(hexShades[i]);                                                                            /
+        /           button.setBorderPainted(true);                                                                           /                                   /
+        /           button.setToolTipText(hexShades[i]);                                                                     /
+        /         }                                                                                                          /
+        /         return (Void) null;                                                                                        /
+        /       });                                                                                                          /
+        /                                                                                                                    /
+        /     }                                                                                                              /
+        /   });                                                                                                              /
+        / }                                                                                                                  /
+        /-------------------------------------------------------------------------------------------------------------------*/
         log("CPickSGTN", jm_Ansi.make().blue().toString("Called to revalidate the current colors"));
-        boolean use_sorted = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sorted")),
-            use_l2d = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sort_light_to_dark"));
-        use_Maker.db_timed(() -> {
-          float[][] gen_tones = extend_stl_Colors.tones(extend_stl_Colors.awt_strip_rgba(arg0.first),
-              this.tones_cols * this.tones_rows);
-          float[][] gen_complements = extend_stl_Colors.complementaries(extend_stl_Colors.awt_strip_rgba(arg0.first),
-              this.complement_cols * this.complement_rows);
-          float[][] gen_tints = extend_stl_Colors.tints(extend_stl_Colors.awt_strip_rgba(arg0.first),
-              this.tint_cols * this.tint_rows);
-          float[][] gen_shades = extend_stl_Colors.shades(extend_stl_Colors.awt_strip_rgba(arg0.first),
-              this.shades_cols * this.shades_rows);
+      boolean use_sorted = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sorted")),
+          use_l2d = "true".equalsIgnoreCase(_1const.val.get_value("suggestions_sort_light_to_dark"));
+      use_Maker.db_timed(() -> {
+        float[][] gen_tones = extend_stl_Colors.tones(extend_stl_Colors.awt_strip_rgba(arg0.first),
+            this.tones_cols * this.tones_rows);
+        float[][] gen_complements = extend_stl_Colors.complementaries(extend_stl_Colors.awt_strip_rgba(arg0.first),
+            this.complement_cols * this.complement_rows);
+        float[][] gen_tints = extend_stl_Colors.tints(extend_stl_Colors.awt_strip_rgba(arg0.first),
+            this.tint_cols * this.tint_rows);
+        float[][] gen_shades = extend_stl_Colors.shades(extend_stl_Colors.awt_strip_rgba(arg0.first),
+            this.shades_cols * this.shades_rows);
 
-          if (use_sorted)
+        if (use_sorted)
+        {
+          if (use_l2d)
           {
-            if (use_l2d)
-            {
-              extend_stl_Colors.sort_l2d(gen_tones);
-              extend_stl_Colors.sort_l2d(gen_complements);
-              extend_stl_Colors.sort_l2d(gen_tints);
-              extend_stl_Colors.sort_l2d(gen_shades);
-            }
-            else
-            {
-              extend_stl_Colors.sort_d2l(gen_tones);
-              extend_stl_Colors.sort_d2l(gen_complements);
-              extend_stl_Colors.sort_d2l(gen_tints);
-              extend_stl_Colors.sort_d2l(gen_shades);
-            }
+            extend_stl_Colors.sort_l2d(gen_tones);
+            extend_stl_Colors.sort_l2d(gen_complements);
+            extend_stl_Colors.sort_l2d(gen_tints);
+            extend_stl_Colors.sort_l2d(gen_shades);
           }
-
-          _render.unify_(this, nil -> {
-            for (int i = 0; i < this.tones_cols * this.tones_rows; i++)
-              this.tones_List.get(i).sync(extend_stl_Colors.awt_remake(gen_tones[i]));
-            for (int i = 0; i < this.complement_cols * this.complement_rows; i++)
-              this.complements_List.get(i).sync(extend_stl_Colors.awt_remake(gen_complements[i]));
-            for (int i = 0; i < this.tint_cols * this.tint_rows; i++)
-              this.tint_List.get(i).sync(extend_stl_Colors.awt_remake(gen_tints[i]));
-            for (int i = 0; i < this.shades_cols * this.shades_rows; i++)
-              this.shades_List.get(i).sync(extend_stl_Colors.awt_remake(gen_shades[i]));
-            return (Void) null;
-          });
-
+          else
+          {
+            extend_stl_Colors.sort_d2l(gen_tones);
+            extend_stl_Colors.sort_d2l(gen_complements);
+            extend_stl_Colors.sort_d2l(gen_tints);
+            extend_stl_Colors.sort_d2l(gen_shades);
+          }
+        }
+        // unified rendering doesn't work here, causes tab compositing to fuck up.
+        SwingUtilities.invokeLater(() -> {
+          for (int i = 0; i < this.tones_cols * this.tones_rows; i++)
+            this.tones_List.get(i).sync(extend_stl_Colors.awt_remake(gen_tones[i]));
+          for (int i = 0; i < this.complement_cols * this.complement_rows; i++)
+            this.complements_List.get(i).sync(extend_stl_Colors.awt_remake(gen_complements[i]));
+          for (int i = 0; i < this.tint_cols * this.tint_rows; i++)
+            this.tint_List.get(i).sync(extend_stl_Colors.awt_remake(gen_tints[i]));
+          for (int i = 0; i < this.shades_cols * this.shades_rows; i++)
+            this.shades_List.get(i).sync(extend_stl_Colors.awt_remake(gen_shades[i]));
         });
-      }
+
+      });
       return null;
     }
     // defunct version (works but not good enuf for performance)
