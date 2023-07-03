@@ -2,6 +2,7 @@
 
 package com.jackmeng.prismix.ux;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -725,8 +726,7 @@ public class gui_Container
 	{
 
 		// we don't care about implementation for History as a palette component
-		JTable currentPalette;
-		JPanel listHistory;
+		JPanel listHistory, palette;
 		HashSet< String > history;
 
 		static int HISTORY_BUTTON_HEIGHT = 35, HISTORY_BUTTON_WIDTH = 115;
@@ -740,8 +740,9 @@ public class gui_Container
 
 			this.listHistory = new JPanel();
 			this.listHistory.setLayout(new ui_WrapLayout(FlowLayout.LEADING));
-			this.currentPalette = new JTable();
 			this.history = new HashSet<>(20);
+			this.palette = new JPanel();
+			this.palette.setLayout(new BorderLayout());
 
 			JScrollPane history_JSP = new JScrollPane();
 			history_JSP.setBorder(BorderFactory.createEmptyBorder());
@@ -752,7 +753,7 @@ public class gui_Container
 
 			history_JSP.setViewportView(history_Viewport);
 
-			this.setRightComponent(this.currentPalette);
+			this.setRightComponent(palette);
 			this.setLeftComponent(history_JSP);
 
 			_1const.COLOR_ENQ.add(this);

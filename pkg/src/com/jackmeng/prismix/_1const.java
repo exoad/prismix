@@ -60,6 +60,8 @@ public final class _1const
         "Used to determine whether to use rounded components or not. (For that eye candy ^_^)" });
     val.put_("stoopid_sliders", parse_Bool, new Object[] { Bool, "false", type_Bool,
         "Determines whether sliders should only wait till they come to rest to dispatch their value or dispatch a value everytime they move." });
+    val.put_("more_components_variations", parse_Bool, new Object[] { Bool, "false", type_Bool,
+        "Makes certain components do extra things for more eye candy. This option can be performance degrading for certain platforms and systems." });
   } // put program properties
 
   /**

@@ -116,7 +116,7 @@ public final class ui_ColorPicker
     // location relative to prismix
     private int selector_cursor_radius = 10, selector_cursor_stroke = 2;
     private transient stl_Wrap< Color > c = new stl_Wrap<>(Color.gray);
-    private boolean first = true, rgb_Sliders_Listen = true;
+    private boolean first = true, rgb_Sliders_Listen = false;
     private JSlider controls_RED, controls_GREEN, controls_BLUE;
 
     private transient ChangeListener syncSliders = Boolean.TRUE
@@ -153,7 +153,7 @@ public final class ui_ColorPicker
       controls_RED.setMinorTickSpacing(5);
       controls_RED.setPaintLabels(true);
       controls_RED.addChangeListener(syncSliders);
-            controls_RED.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("rose")));
+      controls_RED.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("rose")));
 
       controls_GREEN = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);
       controls_GREEN.setPaintTrack(true);
@@ -252,7 +252,7 @@ public final class ui_ColorPicker
       setRightComponent(lazyViewport_controls);
       setLeftComponent(gradientView);
       setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-      setDividerLocation(0.75);
+      setDividerLocation(200); // fuck proportions, we hardcode this shit
       setAutoscrolls(false);
       setName("ui_CPick_GradRect");
       addComponentListener(ux_Listen.VISIBILITY());
