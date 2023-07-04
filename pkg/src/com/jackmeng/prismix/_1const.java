@@ -33,7 +33,8 @@ public final class _1const
   / public static final boolean SOFT_DEBUG = true; /
   /-----------------------------------------------*/
   public static final Random RNG = new Random();
-  public static Timer worker = new Timer("com-jackmeng-prismix-worker01");
+  public static Timer worker = new Timer("com-jackmeng-prismix-worker01"),
+      worker2 = new Timer("com-jackmeng-prismix-worker02");
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
 
   private static SoftReference< Color > lastColor = new SoftReference<>(new Color(1F, 1F, 1F, 0F));
@@ -60,7 +61,7 @@ public final class _1const
         "Used to determine whether to use rounded components or not. (For that eye candy ^_^)" });
     val.put_("stoopid_sliders", parse_Bool, new Object[] { Bool, "false", type_Bool,
         "Determines whether sliders should only wait till they come to rest to dispatch their value or dispatch a value everytime they move. Requires a restart!" });
-    val.put_("more_components_variations", parse_Bool, new Object[] { Bool, "false", type_Bool,
+    val.put_("more_components_variations", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Makes certain components do extra things for more eye candy. This option can be performance degrading for certain platforms and systems." });
   } // put program properties
 

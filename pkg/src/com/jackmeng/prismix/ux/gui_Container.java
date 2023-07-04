@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.HashSet;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -284,9 +285,21 @@ public class gui_Container
 
 			final JButton controls_randomColor = new JButton("Random Color");
 			ux_Theme.based_set_rrect(controls_randomColor);
-
 			controls_randomColor.setForeground(ux_Theme._theme.fg_awt());
 			controls_randomColor.setBackground(ux_Theme._theme.secondary_awt());
+			if (Boolean.TRUE.equals((Boolean) _1const.val.parse("more_components_variations").get()))
+				_1const.worker2.scheduleAtFixedRate(new TimerTask() {
+					@Override public void run()
+					{
+						SwingUtilities.invokeLater(() -> {
+							Color c = extend_stl_Colors.awt_random_Color();
+							controls_randomColor.setBackground(c);
+							controls_randomColor
+									.setForeground(extend_stl_Colors
+											.awt_remake(extend_stl_Colors.binary_fg_decider(extend_stl_Colors.awt_strip_rgba(c))));
+						});
+					}
+				}, 1000L, 2000L);
 			controls_randomColor.addActionListener(ev -> _1const.COLOR_ENQ
 					.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
 
