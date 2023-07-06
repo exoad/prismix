@@ -64,8 +64,7 @@ public class ui_Tag
 
     public ui_PTag()
     {
-      super();
-      addActionListener(paletteListener);
+      this(Color.black, true, true);
     }
 
     public ui_PTag(Color initialColor, boolean depositsInPool, boolean copyToClipboard)

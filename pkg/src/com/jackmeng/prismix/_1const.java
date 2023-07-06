@@ -63,6 +63,10 @@ public final class _1const
         "Determines whether sliders should only wait till they come to rest to dispatch their value or dispatch a value everytime they move. Requires a restart!" });
     val.put_("more_components_variations", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Makes certain components do extra things for more eye candy. This option can be performance degrading for certain platforms and systems." });
+    val.put_("descriptive_labels", parse_Bool, new Object[] {
+        Bool, "false", type_Bool,
+        "Makes certain labels on the UI more descriptive. For example, swapping \">\" out for \"Next\"."
+    });
   } // put program properties
 
   /**

@@ -283,26 +283,6 @@ public class gui_Container
 			this.controls.setAlignmentX(Component.LEFT_ALIGNMENT);
 			this.controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
 
-			final JButton controls_randomColor = new JButton("Random Color");
-			ux_Theme.based_set_rrect(controls_randomColor);
-			controls_randomColor.setForeground(ux_Theme._theme.fg_awt());
-			controls_randomColor.setBackground(ux_Theme._theme.secondary_awt());
-			if (Boolean.TRUE.equals((Boolean) _1const.val.parse("more_components_variations").get()))
-				_1const.worker2.scheduleAtFixedRate(new TimerTask() {
-					@Override public void run()
-					{
-						SwingUtilities.invokeLater(() -> {
-							Color c = extend_stl_Colors.awt_random_Color();
-							controls_randomColor.setBackground(c);
-							controls_randomColor
-									.setForeground(extend_stl_Colors
-											.awt_remake(extend_stl_Colors.binary_fg_decider(extend_stl_Colors.awt_strip_rgba(c))));
-						});
-					}
-				}, 1000L, 2000L);
-			controls_randomColor.addActionListener(ev -> _1const.COLOR_ENQ
-					.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
-
 			final JButton controls_screenColorPicker = new JButton("Screen Picker");
 			controls_screenColorPicker.setForeground(ux_Theme._theme.fg_awt());
 			controls_screenColorPicker.setBackground(ux_Theme._theme.secondary_awt());
@@ -344,7 +324,7 @@ public class gui_Container
 			controls_randomScreenColor.addActionListener(
 					ev -> ux._ux.clear_history());
 
-			this.controls.add(controls_randomColor);
+			this.controls.add(new ui_RColorBtn());
 			this.controls.add(controls_randomScreenColor);
 			this.controls.add(controls_screenColorPicker);
 			this.controls.add(controls_ClearHistory);
@@ -809,6 +789,8 @@ public class gui_Container
 					if (component instanceof ui_PTag && colorHex.equals(component.getName()))
 					{
 						listHistory.remove(component);
+						log("BOT_G_HISTORY", jm_Ansi.make().blue().underline()
+								.toString("Found " + colorHex + " to be a duplicate. Popping it back."));
 						break;
 					}
 				}
