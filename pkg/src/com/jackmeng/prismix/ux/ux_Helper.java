@@ -3,6 +3,7 @@
 package com.jackmeng.prismix.ux;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -18,6 +19,13 @@ public final class ux_Helper
 {
   private ux_Helper()
   {
+  }
+
+  public static JButton quick_btn(String name, Runnable r)
+  {
+    JButton t = new JButton(name);
+    t.addActionListener(e -> r.run());
+    return t;
   }
 
   public static Border bottom_container_AttributesBorder(final String name)

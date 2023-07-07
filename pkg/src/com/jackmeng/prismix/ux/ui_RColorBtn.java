@@ -14,12 +14,12 @@ import com.jackmeng.stl.stl_Struct;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.LinkedList;
 
 public class ui_RColorBtn
 		extends JPanel
 {
 	private JButton _nextColor, _select, _prevColor;
-	private LinkedList<Color> _generated;
 
 	public ui_RColorBtn()
 	{
