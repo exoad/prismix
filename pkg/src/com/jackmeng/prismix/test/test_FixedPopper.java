@@ -30,10 +30,13 @@ public class test_FixedPopper extends JFrame
 		setPreferredSize(new Dimension(1000, 1000));
 
 		// Create a popper instance
-		popper = new stx_FixedPopper<>(20);
-		for (int i = 0; i < 20; i++)
-			popper.force_push(i);
-
+		popper = new stx_FixedPopper<>(30);
+		for (int i = 0; i < popper.size(); i++)
+		{
+			popper.force_push(rng.nextInt(0, 99));
+			System.out.println(popper.toStringArr());
+		}
+		
 		// Create UI components
 		currentLabel = new JLabel();
 		previousButton = new JButton("<");
@@ -46,7 +49,9 @@ public class test_FixedPopper extends JFrame
 				Graphics2D g = (Graphics2D) g2;
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				g.setColor(Color.BLACK);
-				g.fillRect(0, 0, getWidth(), getHeight());
+				g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
+				g.setColor(Color.cyan);
+				g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 				for (int i = 0, x = 10, y = 20; i < popper.size(); i++, x += SIZE + 6)
 					if (popper.at(i) != null)
 					{
@@ -57,14 +62,16 @@ public class test_FixedPopper extends JFrame
 							g.setStroke(new BasicStroke(2));
 							g.drawLine(x + (SIZE / 2), y + SIZE + 10, (x + (SIZE / 2)) - 4, y + SIZE + 14);
 							g.drawLine((x + (SIZE / 2)), y + SIZE + 10, (x + (SIZE / 2)) + 4, y + SIZE + 14);
+							g.drawLine((x + (SIZE / 2)), y + SIZE + 15, (x + (SIZE / 2)), y + SIZE + 700);
 						}
 						g.setStroke(new BasicStroke(1));
 						g.setColor(Color.white);
 						g.fillRect(x, y, SIZE, SIZE);
 						g.drawString(i + "", x, y + SIZE * SIZE + 4);
 						g.setColor(Color.black);
-						g.drawString(popper.at(i) + "", x, y + (SIZE / 2) + 2);
+						g.drawString(popper.at(i) + "", (x + (SIZE / 4)), y + (SIZE / 2) + 4);
 					}
+
 				g.dispose();
 			}
 		};
@@ -76,8 +83,14 @@ public class test_FixedPopper extends JFrame
 		wrap.add(currentLabel);
 		wrap.add(ux_Helper.quick_btn("Insert RNG", () -> {
 			int i = rng.nextInt(0, 99);
-			System.out.println("Inserts: " + i);
+			System.out.println("Inserts: " + i + " @ " + popper.where());
 			popper.push_at(popper.where(), i);
+			entire.repaint(70L);
+		}));
+		wrap.add(ux_Helper.quick_btn("Push RNG", () -> {
+			int i = rng.nextInt(0, 99);
+			System.out.println("Pushes: " + i + " @ " + popper.where());
+			popper.force_push(i);
 			entire.repaint(70L);
 		}));
 		wrap.add(previousButton);
@@ -94,7 +107,7 @@ public class test_FixedPopper extends JFrame
 			{
 				Integer previousItem = popper.previous();
 				updateCurrentLabel();
-				System.out.println("Previous item: " + previousItem);
+				System.out.println("Previous item: " + previousItem + " @ " + popper.where());
 			}
 		});
 
@@ -103,7 +116,7 @@ public class test_FixedPopper extends JFrame
 			{
 				Integer nextItem = popper.next();
 				updateCurrentLabel();
-				System.out.println("Next item: " + nextItem);
+				System.out.println("Next item: " + nextItem + " @ " + popper.where());
 			}
 		});
 

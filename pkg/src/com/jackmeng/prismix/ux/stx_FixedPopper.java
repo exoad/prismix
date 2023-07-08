@@ -32,6 +32,7 @@ public class stx_FixedPopper< T >
 	private final LinkedList< T > items;
 	private final int maxLen;
 	private final Popper_Viewer viewer;
+	private boolean isUnique = true;
 	private Popper_Priority priority;
 	private final Consumer< String > logger;
 	private Consumer< T > janitor;
@@ -45,22 +46,36 @@ public class stx_FixedPopper< T >
 	 *          An optional state logger
 	 * @param janitor
 	 *          A handler for consuming any values ejected from the structure
+	 * @param isUnique
+	 *          Determines whether this structure should only keep unique elements.
+	 *          For a force push, duplicate elements will be removed and appended to
+	 *          the tail. An insertion push would simply remove the duplicate with
+	 *          respect to the priority rule.
 	 */
-	public stx_FixedPopper(int maxLen, Popper_Priority priority, Consumer< String > logger, Consumer< T > janitor)
+	public stx_FixedPopper(int maxLen, Popper_Priority priority, boolean isUnique, Consumer< String > logger,
+			Consumer< T > janitor)
 	{
+		assert maxLen >= 0;
 		this.items = new LinkedList<>();
 		for (int i = 0; i < maxLen; i++)
 			items.add(null);
 		this.maxLen = maxLen;
+		this.isUnique = isUnique;
 		this.viewer = new Popper_Viewer();
 		this.priority = priority;
 		this.logger = logger;
 		this.janitor = janitor;
 	}
 
+	/**
+	 * A default simple constructor for stx_FixedPopper
+	 *
+	 * @param maxLen
+	 *          Max Length
+	 */
 	public stx_FixedPopper(int maxLen)
 	{
-		this(maxLen, Popper_Priority.TAIL, x -> {
+		this(maxLen, Popper_Priority.TAIL, true, x -> {
 		}, x -> {
 		});
 	}
@@ -68,11 +83,6 @@ public class stx_FixedPopper< T >
 	public synchronized void janitor(Consumer< T > janitor)
 	{
 		this.janitor = janitor;
-	}
-
-	public int maxLen()
-	{
-		return maxLen;
 	}
 
 	public int size()
@@ -104,17 +114,20 @@ public class stx_FixedPopper< T >
 	 */
 	public synchronized void force_push(T element)
 	{
-		if (items.contains(element))
+		if (isUnique)
 		{
-			items.remove(element);
-			janitor.accept(element);
+			if (items.contains(element))
+			{
+				items.remove(element);
+				janitor.accept(element);
+			}
 		}
-		else if (items.size() >= maxLen)
+		if (items.size() >= maxLen)
 		{
 			janitor.accept(items.getFirst());
 			items.removeFirst();
 		}
-		items.addLast(element);
+		items.add(element);
 	}
 
 	public T previous()
@@ -149,7 +162,7 @@ public class stx_FixedPopper< T >
 
 	public synchronized void push_at(int i, T element)
 	{
-		i = i > maxLen - 1 ? maxLen : i < 0 ? 0 : i;
+		i = i > maxLen ? maxLen - 1 : i < 0 ? 0 : i;
 		items.add(viewer.currentIndex, element);
 		if (items.size() > maxLen)
 		{
@@ -162,10 +175,18 @@ public class stx_FixedPopper< T >
 			{
 				janitor.accept(items.getFirst());
 				items.removeFirst();
-				if (viewer.currentIndex > 0)
-					viewer.currentIndex--;
+				/*---------------------------- /
+				/ if (viewer.currentIndex > 0) /
+				/   viewer.currentIndex--;     /
+				/-----------------------------*/
+				// the above commented out code makes the iterator move down the list on removal
 			}
 		}
+	}
+
+	public synchronized void push(T element)
+	{
+		push_at(viewer.currentIndex, element);
 	}
 
 	public void toHead()
@@ -183,6 +204,13 @@ public class stx_FixedPopper< T >
 		StringBuilder sb = new StringBuilder();
 		items.forEach(x -> sb.append(x).append(","));
 		return hashCode() + "{maxLen=" + maxLen + ",itrPos=" + viewer.currentIndex + "}[" + sb.toString() + "]";
+	}
+
+	public String toStringArr()
+	{
+		StringBuilder sb = new StringBuilder();
+		items.forEach(x -> sb.append(x).append(","));
+		return "[" + sb.substring(0, sb.length() - 2) + "]";
 	}
 
 	private class Popper_Viewer
