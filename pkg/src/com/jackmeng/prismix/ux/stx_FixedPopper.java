@@ -87,8 +87,13 @@ public class stx_FixedPopper< T >
 
 	public int size()
 	{
+		// unstable
+		/*-------------------- /
+		/ return items.size(); /
+		/---------------------*/
+
 		// stable
-		return items.size();
+		return maxLen;
 	}
 
 	public int where()

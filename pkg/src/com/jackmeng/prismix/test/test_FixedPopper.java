@@ -36,7 +36,7 @@ public class test_FixedPopper extends JFrame
 			popper.force_push(rng.nextInt(0, 99));
 			System.out.println(popper.toStringArr());
 		}
-		
+
 		// Create UI components
 		currentLabel = new JLabel();
 		previousButton = new JButton("<");
@@ -53,25 +53,23 @@ public class test_FixedPopper extends JFrame
 				g.setColor(Color.cyan);
 				g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 				for (int i = 0, x = 10, y = 20; i < popper.size(); i++, x += SIZE + 6)
-					if (popper.at(i) != null)
+				{
+					if (i == popper.where() || i == popper.next_where() || i == popper.previous_where())
 					{
-						if (i == popper.where() || i == popper.next_where() || i == popper.previous_where())
-						{
-							g.setColor(i == popper.where() ? Color.green
-									: i == popper.next_where() ? Color.blue : Color.magenta);
-							g.setStroke(new BasicStroke(2));
-							g.drawLine(x + (SIZE / 2), y + SIZE + 10, (x + (SIZE / 2)) - 4, y + SIZE + 14);
-							g.drawLine((x + (SIZE / 2)), y + SIZE + 10, (x + (SIZE / 2)) + 4, y + SIZE + 14);
-							g.drawLine((x + (SIZE / 2)), y + SIZE + 15, (x + (SIZE / 2)), y + SIZE + 700);
-						}
-						g.setStroke(new BasicStroke(1));
-						g.setColor(Color.white);
-						g.fillRect(x, y, SIZE, SIZE);
-						g.drawString(i + "", x, y + SIZE * SIZE + 4);
-						g.setColor(Color.black);
-						g.drawString(popper.at(i) + "", (x + (SIZE / 4)), y + (SIZE / 2) + 4);
+						g.setColor(i == popper.where() ? Color.green
+								: i == popper.next_where() ? Color.blue : Color.magenta);
+						g.setStroke(new BasicStroke(2));
+						g.drawLine(x + (SIZE / 2), y + SIZE + 10, (x + (SIZE / 2)) - 4, y + SIZE + 14);
+						g.drawLine((x + (SIZE / 2)), y + SIZE + 10, (x + (SIZE / 2)) + 4, y + SIZE + 14);
+						g.drawLine((x + (SIZE / 2)), y + SIZE + 15, (x + (SIZE / 2)), y + SIZE + 700);
 					}
-
+					g.setStroke(new BasicStroke(1));
+					g.setColor(Color.white);
+					g.fillRect(x, y, SIZE, SIZE);
+					g.drawString(i + "", x, y + SIZE * SIZE + 4);
+					g.setColor(Color.black);
+					g.drawString((popper.at(i) == null ? "?" : popper.at(i)) + "", (x + (SIZE / 4)), y + (SIZE / 2) + 4);
+				}
 				g.dispose();
 			}
 		};
