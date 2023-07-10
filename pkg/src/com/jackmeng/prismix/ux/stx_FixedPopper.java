@@ -158,6 +158,11 @@ public class stx_FixedPopper< T >
 
 	}
 
+	public boolean is_full()
+	{
+		return items.size() == maxLen;
+	}
+
 	public T previous()
 	{
 		return viewer.previous();

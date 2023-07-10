@@ -6,80 +6,30 @@ import java.awt.*;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-/**
- * FlowLayout subclass that fully supports wrapping of components.
- */
 public class ui_WrapLayout extends FlowLayout
 {
   private Dimension preferredLayoutSize;
 
-  /**
-   * Constructs a new <code>ui_WrapLayout</code> with a left
-   * alignment and a default 5-unit horizontal and vertical gap.
-   */
   public ui_WrapLayout()
   {
     super();
   }
 
-  /**
-   * Constructs a new <code>FlowLayout</code> with the specified
-   * alignment and a default 5-unit horizontal and vertical gap.
-   * The value of the alignment argument must be one of
-   * <code>ui_WrapLayout</code>, <code>ui_WrapLayout</code>,
-   * or <code>ui_WrapLayout</code>.
-   *
-   * @param align
-   *          the alignment value
-   */
   public ui_WrapLayout(int align)
   {
     super(align);
   }
 
-  /**
-   * Creates a new flow layout manager with the indicated alignment
-   * and the indicated horizontal and vertical gaps.
-   * <p>
-   * The value of the alignment argument must be one of
-   * <code>ui_WrapLayout</code>, <code>ui_WrapLayout</code>,
-   * or <code>ui_WrapLayout</code>.
-   *
-   * @param align
-   *          the alignment value
-   * @param hgap
-   *          the horizontal gap between components
-   * @param vgap
-   *          the vertical gap between components
-   */
   public ui_WrapLayout(int align, int hgap, int vgap)
   {
     super(align, hgap, vgap);
   }
 
-  /**
-   * Returns the preferred dimensions for this layout given the
-   * <i>visible</i> components in the specified target container.
-   *
-   * @param target
-   *          the component which needs to be laid out
-   * @return the preferred dimensions to lay out the
-   *         subcomponents of the specified container
-   */
   @Override public Dimension preferredLayoutSize(Container target)
   {
     return layoutSize(target, true);
   }
 
-  /**
-   * Returns the minimum dimensions needed to layout the <i>visible</i>
-   * components contained in the specified target container.
-   *
-   * @param target
-   *          the component which needs to be laid out
-   * @return the minimum dimensions to lay out the
-   *         subcomponents of the specified container
-   */
   @Override public Dimension minimumLayoutSize(Container target)
   {
     Dimension minimum = layoutSize(target, false);
@@ -87,16 +37,6 @@ public class ui_WrapLayout extends FlowLayout
     return minimum;
   }
 
-  /**
-   * Returns the minimum or preferred dimension needed to layout the target
-   * container.
-   *
-   * @param target
-   *          target to get layout size for
-   * @param preferred
-   *          should preferred size be calculated
-   * @return the dimension to layout the target container
-   */
   private Dimension layoutSize(Container target, boolean preferred)
   {
     synchronized (target.getTreeLock())
@@ -106,9 +46,8 @@ public class ui_WrapLayout extends FlowLayout
       Container container = target;
 
       while (container.getSize().width == 0 && container.getParent() != null)
-      {
+
         container = container.getParent();
-      }
 
       targetWidth = container.getSize().width;
 
@@ -143,9 +82,8 @@ public class ui_WrapLayout extends FlowLayout
           }
 
           if (rowWidth != 0)
-          {
+
             rowWidth += hgap;
-          }
 
           rowWidth += d.width;
           rowHeight = Math.max(rowHeight, d.height);
@@ -160,9 +98,7 @@ public class ui_WrapLayout extends FlowLayout
       Container scrollPane = SwingUtilities.getAncestorOfClass(JScrollPane.class, target);
 
       if (scrollPane != null && target.isValid())
-      {
         dim.width -= (hgap + 1);
-      }
 
       return dim;
     }
@@ -173,9 +109,8 @@ public class ui_WrapLayout extends FlowLayout
     dim.width = Math.max(dim.width, rowWidth);
 
     if (dim.height > 0)
-    {
+
       dim.height += getVgap();
-    }
 
     dim.height += rowHeight;
   }

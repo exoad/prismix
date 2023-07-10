@@ -324,7 +324,18 @@ public class gui_Container
 			controls_randomScreenColor.addActionListener(
 					ev -> ux._ux.clear_history());
 
-			this.controls.add(new ui_RColorBtn());
+			if (Boolean.FALSE.equals(_1const.val.parse("more_components_variations").get()))
+			{
+				JButton controls_randomColor = new JButton("Random Color");
+				ux_Theme.based_set_rrect(controls_randomColor);
+				controls_randomColor.setForeground(ux_Theme._theme.fg_awt());
+				controls_randomColor.setBackground(stl_Colors.hexToRGB(ux_Theme._theme.get("orange")));
+				controls_randomColor.addActionListener(
+						ev -> _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)));
+				this.controls.add(controls_randomColor);
+			}
+			else this.controls.add(new ui_RColorBtn());
+
 			this.controls.add(controls_randomScreenColor);
 			this.controls.add(controls_screenColorPicker);
 			this.controls.add(controls_ClearHistory);
