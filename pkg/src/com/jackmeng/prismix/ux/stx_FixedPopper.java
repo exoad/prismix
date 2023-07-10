@@ -2,7 +2,6 @@
 
 package com.jackmeng.prismix.ux;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.function.Consumer;
@@ -34,7 +33,6 @@ public class stx_FixedPopper< T >
 	private final Popper_Viewer viewer;
 	private boolean isUnique = true;
 	private Popper_Priority priority;
-	private final Consumer< String > logger;
 	private Consumer< T > janitor;
 
 	/**
@@ -52,18 +50,17 @@ public class stx_FixedPopper< T >
 	 *          the tail. An insertion push would simply remove the duplicate with
 	 *          respect to the priority rule.
 	 */
-	public stx_FixedPopper(int maxLen, Popper_Priority priority, boolean isUnique, Consumer< String > logger,
+	public stx_FixedPopper(int maxLen, Popper_Priority priority, boolean isUnique,
 			Consumer< T > janitor)
 	{
 		assert maxLen >= 0;
 		this.items = new LinkedList<>();
 		for (int i = 0; i < maxLen; i++)
-			items.add(null);
+			items.add(i, null);
 		this.maxLen = maxLen;
 		this.isUnique = isUnique;
 		this.viewer = new Popper_Viewer();
 		this.priority = priority;
-		this.logger = logger;
 		this.janitor = janitor;
 	}
 
@@ -76,7 +73,6 @@ public class stx_FixedPopper< T >
 	public stx_FixedPopper(int maxLen)
 	{
 		this(maxLen, Popper_Priority.TAIL, true, x -> {
-		}, x -> {
 		});
 	}
 
@@ -119,20 +115,47 @@ public class stx_FixedPopper< T >
 	 */
 	public synchronized void force_push(T element)
 	{
-		if (isUnique)
+		/*---------------------------------------- /
+		/ if (isUnique && items.contains(element)) /
+		/ {                                        /
+		/   items.remove(element);                 /
+		/   janitor.accept(element);               /
+		/ }                                        /
+		/ else if (items.size() >= maxLen)         /
+		/ {                                        /
+		/   janitor.accept(items.getFirst());      /
+		/   items.removeFirst();                   /
+		/ }                                        /
+		/                                          /
+		/ if (items.size() < maxLen)               /
+		/ {                                        /
+		/   int nullIndex = items.indexOf(null);   /
+		/   if (nullIndex != -1)                   /
+		/     items.set(nullIndex, element);       /
+		/   else                                   /
+		/     items.add(element);                  /
+		/ }                                        /
+		/-----------------------------------------*/
+		if (isUnique && items.contains(element))
 		{
-			if (items.contains(element))
+			System.out.println("dupped: " + element);
+			items.remove(element);
+			janitor.accept(element);
+		}
+		else
+		{
+			if (items.size() >= maxLen)
 			{
-				items.remove(element);
-				janitor.accept(element);
+				janitor.accept(items.getFirst());
+				items.removeFirst();
+			}
+			items.addLast(element);
+			if (items.size() > maxLen)
+			{
+				items.removeFirst();
 			}
 		}
-		if (items.size() >= maxLen)
-		{
-			janitor.accept(items.getFirst());
-			items.removeFirst();
-		}
-		items.add(element);
+
 	}
 
 	public T previous()
@@ -167,26 +190,28 @@ public class stx_FixedPopper< T >
 
 	public synchronized void push_at(int i, T element)
 	{
-		i = i > maxLen ? maxLen - 1 : i < 0 ? 0 : i;
-		items.add(viewer.currentIndex, element);
-		if (items.size() > maxLen)
+		i = Math.max(0, Math.min(i, items.size()));
+
+		if (priority == Popper_Priority.HEAD)
 		{
-			if (priority == Popper_Priority.HEAD)
+			if (i <= viewer.currentIndex)
 			{
 				janitor.accept(items.getLast());
 				items.removeLast();
+				viewer.currentIndex--;
 			}
-			else
+		}
+		else
+		{
+			if (i >= viewer.currentIndex)
 			{
 				janitor.accept(items.getFirst());
 				items.removeFirst();
-				/*---------------------------- /
-				/ if (viewer.currentIndex > 0) /
-				/   viewer.currentIndex--;     /
-				/-----------------------------*/
-				// the above commented out code makes the iterator move down the list on removal
 			}
 		}
+
+		items.add(i, element);
+		viewer.currentIndex = i;
 	}
 
 	public synchronized void push(T element)
@@ -201,31 +226,39 @@ public class stx_FixedPopper< T >
 
 	public void toTail()
 	{
-		viewer.currentIndex = items.size() - 1;
+		viewer.currentIndex = maxLen - 1;
+	}
+
+	public void itr_to(int i)
+	{
+		viewer.move(i);
 	}
 
 	@Override public String toString()
 	{
-		StringBuilder sb = new StringBuilder();
-		items.forEach(x -> sb.append(x).append(","));
-		return hashCode() + "{maxLen=" + maxLen + ",itrPos=" + viewer.currentIndex + "}[" + sb.toString() + "]";
+		return hashCode() + "{space=" + items.size() + ",maxLen=" + maxLen + ",itrPos=" + viewer.currentIndex + "}"
+				+ toStringArr();
 	}
 
 	public String toStringArr()
 	{
 		StringBuilder sb = new StringBuilder();
 		items.forEach(x -> sb.append(x).append(","));
-		return "[" + sb.substring(0, sb.length() - 2) + "]";
+		return "[" + sb.substring(0, sb.length() - 1) + "]";
 	}
 
-	private class Popper_Viewer
-			implements Iterator< T >
+	private class Popper_Viewer implements Iterator< T >
 	{
 		private int currentIndex;
 
 		private Popper_Viewer()
 		{
 			this.currentIndex = 0;
+		}
+
+		public void move(int i)
+		{
+			currentIndex = Math.max(0, Math.min(currentIndex + i, items.size() - 1));
 		}
 
 		@Override public boolean hasNext()
@@ -241,23 +274,15 @@ public class stx_FixedPopper< T >
 		public T previous()
 		{
 			if (hasPrevious())
-			{
 				currentIndex--;
-
-				return items.get(currentIndex);
-			}
-			return items.get(0);
-
+			return items.get(currentIndex);
 		}
 
 		@Override public T next()
 		{
 			if (hasNext())
-			{
 				currentIndex++;
-				return items.get(currentIndex);
-			}
-			return items.get(items.size() - 1);
+			return items.get(currentIndex);
 		}
 
 		@Override public void remove()
@@ -265,4 +290,5 @@ public class stx_FixedPopper< T >
 			throw new UnsupportedOperationException("Remove operation is not supported");
 		}
 	}
+
 }

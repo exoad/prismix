@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import com.jackmeng.prismix.ux.stx_FixedPopper;
 import com.jackmeng.prismix.ux.ux_Helper;
+import com.jackmeng.prismix.ux.stx_FixedPopper.Popper_Priority;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,7 +35,7 @@ public class test_FixedPopper extends JFrame
 		for (int i = 0; i < popper.size(); i++)
 		{
 			popper.force_push(rng.nextInt(0, 99));
-			System.out.println(popper.toStringArr());
+			System.out.println(popper);
 		}
 
 		// Create UI components
@@ -91,6 +92,21 @@ public class test_FixedPopper extends JFrame
 			popper.force_push(i);
 			entire.repaint(70L);
 		}));
+		wrap.add(ux_Helper.quick_btn("Priority Swap", () -> {
+			popper.priority(popper.priority() == Popper_Priority.HEAD ? Popper_Priority.TAIL : Popper_Priority.HEAD);
+			updateCurrentLabel();
+		}));
+		wrap.add(ux_Helper.quick_btn("To Tail", () -> {
+			popper.toTail();
+			updateCurrentLabel();
+			entire.repaint(70L);
+		}));
+		wrap.add(ux_Helper.quick_btn("To Head", () -> {
+			popper.toHead();
+			updateCurrentLabel();
+			entire.repaint(70L);
+		}));
+		wrap.add(ux_Helper.quick_btn("Log", () -> System.out.println(popper)));
 		wrap.add(previousButton);
 		wrap.add(nextButton);
 
