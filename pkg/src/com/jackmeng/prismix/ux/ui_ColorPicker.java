@@ -465,7 +465,7 @@ public final class ui_ColorPicker
 
     }
 
-    final transient Base_Palette tones, tints, shades, complementary;
+    final transient Base_Palette tones, tints, shades, complementary, mix;
 
     public CPick_SuggestionsList()
     {
@@ -478,14 +478,16 @@ public final class ui_ColorPicker
       contentWrapper.setBorder(BorderFactory.createEmptyBorder());
       contentWrapper.setLayout(new BoxLayout(contentWrapper, BoxLayout.X_AXIS));
 
-      tones = new Base_Palette("Tones", 10, 15);
-      tints = new Base_Palette("Tints", 10, 15);
-      shades = new Base_Palette("Shades", 10, 15);
-      complementary = new Base_Palette("Complementary", 8, 13);
+      tones = new Base_Palette("Tones", 15, 10);
+      tints = new Base_Palette("Tints", 15, 10);
+      shades = new Base_Palette("Shades", 15, 10);
+      mix = new Base_Palette("Mixed", 15, 10);
+      complementary = new Base_Palette("Complementary", 5, 3);
 
-      contentWrapper.add(tones.component);
       contentWrapper.add(tints.component);
       contentWrapper.add(shades.component);
+      contentWrapper.add(tones.component);
+      contentWrapper.add(mix.component);
       contentWrapper.add(complementary.component);
 
       mainViewport.setView(contentWrapper);
@@ -642,6 +644,7 @@ public final class ui_ColorPicker
             this.tints.rows * this.tints.cols);
         float[][] gen_shades = extend_stl_Colors.shades(extend_stl_Colors.awt_strip_rgba(arg0.first),
             this.shades.cols * this.shades.rows);
+        float[][] gen_mix = extend_stl_Colors.awt_ran_gen(arg0.first, this.mix.cols * this.mix.rows);
 
         if (use_sorted)
         {
@@ -665,7 +668,8 @@ public final class ui_ColorPicker
           this.tints._update(gen_tints);
           this.shades._update(gen_shades);
           this.complementary._update(gen_complements);
-          this.tones._update(gen_complements);
+          this.tones._update(gen_tones);
+          this.mix._update(gen_mix);
         });
 
       });

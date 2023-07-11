@@ -10,7 +10,11 @@ import java.awt.RenderingHints;
 import java.awt.color.ColorSpace;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_Colors;
@@ -147,6 +151,30 @@ public final class extend_stl_Colors
     }
 
     return generatedTints;
+  }
+
+  public static float[][] awt_ran_gen(Color mix, int n)
+  {
+    assert mix != null;
+    assert n > 0;
+
+    float[][] blends = new float[n][3];
+
+    for (int i = 0; i < n; i++)
+    {
+      blends[i][0] = (float) (_1const.RNG.nextFloat(256) + mix.getRed()) / 2;
+      blends[i][1] = (float) (_1const.RNG.nextFloat(256) + mix.getGreen()) / 2;
+      blends[i][2] = (float) (_1const.RNG.nextFloat(256) + mix.getBlue()) / 2;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+      blends[i][0] = (float) (_1const.RNG.nextFloat(256) + blends[i][0]) / 2;
+      blends[i][1] = (float) (_1const.RNG.nextFloat(256) + blends[i][1]) / 2;
+      blends[i][2] = (float) (_1const.RNG.nextFloat(256) + blends[i][2]) / 2;
+    }
+
+    return blends;
   }
 
   public static float[][] tones(final float[] ir, final int n)
