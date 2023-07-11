@@ -239,6 +239,7 @@ public class stx_FixedPopper< T >
 		viewer.move(i);
 	}
 
+
 	@Override public String toString()
 	{
 		return hashCode() + "{space=" + items.size() + ",maxLen=" + maxLen + ",itrPos=" + viewer.currentIndex + "}"

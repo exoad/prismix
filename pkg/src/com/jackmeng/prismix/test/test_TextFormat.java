@@ -4,9 +4,7 @@ package com.jackmeng.prismix.test;
 
 public class test_TextFormat
 {
-
-	public recfor
-
+/*
 	public static String formatText(String column1Format,  String column2, String text)
 	{
 		int maxLength = 8;
@@ -25,7 +23,6 @@ public class test_TextFormat
 
 		return formattedText.toString();
 	}
-
 	public static void main(String[] args)
 	{
 		String column1 = "XXXX";
@@ -34,5 +31,6 @@ public class test_TextFormat
 
 		String formattedText = formatText(column1, column2, text);
 		System.out.println(formattedText);
-	}
+	}*/
+
 }
