@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 
 public class ui_WrapLayout extends FlowLayout
 {
-  private Dimension preferredLayoutSize;
 
   public ui_WrapLayout()
   {

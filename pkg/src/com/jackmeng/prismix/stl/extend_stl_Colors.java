@@ -10,12 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.color.ColorSpace;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-
 import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_Colors;
 

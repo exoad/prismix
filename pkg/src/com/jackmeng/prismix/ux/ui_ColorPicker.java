@@ -32,7 +32,6 @@ import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.stl.extend_stl_Wrap;
-import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
@@ -448,10 +447,14 @@ public final class ui_ColorPicker
           gbc.gridx = i % this.cols;
           gbc.gridy = i / this.rows;
           gbc.fill = GridBagConstraints.BOTH;
-          gbc.weightx = 0.5;
-          gbc.weighty = 1.0;
-          gbc.ipadx = 30;
-          gbc.insets = new Insets(3, 3, 3, 3);
+          gbc.weightx = 0.2;
+          gbc.weighty = 0.4;
+          if (Boolean.FALSE.equals(_1const.val.parse("more_components_variations").get()))
+            gbc.gridwidth = 69;
+          else
+            gbc.ipadx = 15;
+
+          gbc.insets = new Insets(2, 2, 2, 2);
 
           this.component.add(this.tags.get(i), gbc);
         }
