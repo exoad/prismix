@@ -2,9 +2,6 @@
 
 package com.jackmeng.prismix.user;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
@@ -38,6 +35,26 @@ public final class _lua
   public static Globals G()
   {
     return JsePlatform.standardGlobals();
+  }
+
+  public static String exec(String luacode)
+  {
+    return G().load(luacode).call().toString();
+  }
+
+  public static String exec(String luacode, LuaValue e)
+  {
+    return G().load(luacode).call(e).toString();
+  }
+
+  public static String exec(String luacode, LuaValue e, LuaValue e1)
+  {
+    return G().load(luacode).call(e, e1).toString();
+  }
+
+  public static String exec(String luacode, LuaValue e, LuaValue e1, LuaValue e2)
+  {
+    return G().load(luacode).call(e, e1, e2).toString();
   }
 
   public static void simple_load(String locale)

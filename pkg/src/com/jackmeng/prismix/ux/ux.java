@@ -82,7 +82,7 @@ public final class ux
   }
 
   private final gui_Main mainui;
-  private final gui_Container childui;
+  private final ui_Container childui;
   private final gui_Config configui;
 
   public gui_Main getMainUI()
@@ -97,7 +97,7 @@ public final class ux
 
   @SuppressWarnings("unchecked") public ux()
   {
-    this.childui = new gui_Container();
+    this.childui = new ui_Container();
     this.mainui = new gui_Main();
     this.configui = new gui_Config();
     this.mainui
@@ -113,7 +113,7 @@ public final class ux
     this.mainui.registerToBar("Prismix",
         new JMenuItem[] { ux_Helper.make_simple("Config", () -> configui.setVisible(true)),
             ux_Helper.make_simple("Licenses",
-                () -> ui_XInf.invoke(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_legals.html")).replace("\n", "<br>"),
+                () -> gui_XInf.invoke(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_legals.html")).replace("\n", "<br>"),
                     "Open Source Licenses")) });
   }
 
@@ -121,7 +121,7 @@ public final class ux
   {
     log("UX", jm_Ansi.make().yellow().toString("Forcing a GUI redo..."));
     SwingUtilities.updateComponentTreeUI(this.mainui);
-    
+
     this.mainui.repaint();
     this.mainui.revalidate();
     log("UX", jm_Ansi.make().green().toString("Force GUI redo DONE"));

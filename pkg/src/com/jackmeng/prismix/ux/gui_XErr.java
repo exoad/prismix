@@ -16,7 +16,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -29,17 +28,15 @@ import com.jackmeng.stl.stl_Wrap;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
-public final class ui_XErr
+public final class gui_XErr
 		extends
-		JFrame
-		implements
-		Runnable
+		_gui
 {
 
 	public static void invoke(String content, String title, String url, Err_CloseState closeState)
 	{
 		log("ERRW", "Invoking a new window: " + title);
-		SwingUtilities.invokeLater(new ui_XErr(content, title, url, closeState));
+		SwingUtilities.invokeLater(new gui_XErr(content, title, url, closeState));
 	}
 
 	public enum Err_CloseState {
@@ -49,17 +46,16 @@ public final class ui_XErr
 	Color r = stl_Colors.hexToRGB(ux_Theme.get().get("rose"));
 	transient stl_Wrap< Boolean > touched = new stl_Wrap<>(false);
 
-	private ui_XErr(String content, String title, String url, Err_CloseState closeState)
+	private gui_XErr(String content, String title, String url, Err_CloseState closeState)
 	{
 		super(title);
-		setIconImage(_1const.fetcher.image("assets/_icon.png"));
 		setPreferredSize(new Dimension(710, 420));
 		setAlwaysOnTop(true);
 
 		setDefaultCloseOperation(closeState == Err_CloseState.EXIT ? WindowConstants.EXIT_ON_CLOSE : DISPOSE_ON_CLOSE);
 		JPanel pane = new JPanel();
 		pane.setBorder(BorderFactory.createEmptyBorder());
-		pane.setPreferredSize(new Dimension(450, 350)); 
+		pane.setPreferredSize(new Dimension(450, 350));
 		pane.setLayout(new BorderLayout());
 
 		JEditorPane jep = new JEditorPane();
@@ -153,13 +149,6 @@ public final class ui_XErr
 				}
 			}
 		}, 0L, 750L);
-	}
-
-	@Override public void run()
-	{
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 
 }

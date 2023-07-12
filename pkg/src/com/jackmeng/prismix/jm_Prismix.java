@@ -22,12 +22,11 @@ import com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.prismix.user._lua;
 import com.jackmeng.prismix.user.use_LSys;
-import com.jackmeng.prismix.ux.ui_XErr;
-import com.jackmeng.prismix.ux.ui_XInf;
+import com.jackmeng.prismix.ux.gui_XErr;
+import com.jackmeng.prismix.ux.gui_XInf;
 import com.jackmeng.prismix.ux.ux;
-import com.jackmeng.prismix.ux.ui_XErr.Err_CloseState;
+import com.jackmeng.prismix.ux.gui_XErr.Err_CloseState;
 import com.jackmeng.stl.stl_Chrono;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Str;
@@ -108,6 +107,8 @@ public class jm_Prismix
         "Use dark mode or light mode for the UI mode (true = light else dark)" });
     val.put_("developer_buttons", parse_Bool, new Object[] { Bool, "false", type_Bool,
         "Add a few buttons in the top right for managing garbage collection and refresh the UI." });
+    val.put_("use_theme_based_tooling", parse_Bool, new Object[] { Bool, "false", type_Bool,
+        "Makes certain color portrayals based on the theme instead of a de facto representation. For example \"RED\" in RGB can be hued for a slider if this is set to true." });
     use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property);
 
     /*-------------------------------------------------------------------------------------- /
@@ -168,7 +169,9 @@ public class jm_Prismix
     {
       e.printStackTrace();
     }
-    _lua.simple_load(_1const.fetcher.file("assets/lua/_.lua").getAbsolutePath());
+    /*----------------------------------------------------------------------------- /
+    / _lua.simple_load(_1const.fetcher.file("assets/lua/_.lua").getAbsolutePath()); /
+    /------------------------------------------------------------------------------*/
     _1const.__init();
   }
 
@@ -182,7 +185,7 @@ public class jm_Prismix
 
       final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
       if (IS_UNSTABLE)
-        ui_XInf.invoke(uwu.fowmat("assets/text/TEXT_prismix_unstable.html", IS_UNSTABLE + " | " + _VERSION_),
+        gui_XInf.invoke(uwu.fowmat("assets/text/TEXT_prismix_unstable.html", IS_UNSTABLE + " | " + _VERSION_),
             "Caution");
       Runtime.getRuntime().addShutdownHook(
           (new Thread(
@@ -201,7 +204,7 @@ public class jm_Prismix
       StringWriter sw = new StringWriter();
       PrintWriter pw = new PrintWriter(sw);
       e.printStackTrace(pw);
-      ui_XErr.invoke(
+      gui_XErr.invoke(
           uwu.fowmat("assets/text/TEXT_external_issue.html", sw.toString()),
           "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
     }
@@ -212,7 +215,7 @@ public class jm_Prismix
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
-        ui_XErr.invoke(
+        gui_XErr.invoke(
             MessageFormat
                 .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")),
                     sw.toString() + "\n\n\nTHREAD: " + t.toString()),
@@ -227,7 +230,7 @@ public class jm_Prismix
     StringWriter sw = new StringWriter();
     PrintWriter pw = new PrintWriter(sw);
     e.printStackTrace(pw);
-    ui_XErr.invoke(
+    gui_XErr.invoke(
         MessageFormat
             .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")),
                 sw.toString() + "\n\n\nType: " + e.getClass().getCanonicalName()),

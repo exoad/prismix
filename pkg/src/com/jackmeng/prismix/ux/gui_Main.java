@@ -18,22 +18,21 @@ import com.jackmeng.prismix.use_Maker;
 / import static com.jackmeng.prismix.jm_Prismix.*; /
 /-------------------------------------------------*/
 
-public class gui_Main
-    extends JFrame
-    implements
-    Runnable
+public final class gui_Main
+    extends
+    _gui
 {
   public final JMenuBar bar;
   public final JPanel wrapper;
 
   public gui_Main()
   {
+    super("Prismix ~ exoad (build_" + jm_Prismix._VERSION_ + ")");
     this.wrapper = new JPanel();
     this.wrapper.setLayout(new BorderLayout());
 
     this.bar = new JMenuBar();
 
-    this.setTitle("Prismix ~ exoad (build_" + jm_Prismix._VERSION_ + ")");
     this.setIconImage(_1const.fetcher.image("assets/_icon.png"));
     this.wrapper.setPreferredSize(this.getPreferredSize());
     this.setJMenuBar(this.bar); // should not be added with a wrapper JPanel! (i did not know this was a method)
@@ -57,13 +56,6 @@ public class gui_Main
   {
     this.bar.add(use_Maker.makeJMenu(name, item));
     this.revalidate();
-  }
-
-  @Override public void run()
-  {
-    this.pack();
-    this.setLocationRelativeTo(null);
-    this.setVisible(true);
   }
 
 }

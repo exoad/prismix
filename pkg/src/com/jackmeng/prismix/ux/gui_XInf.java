@@ -1,6 +1,5 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-
 package com.jackmeng.prismix.ux;
 
 import java.awt.BorderLayout;
@@ -12,34 +11,29 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_Colors;
 import static com.jackmeng.prismix.jm_Prismix.*;
 
-public final class ui_XInf
+public final class gui_XInf
 		extends
-		JFrame
-		implements
-		Runnable
+		_gui
 {
 
 	public static void invoke(String content, String title)
 	{
 		log("INFW", "Invoking a new window: " + title);
-		SwingUtilities.invokeLater(new ui_XInf(content, title));
+		SwingUtilities.invokeLater(new gui_XInf(content, title));
 	}
 
 	Color r = stl_Colors.hexToRGB(ux_Theme.get().get("blue"));
 
-	private ui_XInf(String content, String title)
+	private gui_XInf(String content, String title)
 	{
 		super(title);
-		setIconImage(_1const.fetcher.image("assets/_icon.png"));
 		setPreferredSize(new Dimension(710, 420)); // 420 funny numero
 		setAlwaysOnTop(true);
 
@@ -89,12 +83,4 @@ public final class ui_XInf
 		getContentPane().add(pane);
 		getContentPane().add(wrap);
 	}
-
-	@Override public void run()
-	{
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
-	}
-
 }

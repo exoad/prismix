@@ -44,13 +44,13 @@ import static com.jackmeng.prismix.jm_Prismix.*;
  *
  * @author Jack Meng
  */
-public class gui_Container
+public class ui_Container
 		extends JSplitPane
 {
 	public Container_TopPane top;
 	public Container_BottomPane bottom;
 
-	public gui_Container()
+	public ui_Container()
 	{
 		this.top = new Container_TopPane();
 		this.bottom = new Container_BottomPane();
@@ -92,12 +92,11 @@ public class gui_Container
 
 			this.colorChooser = new JTabbedPane();
 			this.colorChooser.setPreferredSize(new Dimension(this.getDividerLocation(), this.getPreferredSize().height));
-			this.colorChooser.setOpaque(true);
 
-			final ui_ColorPicker.CPick_SuggestionsList colorChooser_Shades = new ui_ColorPicker.CPick_SuggestionsList();
+			final ui_CPick_SugList colorChooser_Shades = new ui_CPick_SugList();
 			_1const.COLOR_ENQ.add(colorChooser_Shades);
 			this.colorChooser.addTab("Generator", colorChooser_Shades);
-			final ui_ColorPicker.CPick_GradRect colorChooser_gradientRect = new ui_ColorPicker.CPick_GradRect(); // RGBA
+			final ui_CPick_GradRect colorChooser_gradientRect = new ui_CPick_GradRect(); // RGBA
 																																																						// Gradient
 																																																						// Rectangle
 			_1const.COLOR_ENQ.add(colorChooser_gradientRect);
@@ -105,7 +104,7 @@ public class gui_Container
 
 			if ("true".equalsIgnoreCase(_1const.val.get_value("soft_debug")))
 			{
-				final ui_ColorPicker.CPick_GenericDisp colorChooser_Debug = new ui_ColorPicker.CPick_GenericDisp();
+				final ui_CPick_GenericDisp colorChooser_Debug = new ui_CPick_GenericDisp();
 				colorChooser_Debug.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 1));
 				_1const.COLOR_ENQ.add(colorChooser_Debug);
 				this.colorChooser.addTab("!Debug", colorChooser_Debug);
