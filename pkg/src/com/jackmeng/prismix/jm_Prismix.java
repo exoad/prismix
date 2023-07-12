@@ -2,6 +2,10 @@
 
 package com.jackmeng.prismix;
 
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.geom.AffineTransform;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -9,10 +13,13 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.TimerTask;
+import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
 import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme;
@@ -137,6 +144,27 @@ public class jm_Prismix
       UIManager.put("Component.focusColor", extend_stl_Colors.awt_empty());
       UIManager.put("TabbedPane.tabSeparatorsFullHeight", false);
       UIManager.put("TabbedPane.showTabSeparators", true);
+
+      for (Font f : new Font[] {
+          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Bold.ttf")).deriveFont(13.5F),
+          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-BoldItalic.ttf")).deriveFont(13.5F),
+          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Italic.ttf")).deriveFont(13.5F),
+          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Regular.ttf")).deriveFont(13.5F)
+      })
+      {
+        Enumeration< ? > keys = UIManager.getDefaults().keys();
+        while (keys.hasMoreElements())
+        {
+          Object key = keys.nextElement();
+          Object value = UIManager.get(key);
+          if (value instanceof FontUIResource orig)
+          {
+            Font font = new Font(f.getFontName(), orig.getStyle(), f.getSize());
+            UIManager.put(key, new FontUIResource(font));
+          }
+        }
+      }
+
     } catch (final Exception e)
     {
       e.printStackTrace();
@@ -192,6 +220,7 @@ public class jm_Prismix
             "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
       }
     });
+
   }
 
   public static void error_modal_wrap(Throwable e)
