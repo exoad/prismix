@@ -21,6 +21,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
+import com.jackmeng.stl.stl_In;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
@@ -57,6 +58,21 @@ public final class use_LSys
         "Initted LSYS with res: "
             + (ran ? jm_Ansi.make().green_bg().white().toString("OK") : jm_Ansi.make().red_bg().white().toString("ERR"))
             + " @ " + f.getAbsolutePath());
+  }
+
+  public static String read_all(File f)
+  {
+    StringBuilder sb = new StringBuilder();
+    try
+    {
+      stl_In in = new stl_In(new FileInputStream(f));
+      while (in.reader().ready())
+        sb.append(in.nextln());
+    } catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    return sb.toString();
   }
 
   public static void write(String args, Object name, boolean overwrite)

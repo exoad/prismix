@@ -5,6 +5,10 @@ package com.jackmeng.prismix;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.text.MessageFormat;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -17,7 +21,9 @@ import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.user._lua;
 import com.jackmeng.prismix.user.use_LSys;
+import com.jackmeng.prismix.ux.ui_Err;
 import com.jackmeng.prismix.ux.ux;
+import com.jackmeng.prismix.ux.ui_Err.Err_CloseState;
 import com.jackmeng.stl.stl_Chrono;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Str;
@@ -101,21 +107,48 @@ public class jm_Prismix
 
   public static void main(final String... x) // !! fuck pre Java 11 users, fuck their dumb shit
   {
-    _1const.add(ux._ux, 10L);
-    _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
+    try
+    {
+      _1const.add(ux._ux, 10L);
+      _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
 
-    final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
-    Runtime.getRuntime().addShutdownHook(
-        (new Thread(
-            () -> log("PRISMIX", "Alive for: " + (System.currentTimeMillis() - jm_Prismix.time.get())))));
-    _1const.worker.scheduleAtFixedRate(new TimerTask() {
-      @Override public void run()
+      final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
+      Runtime.getRuntime().addShutdownHook(
+          (new Thread(
+              () -> log("PRISMIX", "Alive for: " + (System.currentTimeMillis() - jm_Prismix.time.get())))));
+      _1const.worker.scheduleAtFixedRate(new TimerTask() {
+        @Override public void run()
+        {
+          final String str = reader.obj.nextln();
+          log("I/O", "Received contract " + str);
+        }
+      }, 100L, 650L);
+      log("PRISMIX", "Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
+
+    } catch (Exception e)
+    {
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      e.printStackTrace(pw);
+      ui_Err.invoke(
+          MessageFormat
+              .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")), sw.toString()),
+          "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
+    }
+    Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+      if (!e.getMessage().equals(
+          "Cannot invoke \"javax.swing.text.View.paint(java.awt.Graphics, java.awt.Shape)\" because \"this.view\" is null"))
       {
-        final String str = reader.obj.nextln();
-        log("I/O", "Received contract " + str);
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        ui_Err.invoke(
+            MessageFormat
+                .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")),
+                    sw.toString() + "\n\n\nTHREAD: " + t.toString()),
+            "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
       }
-    }, 100L, 650L);
-    log("PRISMIX", "Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
+    });
   }
 
   static final int MAX_LOG_NAME_LEN = 13;

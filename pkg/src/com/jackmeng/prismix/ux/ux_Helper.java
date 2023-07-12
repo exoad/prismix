@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
@@ -19,6 +20,12 @@ public final class ux_Helper
 {
   private ux_Helper()
   {
+  }
+
+  public static class Exposed_UISlider
+      extends JSlider
+  {
+
   }
 
   public static JButton quick_btn(String name, Runnable r)

@@ -82,6 +82,7 @@ public final class _1const
 
   public static final String PATH = new String(new byte[] { 0x65, 0x78, 0x6F, 0x61, 0x64 });
 
+
   /**
    * PAIR[0] = (java.awt.Color) Color payload
    * PAIR[1] = (java.lang.Boolean) Ignore Payload for storage
