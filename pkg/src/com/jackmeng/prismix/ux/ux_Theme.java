@@ -154,7 +154,7 @@ public final class ux_Theme
     log("UXTHEME",
         jm_Ansi.make().yellow_bg().black()
             .toString("Themer " + this.hashCode() + " made an unsuggested move using **dominant(float[])!"));
-    SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux._ux.getMainUI()));
+    SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(__ux._ux.getMainUI()));
   }
 
   public void secondary(final float[] secondary)
@@ -163,19 +163,19 @@ public final class ux_Theme
     log("UXTHEME",
         jm_Ansi.make().yellow_bg().black()
             .toString("Themer " + this.hashCode() + " made an unsuggested move using **secondary(float[])!"));
-    SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux._ux.getMainUI()));
+    SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(__ux._ux.getMainUI()));
   }
 
   public void secondary(final String secondary)
   {
     this.secondary = extend_stl_Colors.stripHex(secondary);
-    SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux._ux.getMainUI()));
+    SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(__ux._ux.getMainUI()));
   }
 
   public void dominant(final String dominant)
   {
     this.dominant = extend_stl_Colors.stripHex(dominant);
-    SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(ux._ux.getMainUI()));
+    SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(__ux._ux.getMainUI()));
   }
 
   public synchronized void reload() // reloads the master theme
@@ -195,8 +195,8 @@ public final class ux_Theme
         UIManager.put("TabbedPane.selectedBackground", this.theme() == ThemeType.DARK ? Color.BLACK : Color.WHITE);
         UIManager.setLookAndFeel(this.theme() == ThemeType.DARK ? new FlatHighContrastIJTheme()
             : this.theme() == ThemeType.LIGHT ? new FlatGrayIJTheme() : new FlatCarbonIJTheme());
-        SwingUtilities.updateComponentTreeUI(ux._ux.getMainUI());
-        ux._ux.getMainUI().pack();
+        SwingUtilities.updateComponentTreeUI(__ux._ux.getMainUI());
+        __ux._ux.getMainUI().pack();
       } catch (final UnsupportedLookAndFeelException e)
       {
         e.printStackTrace();

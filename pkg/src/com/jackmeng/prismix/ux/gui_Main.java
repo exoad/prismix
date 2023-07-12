@@ -20,7 +20,7 @@ import com.jackmeng.prismix.use_Maker;
 
 public final class gui_Main
     extends
-    _gui
+    gui
 {
   public final JMenuBar bar;
   public final JPanel wrapper;

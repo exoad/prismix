@@ -7,7 +7,7 @@ import javax.swing.SwingContainer;
 
 import com.jackmeng.prismix._1const;
 
-@SwingContainer abstract sealed class _gui
+@SwingContainer abstract sealed class gui
 		extends
 		JFrame
 		implements
@@ -20,7 +20,7 @@ import com.jackmeng.prismix._1const;
 		gui_Config
 {
 
-	protected _gui(String r)
+	protected gui(String r)
 	{
 		super(r);
 		setIconImage(_1const.fetcher.image("assets/_icon.png"));

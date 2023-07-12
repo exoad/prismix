@@ -30,7 +30,7 @@ import static com.jackmeng.prismix.jm_Prismix.*;
 
 public final class gui_XErr
 		extends
-		_gui
+		gui
 {
 
 	public static void invoke(String content, String title, String url, Err_CloseState closeState)

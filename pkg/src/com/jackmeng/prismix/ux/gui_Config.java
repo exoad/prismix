@@ -7,7 +7,7 @@ import javax.swing.WindowConstants;
 
 public final class gui_Config
     extends
-    _gui
+    gui
 {
 
   public gui_Config()

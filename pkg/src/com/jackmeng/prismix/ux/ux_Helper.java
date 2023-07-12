@@ -16,7 +16,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import com.jackmeng.prismix.stl.extend_stl_Colors;
-import com.jackmeng.prismix.ux.ui_Tag.ui_PTag;
 
 public final class ux_Helper
 {
@@ -79,9 +78,9 @@ public final class ux_Helper
   }
 
 
-  public static ui_PTag history_palette_btn(Color clr, int w, int h)
+  public static ui_Tag_Paletted history_palette_btn(Color clr, int w, int h)
   {
-    ui_PTag r = new ui_PTag(clr, true, true);
+    ui_Tag_Paletted r = new ui_Tag_Paletted(clr, true, true);
     r.setPreferredSize(new Dimension(w, h));
     r.setMinimumSize(r.getPreferredSize());
     r.setRolloverEnabled(false);

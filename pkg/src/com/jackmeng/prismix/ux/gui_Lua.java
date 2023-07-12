@@ -8,7 +8,7 @@ import javax.swing.WindowConstants;
 
 public final class gui_Lua
 		extends
-		_gui
+		gui
 {
 
 	public gui_Lua()

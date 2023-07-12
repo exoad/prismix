@@ -20,7 +20,7 @@ import static com.jackmeng.prismix.jm_Prismix.*;
 
 public final class gui_XInf
 		extends
-		_gui
+		gui
 {
 
 	public static void invoke(String content, String title)

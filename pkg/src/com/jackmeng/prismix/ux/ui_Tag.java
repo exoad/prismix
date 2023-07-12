@@ -22,59 +22,6 @@ public class ui_Tag
     extends JButton
 
 {
-  /**
-   * Similar to ui_Tag except for that it adds an extra option for adding a
-   * palette
-   * chooser
-   *
-   * @author Jack Meng
-   */
-  public static class ui_PTag
-      extends ui_Tag
-  {
-    private static ActionListener paletteListener = ev -> {
-      ui_PTag tag = (ui_PTag) ev.getSource();
-      String color = tag.getText();
-
-      log("PTAG", "Building a PopupMenu for: " + tag.hashCode());
-      JPopupMenu menu = new JPopupMenu("Operations");
-
-      JMenuItem printToConsole = new JMenuItem("Print to console");
-      printToConsole.addActionListener(evrr -> log("USER", "Requested: " + color));
-
-      menu.add(printToConsole);
-
-      JMenu addToPalettes = new JMenu("Add to palette");
-
-      ux_Palette.PALETTES.forEach((name, pool) -> {
-        JMenuItem e = new JMenuItem(name);
-        e.setBorderPainted(false);
-        e.addActionListener(evrrrr -> pool.append(extend_stl_Colors.stripHex(color)));
-        addToPalettes.add(e);
-      });
-
-      menu.add(addToPalettes);
-
-      java.awt.Point pt = new Point(ux._ux.getMainUI().getMousePosition().x + 15,
-          ux._ux.getMainUI().getMousePosition().y + 20);
-      menu.show(ux._ux.getMainUI(), pt.x, pt.y);
-
-      log("PTAG", "Showing PopupMenu at: " + pt.x + "," + pt.y);
-    };
-
-    public ui_PTag()
-    {
-      this(Color.black, true, true);
-    }
-
-    public ui_PTag(Color initialColor, boolean depositsInPool, boolean copyToClipboard)
-    {
-      super(initialColor, depositsInPool, copyToClipboard);
-      addActionListener(paletteListener);
-    }
-
-  }
-
   @SuppressWarnings("unchecked") private static ActionListener colorListener = ev -> {
 
     ui_Tag tag = (ui_Tag) ev.getSource();
@@ -114,11 +61,11 @@ public class ui_Tag
         Optional< JPopupMenu > menu = use_Maker.jpop(tag.getText(), options.toArray(new stl_Struct.struct_Pair[0]));
         log("UICTAG", "Action received the desired state!");
         menu.ifPresent(x -> {
-          java.awt.Point pt = new Point(ux._ux.getMainUI().getMousePosition().x + 15,
-              ux._ux.getMainUI().getMousePosition().y);
+          java.awt.Point pt = new Point(__ux._ux.getMainUI().getMousePosition().x + 15,
+              __ux._ux.getMainUI().getMousePosition().y);
           log("UICTAG", "Rendering the final popup menu to the screen at: " + pt.x + ","
               + pt.y);
-          ((javax.swing.JPopupMenu) x).show(ux._ux.getMainUI(), pt.x, pt.y);
+          ((javax.swing.JPopupMenu) x).show(__ux._ux.getMainUI(), pt.x, pt.y);
         });
       }
     }

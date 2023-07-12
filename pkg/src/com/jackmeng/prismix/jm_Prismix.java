@@ -25,7 +25,7 @@ import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.prismix.ux.gui_XErr;
 import com.jackmeng.prismix.ux.gui_XInf;
-import com.jackmeng.prismix.ux.ux;
+import com.jackmeng.prismix.ux.__ux;
 import com.jackmeng.prismix.ux.gui_XErr.Err_CloseState;
 import com.jackmeng.stl.stl_Chrono;
 import com.jackmeng.stl.stl_In;
@@ -180,7 +180,7 @@ public class jm_Prismix
     try
     {
 
-      _1const.add(ux._ux, 10L);
+      _1const.add(__ux._ux, 10L);
       _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
 
       final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));

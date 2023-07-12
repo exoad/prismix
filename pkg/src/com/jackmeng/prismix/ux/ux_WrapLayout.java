@@ -6,20 +6,20 @@ import java.awt.*;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-public class ui_WrapLayout extends FlowLayout
+public class ux_WrapLayout extends FlowLayout
 {
 
-  public ui_WrapLayout()
+  public ux_WrapLayout()
   {
     super();
   }
 
-  public ui_WrapLayout(int align)
+  public ux_WrapLayout(int align)
   {
     super(align);
   }
 
-  public ui_WrapLayout(int align, int hgap, int vgap)
+  public ux_WrapLayout(int align, int hgap, int vgap)
   {
     super(align, hgap, vgap);
   }

@@ -17,13 +17,13 @@ import java.awt.GridLayout;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
-public class ui_RColorBtn
+public class ui_R_ColorBtn
 		extends JPanel
 {
 	private transient stx_FixedPopper< Color > popper;
 	private JButton _nextColor, _select, _prevColor, _generate;
 
-	public ui_RColorBtn()
+	public ui_R_ColorBtn()
 	{
 		popper = new stx_FixedPopper<>(128, Popper_Priority.TAIL, true, s -> {
 			if (s != null)

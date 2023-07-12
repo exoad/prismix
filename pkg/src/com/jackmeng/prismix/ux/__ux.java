@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -22,7 +21,6 @@ import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_SwingHelper;
-import com.jackmeng.stl.jlib.jlib_Point;
 import com.jackmeng.stl.types.Null_t;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
@@ -36,53 +34,15 @@ import static com.jackmeng.prismix.jm_Prismix.*;
  *
  * @author Jack Meng
  */
-public final class ux
+public final class __ux
     implements
     Runnable
 {
 
-  public static final ux _ux = new ux();
-
-  static final AtomicBoolean sampledMousePicking_Started = new AtomicBoolean(false);
-  public static final AtomicBoolean PROPERTY_USE_SORTED_COLOR_SUGGESTIONS = new AtomicBoolean(false);
-  static final AtomicReference< stl_Struct.struct_Pair< jlib_Point, Color > > current = new AtomicReference<>(null);
-
-  // THE FOLLOWING IS BROKEN!!! DO NOT CALL THE FOLLOWING CODE PLS
-  // launchs a callback for a screen picking action
-  public static synchronized void sampled_MousePicker(final long sampleDelay,
-      final stl_Callback< Void, stl_Struct.struct_Pair< jlib_Point, Color > > e)
-  {
-    if (!ux.sampledMousePicking_Started.get())
-    {
-      log("MOUSESAMPLE", jm_Ansi.make().blue().toString("Sampler attached for job: COLOR_PICKING"));
-      ux._ux.mainui.setEnabled(false);
-
-      /*------------------------------------------------------------------------------------------------------ /
-      / Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_1::eventDispatched, AWTEvent.MOUSE_EVENT_MASK); /
-      / Toolkit.getDefaultToolkit().addAWTEventListener(ux.awt_2, AWTEvent.MOUSE_MOTION_EVENT_MASK);           /
-      /-------------------------------------------------------------------------------------------------------*/
-
-      final Thread t_worker = new Thread(() -> {
-        while (ux.sampledMousePicking_Started.get())
-        {
-          try
-          {
-            Thread.sleep(sampleDelay);
-          } catch (final InterruptedException $e)
-
-          {
-            // ignore this bs exception
-          }
-        }
-      });
-      t_worker.start();
-
-      ux.sampledMousePicking_Started.set(true);
-    }
-  }
+  public static final __ux _ux = new __ux();
 
   private final gui_Main mainui;
-  private final ui_Container childui;
+  private final ui_Cntnr childui;
   private final gui_Config configui;
 
   public gui_Main getMainUI()
@@ -95,9 +55,9 @@ public final class ux
     childui.bottom.clear_history();
   }
 
-  @SuppressWarnings("unchecked") public ux()
+  @SuppressWarnings("unchecked") public __ux()
   {
-    this.childui = new ui_Container();
+    this.childui = new ui_Cntnr();
     this.mainui = new gui_Main();
     this.configui = new gui_Config();
     this.mainui
