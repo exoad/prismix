@@ -184,7 +184,6 @@ public final class ui_ColorPicker
       lazyViewport_controls.setView(controls);
       controls_ScrollView.setViewportView(lazyViewport_controls);
       _1const.COLOR_ENQ.add(x -> {
-        debug("RECEIVED: " + toPaintCurr + " " + Boolean.TRUE.equals(!x.second));
         if (first)
         {
           c.obj(x.first);
@@ -449,7 +448,7 @@ public final class ui_ColorPicker
           gbc.fill = GridBagConstraints.BOTH;
           gbc.weightx = 0.2;
           gbc.weighty = 0.4;
-          if (Boolean.FALSE.equals(_1const.val.parse("more_components_variations").get()))
+          if ("compact".equals(_1const.val.parse("compact_suggestions_layout").get()))
             gbc.gridwidth = 69;
           else
             gbc.ipadx = 15;
@@ -479,7 +478,9 @@ public final class ui_ColorPicker
       final ui_LazyViewport mainViewport = new ui_LazyViewport();
       final JPanel contentWrapper = new JPanel();
       contentWrapper.setBorder(BorderFactory.createEmptyBorder());
-      contentWrapper.setLayout(new BoxLayout(contentWrapper, BoxLayout.X_AXIS));
+      contentWrapper.setLayout(new BoxLayout(contentWrapper,
+          "vertical".equals(_1const.val.parse("compact_suggestions_layout").get()) ? BoxLayout.Y_AXIS
+              : BoxLayout.X_AXIS));
 
       tones = new Base_Palette("Tones", 15, 10);
       tints = new Base_Palette("Tints", 15, 10);

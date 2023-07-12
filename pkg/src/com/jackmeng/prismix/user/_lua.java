@@ -2,13 +2,10 @@
 
 package com.jackmeng.prismix.user;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Optional;
 
 import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
 import com.jackmeng.ansicolors.jm_Ansi;

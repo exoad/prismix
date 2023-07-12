@@ -322,7 +322,7 @@ public class gui_Container
 			controls_randomScreenColor.addActionListener(
 					ev -> ux._ux.clear_history());
 
-			if (Boolean.FALSE.equals(_1const.val.parse("more_components_variations").get()))
+			if (Boolean.FALSE.equals(_1const.val.parse("queued_random_color").get()))
 			{
 				JButton controls_randomColor = new JButton("Random Color");
 				ux_Theme.based_set_rrect(controls_randomColor);

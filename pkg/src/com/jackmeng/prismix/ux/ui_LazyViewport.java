@@ -4,6 +4,7 @@ package com.jackmeng.prismix.ux;
 
 import java.awt.Point;
 
+import javax.swing.JComponent;
 import javax.swing.JViewport;
 
 /**
@@ -15,6 +16,13 @@ import javax.swing.JViewport;
 public final class ui_LazyViewport
     extends JViewport
 {
+
+  public static ui_LazyViewport make(JComponent r)
+  {
+    ui_LazyViewport e = new ui_LazyViewport();
+    e.setView(r);
+    return e;
+  }
 
   private boolean locked = false;
 

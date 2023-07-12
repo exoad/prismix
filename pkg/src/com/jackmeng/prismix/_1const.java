@@ -4,15 +4,18 @@ package com.jackmeng.prismix;
 import static com.jackmeng.prismix.jm_Prismix.log;
 import static com.jackmeng.prismix.user.use_Map.Bool;
 import static com.jackmeng.prismix.user.use_Map.parse_Bool;
-import static com.jackmeng.prismix.user.use_Map.type_Bool;
+import static com.jackmeng.prismix.user.use_Map.*;
 
 import java.awt.Color;
 import java.lang.ref.SoftReference;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.jackmeng.ansicolors.jm_Ansi;
+import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.prismix.user.use_Map;
 import com.jackmeng.stl.stl_AssetFetcher;
 import com.jackmeng.stl.stl_AssetFetcher.assetfetcher_FetcherStyle;
@@ -35,6 +38,7 @@ public final class _1const
   public static final Random RNG = new Random();
   public static Timer worker = new Timer("com-jackmeng-prismix-worker01"),
       worker2 = new Timer("com-jackmeng-prismix-worker02");
+  public static ExecutorService worker3 = Executors.newWorkStealingPool(4);
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
 
   private static SoftReference< Color > lastColor = new SoftReference<>(new Color(1F, 1F, 1F, 0F));
@@ -61,13 +65,22 @@ public final class _1const
         "Used to determine whether to use rounded components or not. (For that eye candy ^_^)" });
     val.put_("stoopid_sliders", parse_Bool, new Object[] { Bool, "false", type_Bool,
         "Determines whether sliders should only wait till they come to rest to dispatch their value or dispatch a value everytime they move. Requires a restart!" });
-    val.put_("more_components_variations", parse_Bool, new Object[] { Bool, "true", type_Bool,
-        "Makes certain components do extra things for more eye candy. This option can be performance degrading for certain platforms and systems." });
+    val.put_("queued_random_color", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "Makes the random color button use a queue system with several extra buttons for more controlled generation." });
     val.put_("descriptive_labels", parse_Bool, new Object[] {
         Bool, "false", type_Bool,
         "Makes certain labels on the UI more descriptive. For example, swapping \">\" out for \"Next\"."
     });
+    val.put_("compact_suggestions_layout",
+        parse_StrBound(new String[] { "compact", "vertical", "horizontal" }, "compact"), new Object[] { StrBound,
+            "compact", new String[] { "compact", "vertical", "horizontal" },
+            "Changes the layout styling of the color gallery in 3 formats: compact, vertical, and horizontal."
+        });
+    use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property);
+
   } // put program properties
+
+  public static final String PATH = new String(new byte[] { 0x65, 0x78, 0x6F, 0x61, 0x64 });
 
   /**
    * PAIR[0] = (java.awt.Color) Color payload
@@ -113,6 +126,11 @@ public final class _1const
       _1const.lastColor = new SoftReference<>(x.first);
       return (Void) null;
     });
+  }
+
+  public static void shutdown_hook(Runnable r)
+  {
+    Runtime.getRuntime().addShutdownHook(new Thread(r));
   }
 
   public static final stl_Struct.struct_Pair< Integer, Integer > MOUSE_LOCATION = new struct_Pair<>(0, 0);

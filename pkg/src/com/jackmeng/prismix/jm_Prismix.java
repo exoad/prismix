@@ -5,8 +5,6 @@ package com.jackmeng.prismix;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -18,8 +16,8 @@ import com.formdev.flatlaf.util.SystemInfo;
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.user._lua;
+import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.prismix.ux.ux;
-import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Chrono;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Str;
@@ -39,11 +37,14 @@ public class jm_Prismix
   public static final AtomicLong time = new AtomicLong(System.currentTimeMillis());
   public static final long _VERSION_ = 2023_07_01L; // YYYY_MM_DD of the closest month
   public static final PrintStream IO = System.out;
-  static final Map< String, stl_Callback< Void, String > > IO_COMMANDS = new HashMap<>();
   static
   {
-    System.out.println(
-        "==Prismix==\nGUI Color Picker and palette creator\nCopyright (C) Jack Meng (exoad) 2023\nEnjoy!");
+    _1const.shutdown_hook(() -> System.out.println(
+        "=====================================================\n=====================================================\n\t\t\tGOING DOWN FOR SHUTDOWN\n=====================================================\n====================================================="));
+    /*------------------------------------------------------------------------------------------------------- /
+    / System.out.println(                                                                                     /
+    /     "==Prismix==\nGUI Color Picker and palette creator\nCopyright (C) Jack Meng (exoad) 2023\nEnjoy!"); /
+    /--------------------------------------------------------------------------------------------------------*/
 
     System.setOut(new PrintStream(new OutputStream() {
       @Override public void write(byte[] buffer, int offset, int length)
@@ -57,11 +58,15 @@ public class jm_Prismix
       }
     }));
 
+    use_LSys.init();
+
     System.setErr(System.out);
 
-    final StringBuilder sb = new StringBuilder();
-    System.getProperties().forEach((key, value) -> sb.append(key + " = " + value + "\n"));
-    System.out.println("All initialized properties:\n" + sb.toString());
+    /*-------------------------------------------------------------------------------------- /
+    / final StringBuilder sb = new StringBuilder();                                          /
+    / System.getProperties().forEach((key, value) -> sb.append(key + " = " + value + "\n")); /
+    / System.out.println("All initialized properties:\n" + sb.toString());                   /
+    /---------------------------------------------------------------------------------------*/
     try
     {
       System.setProperty("sun.java2d.opengl", "True");
@@ -97,6 +102,8 @@ public class jm_Prismix
   public static void main(final String... x) // !! fuck pre Java 11 users, fuck their dumb shit
   {
     _1const.add(ux._ux, 10L);
+    _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
+
     final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
     Runtime.getRuntime().addShutdownHook(
         (new Thread(
@@ -109,7 +116,6 @@ public class jm_Prismix
       }
     }, 100L, 650L);
     log("PRISMIX", "Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
-
   }
 
   static final int MAX_LOG_NAME_LEN = 13;
