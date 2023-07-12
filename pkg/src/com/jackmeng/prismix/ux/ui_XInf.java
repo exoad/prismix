@@ -1,6 +1,5 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-// Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
 package com.jackmeng.prismix.ux;
 
@@ -41,7 +40,7 @@ public final class ui_XInf
 	{
 		super(title);
 		setIconImage(_1const.fetcher.image("assets/_icon.png"));
-		setPreferredSize(new Dimension(710, 420));
+		setPreferredSize(new Dimension(710, 420)); // 420 funny numero
 		setAlwaysOnTop(true);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -61,20 +60,6 @@ public final class ui_XInf
 		jep.setForeground(Color.white);
 
 		JScrollPane jsp = new JScrollPane();
-		/*----------------------------------------------------------- /
-		/ jsp.getVerticalScrollBar().setUI(new BasicScrollBarUI() {   /
-		/   @Override protected void configureScrollBarColors()       /
-		/   {                                                         /
-		/     trackColor = new Color(0, 0, 0, 0);                     /
-		/   }                                                         /
-		/ });                                                         /
-		/ jsp.getHorizontalScrollBar().setUI(new BasicScrollBarUI() { /
-		/   @Override protected void configureScrollBarColors()       /
-		/   {                                                         /
-		/     trackColor = new Color(0, 0, 0, 0);                     /
-		/   }                                                         /
-		/ });                                                         /
-		/------------------------------------------------------------*/
 		jsp.getVerticalScrollBar().setBackground(Color.black);
 		jsp.getVerticalScrollBar().setUnitIncrement(6);
 		jsp.getHorizontalScrollBar().setBackground(Color.black);

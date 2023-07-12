@@ -59,7 +59,7 @@ public final class ui_XErr
 		setDefaultCloseOperation(closeState == Err_CloseState.EXIT ? WindowConstants.EXIT_ON_CLOSE : DISPOSE_ON_CLOSE);
 		JPanel pane = new JPanel();
 		pane.setBorder(BorderFactory.createEmptyBorder());
-		pane.setPreferredSize(new Dimension(450, 350));
+		pane.setPreferredSize(new Dimension(450, 350)); 
 		pane.setLayout(new BorderLayout());
 
 		JEditorPane jep = new JEditorPane();
@@ -74,20 +74,6 @@ public final class ui_XErr
 		jep.setForeground(Color.white);
 
 		JScrollPane jsp = new JScrollPane();
-    /*----------------------------------------------------------- /
-    / jsp.getVerticalScrollBar().setUI(new BasicScrollBarUI() {   /
-    /   @Override protected void configureScrollBarColors()       /
-    /   {                                                         /
-    /     trackColor = new Color(0, 0, 0, 0);                     /
-    /   }                                                         /
-    / });                                                         /
-    / jsp.getHorizontalScrollBar().setUI(new BasicScrollBarUI() { /
-    /   @Override protected void configureScrollBarColors()       /
-    /   {                                                         /
-    /     trackColor = new Color(0, 0, 0, 0);                     /
-    /   }                                                         /
-    / });                                                         /
-    /------------------------------------------------------------*/
 		jsp.getVerticalScrollBar().setBackground(Color.black);
 		jsp.getHorizontalScrollBar().setBackground(Color.black);
 		jsp.setOpaque(true);
