@@ -473,7 +473,6 @@ public final class ui_ColorPicker
 
     public CPick_SuggestionsList()
     {
-      jm_Prismix.error_modal_wrap(new UnexpectedException("Sussy?!"));
       final JScrollPane masterScroll = new JScrollPane();
       masterScroll.getHorizontalScrollBar().setUnitIncrement(5);
       masterScroll.setBorder(BorderFactory.createEmptyBorder());
