@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
@@ -28,6 +29,9 @@ import com.jackmeng.stl.stl_Chrono;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Str;
 import com.jackmeng.stl.stl_Wrap;
+
+import static com.jackmeng.prismix._1const.val;
+import static com.jackmeng.prismix.user.use_Map.*;
 
 /**
  * Color Palette Program Entry Point Class
@@ -69,6 +73,38 @@ public class jm_Prismix
 
     System.setErr(System.out);
 
+    val.put_("debug_gui", parse_Bool, new Object[] { Bool, "false", type_Bool,
+        "Draw the GUI differently in order to debug layout issues and other graphical issues." });
+    val.put_("soft_debug", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "Enable basic debug layers, like CLI debug, and more." });
+    val.put_("smart_gui", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "Uses a hide and show paint schema instead of showing and painting." });
+    val.put_("use_current_dir", parse_Bool,
+        new Object[] { Bool, "true", type_Bool,
+            "Uses the current directory of the program instead of HOME for storage." });
+    val.put_("suggestions_sorted", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "Try to make sure the colors in a color picker are sorted (especially for suggestions)" });
+    val.put_("suggestions_sort_light_to_dark", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "When suggestions_sorted is set to true, use lightest to darkest sorting, else if false, use darkest to lightest." });
+    val.put_("containers_rounded", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "Used to determine whether to use rounded components or not. (For that eye candy ^_^)" });
+    val.put_("stoopid_sliders", parse_Bool, new Object[] { Bool, "false", type_Bool,
+        "Determines whether sliders should only wait till they come to rest to dispatch their value or dispatch a value everytime they move. Requires a restart!" });
+    val.put_("queued_random_color", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "Makes the random color button use a queue system with several extra buttons for more controlled generation." });
+    val.put_("descriptive_labels", parse_Bool, new Object[] {
+        Bool, "false", type_Bool,
+        "Makes certain labels on the UI more descriptive. For example, swapping \">\" out for \"Next\"."
+    });
+    val.put_("compact_suggestions_layout",
+        parse_StrBound(new String[] { "compact", "vertical", "horizontal" }, "compact"), new Object[] { StrBound,
+            "compact", new String[] { "compact", "vertical", "horizontal" },
+            "Changes the layout styling of the color gallery in 3 formats: compact, vertical, and horizontal."
+        });
+    val.put_("dark_mode", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "Use dark mode or light mode for the UI mode (true = light else dark)" });
+    use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property);
+
     /*-------------------------------------------------------------------------------------- /
     / final StringBuilder sb = new StringBuilder();                                          /
     / System.getProperties().forEach((key, value) -> sb.append(key + " = " + value + "\n")); /
@@ -89,7 +125,10 @@ public class jm_Prismix
       /*-------------------------------------------------------------------------------------------------------------- /
       / UIManager.setLookAndFeel(_1const.DARK_MODE ? new FlatHighContrastIJTheme() : new FlatGrayIJTheme()); // or FlatGratIJTheme /
       /---------------------------------------------------------------------------------------------------------------*/
-      UIManager.setLookAndFeel(new FlatGrayIJTheme());
+      UIManager
+          .setLookAndFeel(
+              Boolean.TRUE.equals((Boolean) _1const.val.parse("dark_mode").get()) ? new FlatHighContrastIJTheme()
+                  : new FlatGrayIJTheme());
       UIManager.put("ScrollBar.background", null);
       UIManager.put("ScrollBar.showButtons", false);
       UIManager.put("JScrollPane.smoothScrolling", true);
@@ -103,13 +142,14 @@ public class jm_Prismix
       e.printStackTrace();
     }
     _lua.simple_load(_1const.fetcher.file("assets/lua/_.lua").getAbsolutePath());
-
+    _1const.__init();
   }
 
   public static void main(final String... x) // !! fuck pre Java 11 users, fuck their dumb shit
   {
     try
     {
+
       _1const.add(ux._ux, 10L);
       _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
 

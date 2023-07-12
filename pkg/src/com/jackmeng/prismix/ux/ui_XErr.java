@@ -47,7 +47,7 @@ public final class ui_XErr
 		EXIT, OK;
 	}
 
-	Color r = stl_Colors.hexToRGB(ux_Theme._theme.get("rose"));
+	Color r = stl_Colors.hexToRGB(ux_Theme.get().get("rose"));
 	transient stl_Wrap< Boolean > touched = new stl_Wrap<>(false);
 
 	private ui_XErr(String content, String title, String url, Err_CloseState closeState)
@@ -106,7 +106,7 @@ public final class ui_XErr
 		pane.add(jsp, BorderLayout.CENTER);
 
 		JButton closeState_btn = new JButton(closeState.name());
-		closeState_btn.setBackground(stl_Colors.hexToRGB(ux_Theme._theme.get("mint")));
+		closeState_btn.setBackground(stl_Colors.hexToRGB(ux_Theme.get().get("mint")));
 		closeState_btn.setForeground(Color.black);
 		closeState_btn.setRolloverEnabled(false);
 		closeState_btn.setFocusPainted(false);
@@ -115,7 +115,7 @@ public final class ui_XErr
 		});
 
 		JButton url_btn = new JButton("Help");
-		url_btn.setBackground(stl_Colors.hexToRGB(ux_Theme._theme.get("orange")));
+		url_btn.setBackground(stl_Colors.hexToRGB(ux_Theme.get().get("orange")));
 		url_btn.setForeground(Color.black);
 		url_btn.setRolloverEnabled(false);
 		url_btn.setFocusPainted(false);

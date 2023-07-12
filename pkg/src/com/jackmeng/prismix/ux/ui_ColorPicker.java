@@ -153,7 +153,7 @@ public final class ui_ColorPicker
       controls_RED.setMinorTickSpacing(5);
       controls_RED.setPaintLabels(true);
       controls_RED.addChangeListener(syncSliders);
-      controls_RED.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("rose")));
+      controls_RED.setForeground(stl_Colors.hexToRGB(ux_Theme.get().get("rose")));
 
       controls_GREEN = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);
       controls_GREEN.setPaintTrack(true);
@@ -162,7 +162,7 @@ public final class ui_ColorPicker
       controls_GREEN.setMinorTickSpacing(5);
       controls_GREEN.setPaintLabels(true);
       controls_GREEN.addChangeListener(syncSliders);
-      controls_GREEN.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("green")));
+      controls_GREEN.setForeground(stl_Colors.hexToRGB(ux_Theme.get().get("green")));
 
       controls_BLUE = new JSlider(SwingConstants.VERTICAL, 0, 255, 255 / 2);
       controls_BLUE.setPaintTrack(true);
@@ -171,7 +171,7 @@ public final class ui_ColorPicker
       controls_BLUE.setMinorTickSpacing(5);
       controls_BLUE.setPaintLabels(true);
       controls_BLUE.addChangeListener(syncSliders);
-      controls_BLUE.setForeground(stl_Colors.hexToRGB(ux_Theme._theme.get("ocean")));
+      controls_BLUE.setForeground(stl_Colors.hexToRGB(ux_Theme.get().get("ocean")));
 
       controls.add(Box.createHorizontalStrut(30));
       controls.add(controls_RED);
@@ -481,18 +481,32 @@ public final class ui_ColorPicker
       contentWrapper.setLayout(new BoxLayout(contentWrapper,
           "vertical".equals(_1const.val.parse("compact_suggestions_layout").get()) ? BoxLayout.Y_AXIS
               : BoxLayout.X_AXIS));
-
-      tones = new Base_Palette("Tones", 15, 10);
-      tints = new Base_Palette("Tints", 15, 10);
-      shades = new Base_Palette("Shades", 15, 10);
-      mix = new Base_Palette("Mixed", 15, 10);
-      complementary = new Base_Palette("Complementary", 5, 3);
-
-      contentWrapper.add(tints.component);
-      contentWrapper.add(shades.component);
-      contentWrapper.add(tones.component);
-      contentWrapper.add(mix.component);
-      contentWrapper.add(complementary.component);
+      if ("compact".equals(_1const.val.parse("compact_suggestions_layout").get()))
+      {
+        tones = new Base_Palette("Tones", 1, 10);
+        tints = new Base_Palette("Tints", 1, 10);
+        shades = new Base_Palette("Shades", 1, 10);
+        mix = new Base_Palette("Mixed", 1, 7);
+        complementary = new Base_Palette("Complementary", 1, 4);
+        contentWrapper.add(tints.component);
+        contentWrapper.add(shades.component);
+        contentWrapper.add(tones.component);
+        contentWrapper.add(complementary.component);
+        contentWrapper.add(mix.component);
+      }
+      else
+      {
+        tones = new Base_Palette("Tones", 15, 10);
+        tints = new Base_Palette("Tints", 15, 10);
+        shades = new Base_Palette("Shades", 15, 10);
+        mix = new Base_Palette("Mixed", 15, 10);
+        complementary = new Base_Palette("Complementary", 5, 3);
+        contentWrapper.add(tints.component);
+        contentWrapper.add(shades.component);
+        contentWrapper.add(tones.component);
+        contentWrapper.add(mix.component);
+        contentWrapper.add(complementary.component);
+      }
 
       mainViewport.setView(contentWrapper);
       masterScroll.setViewport(mainViewport);

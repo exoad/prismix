@@ -85,7 +85,9 @@ public class ui_RColorBtn
 	{
 		if (popper.at() != null)
 		{
-			log("RCOLOR", "[ " + popper.previous_where() + " | " + popper.where() + " | " + popper.next_where() + " ]");
+      /*------------------------------------------------------------------------------------------------------------ /
+      / log("RCOLOR", "[ " + popper.previous_where() + " | " + popper.where() + " | " + popper.next_where() + " ]"); /
+      /-------------------------------------------------------------------------------------------------------------*/
 			_select.setBackground(popper.at());
 			_select.setForeground(extend_stl_Colors
 					.awt_remake(extend_stl_Colors.binary_fg_decider(extend_stl_Colors.awt_strip_rgba(_select.getBackground()))));

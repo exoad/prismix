@@ -41,8 +41,8 @@ public final class ux_Helper
     return BorderFactory.createTitledBorder(
         BorderFactory.createEmptyBorder(5, 0, 5, 0),
         "<html><strong><p style=\"font-size:12.5px;color:"
-            + (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
-                (int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
+            + (extend_stl_Colors.RGBToHex((int) ux_Theme.get().dominant()[0],
+                (int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2]))
             + "\">" + name + "</p></strong></strong>");
   }
 
@@ -51,8 +51,8 @@ public final class ux_Helper
     return BorderFactory.createTitledBorder(
         BorderFactory.createEmptyBorder(5, 4, 5, 4),
         "<html><strong><p style=\"font-size:12.5px;color:"
-            + (extend_stl_Colors.RGBToHex((int) ux_Theme._theme.dominant()[0],
-                (int) ux_Theme._theme.dominant()[1], (int) ux_Theme._theme.dominant()[2]))
+            + (extend_stl_Colors.RGBToHex((int) ux_Theme.get().dominant()[0],
+                (int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2]))
             + "\">" + name + "</p></strong></strong>");
   }
 

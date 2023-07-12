@@ -39,20 +39,26 @@ public final class ux_Theme
     }
   }
 
-  public static final ux_Theme _theme = new ux_Theme();
+  public static ux_Theme _theme = null;
+
+  public static ux_Theme get() {
+    if(_theme == null)
+      _theme = new ux_Theme();
+    return _theme;
+  }
 
   public static synchronized void light_preset_1()
   {
-    ux_Theme._theme.dominant(_colors.ROSE);
-    ux_Theme._theme.secondary(_colors.MINT);
-    ux_Theme._theme.theme(ThemeType.LIGHT);
+    ux_Theme.get().dominant(_colors.ROSE);
+    ux_Theme.get().secondary(_colors.MINT);
+    ux_Theme.get().theme(ThemeType.LIGHT);
   }
 
   public static synchronized void dark_preset_1()
   {
-    ux_Theme._theme.dominant(_colors.GRAPEFRUIT);
-    ux_Theme._theme.dominant(_colors.MAGENTA);
-    ux_Theme._theme.theme(ThemeType.DARK);
+    ux_Theme.get().dominant(_colors.GRAPEFRUIT);
+    ux_Theme.get().dominant(_colors.MAGENTA);
+    ux_Theme.get().theme(ThemeType.DARK);
   }
 
   private ThemeType mainTheme;
@@ -178,7 +184,7 @@ public final class ux_Theme
       try
       {
         log("UXTHEME", jm_Ansi.make().blue().toString("Refreshing the entire theme"));
-        final ColorUIResource rsc_dominant_1 = new ColorUIResource(ux_Theme._theme.dominant_awt());
+        final ColorUIResource rsc_dominant_1 = new ColorUIResource(ux_Theme.get().dominant_awt());
         UIManager.put("ScrollBar.thumb", rsc_dominant_1);
         UIManager.put("Scrollbar.pressedThumbColor", rsc_dominant_1);
         UIManager.put("ScrollBar.hoverThumbColor", rsc_dominant_1);

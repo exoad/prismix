@@ -2,10 +2,6 @@
 package com.jackmeng.prismix;
 
 import static com.jackmeng.prismix.jm_Prismix.log;
-import static com.jackmeng.prismix.user.use_Map.Bool;
-import static com.jackmeng.prismix.user.use_Map.parse_Bool;
-import static com.jackmeng.prismix.user.use_Map.*;
-
 import java.awt.Color;
 import java.lang.ref.SoftReference;
 import java.util.Random;
@@ -15,7 +11,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.jackmeng.ansicolors.jm_Ansi;
-import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.prismix.user.use_Map;
 import com.jackmeng.stl.stl_AssetFetcher;
 import com.jackmeng.stl.stl_AssetFetcher.assetfetcher_FetcherStyle;
@@ -46,59 +41,10 @@ public final class _1const
   // property-name, {property_type, default_value, {valid_values},
   // description}
   public static final use_Map val = new use_Map("com_jackmeng_prismix_CONFIG", "com.jackmeng.prismix.");
-  static
-  {
-    val.put_("debug_gui", parse_Bool, new Object[] { Bool, "false", type_Bool,
-        "Draw the GUI differently in order to debug layout issues and other graphical issues." });
-    val.put_("soft_debug", parse_Bool, new Object[] { Bool, "true", type_Bool,
-        "Enable basic debug layers, like CLI debug, and more." });
-    val.put_("smart_gui", parse_Bool, new Object[] { Bool, "true", type_Bool,
-        "Uses a hide and show paint schema instead of showing and painting." });
-    val.put_("use_current_dir", parse_Bool,
-        new Object[] { Bool, "true", type_Bool,
-            "Uses the current directory of the program instead of HOME for storage." });
-    val.put_("suggestions_sorted", parse_Bool, new Object[] { Bool, "true", type_Bool,
-        "Try to make sure the colors in a color picker are sorted (especially for suggestions)" });
-    val.put_("suggestions_sort_light_to_dark", parse_Bool, new Object[] { Bool, "true", type_Bool,
-        "When suggestions_sorted is set to true, use lightest to darkest sorting, else if false, use darkest to lightest." });
-    val.put_("containers_rounded", parse_Bool, new Object[] { Bool, "true", type_Bool,
-        "Used to determine whether to use rounded components or not. (For that eye candy ^_^)" });
-    val.put_("stoopid_sliders", parse_Bool, new Object[] { Bool, "false", type_Bool,
-        "Determines whether sliders should only wait till they come to rest to dispatch their value or dispatch a value everytime they move. Requires a restart!" });
-    val.put_("queued_random_color", parse_Bool, new Object[] { Bool, "true", type_Bool,
-        "Makes the random color button use a queue system with several extra buttons for more controlled generation." });
-    val.put_("descriptive_labels", parse_Bool, new Object[] {
-        Bool, "false", type_Bool,
-        "Makes certain labels on the UI more descriptive. For example, swapping \">\" out for \"Next\"."
-    });
-    val.put_("compact_suggestions_layout",
-        parse_StrBound(new String[] { "compact", "vertical", "horizontal" }, "compact"), new Object[] { StrBound,
-            "compact", new String[] { "compact", "vertical", "horizontal" },
-            "Changes the layout styling of the color gallery in 3 formats: compact, vertical, and horizontal."
-        });
-    use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property);
-
-  } // put program properties
 
   public static final String PATH = new String(new byte[] { 0x65, 0x78, 0x6F, 0x61, 0x64 });
 
-
-  /**
-   * PAIR[0] = (java.awt.Color) Color payload
-   * PAIR[1] = (java.lang.Boolean) Ignore Payload for storage
-   */
-  public static stl_ListenerPool.ListenerPool_Attached< stl_Struct.struct_Pair< Color, Boolean > > COLOR_ENQ = new stl_ListenerPool.ListenerPool_Attached<>(
-      "current-processing-pool") {
-    @Override public synchronized void dispatch(stl_Struct.struct_Pair< Color, Boolean > e)
-    {
-      // Here we want it so that the same color would not be reused and redispatched
-      // everytime causing unnecessary GUI updates. Note: all GUI updates are heavily
-      // tied to this queue system
-      if (Boolean.TRUE.equals(!e.second) && !e.first.equals(last_color()))
-        super.dispatch(e);
-    }
-  };
-  static
+  public static void __init()
   {
     _1const.COLOR_ENQ.attach(payload -> {
       if (payload.first != null)
@@ -128,6 +74,22 @@ public final class _1const
       return (Void) null;
     });
   }
+
+  /**
+   * PAIR[0] = (java.awt.Color) Color payload
+   * PAIR[1] = (java.lang.Boolean) Ignore Payload for storage
+   */
+  public static stl_ListenerPool.ListenerPool_Attached< stl_Struct.struct_Pair< Color, Boolean > > COLOR_ENQ = new stl_ListenerPool.ListenerPool_Attached<>(
+      "current-processing-pool") {
+    @Override public synchronized void dispatch(stl_Struct.struct_Pair< Color, Boolean > e)
+    {
+      // Here we want it so that the same color would not be reused and redispatched
+      // everytime causing unnecessary GUI updates. Note: all GUI updates are heavily
+      // tied to this queue system
+      if (Boolean.TRUE.equals(!e.second) && !e.first.equals(last_color()))
+        super.dispatch(e);
+    }
+  };
 
   public static void shutdown_hook(Runnable r)
   {

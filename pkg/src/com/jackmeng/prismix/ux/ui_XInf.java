@@ -35,7 +35,7 @@ public final class ui_XInf
 		SwingUtilities.invokeLater(new ui_XInf(content, title));
 	}
 
-	Color r = stl_Colors.hexToRGB(ux_Theme._theme.get("blue"));
+	Color r = stl_Colors.hexToRGB(ux_Theme.get().get("blue"));
 
 	private ui_XInf(String content, String title)
 	{
@@ -82,7 +82,7 @@ public final class ui_XInf
 		pane.add(jsp, BorderLayout.CENTER);
 
 		JButton closeState_btn = new JButton("OK");
-		closeState_btn.setBackground(stl_Colors.hexToRGB(ux_Theme._theme.get("cyan")));
+		closeState_btn.setBackground(stl_Colors.hexToRGB(ux_Theme.get().get("cyan")));
 		closeState_btn.setForeground(Color.black);
 		closeState_btn.setRolloverEnabled(false);
 		closeState_btn.setFocusPainted(false);
