@@ -84,6 +84,7 @@ public class ui_Tag
     this.depositsInPool = depositsInPool;
     this.copyToClipboard = copyToClipboard;
     addActionListener(colorListener);
+    ux_Theme.based_set_rrect(this);
   }
 
   public void sync(Color initialColor)

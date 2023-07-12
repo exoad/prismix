@@ -176,7 +176,7 @@ public class ui_Cntnr_TopPane
 		this.rgbData.setName("RGBA");
 		this.rgbData.setOpaque(true);
 		this.rgbData.setAlignmentX(Component.LEFT_ALIGNMENT);
-		this.rgbData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- RGBA"));
+		this.rgbData.setBorder(stx_Helper.bottom_container_AttributesBorder("-- RGBA"));
 		this.rgbData.setLayout(new BoxLayout(this.rgbData, BoxLayout.X_AXIS));
 		this.rgbData.add(wrapper_ColorAttributes);
 		this.rgbData.add(rawRGBData);
@@ -186,7 +186,7 @@ public class ui_Cntnr_TopPane
 		this.miscAttributes.setLayout(new BoxLayout(this.miscAttributes, BoxLayout.Y_AXIS));
 		this.miscAttributes.setAlignmentX(Component.LEFT_ALIGNMENT);
 		this.miscAttributes.setBorder(
-				ux_Helper.bottom_container_AttributesBorder("-- MISC"));
+				stx_Helper.bottom_container_AttributesBorder("-- MISC"));
 
 		final JLabel hexColor = new JLabel();
 		final JLabel transparency = new JLabel();
@@ -208,7 +208,7 @@ public class ui_Cntnr_TopPane
 		this.colorSpace.setName("Color Space");
 		this.colorSpace.setLayout(new BoxLayout(this.colorSpace, BoxLayout.Y_AXIS));
 		this.colorSpace.setAlignmentX(Component.LEFT_ALIGNMENT);
-		this.colorSpace.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Color Space"));
+		this.colorSpace.setBorder(stx_Helper.bottom_container_AttributesBorder("-- Color Space"));
 
 		final JEditorPane colorSpace_scrollPane = new JEditorPane();
 		colorSpace_scrollPane.setContentType("text/html");
@@ -229,7 +229,7 @@ public class ui_Cntnr_TopPane
 		this.hsvData.setLayout(new BoxLayout(this.hsvData, BoxLayout.Y_AXIS));
 		this.hsvData.setAlignmentX(Component.LEFT_ALIGNMENT);
 		this.hsvData.setBorder(
-				ux_Helper.bottom_container_AttributesBorder("-- HSV"));
+				stx_Helper.bottom_container_AttributesBorder("-- HSV"));
 
 		final JLabel hsvData_hue = new JLabel();
 		final JLabel hsvData_saturation = new JLabel();
@@ -268,7 +268,7 @@ public class ui_Cntnr_TopPane
 
 		this.controls = new JPanel();
 		this.controls.setAlignmentX(Component.LEFT_ALIGNMENT);
-		this.controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
+		this.controls.setBorder(stx_Helper.bottom_container_AttributesBorder("-- Controls"));
 
 		if (Boolean.TRUE.equals((Boolean) _1const.val.parse("developer_buttons").get()))
 		{
@@ -313,7 +313,7 @@ public class ui_Cntnr_TopPane
 		this.hslData.setName("HSL");
 		this.hslData.setLayout(new BoxLayout(this.hslData, BoxLayout.Y_AXIS));
 		this.hslData.setAlignmentX(Component.LEFT_ALIGNMENT);
-		this.hslData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- HSL"));
+		this.hslData.setBorder(stx_Helper.bottom_container_AttributesBorder("-- HSL"));
 
 		final JLabel hslData_hue = new JLabel();
 		final JLabel hslData_saturation = new JLabel();
@@ -326,7 +326,7 @@ public class ui_Cntnr_TopPane
 		this.cmykData = new JPanel();
 		this.cmykData.setLayout(new BoxLayout(this.cmykData, BoxLayout.X_AXIS));
 		this.cmykData.setAlignmentX(Component.LEFT_ALIGNMENT);
-		this.cmykData.setBorder(ux_Helper.bottom_container_AttributesBorder("-- CMYK"));
+		this.cmykData.setBorder(stx_Helper.bottom_container_AttributesBorder("-- CMYK"));
 		this.cmykData.setName("CMYK");
 
 		final JPanel cmykData_Attributes = new JPanel();

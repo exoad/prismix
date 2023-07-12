@@ -89,7 +89,7 @@ public class ui_Cntnr_BottomPane
 			// make a popupmenu for this so we can have proper controls for this button
 			// preferably also make a global one and then spawn a unique one for just this
 			log("BOT_G_HISTORY", "Logs a new color to history: " + arg0.first);
-			ui_Tag_Paletted jb = ux_Helper.history_palette_btn(arg0.first, HISTORY_BUTTON_WIDTH, HISTORY_BUTTON_HEIGHT);
+			ui_Tag_Paletted jb = stx_Helper.history_palette_btn(arg0.first, HISTORY_BUTTON_WIDTH, HISTORY_BUTTON_HEIGHT);
 			jb.setName(colorHex);
 			ux_Theme.based_set_rrect(jb);
 

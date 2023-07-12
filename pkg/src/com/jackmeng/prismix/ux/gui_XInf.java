@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
+import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_Colors;
 import static com.jackmeng.prismix.jm_Prismix.*;
 
@@ -24,6 +25,12 @@ public final class gui_XInf
 {
 
 	public static void invoke(String content, String title)
+	{
+		if (Boolean.FALSE.equals((Boolean) _1const.val.parse("shush_info_dialogs").get()))
+			force_invoke(content, title);
+	}
+
+	public static void force_invoke(String content, String title)
 	{
 		log("INFW", "Invoking a new window: " + title);
 		SwingUtilities.invokeLater(new gui_XInf(content, title));

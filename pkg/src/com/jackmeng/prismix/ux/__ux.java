@@ -71,10 +71,12 @@ public final class __ux
       e[i] = use_Maker.make(r[i].getName(), use_Maker.make(r[i]));
     this.mainui.registerToBar("Color Attributes", use_Maker.make(e));
     this.mainui.registerToBar("Prismix",
-        new JMenuItem[] { ux_Helper.make_simple("Config", () -> configui.setVisible(true)),
-            ux_Helper.make_simple("Licenses",
-                () -> gui_XInf.invoke(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_legals.html")).replace("\n", "<br>"),
-                    "Open Source Licenses")) });
+        new JMenuItem[] { stx_Helper.make_simple("Config", () -> configui.setVisible(true)),
+            stx_Helper.make_simple("Licenses",
+                () -> gui_XInf.force_invoke(
+                    use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_legals.html")).replace("\n", "<br>"),
+                    "Open Source Licenses")),
+            stx_Helper.make_simple("LuaOp", () -> gui_Lua.instance().run()) });
   }
 
   public synchronized void force_redo()

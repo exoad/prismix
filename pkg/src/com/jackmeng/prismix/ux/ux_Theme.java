@@ -41,8 +41,9 @@ public final class ux_Theme
 
   public static ux_Theme _theme = null;
 
-  public static ux_Theme get() {
-    if(_theme == null)
+  public static ux_Theme get()
+  {
+    if (_theme == null)
       _theme = new ux_Theme();
     return _theme;
   }
@@ -84,10 +85,9 @@ public final class ux_Theme
   {
     r.setBorderPainted(false);
 
-    if (!Boolean.TRUE.equals((Boolean) _1const.val.parse("containers_rounded").get()))
-    {
-      r.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-    }
+    if (Boolean.FALSE.equals((Boolean) _1const.val.parse("containers_rounded").get()))
+      r.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0)),
+          BorderFactory.createEmptyBorder(3, 3, 3, 3)));
   }
 
   private ux_Theme()

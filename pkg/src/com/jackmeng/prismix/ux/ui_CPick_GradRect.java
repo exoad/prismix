@@ -215,7 +215,7 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
 
   @Override public void mouseDragged(MouseEvent e)
   {
-    if (ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
+    if (stx_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
         new Dimension(size_SquareGrad.get(), size_SquareGrad.get())))
     {
       log("CPick_GradRect",
@@ -242,7 +242,7 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
 
   @Override public void mouseReleased(MouseEvent e)
   {
-    if (ux_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
+    if (stx_Helper.within(e.getPoint(), new Point(0, (getHeight() - size_SquareGrad.get()) / 2),
         new Dimension(size_SquareGrad.get(), size_SquareGrad.get())))
     {
       toPaintCurr = true;

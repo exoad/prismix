@@ -5,7 +5,7 @@ package com.jackmeng.prismix.test;
 import javax.swing.*;
 
 import com.jackmeng.prismix.ux.stx_FixedPopper;
-import com.jackmeng.prismix.ux.ux_Helper;
+import com.jackmeng.prismix.ux.stx_Helper;
 import com.jackmeng.prismix.ux.stx_FixedPopper.Popper_Priority;
 
 import java.awt.*;
@@ -80,33 +80,33 @@ public class test_FixedPopper extends JFrame
 		wrap.setLayout(new BoxLayout(wrap, BoxLayout.X_AXIS));
 		wrap.setPreferredSize(new Dimension(200, 55));
 		wrap.add(currentLabel);
-		wrap.add(ux_Helper.quick_btn("Insert RNG", () -> {
+		wrap.add(stx_Helper.quick_btn("Insert RNG", () -> {
 			int i = rng.nextInt(0, 99);
 			System.out.println("Inserts: " + i + " @ " + popper.where());
 			popper.push_at(popper.where(), i);
 			entire.repaint(70L);
 		}));
-		wrap.add(ux_Helper.quick_btn("Push RNG", () -> {
+		wrap.add(stx_Helper.quick_btn("Push RNG", () -> {
 			int i = rng.nextInt(0, 99);
 			System.out.println("Pushes: " + i + " @ " + popper.where());
 			popper.force_push(i);
 			entire.repaint(70L);
 		}));
-		wrap.add(ux_Helper.quick_btn("Priority Swap", () -> {
+		wrap.add(stx_Helper.quick_btn("Priority Swap", () -> {
 			popper.priority(popper.priority() == Popper_Priority.HEAD ? Popper_Priority.TAIL : Popper_Priority.HEAD);
 			updateCurrentLabel();
 		}));
-		wrap.add(ux_Helper.quick_btn("To Tail", () -> {
+		wrap.add(stx_Helper.quick_btn("To Tail", () -> {
 			popper.toTail();
 			updateCurrentLabel();
 			entire.repaint(70L);
 		}));
-		wrap.add(ux_Helper.quick_btn("To Head", () -> {
+		wrap.add(stx_Helper.quick_btn("To Head", () -> {
 			popper.toHead();
 			updateCurrentLabel();
 			entire.repaint(70L);
 		}));
-		wrap.add(ux_Helper.quick_btn("Log", () -> System.out.println(popper)));
+		wrap.add(stx_Helper.quick_btn("Log", () -> System.out.println(popper)));
 		wrap.add(previousButton);
 		wrap.add(nextButton);
 

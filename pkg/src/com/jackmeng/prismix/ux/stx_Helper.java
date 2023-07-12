@@ -17,9 +17,9 @@ import java.awt.Dimension;
 
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 
-public final class ux_Helper
+public final class stx_Helper
 {
-  private ux_Helper()
+  private stx_Helper()
   {
   }
 

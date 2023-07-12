@@ -34,7 +34,7 @@ public final class ui_CPick_SugList
   private static JPanel acquire_defpane(final String name)
   {
     final JPanel jp = new JPanel();
-    jp.setBorder(ux_Helper.cpick_suggestions_AttributesBorder(name));
+    jp.setBorder(stx_Helper.cpick_suggestions_AttributesBorder(name));
     jp.setLayout(new GridBagLayout());
 
     return jp;
@@ -339,6 +339,7 @@ public final class ui_CPick_SugList
           extend_stl_Colors.sort_l2d(gen_complements);
           extend_stl_Colors.sort_l2d(gen_tints);
           extend_stl_Colors.sort_l2d(gen_shades);
+          extend_stl_Colors.sort_l2d(gen_mix);
         }
         else
         {
@@ -346,6 +347,7 @@ public final class ui_CPick_SugList
           extend_stl_Colors.sort_d2l(gen_complements);
           extend_stl_Colors.sort_d2l(gen_tints);
           extend_stl_Colors.sort_d2l(gen_shades);
+          extend_stl_Colors.sort_d2l(gen_mix);
         }
       }
       // unified rendering doesn't work here, causes tab compositing to fuck up.

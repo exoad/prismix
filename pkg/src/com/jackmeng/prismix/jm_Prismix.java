@@ -25,8 +25,10 @@ import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.prismix.ux.gui_XErr;
 import com.jackmeng.prismix.ux.gui_XInf;
+import com.jackmeng.prismix.ux.ux_Theme;
 import com.jackmeng.prismix.ux.__ux;
 import com.jackmeng.prismix.ux.gui_XErr.Err_CloseState;
+import com.jackmeng.prismix.ux.ux_Theme.ThemeType;
 import com.jackmeng.stl.stl_Chrono;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Str;
@@ -97,6 +99,10 @@ public class jm_Prismix
     val.put_("descriptive_labels", parse_Bool, new Object[] {
         Bool, "false", type_Bool,
         "Makes certain labels on the UI more descriptive. For example, swapping \">\" out for \"Next\"."
+    });
+    val.put_("shush_info_dialogs", parse_Bool, new Object[] {
+        Bool, "false", type_Bool,
+        "Stops information dialogs from appearing; however, error and exception logs will still be launched."
     });
     val.put_("compact_suggestions_layout",
         parse_StrBound(new String[] { "compact", "vertical", "horizontal" }, "compact"), new Object[] { StrBound,
@@ -182,6 +188,8 @@ public class jm_Prismix
 
       _1const.add(__ux._ux, 10L);
       _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
+      ux_Theme._theme.theme(
+          Boolean.TRUE.equals((Boolean) _1const.val.parse("dark_mode").get()) ? ThemeType.DARK : ThemeType.LIGHT);
 
       final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
       if (IS_UNSTABLE)
