@@ -22,7 +22,7 @@ public class ux_HTMLPRE extends HTMLEditorKit
 			Object elementName = attrs.getAttribute(AbstractDocument.ElementNameAttribute);
 			Object o = (elementName != null) ? null : attrs.getAttribute(StyleConstants.NameAttribute);
 			if (o instanceof HTML.Tag kind)
-				if (kind == HTML.Tag.IMPLIED)
+				if (kind == HTML.Tag.IMPLIED || kind == HTML.Tag.PRE)
 					return new javax.swing.text.html.ParagraphView(elem);
 			return super.create(elem);
 		}

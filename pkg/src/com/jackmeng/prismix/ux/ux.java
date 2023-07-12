@@ -18,6 +18,7 @@ import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_SwingHelper;
@@ -109,9 +110,11 @@ public final class ux
     for (int i = 0; i < r.length; i++)
       e[i] = use_Maker.make(r[i].getName(), use_Maker.make(r[i]));
     this.mainui.registerToBar("Color Attributes", use_Maker.make(e));
-    JMenuItem gui_Config_item = new JMenuItem("Config.");
-    gui_Config_item.addActionListener(ev -> configui.setVisible(true));
-    this.mainui.registerToBar("Preferences", new JMenuItem[] { gui_Config_item });
+    this.mainui.registerToBar("Prismix",
+        new JMenuItem[] { ux_Helper.make_simple("Config", () -> configui.setVisible(true)),
+            ux_Helper.make_simple("Licenses",
+                () -> ui_XInf.invoke(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_legals.html")).replace("\n", "<br>"),
+                    "Open Source Licenses")) });
   }
 
   public synchronized void force_redo()

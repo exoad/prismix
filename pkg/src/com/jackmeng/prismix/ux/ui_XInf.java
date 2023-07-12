@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.stl.stl_Colors;
@@ -53,7 +53,6 @@ public final class ui_XInf
 		JEditorPane jep = new JEditorPane();
 		jep.setContentType("text/html");
 		jep.setEditorKit(new ux_HTMLPRE());
-
 		jep.setText(content);
 		jep.setOpaque(true);
 		jep.setEditable(false);
@@ -62,20 +61,26 @@ public final class ui_XInf
 		jep.setForeground(Color.white);
 
 		JScrollPane jsp = new JScrollPane();
-		jsp.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-			@Override protected void configureScrollBarColors()
-			{
-				trackColor = new Color(0, 0, 0, 0);
-			}
-		});
-		jsp.getHorizontalScrollBar().setUI(new BasicScrollBarUI() {
-			@Override protected void configureScrollBarColors()
-			{
-				trackColor = new Color(0, 0, 0, 0);
-			}
-		});
-		jsp.getVerticalScrollBar().setBackground(r);
-		jsp.getHorizontalScrollBar().setBackground(r);
+		/*----------------------------------------------------------- /
+		/ jsp.getVerticalScrollBar().setUI(new BasicScrollBarUI() {   /
+		/   @Override protected void configureScrollBarColors()       /
+		/   {                                                         /
+		/     trackColor = new Color(0, 0, 0, 0);                     /
+		/   }                                                         /
+		/ });                                                         /
+		/ jsp.getHorizontalScrollBar().setUI(new BasicScrollBarUI() { /
+		/   @Override protected void configureScrollBarColors()       /
+		/   {                                                         /
+		/     trackColor = new Color(0, 0, 0, 0);                     /
+		/   }                                                         /
+		/ });                                                         /
+		/------------------------------------------------------------*/
+		jsp.getVerticalScrollBar().setBackground(Color.black);
+		jsp.getVerticalScrollBar().setUnitIncrement(6);
+		jsp.getHorizontalScrollBar().setBackground(Color.black);
+		jsp.getHorizontalScrollBar().setUnitIncrement(6);
+		jsp.setOpaque(true);
+		jsp.setBackground(Color.black);
 		jsp.setViewportView(ui_LazyViewport.make(jep));
 		jsp.setBorder(BorderFactory.createEmptyBorder());
 
@@ -105,11 +110,6 @@ public final class ui_XInf
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
-	}
-
-	public static void main(String[] args)
-	{
-		invoke("hello", "lol");
 	}
 
 }

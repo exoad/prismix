@@ -12,5 +12,6 @@ public final class uwu
 	{
 		return MessageFormat.format(use_LSys.read_all(_1const.fetcher.file(name)), pattern);
 	}
-	
+
+
 }

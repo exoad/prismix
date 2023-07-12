@@ -5,6 +5,7 @@ package com.jackmeng.prismix.ux;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.ScrollPaneConstants;
@@ -68,6 +69,13 @@ public final class ux_Helper
     jsp.setViewportView(viewport);
 
     return jsp;
+  }
+
+  public static JMenuItem make_simple(String title, Runnable action)
+  {
+    JMenuItem item = new JMenuItem(title);
+    item.addActionListener(ev -> action.run());
+    return item;
   }
 
 
