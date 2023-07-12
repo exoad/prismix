@@ -13,6 +13,7 @@ import javax.swing.border.Border;
 import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
+
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.ux.ui_Tag.ui_PTag;
 
@@ -68,6 +69,7 @@ public final class ux_Helper
 
     return jsp;
   }
+
 
   public static ui_PTag history_palette_btn(Color clr, int w, int h)
   {

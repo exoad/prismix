@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.text.MessageFormat;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
@@ -21,9 +20,10 @@ import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.user._lua;
 import com.jackmeng.prismix.user.use_LSys;
-import com.jackmeng.prismix.ux.ui_Err;
+import com.jackmeng.prismix.ux.ui_XErr;
+import com.jackmeng.prismix.ux.ui_XInf;
 import com.jackmeng.prismix.ux.ux;
-import com.jackmeng.prismix.ux.ui_Err.Err_CloseState;
+import com.jackmeng.prismix.ux.ui_XErr.Err_CloseState;
 import com.jackmeng.stl.stl_Chrono;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Str;
@@ -42,6 +42,7 @@ public class jm_Prismix
 
   public static final AtomicLong time = new AtomicLong(System.currentTimeMillis());
   public static final long _VERSION_ = 2023_07_01L; // YYYY_MM_DD of the closest month
+  public static final boolean IS_UNSTABLE = true;
   public static final PrintStream IO = System.out;
   static
   {
@@ -113,6 +114,9 @@ public class jm_Prismix
       _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
 
       final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
+      if (IS_UNSTABLE)
+        ui_XInf.invoke(uwu.fowmat("assets/text/TEXT_prismix_unstable.html", IS_UNSTABLE + " | " + _VERSION_),
+            "Caution");
       Runtime.getRuntime().addShutdownHook(
           (new Thread(
               () -> log("PRISMIX", "Alive for: " + (System.currentTimeMillis() - jm_Prismix.time.get())))));
@@ -130,9 +134,8 @@ public class jm_Prismix
       StringWriter sw = new StringWriter();
       PrintWriter pw = new PrintWriter(sw);
       e.printStackTrace(pw);
-      ui_Err.invoke(
-          MessageFormat
-              .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")), sw.toString()),
+      ui_XErr.invoke(
+          uwu.fowmat("assets/text/TEXT_external_issue.html", sw.toString()),
           "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
     }
     Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
@@ -142,7 +145,7 @@ public class jm_Prismix
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
-        ui_Err.invoke(
+        ui_XErr.invoke(
             MessageFormat
                 .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")),
                     sw.toString() + "\n\n\nTHREAD: " + t.toString()),

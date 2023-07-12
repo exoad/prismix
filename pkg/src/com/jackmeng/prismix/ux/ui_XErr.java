@@ -30,7 +30,7 @@ import com.jackmeng.stl.stl_Wrap;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
-public final class ui_Err
+public final class ui_XErr
 		extends
 		JFrame
 		implements
@@ -40,7 +40,7 @@ public final class ui_Err
 	public static void invoke(String content, String title, String url, Err_CloseState closeState)
 	{
 		log("ERRW", "Invoking a new window: " + title);
-		SwingUtilities.invokeLater(new ui_Err(content, title, url, closeState));
+		SwingUtilities.invokeLater(new ui_XErr(content, title, url, closeState));
 	}
 
 	public enum Err_CloseState {
@@ -50,7 +50,7 @@ public final class ui_Err
 	Color r = stl_Colors.hexToRGB(ux_Theme._theme.get("rose"));
 	transient stl_Wrap< Boolean > touched = new stl_Wrap<>(false);
 
-	private ui_Err(String content, String title, String url, Err_CloseState closeState)
+	private ui_XErr(String content, String title, String url, Err_CloseState closeState)
 	{
 		super(title);
 		setIconImage(_1const.fetcher.image("assets/_icon.png"));

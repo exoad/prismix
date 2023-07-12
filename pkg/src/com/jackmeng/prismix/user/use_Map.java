@@ -2,7 +2,6 @@
 
 package com.jackmeng.prismix.user;
 
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,8 +10,9 @@ import java.util.Set;
 
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
-import com.jackmeng.prismix.ux.ui_Err;
-import com.jackmeng.prismix.ux.ui_Err.Err_CloseState;
+import com.jackmeng.prismix.uwu;
+import com.jackmeng.prismix.ux.ui_XErr;
+import com.jackmeng.prismix.ux.ui_XErr.Err_CloseState;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
 import com.jackmeng.stl.stl_Callback;
@@ -180,9 +180,9 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
       log("MAP_REGISTRY",
           jm_Ansi.make().red().bold().toString(name + " failed to retrieve an element with key: ") + key
               + " | " + jm_Ansi.make().bold().underline().yellow().toString("{!} This is a bug!"));
-      ui_Err.invoke(
-          new MessageFormat(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_exoad_skill_issue.html")))
-              .format(name + " failed to retrieve an element with key: " + key + "\n" + toString()),
+      ui_XErr.invoke(
+          uwu.fowmat("assets/text/TEXT_exoad_skill_issue.html",
+              name + " failed to retrieve an element with key: " + key + "\n" + toString()),
           "BUG!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
     }
     else if (!cache.contains(key))
@@ -241,9 +241,9 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
       default:
         log("MAP_REGISTRY", jm_Ansi.make().yellow().bold().toString("Parsing: " + key + " could not find a proper type")
             + " | " + jm_Ansi.make().underline().toString("{!} This is a bug"));
-        ui_Err.invoke(
-            new MessageFormat(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_exoad_skill_issue.html")))
-                .format("Parsing: " + key + " could not find a proper type\n" + toString() + "\n\n\n"),
+        ui_XErr.invoke(
+            uwu.fowmat("assets/text/TEXT_exoad_skill_issue.html",
+                "Parsing: " + key + " could not find a proper type\n" + toString() + "\n\n\n"),
             "BUG!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
         yield Optional.empty();
     };
