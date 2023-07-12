@@ -12,7 +12,6 @@ import java.awt.Point;
 import java.awt.Insets;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.rmi.UnexpectedException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
@@ -30,7 +29,6 @@ import javax.swing.event.ChangeListener;
 
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
-import com.jackmeng.prismix.jm_Prismix;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.stl.extend_stl_Wrap;

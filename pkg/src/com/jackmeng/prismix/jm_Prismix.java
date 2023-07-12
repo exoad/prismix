@@ -3,9 +3,6 @@
 package com.jackmeng.prismix;
 
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.geom.AffineTransform;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -16,7 +13,6 @@ import java.util.TimerTask;
 import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
