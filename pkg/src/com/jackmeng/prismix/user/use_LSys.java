@@ -60,6 +60,11 @@ public final class use_LSys
             + " @ " + f.getAbsolutePath());
   }
 
+  public static synchronized void ensure_dirs()
+  {
+
+  }
+
   public static String read_all(File f)
   {
     StringBuilder sb = new StringBuilder();
@@ -73,6 +78,11 @@ public final class use_LSys
       e.printStackTrace();
     }
     return sb.toString();
+  }
+
+  public static void write(Object r)
+  {
+
   }
 
   public static void write(String args, Object name, boolean overwrite)

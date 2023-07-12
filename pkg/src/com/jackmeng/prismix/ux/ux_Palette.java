@@ -2,6 +2,7 @@
 
 package com.jackmeng.prismix.ux;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -15,6 +16,8 @@ import com.jackmeng.stl.stl_ListenerPool;
 import static com.jackmeng.prismix.jm_Prismix.*;
 
 public class ux_Palette
+    implements
+    Serializable
 {
   private Set< List< Float > > colors_rgba;
 
@@ -58,7 +61,7 @@ public class ux_Palette
     }
   }
 
-  public final stl_ListenerPool< Palette_State > LISTENER_POOL;
+  public final transient stl_ListenerPool< Palette_State > LISTENER_POOL;
   private boolean isInternal;
 
   public ux_Palette(final int initial, final String name, boolean isInternal)

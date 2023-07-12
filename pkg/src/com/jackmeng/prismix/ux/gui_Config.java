@@ -7,7 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 public class gui_Config
-    extends JFrame
+    extends
+    JFrame
+    implements
+    Runnable
 {
 
   public gui_Config()
@@ -15,4 +18,12 @@ public class gui_Config
     super("Primsix ~ Config");
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
   }
+
+  @Override public void run()
+  {
+    pack();
+    setVisible(true);
+  }
+
+
 }

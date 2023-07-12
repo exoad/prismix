@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
 import com.jackmeng.ansicolors.jm_Ansi;
@@ -44,14 +45,8 @@ public final class _lua
     if (locale.endsWith((".lua")))
     {
       log("LUA", "Loading Lua script: " + locale);
-      try
-      {
-        G().load(new FileInputStream(locale), "main.lua", "bt", null);
-      } catch (FileNotFoundException e)
-      {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
+      LuaValue chunk = G().loadfile(locale);
+      chunk.call();
     }
     else
     {
