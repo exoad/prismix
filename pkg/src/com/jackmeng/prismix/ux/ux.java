@@ -121,6 +121,7 @@ public final class ux
   {
     log("UX", jm_Ansi.make().yellow().toString("Forcing a GUI redo..."));
     SwingUtilities.updateComponentTreeUI(this.mainui);
+    
     this.mainui.repaint();
     this.mainui.revalidate();
     log("UX", jm_Ansi.make().green().toString("Force GUI redo DONE"));

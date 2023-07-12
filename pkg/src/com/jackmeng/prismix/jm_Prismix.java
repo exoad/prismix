@@ -194,6 +194,18 @@ public class jm_Prismix
     });
   }
 
+  public static void error_modal_wrap(Throwable e)
+  {
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
+    e.printStackTrace(pw);
+    ui_XErr.invoke(
+        MessageFormat
+            .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")),
+                sw.toString() + "\n\n\nType: " + e.getClass().getCanonicalName()),
+        "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
+  }
+
   static final int MAX_LOG_NAME_LEN = 13;
 
   public static void debug(String content)
