@@ -1,13 +1,21 @@
 <h1 align="center">Prismix</h1>
 
+
 > **Version** Preview Beta *July 01 2023*
 
+
+<br>
+<div align="center">
+<img src="repo/screenshot.png" alt="Screenshot" width="550"/>
+</div>
+<br>
+
 Color palette generator and color picker for helping you with picking colors (I guess).
+
 
 ## First time
 
 ### Other users (OSX, Windows)
-
 
 **Running from Source**
 
