@@ -106,6 +106,8 @@ public final class use_LSys
   static
   {
     options.setIndent(4);
+    options.setSplitLines(true);
+    options.setAllowUnicode(true);
     options.setPrettyFlow(true);
     options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
   }
