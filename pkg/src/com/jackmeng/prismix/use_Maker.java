@@ -38,7 +38,7 @@ public final class use_Maker
 
   public static void db_timed(final Runnable r)
   {
-    if ("true".equalsIgnoreCase(_1const.val.get_value("soft_debug")))
+    if (Boolean.TRUE.equals((Boolean) _1const.val.parse("debug_gui").get()))
     {
       final long i = System.currentTimeMillis();
       r.run();

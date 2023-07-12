@@ -276,11 +276,6 @@ public class gui_Container
 			this.hsvData.add(hsvData_saturation);
 			this.hsvData.add(hsvData_value);
 
-			this.controls = new JPanel();
-			this.controls.setLayout(new GridLayout(3, 2, 4, 4)); // 4 buttons
-			this.controls.setAlignmentX(Component.LEFT_ALIGNMENT);
-			this.controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
-
 			final JButton controls_screenColorPicker = new JButton("Screen Picker");
 			controls_screenColorPicker.setForeground(ux_Theme.get().fg_awt());
 			controls_screenColorPicker.setBackground(ux_Theme.get().secondary_awt());
@@ -292,20 +287,6 @@ public class gui_Container
 			/   return (Void) null;                                                                  /
 			/ }));                                                                                   /
 			/---------------------------------------------------------------------------------------*/
-
-			final JButton controls_forceRevalidate = new JButton("Refresh UI");
-			ux_Theme.based_set_rrect(controls_forceRevalidate);
-
-			controls_forceRevalidate.setForeground(ux_Theme.get().fg_awt());
-			controls_forceRevalidate.setBackground(ux_Theme.get().secondary_awt());
-			controls_forceRevalidate.addActionListener(ev -> ux._ux.force_redo());
-
-			final JButton controls_gc = new JButton("GC");
-			ux_Theme.based_set_rrect(controls_gc);
-			controls_gc.setBorderPainted(false);
-			controls_gc.setForeground(ux_Theme.get().fg_awt());
-			controls_gc.setBackground(ux_Theme.get().secondary_awt());
-			controls_gc.addActionListener(ev -> System.gc());
 
 			final JButton controls_randomScreenColor = new JButton("Random Screen Color");
 			ux_Theme.based_set_rrect(controls_randomScreenColor);
@@ -322,6 +303,33 @@ public class gui_Container
 			controls_randomScreenColor.addActionListener(
 					ev -> ux._ux.clear_history());
 
+			this.controls = new JPanel();
+			this.controls.setAlignmentX(Component.LEFT_ALIGNMENT);
+			this.controls.setBorder(ux_Helper.bottom_container_AttributesBorder("-- Controls"));
+
+			if (Boolean.TRUE.equals((Boolean) _1const.val.parse("developer_buttons").get()))
+			{
+				this.controls.setLayout(new GridLayout(3, 2, 4, 4)); // 4 buttons
+
+				final JButton controls_gc = new JButton("GC");
+				ux_Theme.based_set_rrect(controls_gc);
+				controls_gc.setBorderPainted(false);
+				controls_gc.setForeground(ux_Theme.get().fg_awt());
+				controls_gc.setBackground(ux_Theme.get().secondary_awt());
+				controls_gc.addActionListener(ev -> System.gc());
+
+				final JButton controls_forceRevalidate = new JButton("Refresh UI");
+				ux_Theme.based_set_rrect(controls_forceRevalidate);
+				controls_forceRevalidate.setForeground(ux_Theme.get().fg_awt());
+				controls_forceRevalidate.setBackground(ux_Theme.get().secondary_awt());
+				controls_forceRevalidate.addActionListener(ev -> ux._ux.force_redo());
+
+				// system level
+				this.controls.add(controls_forceRevalidate);
+				this.controls.add(controls_gc);
+			}
+			else this.controls.setLayout(new GridLayout(2, 2, 4, 4)); // 4 buttons
+
 			if (Boolean.FALSE.equals(_1const.val.parse("queued_random_color").get()))
 			{
 				JButton controls_randomColor = new JButton("Random Color");
@@ -337,10 +345,6 @@ public class gui_Container
 			this.controls.add(controls_randomScreenColor);
 			this.controls.add(controls_screenColorPicker);
 			this.controls.add(controls_ClearHistory);
-
-			// system level
-			this.controls.add(controls_forceRevalidate);
-			this.controls.add(controls_gc);
 
 			this.hslData = new JPanel();
 			this.hslData.setName("HSL");

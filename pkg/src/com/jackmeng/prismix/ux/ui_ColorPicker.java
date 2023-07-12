@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -32,6 +33,7 @@ import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.stl.extend_stl_Wrap;
+import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
@@ -50,15 +52,13 @@ public final class ui_ColorPicker
   private ui_ColorPicker()
   {
   }
-  /*----------------------------------------------------------------------------------------- /
-  /                                                                                           /
-  / @SuppressWarnings("unchecked") public static JComponent attach_asis(JComponent e)         /
-  / {                                                                                         /
-  /   if (e instanceof stl_Callback) // finalized types at compile time are so fucking stupid /
-  /     _1const.COLOR_ENQ.add((stl_Listener< struct_Pair< Color, Boolean > >) e);             /
-  /   return e;                                                                               /
-  / }                                                                                         /
-  /------------------------------------------------------------------------------------------*/
+
+  @SuppressWarnings("unchecked") public static JComponent attach_asis(JComponent e)
+  {
+    if (e instanceof stl_Callback) // finalized types at compile time are so fucking stupid
+      _1const.COLOR_ENQ.add((stl_Listener< struct_Pair< Color, Boolean > >) e);
+    return e;
+  }
 
   public static final class CPick_GenericDisp
       extends JPanel

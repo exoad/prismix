@@ -106,6 +106,8 @@ public class jm_Prismix
         });
     val.put_("dark_mode", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Use dark mode or light mode for the UI mode (true = light else dark)" });
+    val.put_("developer_buttons", parse_Bool, new Object[] { Bool, "false", type_Bool,
+        "Add a few buttons in the top right for managing garbage collection and refresh the UI." });
     use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property);
 
     /*-------------------------------------------------------------------------------------- /
@@ -142,10 +144,11 @@ public class jm_Prismix
       UIManager.put("TabbedPane.showTabSeparators", true);
 
       for (Font f : new Font[] {
-          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Bold.ttf")).deriveFont(13.5F),
-          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-BoldItalic.ttf")).deriveFont(13.5F),
-          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Italic.ttf")).deriveFont(13.5F),
-          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Regular.ttf")).deriveFont(13.5F)
+          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Bold.ttf")).deriveFont(14F),
+          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-BoldItalic.ttf"))
+              .deriveFont(14F),
+          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Italic.ttf")).deriveFont(14F),
+          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Regular.ttf")).deriveFont(14F)
       })
       {
         Enumeration< ? > keys = UIManager.getDefaults().keys();

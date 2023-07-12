@@ -1,7 +1,6 @@
 package com.jackmeng.prismix.test;
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -57,21 +56,24 @@ public class test_ColorWheel extends JPanel
     final Graphics2D g2d = (Graphics2D) g.create();
     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-    for (int angle = 0; angle < 360; angle++)
+    final int numColors = 360; // Number of colors in the rainbow
+    final double angleIncrement = 360.0 / numColors;
+
+    for (int i = 0; i < numColors; i++)
     {
-      final float hue = (float) angle / 360;
-      g2d.setColor(Color.getHSBColor(hue, 1.0f, 1.0f));
-      final double theta = Math.toRadians(angle);
+      final float saturation = (float) i / numColors;
+      g2d.setColor(Color.getHSBColor(0.0f, saturation, 1.0f));
+      final double theta = Math.toRadians(i * angleIncrement);
       final double x = width / 2D + radius * Math.cos(theta);
       final double y = height / 2D + radius * Math.sin(theta);
-      g2d.draw(new Ellipse2D.Double(x, y, 1, 1));
+      g2d.fill(new Ellipse2D.Double(x, y, 8, 8));
     }
 
-    g2d.setColor(this.selectedColor);
-    g2d.setStroke(new BasicStroke(2.0f));
-    g2d.drawOval(width / 2 - 10, height / 2 - 10, 20, 20);
+    g2d.setColor(Color.WHITE); // Set the center color as white
+    g2d.fillOval(width / 2 - radius, height / 2 - radius, radius * 2, radius * 2);
 
     g2d.dispose();
+
   }
 
   public static void main(final String[] args)
