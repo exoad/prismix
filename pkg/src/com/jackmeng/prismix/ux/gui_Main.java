@@ -63,7 +63,8 @@ public final class gui_Main
   @Override public void run()
   {
     super.run();
-    deploy_notif("<html>^w^</html>", ux_Theme._theme.fg_awt());
+    deploy_notif("<html><strong>Took: </strong>" + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms</html>",
+        ux_Theme._theme.fg_awt());
   }
 
 }
