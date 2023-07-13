@@ -5,26 +5,19 @@ package com.jackmeng.prismix.ux;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.OverlayLayout;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
@@ -36,8 +29,9 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Colors;
 
-import static com.jackmeng.prismix.jm_Prismix.*;
-
+/**
+ * @author Jack Meng (exoad)
+ */
 public final class gui_Lua
 		extends
 		gui
@@ -52,7 +46,9 @@ public final class gui_Lua
 	}
 
 	private final JEditorPane output;
-	private final JPanel notifs;
+	/*---------------------------- /
+	/ private final JPanel notifs; /
+	/-----------------------------*/
 
 	public gui_Lua()
 	{
@@ -122,96 +118,83 @@ public final class gui_Lua
 
 		getContentPane().add(master_jsp);
 
-		notifs = new JPanel();
-		notifs.setOpaque(false);
-		notifs.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-		notifs.setBounds(0, 0, notifs.getPreferredSize().width, notifs.getPreferredSize().height);
-
-
-		JLayeredPane wrapper1 = new JLayeredPane();
-		wrapper1.setLayout(new OverlayLayout(wrapper1));
-		wrapper1.add(notifs, 2, 1);
-		wrapper1.add(master_jsp, 1, 2);
-
-		add(wrapper1);
-
+		attach_vnotifier(getContentPane());
+		/*----------------------------------------------------------------------------------- /
+		/                                                                                     /
+		/ notifs = new JPanel();                                                              /
+		/ notifs.setOpaque(false);                                                            /
+		/ notifs.setLayout(new ux_WrapLayout(FlowLayout.CENTER, 5, 10));                      /
+		/ notifs.setBounds(0, getPreferredSize().width - 300, getPreferredSize().width, 200); /
+		/                                                                                     /
+		/ JLayeredPane wrapper1 = new JLayeredPane();                                         /
+		/ wrapper1.setLayout(new OverlayLayout(wrapper1));                                    /
+		/ wrapper1.add(notifs, 2, 1);                                                         /
+		/ wrapper1.add(getContentPane(), 1, 2);                                               /
+		/                                                                                     /
+		/ setLayeredPane(wrapper1);                                                           /
+		/------------------------------------------------------------------------------------*/
 	}
 
 	void out(String content) // content preferably should be formatted with html for best viewing
 	{
+
 		if (content.equalsIgnoreCase("clear"))
+		{
 			output.setText("<html><body></body></html>");
+			deploy_notif("<html><strong>Cleared</strong></html>", stl_Colors.hexToRGB(ux_Theme._theme.get("yellow")));
+		}
 		else
 		{
 			boolean erred = false;
+			String message = "";
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			try
 			{
-
 				Globals globals = JsePlatform.standardGlobals();
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				globals.STDOUT = new PrintStream(baos, true, "utf-8");
 				LuaValue outp = globals.load(content);
 				outp.call();
-				String r = new String(baos.toByteArray(), StandardCharsets.UTF_8);
 
-				((HTMLEditorKit) output.getEditorKit()).insertHTML((HTMLDocument) output.getDocument(),
-						output.getDocument().getLength(),
-						r, 0, 0, null);
 			} catch (Throwable e)
 			{
 				if (!(e instanceof LuaError))
 					e.printStackTrace();
 				else
+				{
 					erred = true;
+					message = ((LuaError) e).getMessage();
+				}
 			}
-			if (erred)
-				deploy("<html><strong>Error!</strong></html>", stl_Colors.hexToRGB(ux_Theme._theme.get("rose")));
-			else
-				deploy("<html><strong>OK</strong></html>", stl_Colors.hexToRGB(ux_Theme._theme.get("mint")));
+
+			try
+			{
+				float[] a = extend_stl_Colors
+						.binary_fg_decider(extend_stl_Colors.stripHex(ux_Theme._theme.get(erred ? "red" : "teal")));
+				((HTMLEditorKit) output.getEditorKit()).insertHTML((HTMLDocument) output.getDocument(),
+						output.getDocument().getLength(),
+						"""
+									<p style="color:%s;background-color:%s">
+									<strong>
+										&gt;&gt;&gt; %s %s
+									</strong>
+									</p>
+									<br />
+									%s
+								""".formatted(extend_stl_Colors.RGBToHex((int) a[0], (int) a[1], (int) a[2]),
+								ux_Theme._theme.get(erred ? "red" : "teal"),
+								content.replace("\n", "<br>"), erred ? "<pre>  ^^^^^ ERROR!</pre>" : "",
+								erred ? "[Error]: <strong>" + message + "</strong>"
+										: new String(baos.toByteArray(), StandardCharsets.UTF_8)),
+						0, 0, null);
+			} catch (BadLocationException | IOException e)
+			{
+				// shitty error wont occur unless we fucked up the gui layout (not my fault)
+				e.printStackTrace();
+			}
+			deploy_notif("<html><strong>" + (erred ? "Error!" : "Ok") + "</strong></html>",
+					stl_Colors.hexToRGB(ux_Theme._theme.get(erred ? "red" : "teal")));
 
 		}
-
-	}
-
-	void deploy(String content, Color c)
-	{
-
-		JLabel jl = new JLabel(content);
-		jl.setHorizontalAlignment(SwingConstants.CENTER);
-		jl.setVerticalAlignment(SwingConstants.CENTER);
-		jl.setForeground(
-				Color.white);
-		ui_Faded faded = new ui_Faded(0.1F, 2300L, 70L) {
-			@Override public void paintComponent(Graphics g)
-			{
-
-				super.paintComponent(g);
-
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				g2.setColor(c);
-				g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10);
-
-				Graphics2D g2dLabel = (Graphics2D) g.create();
-				g2dLabel.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				jl.paintComponents(g2dLabel);
-				g2dLabel.dispose();
-			}
-		};
-
-		faded.setPreferredSize(new Dimension(jl.getPreferredSize().width + 64, jl.getPreferredSize().height + 10));
-		faded.setLayout(new BorderLayout());
-		faded.setBounds((getWidth() / 2) - (faded.getPreferredSize().width / 2), output.getHeight() - 40,
-				faded.getPreferredSize().width,
-				faded.getPreferredSize().height);
-		faded.setOpaque(true);
-		faded.revalidate();
-		notifs.add(faded);
-		SwingUtilities.invokeLater(faded);
-
-		debug(jl.isVisible());
-
-		log("GLUA", "Deployed notif: " + content + " @ " + faded.getX() + "," + faded.getY());
 	}
 
 	public String final_history() // should be used for like logging purposes especially logging to a file for

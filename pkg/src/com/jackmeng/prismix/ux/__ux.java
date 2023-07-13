@@ -71,7 +71,7 @@ public final class __ux
       e[i] = use_Maker.make(r[i].getName(), use_Maker.make(r[i]));
     this.mainui.registerToBar("Color Attributes", use_Maker.make(e));
     this.mainui.registerToBar("Prismix",
-        new JMenuItem[] { stx_Helper.make_simple("Config", () -> configui.setVisible(true)),
+        new JMenuItem[] { stx_Helper.make_simple("Config", configui),
             stx_Helper.make_simple("Licenses",
                 () -> gui_XInf.force_invoke(
                     use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_legals.html")).replace("\n", "<br>"),

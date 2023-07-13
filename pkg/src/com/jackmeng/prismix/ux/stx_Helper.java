@@ -77,7 +77,6 @@ public final class stx_Helper
     return item;
   }
 
-
   public static ui_Tag_Paletted history_palette_btn(Color clr, int w, int h)
   {
     ui_Tag_Paletted r = new ui_Tag_Paletted(clr, true, true);

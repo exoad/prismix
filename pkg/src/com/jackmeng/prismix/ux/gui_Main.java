@@ -50,12 +50,20 @@ public final class gui_Main
     /   });                                                                                                  /
     / }                                                                                                      /
     /-------------------------------------------------------------------------------------------------------*/
+
+    attach_vnotifier(getContentPane());
   }
 
   public void registerToBar(final String name, final JMenuItem... item)
   {
     this.bar.add(use_Maker.makeJMenu(name, item));
     this.revalidate();
+  }
+
+  @Override public void run()
+  {
+    super.run();
+    deploy_notif("<html>^w^</html>", ux_Theme._theme.fg_awt());
   }
 
 }
