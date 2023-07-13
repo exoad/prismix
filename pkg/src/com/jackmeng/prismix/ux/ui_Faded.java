@@ -71,7 +71,7 @@ public class ui_Faded
 	{
 		timer = new Timer();
 
-		timer.schedule(new TimerTask() {
+		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override public void run()
 			{
 				alpha -= fadeStep;

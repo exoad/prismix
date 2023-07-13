@@ -37,24 +37,29 @@ public final class _lua
     return JsePlatform.standardGlobals();
   }
 
+  public static Globals d_G()
+  {
+    return JsePlatform.debugGlobals();
+  }
+
   public static String exec(String luacode)
   {
-    return G().load(luacode).call().toString();
+    return d_G().load(luacode).call().toString();
   }
 
   public static String exec(String luacode, LuaValue e)
   {
-    return G().load(luacode).call(e).toString();
+    return d_G().load(luacode).call(e).toString();
   }
 
   public static String exec(String luacode, LuaValue e, LuaValue e1)
   {
-    return G().load(luacode).call(e, e1).toString();
+    return d_G().load(luacode).call(e, e1).toString();
   }
 
   public static String exec(String luacode, LuaValue e, LuaValue e1, LuaValue e2)
   {
-    return G().load(luacode).call(e, e1, e2).toString();
+    return d_G().load(luacode).call(e, e1, e2).toString();
   }
 
   public static void simple_load(String locale)

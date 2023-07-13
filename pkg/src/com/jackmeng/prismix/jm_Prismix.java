@@ -141,7 +141,7 @@ public class jm_Prismix
           .setLookAndFeel(
               Boolean.TRUE.equals((Boolean) _1const.val.parse("dark_mode").get()) ? new FlatHighContrastIJTheme()
                   : new FlatGrayIJTheme());
-      UIManager.put("ScrollBar.background", null);
+      UIManager.put("ScrollBar.background", extend_stl_Colors.awt_empty());
       UIManager.put("ScrollBar.showButtons", false);
       UIManager.put("JScrollPane.smoothScrolling", true);
       UIManager.put("SplitPaneDivider.gripDotCount", 4);
@@ -247,9 +247,9 @@ public class jm_Prismix
 
   static final int MAX_LOG_NAME_LEN = 13;
 
-  public static void debug(String content)
+  public static void debug(Object content)
   {
-    for (String str : content.split("\n"))
+    for (String str : content.toString().split("\n"))
     {
       IO.println(
           jm_Ansi.make().bold().toString("| ") + jm_Ansi.make().red().white().toString("DEBUG")
