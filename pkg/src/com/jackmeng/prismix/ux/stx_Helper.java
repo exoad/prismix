@@ -6,8 +6,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.OverlayLayout;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
@@ -15,6 +17,7 @@ import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 
 public final class stx_Helper
@@ -50,6 +53,23 @@ public final class stx_Helper
   {
     t.setBorder(BorderFactory.createLineBorder(Color.magenta));
     return t;
+  }
+
+  public static JComponent overlay_db(JComponent r)
+  {
+    return stack(new ui_Whoops().of(r), r);
+  }
+
+  public static JComponent stack(JComponent top, JComponent bottom)
+  {
+    JPanel main = new JPanel();
+    main.setLayout(new OverlayLayout(main));
+    main.setPreferredSize(
+        top.getWidth() * top.getHeight() > bottom.getWidth() * bottom.getHeight() ? top.getPreferredSize()
+            : bottom.getPreferredSize());
+    main.add(top);
+    main.add(bottom);
+    return main;
   }
 
   public static Border bottom_container_AttributesBorder(final String name)

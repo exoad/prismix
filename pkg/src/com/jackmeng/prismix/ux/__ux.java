@@ -4,13 +4,22 @@ package com.jackmeng.prismix.ux;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLayeredPane;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
 import com.jackmeng.ansicolors.jm_Ansi;
@@ -89,6 +98,68 @@ public final class __ux
     log("UX", jm_Ansi.make().green().toString("Force GUI redo DONE"));
   }
 
+  private void overlayComponents(Container container)
+  {
+    for (Component component : container.getComponents())
+    {
+      if (component instanceof Component)
+      {
+        if (!(component instanceof JPanel || component instanceof JLayeredPane || component instanceof JRootPane
+            || component instanceof JMenuBar || component instanceof JSplitPane))
+        {
+          try
+          {
+            Component child = (Component) component;
+            log("DEBUG_GUI", "Added: " + component.getClass().getCanonicalName());
+            Container parent = child.getParent();
+
+            int index = parent.getComponentZOrder(child);
+
+            ui_Whoops er = new ui_Whoops(extend_stl_Colors.awt_random_Color(), Color.black, 20, 4, true)
+                .with_size(child.getPreferredSize());
+
+            parent.add(er);
+            parent.setComponentZOrder(child, index + 1);
+            parent.setComponentZOrder(er, 0);
+            parent.revalidate();
+            parent.repaint();
+          } catch (Exception ignored)
+          {
+          }
+        }
+      }
+
+      if (component instanceof JTabbedPane tabbedPane)
+      {
+        for (int i = 0; i < tabbedPane.getTabCount(); i++)
+        {
+          Component tabComponent = tabbedPane.getComponentAt(i);
+          if (tabComponent instanceof Container)
+          {
+            overlayComponents((Container) tabComponent); // Recursive call to process tab content
+          }
+        }
+      } else if (component instanceof JScrollPane scrollPane)
+      {
+        JViewport viewport = scrollPane.getViewport();
+        if (viewport != null)
+        {
+          Component viewComponent = viewport.getView();
+          if (viewComponent instanceof Container)
+          {
+            overlayComponents((Container) viewComponent); // Recursive call to process scroll pane view content
+          }
+        }
+      }
+
+      if (component instanceof Container)
+      {
+        overlayComponents((Container) component); // Recursive call to process child components
+      }
+
+    }
+  }
+
   @Override public void run()
   {
     log("UX", "Dispatched a run event for the current UI creation! Hoping this goes well...");
@@ -97,13 +168,13 @@ public final class __ux
       this.mainui.run();
       this.childui.top.redo();
       _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), true)); // moved this line
-                                                                                                     // out of
-                                                                                                     // gui_Container to
-                                                                                                     // avoid unequal
-                                                                                                     // initialization
-                                                                                                     // of certain
-                                                                                                     // components for
-                                                                                                     // listening
+                                                                                                    // out of
+                                                                                                    // gui_Container to
+                                                                                                    // avoid unequal
+                                                                                                    // initialization
+                                                                                                    // of certain
+                                                                                                    // components for
+                                                                                                    // listening
     });
     /*-------------------------------------------------------------------- /
     / ux._ux.getMainUI().addMouseMotionListener(new MouseMotionAdapter() { /
@@ -117,42 +188,7 @@ public final class __ux
 
     if ("true".equalsIgnoreCase(_1const.val.get_value("debug_gui")))
     {
-      new Thread(() -> {
-        final AtomicBoolean started = new AtomicBoolean(true);
-        while (true)
-        {
-          if (!started.get())
-            started.set(true);
-          stl_SwingHelper.listComponents_OfContainer(this.mainui).forEach(x -> {
-            log("DEBUG", jm_Ansi.make().cyan_bg().toString("Setting DEBUG border for: " + x.hashCode()));
-            try
-            {
-              if (x instanceof JComponent)
-                ((JComponent) x).setBorder(!started.get() ? (((JComponent) x).getBorder() == null
-                    ? BorderFactory
-                        .createLineBorder(
-                            new Color((float) Math.random(), (float) Math.random(), (float) Math.random()))
-                    : BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                            new Color((float) Math.random(), (float) Math.random(), (float) Math.random())),
-                        ((JComponent) x).getBorder()))
-                    : BorderFactory
-                        .createLineBorder(
-                            new Color((float) Math.random(), (float) Math.random(), (float) Math.random())));
-            } catch (final Exception t)
-            {
-              // IGNORE, probably some .setBorder() not supported bs
-            }
-          });
-          try
-          {
-            Thread.sleep(1500L);
-          } catch (final InterruptedException e)
-          {
-            // IGNORE var "e"
-          }
-        }
-      }).start();
+      overlayComponents(this.mainui);
 
     }
   }

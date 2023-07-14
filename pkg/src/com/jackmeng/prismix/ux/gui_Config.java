@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
@@ -34,7 +35,6 @@ public final class gui_Config
     extends
     gui
 {
-
   private JPanel pane;
 
   public gui_Config()
@@ -44,7 +44,6 @@ public final class gui_Config
     setPreferredSize(new Dimension(710, 830));
 
     pane = new JPanel();
-    pane.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
     pane.setPreferredSize(getPreferredSize());
     pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
     JLabel title = new JLabel();
@@ -89,7 +88,9 @@ public final class gui_Config
           GridBagConstraints gbc = new GridBagConstraints();
           gbc.anchor = GridBagConstraints.CENTER;
           temp_wrap.add(toggle, gbc);
-          wrapper.add(temp_wrap, BorderLayout.EAST);
+          wrapper.add(stx_Helper
+              .stack(new ui_Whoops(Color.yellow, null, 20, 6, true).with_size(new Dimension(100, 100)), temp_wrap),
+              BorderLayout.EAST);
           break;
         case stx_Map.StrBound:
           JComboBox< String > list = new JComboBox<>();
@@ -106,22 +107,34 @@ public final class gui_Config
           break;
         case stx_Map.IntBound:
           JSlider slider = new JSlider(SwingConstants.HORIZONTAL);
-
           break;
         case stx_Map.Any:
+          JTextArea jt = new JTextArea(1, 0);
+          jt.setText(_1const.val.parse(key).get().toString());
+          JPanel temp_wrap3 = new JPanel();
+          temp_wrap3.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+          temp_wrap3.setLayout(new GridBagLayout());
+          GridBagConstraints gbc3 = new GridBagConstraints();
+          gbc3.anchor = GridBagConstraints.CENTER;
+          temp_wrap3.add(new ui_Whoops(Color.yellow, null, 20, 6, true).with_size(new Dimension(100, 100)), gbc3); // random
+                                                                                                                   // size
+                                                                                                                   // constraints
+                                                                                                                   // who
+                                                                                                                   // gives
+                                                                                                                   // a
+                                                                                                                   // fuck
+          wrapper.add(temp_wrap3, BorderLayout.EAST);
       }
 
       pane.add(wrapper);
       pane.add(Box.createVerticalStrut(10));
       pane.add(new ui_Line(ux_Theme._theme.get_awt("rose"), 4, true, 2));
     });
-    pane.add(Box.createVerticalGlue());
     pane.setPreferredSize(stx_Helper.from_h(getPreferredSize().height));
 
     JScrollPane jsp = new JScrollPane(pane);
-    jsp.setBorder(BorderFactory.createEmptyBorder());
     jsp.setPreferredSize(pane.getPreferredSize());
-
+    pane.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
     jsp.getVerticalScrollBar().setBackground(Color.black);
     jsp.getVerticalScrollBar().setUnitIncrement(7);
     jsp.getHorizontalScrollBar().setBackground(Color.black);

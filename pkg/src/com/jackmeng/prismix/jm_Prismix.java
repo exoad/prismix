@@ -115,6 +115,8 @@ public class jm_Prismix
         "Add a few buttons in the top right for managing garbage collection and refresh the UI." });
     val.put_("use_theme_based_tooling", parse_Bool, new Object[] { Bool, "false", type_Bool,
         "Makes certain color portrayals based on the theme instead of a de facto representation. For example \"RED\" in RGB can be hued for a slider if this is set to true." });
+    val.put_("default_smile_emoticon", parse_Any, new Object[] { Any, "^w^", new String[0],
+        "Default emoticon to use for displaying things :3" });
     use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property);
 
     /*-------------------------------------------------------------------------------------- /
@@ -137,10 +139,9 @@ public class jm_Prismix
       /*-------------------------------------------------------------------------------------------------------------- /
       / UIManager.setLookAndFeel(_1const.DARK_MODE ? new FlatHighContrastIJTheme() : new FlatGrayIJTheme()); // or FlatGratIJTheme /
       /---------------------------------------------------------------------------------------------------------------*/
-      UIManager
-          .setLookAndFeel(
-              Boolean.TRUE.equals((Boolean) _1const.val.parse("dark_mode").get()) ? new FlatHighContrastIJTheme()
-                  : new FlatGrayIJTheme());
+      UIManager.setLookAndFeel(
+          Boolean.TRUE.equals((Boolean) _1const.val.parse("dark_mode").get()) ? new FlatHighContrastIJTheme()
+              : new FlatGrayIJTheme());
       UIManager.put("ScrollBar.background", extend_stl_Colors.awt_empty());
       UIManager.put("ScrollBar.showButtons", false);
       UIManager.put("JScrollPane.smoothScrolling", true);
@@ -155,8 +156,8 @@ public class jm_Prismix
           Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-BoldItalic.ttf"))
               .deriveFont(14F),
           Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Italic.ttf")).deriveFont(14F),
-          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Regular.ttf")).deriveFont(14F)
-      })
+          Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraSans-Regular.ttf"))
+              .deriveFont(14F) })
       {
         Enumeration< ? > keys = UIManager.getDefaults().keys();
         while (keys.hasMoreElements())
