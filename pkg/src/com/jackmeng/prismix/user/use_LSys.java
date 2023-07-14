@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -23,6 +25,8 @@ import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.ux.stx_Map;
 import com.jackmeng.stl.stl_In;
+
+import lombok.NonNull;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
@@ -55,6 +59,9 @@ public final class use_LSys
     boolean ran = false;
     if (!f.exists() && !f.isDirectory())
       ran = f.mkdir();
+    File f2 = new File(locale + "/state");
+    if (!f2.exists() && !f2.isDirectory())
+      ran = f2.mkdir();
     log("L_SYS",
         "Initted LSYS with res: "
             + (ran ? jm_Ansi.make().green_bg().white().toString("OK") : jm_Ansi.make().red_bg().white().toString("ERR"))
@@ -79,11 +86,6 @@ public final class use_LSys
       e.printStackTrace();
     }
     return sb.toString();
-  }
-
-  public static void write(Object r)
-  {
-
   }
 
   public static void write(String args, Object name, boolean overwrite)
@@ -121,6 +123,41 @@ public final class use_LSys
     options.setAllowUnicode(true);
     options.setPrettyFlow(true);
     options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+  }
+
+  public static void write_obj(@NonNull String name, @NonNull Object r)
+  {
+    File f = new File(locale + "/" + name);
+    if (f.exists() || f.isFile())
+      f.delete();
+    try (FileOutputStream fos = new FileOutputStream(f); ObjectOutputStream oos = new ObjectOutputStream(fos))
+    {
+      f.createNewFile();
+      oos.writeObject(r);
+      oos.flush();
+    } catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public static Object read_obj(@NonNull String name, Object _default)
+  {
+    File f = new File(locale + "/" + name);
+    if (f.exists() || f.isFile())
+      f.delete();
+    Object temp = null;
+    try (FileInputStream fis = new FileInputStream(f); ObjectInputStream ois = new ObjectInputStream(fis))
+    {
+      temp = ois.readObject();
+    } catch (IOException | ClassNotFoundException e)
+    {
+      e.printStackTrace();
+      log("L_SYS",
+          jm_Ansi.make().red_bg().white().toString("Failed to read: ") + name + " | Reason: " + e.getMessage());
+      return _default;
+    }
+    return temp == null ? _default : temp;
   }
 
   public static void write(stx_Map map)

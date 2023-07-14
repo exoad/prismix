@@ -18,9 +18,12 @@ import javax.swing.SwingUtilities;
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
+
+import lombok.Getter;
 
 public class ui_Cntnr_BottomPane
 		extends JSplitPane
@@ -30,7 +33,7 @@ public class ui_Cntnr_BottomPane
 
 	// we don't care about implementation for History as a palette component
 	JPanel listHistory, palette;
-	HashSet< String > history;
+	@Getter HashSet< String > history;
 
 	static int HISTORY_BUTTON_HEIGHT = 35, HISTORY_BUTTON_WIDTH = 115;
 
@@ -60,6 +63,12 @@ public class ui_Cntnr_BottomPane
 		this.setLeftComponent(history_JSP);
 
 		_1const.COLOR_ENQ.add(this);
+
+		_1const.shutdown_hook(() -> {
+			log("BOT_G_HISTORY", "Finalizing and saving the history...");
+			use_LSys.write_obj("state/palette_history.pal", getHistory());
+		});
+
 	}
 
 	public synchronized void clear_history() // ! EXPORT

@@ -19,15 +19,19 @@ import javax.swing.DefaultButtonModel;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_ListenerPool;
 
+import lombok.Getter;
+import lombok.NonNull;
+
 public class ui_FatSlider
 		extends AbstractButton
 {
-	private final String trueString, falseString;
-	private final Color trueColor, falseColor, thumbColor;
-	private final int borderArc, thumbWidth, shadowDrawDist, thumbBumpPad;
-	private final transient stl_ListenerPool< Boolean > listenerPool;
+	@Getter private String trueString, falseString;
+	@Getter private final Color trueColor, falseColor, thumbColor;
+	@Getter private final int borderArc, thumbWidth, shadowDrawDist, thumbBumpPad;
+private final transient stl_ListenerPool< Boolean > listenerPool;
 
-	public ui_FatSlider(String trueString, String falseString, Color trueColor, Color falseColor, Color thumbColor,
+	public ui_FatSlider(@NonNull String trueString, @NonNull String falseString, @NonNull Color trueColor,
+			@NonNull Color falseColor, @NonNull Color thumbColor,
 			boolean initVal, int borderArc, int thumbWidth, int shadowDrawDist, int thumbBumpPad) // thumb
 																																														// is on
 																																														// right
@@ -104,7 +108,7 @@ public class ui_FatSlider
 		Composite originalComposite = g.getComposite();
 		g.setComposite(shadowComposite);
 
-		int height = getHeight() % 2 == 0 ? 2 : 3, end_height = getHeight() - (getHeight() % 2 == 0 ? 5: 4);
+		int height = getHeight() % 2 == 0 ? 2 : 3, end_height = getHeight() - (getHeight() % 2 == 0 ? 5 : 4);
 		if (isSelected()) // right shadow
 		{
 			g.setColor(Color.BLACK);

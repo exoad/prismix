@@ -11,12 +11,14 @@ import java.awt.RenderingHints;
 import javax.swing.JComponent;
 import javax.swing.SwingContainer;
 
+import lombok.Getter;
+
 @SwingContainer public final class ui_Line
 		extends JComponent
 {
-	private final Color lineColor;
-	private final int edgeOffset, thickness;
-	private final boolean normalizeAA;
+	@Getter private final Color lineColor;
+	@Getter private final int edgeOffset, thickness;
+	@Getter private final boolean normalizeAA;
 
 	public ui_Line(Color lineColor, int edgeOffset, boolean normalizeAA, int thickness)
 	{
@@ -24,7 +26,6 @@ import javax.swing.SwingContainer;
 		this.edgeOffset = edgeOffset;
 		this.thickness = thickness;
 		this.normalizeAA = normalizeAA;
-
 	}
 
 	@Override protected void paintComponent(Graphics g)

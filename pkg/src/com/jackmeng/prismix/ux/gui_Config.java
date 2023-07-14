@@ -8,10 +8,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.text.MessageFormat;
 
 import javax.swing.BorderFactory;
@@ -27,7 +25,6 @@ import javax.swing.WindowConstants;
 
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.jm_Prismix;
-import com.jackmeng.prismix.use_Maker;
 import com.jackmeng.prismix.uwu;
 import com.jackmeng.prismix.user.use_LSys;
 
@@ -84,6 +81,10 @@ public final class gui_Config
           JPanel temp_wrap = new JPanel();
           temp_wrap.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
           temp_wrap.setLayout(new GridBagLayout());
+          _1const.val.add_change_listener(key, r -> {
+            toggle.setSelected((Boolean) _1const.val.parse(key).get());
+            return (Void) null;
+          });
           // took me too long lol
           GridBagConstraints gbc = new GridBagConstraints();
           gbc.anchor = GridBagConstraints.CENTER;
@@ -94,6 +95,7 @@ public final class gui_Config
           JComboBox< String > list = new JComboBox<>();
           for (String r : _1const.val.get_allowed(key))
             list.addItem(r);
+          list.setSelectedItem((String) _1const.val.parse(key).get());
           JPanel temp_wrap1 = new JPanel();
           temp_wrap1.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
           temp_wrap1.setLayout(new GridBagLayout());

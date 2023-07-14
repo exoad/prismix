@@ -5,13 +5,12 @@ package com.jackmeng.prismix.ux;
 import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
-public class ui_Faded
+public class ui_Faded_Ignored
 		extends
 		JPanel
 		implements
@@ -23,34 +22,17 @@ public class ui_Faded
 
 	private transient Timer timer;
 
-	public ui_Faded(float fadeStep, long initialDelay)
+	public ui_Faded_Ignored(float fadeStep, long initialDelay)
 	{
 		this(fadeStep, initialDelay, 50L);
 	}
 
-	public ui_Faded(float fadeStep, long initDelay, long delay_per_step)
+	public ui_Faded_Ignored(float fadeStep, long initDelay, long delay_per_step)
 	{
 		assert fadeStep >= 0F && fadeStep <= 1F;
 		this.fadeStep = fadeStep;
 		this.initialDelay = initDelay;
 		this.per_step = delay_per_step;
-		addMouseListener(new MouseAdapter() {
-			@Override public void mouseEntered(MouseEvent e)
-			{
-				if (timer != null)
-				{
-					alpha = 1.0F;
-					timer.cancel();
-					timer.purge();
-					repaint(10L);
-				}
-			}
-
-			@Override public void mouseExited(MouseEvent e)
-			{
-				run();
-			}
-		});
 	}
 
 
@@ -83,7 +65,7 @@ public class ui_Faded
 					timer.purge();
 					setVisible(false);
 					if (getParent() != null)
-						getParent().remove(ui_Faded.this);
+						getParent().remove(ui_Faded_Ignored.this);
 				}
 			}
 		}, initialDelay, per_step);

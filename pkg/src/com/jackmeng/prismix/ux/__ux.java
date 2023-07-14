@@ -96,7 +96,7 @@ public final class __ux
       this.childui.validate_size();
       this.mainui.run();
       this.childui.top.redo();
-      _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false)); // moved this line
+      _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), true)); // moved this line
                                                                                                      // out of
                                                                                                      // gui_Container to
                                                                                                      // avoid unequal

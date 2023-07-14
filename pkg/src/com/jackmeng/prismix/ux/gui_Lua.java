@@ -29,6 +29,9 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Colors;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author Jack Meng (exoad)
  */
@@ -45,7 +48,7 @@ public final class gui_Lua
 		return __instance;
 	}
 
-	private final JEditorPane output;
+	@Setter @Getter private JEditorPane output;
 	/*---------------------------- /
 	/ private final JPanel notifs; /
 	/-----------------------------*/
