@@ -19,6 +19,8 @@ Color palette generator and color picker for helping you with picking colors (I 
 
 **Running from Source**
 
+> **Warning** there are no direct compatibility with running from source!
+
 First read the specifications for environment requirements.
 
 Specifications:
@@ -41,7 +43,7 @@ To run this JAR, make sure you have the following environment requirements:
 
 **Using the prebuilt bundle**
 
-> Note: X86-64 only!
+> **Warning**: X86-64 only!
 
 This provides you with the necessary tools to run the program without worrying about setting up Java on your end. Just download, extract, and run `Prismix`.
 
