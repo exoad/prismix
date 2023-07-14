@@ -17,7 +17,6 @@ import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 
 public final class stx_Helper

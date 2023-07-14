@@ -7,10 +7,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -29,7 +26,6 @@ import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.stl.stl_Callback;
 import com.jackmeng.stl.stl_Struct;
-import com.jackmeng.stl.stl_SwingHelper;
 import com.jackmeng.stl.types.Null_t;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
