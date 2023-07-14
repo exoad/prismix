@@ -4,7 +4,10 @@ package com.jackmeng.prismix;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
@@ -186,6 +189,46 @@ public final class use_Maker
       t[x] = t[x - 1] + start;
     return t;
   }
+
+  	public static List< String > fake_stack_trace(String exceptionName, int numTraces)
+	{
+		List< String > stackTraces = new ArrayList<>();
+
+		for (int i = 0; i < numTraces; i++)
+		{
+			StringBuilder stackTrace = new StringBuilder(exceptionName + ": ");
+
+			int numFrames = new Random().nextInt(10) + 1;
+			for (int j = 0; j < numFrames; j++)
+			{
+				String functionName = fake_ste(5, 10);
+				String moduleName = fake_ste(8, 15);
+				int lineNumber = new Random().nextInt(9999) + 1;
+
+				stackTrace.append("\tat ").append(functionName).append("(").append(moduleName).append(".java:")
+						.append(lineNumber).append(")\n");
+			}
+
+			stackTraces.add(stackTrace.toString());
+		}
+
+		return stackTraces;
+	}
+
+	private static String fake_ste(int minLength, int maxLength)
+	{
+		int length = _1const.RNG.nextInt(maxLength - minLength + 1) + minLength;
+		StringBuilder name = new StringBuilder();
+
+		for (int i = 0; i < length; i++)
+		{
+			char randomChar = (char) (_1const.RNG.nextInt(26) + 'a');
+			name.append(randomChar);
+		}
+
+		return name.toString();
+	}
+
 
   public static stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > > make(final String name,
       final stl_Callback< Boolean, Null_t > callback)

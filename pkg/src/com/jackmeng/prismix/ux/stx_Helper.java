@@ -36,6 +36,22 @@ public final class stx_Helper
     return t;
   }
 
+  public static Dimension from_h(int height)
+  {
+    return new Dimension(0, height);
+  }
+
+  public static Dimension from_w(int width)
+  {
+    return new Dimension(width, 0);
+  }
+
+  public static JComponent debug_(JComponent t)
+  {
+    t.setBorder(BorderFactory.createLineBorder(Color.magenta));
+    return t;
+  }
+
   public static Border bottom_container_AttributesBorder(final String name)
   {
     return BorderFactory.createTitledBorder(

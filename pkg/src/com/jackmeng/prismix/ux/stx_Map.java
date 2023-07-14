@@ -1,17 +1,17 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
-package com.jackmeng.prismix.user;
+package com.jackmeng.prismix.ux;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.uwu;
-import com.jackmeng.prismix.ux.gui_XErr;
 import com.jackmeng.prismix.ux.gui_XErr.Err_CloseState;
 import com.jackmeng.stl.stl_AnsiColors;
 import com.jackmeng.stl.stl_AnsiMake;
@@ -23,7 +23,9 @@ import com.jackmeng.stl.stl_Struct.struct_Pair;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
-public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_Callback< ?, String >, Object[] > >
+public final class stx_Map
+    extends
+    HashMap< String, stl_Struct.struct_Pair< stl_Callback< ?, String >, Object[] > >
 {
   public static final String[] type_Bool = new String[] { "true", "false" };
 
@@ -75,12 +77,12 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
   // this is for listening in on change listening for a specific property name
   private final transient HashMap< String, stl_ListenerPool< String > > listeners;
 
-  public use_Map()
+  public stx_Map()
   {
     this(_1const.RNG.nextLong(4000) + "", "");
   }
 
-  public use_Map(String name, String prefix)
+  public stx_Map(String name, String prefix)
   {
     super();
     this.name = name;
@@ -161,6 +163,26 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
     else
       log("MAP_REGISTRY", "{2}" + jm_Ansi.make().red_bg().white()
           .toString("Was unable to find the requested key: " + keyName + " for this map: " + name));
+  }
+
+  public boolean has_change_listeners(String keyName)
+  {
+    return listeners.containsKey(keyName);
+  }
+
+  public int change_listeners(String keyName)
+  {
+    return listeners.size();
+  }
+
+  public String get_description(String key)
+  {
+    return get(key).second[3].toString();
+  }
+
+  public Object[] get_obj(String key)
+  {
+    return get(key).second;
   }
 
   /**
@@ -356,6 +378,16 @@ public final class use_Map extends HashMap< String, stl_Struct.struct_Pair< stl_
             + " for "
             + Arrays.toString((String[]) get(key).second[2]) + " descriptor: " + ((String) get(key).second[3]) + "\n"));
     return sb.toString();
+  }
+
+  public void _foreach(stx_TriConsumer< String, String, String > consumer)
+  {
+    forEach((key, value) -> consumer.accept(key, get_value(key), get_type(key)));
+  }
+
+  public void _foreach(BiConsumer< String, String > consumer)
+  {
+    forEach((key, value) -> consumer.accept(key, get_value(key)));
   }
 
   public static String normalize_key(String key)

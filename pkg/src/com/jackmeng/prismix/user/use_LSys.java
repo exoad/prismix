@@ -21,6 +21,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
+import com.jackmeng.prismix.ux.stx_Map;
 import com.jackmeng.stl.stl_In;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
@@ -122,7 +123,7 @@ public final class use_LSys
     options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
   }
 
-  public static void write(use_Map map)
+  public static void write(stx_Map map)
   {
     File f = new File(locale + "/" + map.name.replace("\\s+", "%") + ".yml");
 

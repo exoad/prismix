@@ -47,7 +47,7 @@ public final class gui_XInf
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		JPanel pane = new JPanel();
 		pane.setBorder(BorderFactory.createEmptyBorder());
-		pane.setPreferredSize(new Dimension(450, 350));
+		pane.setPreferredSize(new Dimension(0, 350));
 		pane.setLayout(new BorderLayout());
 
 		JEditorPane jep = new JEditorPane();

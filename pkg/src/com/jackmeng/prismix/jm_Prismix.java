@@ -35,7 +35,7 @@ import com.jackmeng.stl.stl_Str;
 import com.jackmeng.stl.stl_Wrap;
 
 import static com.jackmeng.prismix._1const.val;
-import static com.jackmeng.prismix.user.use_Map.*;
+import static com.jackmeng.prismix.ux.stx_Map.*;
 
 /**
  * Color Palette Program Entry Point Class

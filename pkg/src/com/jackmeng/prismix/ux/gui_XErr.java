@@ -55,7 +55,7 @@ public final class gui_XErr
 		setDefaultCloseOperation(closeState == Err_CloseState.EXIT ? WindowConstants.EXIT_ON_CLOSE : DISPOSE_ON_CLOSE);
 		JPanel pane = new JPanel();
 		pane.setBorder(BorderFactory.createEmptyBorder());
-		pane.setPreferredSize(new Dimension(450, 350));
+		pane.setPreferredSize(new Dimension(0, 350));
 		pane.setLayout(new BorderLayout());
 
 		JEditorPane jep = new JEditorPane();
@@ -72,6 +72,7 @@ public final class gui_XErr
 		JScrollPane jsp = new JScrollPane();
 		jsp.getVerticalScrollBar().setBackground(Color.black);
 		jsp.getHorizontalScrollBar().setBackground(Color.black);
+		jsp.getVerticalScrollBar().setUnitIncrement(8);
 		jsp.setOpaque(true);
 		jsp.setBackground(Color.black);
 		jsp.setViewportView(ui_LazyViewport.make(jep));

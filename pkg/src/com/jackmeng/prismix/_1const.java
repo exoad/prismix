@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.jackmeng.ansicolors.jm_Ansi;
-import com.jackmeng.prismix.user.use_Map;
+import com.jackmeng.prismix.ux.stx_Map;
 import com.jackmeng.stl.stl_AssetFetcher;
 import com.jackmeng.stl.stl_AssetFetcher.assetfetcher_FetcherStyle;
 import com.jackmeng.stl.stl_ListenerPool;
@@ -40,7 +40,7 @@ public final class _1const
 
   // property-name, {property_type, default_value, {valid_values},
   // description}
-  public static final use_Map val = new use_Map("com_jackmeng_prismix_CONFIG", "com.jackmeng.prismix.");
+  public static final stx_Map val = new stx_Map("com_jackmeng_prismix_CONFIG", "com.jackmeng.prismix.");
 
   public static final String PATH = new String(new byte[] { 0x65, 0x78, 0x6F, 0x61, 0x64 });
 

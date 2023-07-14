@@ -19,6 +19,8 @@ import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix._colors;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.stl.stl_Colors;
+
 import static com.jackmeng.prismix.jm_Prismix.*;
 
 public final class ux_Theme
@@ -146,6 +148,11 @@ public final class ux_Theme
     colorName = colorName.toLowerCase();
     return ux_Theme.colorCodes.containsKey(colorName) ? ux_Theme.colorCodes.get(colorName)
         : extend_stl_Colors.RGBToHex((int) this.dominant[0], (int) this.dominant[1], (int) this.dominant[2]);
+  }
+
+  public Color get_awt(String colorName)
+  {
+    return stl_Colors.hexToRGB(get(colorName));
   }
 
   public void dominant(final float[] dominant)
