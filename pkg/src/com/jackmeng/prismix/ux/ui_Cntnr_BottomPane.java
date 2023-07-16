@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.HashSet;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -19,6 +20,7 @@ import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.user.use_LSys;
+import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
@@ -37,7 +39,7 @@ public class ui_Cntnr_BottomPane
 
 	static int HISTORY_BUTTON_HEIGHT = 35, HISTORY_BUTTON_WIDTH = 115;
 
-	public ui_Cntnr_BottomPane()
+	@SuppressWarnings("unchecked") public ui_Cntnr_BottomPane()
 	{
 		this.setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 3));
 		this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
@@ -46,7 +48,6 @@ public class ui_Cntnr_BottomPane
 
 		this.listHistory = new JPanel();
 		this.listHistory.setLayout(new ux_WrapLayout(FlowLayout.LEADING));
-		this.history = new HashSet<>(20);
 		this.palette = new JPanel();
 		this.palette.setLayout(new BorderLayout());
 
@@ -69,6 +70,30 @@ public class ui_Cntnr_BottomPane
 			use_LSys.write_obj("state/palette_history.pal", getHistory());
 		});
 
+		this.history = (HashSet< String >) use_LSys.read_obj("state/palette_history.pal", new HashSet<>());
+
+		if (history.size() > 0)
+		{
+			AtomicLong i = new AtomicLong(0);
+
+			history.forEach(x -> {
+				ui_Tag_Paletted jb = stx_Helper.history_palette_btn(stl_Colors.hexToRGB(x), HISTORY_BUTTON_WIDTH,
+						HISTORY_BUTTON_HEIGHT);
+				jb.setName(x);
+				ux_Theme.based_set_rrect(jb);
+				listHistory.add(jb, 0);
+				i.set(i.get() + 1);
+			});
+
+			log("BOT_G_HISTORY", "Loaded " + i.getAcquire() + " history swatches from cold storage.");
+
+			SwingUtilities.invokeLater(() -> {
+				listHistory.revalidate();
+				listHistory.repaint(75L);
+			});
+		}
+		else log("BOT_G_HISTORY",
+				jm_Ansi.make().blue_bg().white().toString("Did not load from cold storage for historical swatches"));
 	}
 
 	public synchronized void clear_history() // ! EXPORT
@@ -115,6 +140,8 @@ public class ui_Cntnr_BottomPane
 			}
 
 			listHistory.add(jb, 0);
+
+			history.add(colorHex);
 
 			SwingUtilities.invokeLater(() -> {
 				listHistory.revalidate();

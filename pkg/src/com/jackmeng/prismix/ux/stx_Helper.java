@@ -17,6 +17,7 @@ import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 
 public final class stx_Helper
@@ -56,7 +57,9 @@ public final class stx_Helper
 
   public static JComponent overlay_db(JComponent r)
   {
-    return stack(new ui_Whoops().of(r), r);
+    return Boolean.TRUE.equals((Boolean) _1const.val.parse("block_dev_features").get())
+        ? stack(new ui_Whoops(20, 4).with_size(r.getSize()), r)
+        : r;
   }
 
   public static JComponent stack(JComponent top, JComponent bottom)

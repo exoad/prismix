@@ -89,7 +89,7 @@ public final class gui_Config
           gbc.anchor = GridBagConstraints.CENTER;
           temp_wrap.add(toggle, gbc);
           wrapper.add(stx_Helper
-              .stack(new ui_Whoops(Color.yellow, null, 20, 6, true).with_size(new Dimension(100, 100)), temp_wrap),
+              .overlay_db(temp_wrap),
               BorderLayout.EAST);
           break;
         case stx_Map.StrBound:
@@ -116,14 +116,14 @@ public final class gui_Config
           temp_wrap3.setLayout(new GridBagLayout());
           GridBagConstraints gbc3 = new GridBagConstraints();
           gbc3.anchor = GridBagConstraints.CENTER;
-          temp_wrap3.add(new ui_Whoops(Color.yellow, null, 20, 6, true).with_size(new Dimension(100, 100)), gbc3); // random
-                                                                                                                   // size
-                                                                                                                   // constraints
-                                                                                                                   // who
-                                                                                                                   // gives
-                                                                                                                   // a
-                                                                                                                   // fuck
-          wrapper.add(temp_wrap3, BorderLayout.EAST);
+          temp_wrap3.add(jt, gbc3); // random
+                                    // size
+                                    // constraints
+                                    // who
+                                    // gives
+                                    // a
+                                    // fuck
+          wrapper.add(stx_Helper.overlay_db(temp_wrap3), BorderLayout.EAST);
       }
 
       pane.add(wrapper);

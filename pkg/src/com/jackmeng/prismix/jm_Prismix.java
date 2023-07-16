@@ -117,6 +117,13 @@ public class jm_Prismix
         "Makes certain color portrayals based on the theme instead of a de facto representation. For example \"RED\" in RGB can be hued for a slider if this is set to true." });
     val.put_("default_smile_emoticon", parse_Any, new Object[] { Any, "^w^", new String[0],
         "Default emoticon to use for displaying things :3" });
+    val.put_("block_dev_features", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "Determines whether certain unstable/in development elements should be blocked by a yellow black stripe." });
+    /*--------------------------------------------------------------------------------------------------------------------- /
+    / val.put_("copy_color_format", parse_StrBound(new String[] { "hex", "rgba", "rgb", "cmyk", "hsv", "hsl" }, "hex"),     /
+    /     new Object[] { StrBound, "hex", new String[] { "hex", "rgba", "rgb", "cmyk", "hsv", "hsl" },                      /
+    /         "Determines whether certain unstable/in development elements should be blocked by a yellow black stripe." }); /
+    /----------------------------------------------------------------------------------------------------------------------*/
     use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property);
 
     /*-------------------------------------------------------------------------------------- /

@@ -3,9 +3,7 @@
 package com.jackmeng.prismix.test;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
-import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_ListenerPool;
 

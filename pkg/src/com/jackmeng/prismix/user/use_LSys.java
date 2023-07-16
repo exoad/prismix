@@ -144,20 +144,22 @@ public final class use_LSys
   public static Object read_obj(@NonNull String name, Object _default)
   {
     File f = new File(locale + "/" + name);
-    if (f.exists() || f.isFile())
-      f.delete();
-    Object temp = null;
-    try (FileInputStream fis = new FileInputStream(f); ObjectInputStream ois = new ObjectInputStream(fis))
+    if (f.exists() && f.isFile() && f.canRead())
     {
-      temp = ois.readObject();
-    } catch (IOException | ClassNotFoundException e)
-    {
-      e.printStackTrace();
-      log("L_SYS",
-          jm_Ansi.make().red_bg().white().toString("Failed to read: ") + name + " | Reason: " + e.getMessage());
-      return _default;
+      Object temp = null;
+      try (FileInputStream fis = new FileInputStream(f); ObjectInputStream ois = new ObjectInputStream(fis))
+      {
+        temp = ois.readObject();
+      } catch (IOException | ClassNotFoundException e)
+      {
+        e.printStackTrace();
+        log("L_SYS",
+            jm_Ansi.make().red_bg().white().toString("Failed to read: ") + name + " | Reason: " + e.getMessage());
+        return _default;
+      }
+      return temp == null ? _default : temp;
     }
-    return temp == null ? _default : temp;
+    return _default;
   }
 
   public static void write(stx_Map map)
@@ -172,9 +174,10 @@ public final class use_LSys
       Map< String, Object > create_map = new HashMap<>();
       map.forEach((x, y) -> create_map.put(x, y.second[1]));
       yaml.dump(create_map, fw);
-    } catch (IOException e)
+    } catch (Exception e)
     {
-      e.printStackTrace();
+      if (!(e instanceof FileNotFoundException))
+        e.printStackTrace();
     }
     log("L_SYS", "Wrote: " + map.name + " to " + f.getAbsolutePath());
     /*-------------------------------------------------------------------------------------------------------- /
