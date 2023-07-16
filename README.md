@@ -43,7 +43,7 @@ To run this JAR, make sure you have the following environment requirements:
 
 **Using the prebuilt bundle**
 
-> **Warning**: X86-64 only!
+> **Note**: Only x64 systems are supported
 
 This provides you with the necessary tools to run the program without worrying about setting up Java on your end. Just download, extract, and run `Prismix`.
 
