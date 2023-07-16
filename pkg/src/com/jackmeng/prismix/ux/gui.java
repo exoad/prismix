@@ -42,7 +42,8 @@ import java.awt.RenderingHints;
 		gui_XColor,
 		gui_XConfig,
 		gui_XLua,
-		gui_XConfirm
+		gui_XConfirm,
+		gui_Frame
 {
 	private JPanel notifier;
 
@@ -50,6 +51,7 @@ import java.awt.RenderingHints;
 	{
 		super(r);
 		setIconImage(_1const.fetcher.image("assets/_icon.png"));
+		setBackground(Color.black);
 	}
 
 	protected JFrame getFrame()

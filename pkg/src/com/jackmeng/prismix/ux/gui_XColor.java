@@ -131,7 +131,10 @@ public final class gui_XColor
 						+ String.format("%,.2f", 100 * cmyk[2]) + "%)</em>"));
 		information.add(_m("Key [K]", String.format("%,.4f", cmyk[3]) + "&emsp;&emsp;<em>("
 				+ String.format("%,.2f", 100 * cmyk[3]) + "%)</em>"));
-		information.add(_m("Brightness", extend_stl_Colors.brightness(extend_stl_Colors.awt_strip_rgba(color))));
+		information.add(_m("Luma (Formula 1)", extend_stl_Colors.relative_luminance_1(color)));
+		information.add(_m("Luma (Formula 2)", extend_stl_Colors.relative_luminance_2(color)));
+		information.add(_m("Luma (Formula 3)", extend_stl_Colors.relative_luminance_3(color)));
+		information.add(_m("Luma (Formula 4)", extend_stl_Colors.relative_luminance_4(color)));
 		information.add(_m("Color space", extend_stl_Colors.awt_colorspace_NameMatch(color.getColorSpace())));
 		information.add(_m("Temperature", extend_stl_Colors.color_temp(color)));
 		information.add(_m("CSS RGB",
@@ -180,12 +183,12 @@ public final class gui_XColor
 
 		JButton copy = stx_Helper.quick_btn("Copy", () -> Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(new java.awt.datatransfer.StringSelection(stx_HTMLDebuff.parse(content.toString())), null));
-    /*-------------------------------------------------------------------------------------------------------- /
-    / copy.setBorder(BorderFactory.createLineBorder(new Color(255 / 2, 255 / 2, 255 / 2, (int) (0.3 * 255)))); /
-    /---------------------------------------------------------------------------------------------------------*/
-    /*--------------------------------------------- /
-    / copy.setPreferredSize(new Dimension(46, 25)); /
-    /----------------------------------------------*/
+		/*-------------------------------------------------------------------------------------------------------- /
+		/ copy.setBorder(BorderFactory.createLineBorder(new Color(255 / 2, 255 / 2, 255 / 2, (int) (0.3 * 255)))); /
+		/---------------------------------------------------------------------------------------------------------*/
+		/*--------------------------------------------- /
+		/ copy.setPreferredSize(new Dimension(46, 25)); /
+		/----------------------------------------------*/
 
 		wrap.add(copy);
 		wrap.add(jtp);

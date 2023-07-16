@@ -107,8 +107,16 @@ public final class gui_Dev
 				throw new RuntimeException("DEVELOPER_CONTROLLED", e);
 			}
 		}));
+
 		pane.add(stx_Helper.quick_btn("EmitIN",
 				() -> gui_XInf.force_invoke("<html><body>Test info windowing</html></body>", "Test Info Window")));
+		pane.add(stx_Helper.quick_btn("ExitDev",
+				this::dispose));
+		int i = 0;
+		for (Runnable r : new Runnable[] {
+				() -> ui_UnsignedBarG.main(null)
+		})
+			pane.add(stx_Helper.quick_btn("Action#" + (i++), r));
 
 		JScrollPane jsp = new JScrollPane();
 		jsp.setBackground(Color.black);
