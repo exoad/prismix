@@ -14,6 +14,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
 import java.awt.Point;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -47,6 +48,14 @@ public final class stx_Helper
   public static Dimension from_w(int width)
   {
     return new Dimension(width, 0);
+  }
+
+  public static JPanel wrap_fill_center(JComponent r2)
+  {
+    JPanel r = new JPanel();
+    r.setLayout(new BorderLayout());
+    r.add(r2, BorderLayout.CENTER);
+    return r;
   }
 
   public static JComponent debug_(JComponent t)

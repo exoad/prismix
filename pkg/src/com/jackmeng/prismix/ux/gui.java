@@ -38,7 +38,8 @@ import java.awt.RenderingHints;
 		gui_XErr,
 		gui_XInf,
 		gui_Lua,
-		gui_Config
+		gui_Config,
+		gui_XColor
 {
 	private JPanel notifier;
 

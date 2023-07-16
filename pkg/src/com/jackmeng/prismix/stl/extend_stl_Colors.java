@@ -465,6 +465,173 @@ public final class extend_stl_Colors
         255 * (1F - cmyk[2]) * (1F - cmyk[3]) };
   }
 
+  public static double color_temp(Color color)
+  { // https://en.wikipedia.org/wiki/Planckian_locus -> CCT
+    // https://dsp.stackexchange.com/questions/8949/how-to-calculate-the-color-temperature-tint-of-the-colors-in-an-image
+    return (449.0 * Math.pow((0.4124564 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+        : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+        + 0.3575761 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+            : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+        + 0.1804375 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+            : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+            / ((0.4124564 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                + 0.3575761 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                    : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                + 0.1804375 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                    : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                + (0.2126729 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                    : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                    + 0.7151522 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                        : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                    + 0.0721750 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                        : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                    + (0.0193339 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                        : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                        + 0.1191920 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                            : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                        + 0.9503041 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                            : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))))
+                - 0.3320)
+                / (0.1858 - (0.2126729 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                    : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                    + 0.7151522 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                        : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                    + 0.0721750 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                        : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                        / (0.4124564 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                            : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                            + 0.3575761 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                            + 0.1804375 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                            + (0.2126729 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                                : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                                + 0.7151522 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                    : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                                + 0.0721750 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                    : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                                + (0.0193339 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                                    : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                                    + 0.1191920
+                                        * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                            : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                                    + 0.9503041 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                        : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))))))))),
+        3))
+        + (3525.0 * Math.pow((0.4124564 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+            : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+            + 0.3575761 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+            + 0.1804375 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                / ((0.4124564 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                    : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                    + 0.3575761 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                        : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                    + 0.1804375 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                        : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                    + (0.2126729 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                        : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                        + 0.7151522 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                            : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                        + 0.0721750 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                            : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                        + (0.0193339 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                            : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                            + 0.1191920 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                            + 0.9503041 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))))
+                    - 0.3320)
+                    / (0.1858 - (0.2126729 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                        : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                        + 0.7151522 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                            : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                        + 0.0721750 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                            : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                            / (0.4124564 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                                : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                                + 0.3575761 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                    : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                                + 0.1804375 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                    : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                                + (0.2126729 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                                    : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                                    + 0.7151522
+                                        * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                            : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                                    + 0.0721750 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                        : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                                    + (0.0193339 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                                        : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                                        + 0.1191920
+                                            * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                                : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                                        + 0.9503041
+                                            * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                                : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))))))))),
+            2))
+        + (6823.3 * (0.4124564 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+            : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+            + 0.3575761 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+            + 0.1804375 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                / ((0.4124564 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                    : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                    + 0.3575761 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                        : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                    + 0.1804375 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                        : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                    + (0.2126729 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                        : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                        + 0.7151522 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                            : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                        + 0.0721750 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                            : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                        + (0.0193339 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                            : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                            + 0.1191920 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                            + 0.9503041 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))))
+                    - 0.3320)
+                    / (0.1858
+                        - (0.2126729 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                            : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                            + 0.7151522 * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                            + 0.0721750 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                                / (0.4124564 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                                    : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                                    + 0.3575761
+                                        * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                            : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                                    + 0.1804375 * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                        : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                                    + (0.2126729 * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                                        : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                                        + 0.7151522
+                                            * (color.getGreen() / 255D <= 0.04045 ? (color.getGreen() / 255D) / 12.92
+                                                : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                                        + 0.0721750
+                                            * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                                : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))
+                                        + (0.0193339
+                                            * (color.getRed() / 255D <= 0.04045 ? (color.getRed() / 255D) / 12.92
+                                                : Math.pow(((color.getRed() / 255D) + 0.055) / 1.055, 2.4))
+                                            + 0.1191920 * (color.getGreen() / 255D <= 0.04045
+                                                ? (color.getGreen() / 255D) / 12.92
+                                                : Math.pow(((color.getGreen() / 255D) + 0.055) / 1.055, 2.4))
+                                            + 0.9503041
+                                                * (color.getBlue() / 255D <= 0.04045 ? (color.getBlue() / 255D) / 12.92
+                                                    : Math.pow(((color.getBlue() / 255D) + 0.055) / 1.055, 2.4))))))
+                        + 5520.33))));
+
+  }
+
   public static float[][] cmykToRgb_Comps(final float[] cmyk)
   {
     return new float[][] { extend_stl_Colors.cmykToRgb(new float[] { cmyk[0], 0F, 0F, 0F }),

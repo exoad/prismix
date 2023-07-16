@@ -51,6 +51,7 @@ public final class gui_XErr
 		super(title);
 		setPreferredSize(new Dimension(710, 420));
 		setAlwaysOnTop(true);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		setDefaultCloseOperation(closeState == Err_CloseState.EXIT ? WindowConstants.EXIT_ON_CLOSE : DISPOSE_ON_CLOSE);
 		JPanel pane = new JPanel();
@@ -74,7 +75,6 @@ public final class gui_XErr
 		jsp.getHorizontalScrollBar().setBackground(Color.black);
 		jsp.getVerticalScrollBar().setUnitIncrement(8);
 		jsp.setOpaque(true);
-		jsp.setBackground(Color.black);
 		jsp.setViewportView(ui_LazyViewport.make(jep));
 		jsp.setBorder(BorderFactory.createEmptyBorder());
 		jsp.addMouseListener(new MouseAdapter() {

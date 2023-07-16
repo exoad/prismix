@@ -27,9 +27,11 @@ import com.jackmeng.prismix.ux.gui_XErr;
 import com.jackmeng.prismix.ux.gui_XInf;
 import com.jackmeng.prismix.ux.ux_Theme;
 import com.jackmeng.prismix.ux.__ux;
+import com.jackmeng.prismix.ux.gui_XColor;
 import com.jackmeng.prismix.ux.gui_XErr.Err_CloseState;
 import com.jackmeng.prismix.ux.ux_Theme.ThemeType;
 import com.jackmeng.stl.stl_Chrono;
+import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Str;
 import com.jackmeng.stl.stl_Wrap;
@@ -193,12 +195,10 @@ public class jm_Prismix
   {
     try
     {
-
       _1const.add(__ux._ux, 10L);
       _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
       ux_Theme._theme.theme(
           Boolean.TRUE.equals((Boolean) _1const.val.parse("dark_mode").get()) ? ThemeType.DARK : ThemeType.LIGHT);
-
       final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
       if (IS_UNSTABLE)
         gui_XInf.invoke(uwu.fowmat("assets/text/TEXT_prismix_unstable.html", IS_UNSTABLE + " | " + _VERSION_),
@@ -214,6 +214,8 @@ public class jm_Prismix
         }
       }, 100L, 650L);
       log("PRISMIX", "Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
+      new gui_XColor(stl_Colors.hexToRGB("#89eda4")).run();
+      __ux._ux.getMainUI().dispose();
 
     } catch (Exception e)
     {

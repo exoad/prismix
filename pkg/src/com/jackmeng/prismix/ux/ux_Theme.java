@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -171,6 +172,14 @@ public final class ux_Theme
         jm_Ansi.make().yellow_bg().black()
             .toString("Themer " + this.hashCode() + " made an unsuggested move using **secondary(float[])!"));
     SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(__ux._ux.getMainUI()));
+  }
+
+  public static JScrollBar make_scrollbar(JScrollBar j)
+  {
+    j.setUnitIncrement(8);
+    j.setFocusable(false);
+    j.setForeground(_theme.dominant_awt());
+    return j;
   }
 
   public void secondary(final String secondary)
