@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,9 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.JToolTip;
 import javax.swing.OverlayLayout;
 import javax.swing.SwingConstants;
 
@@ -31,6 +30,8 @@ import com.jackmeng.stl.stl_Colors;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import static com.jackmeng.prismix.jm_Prismix.*;
 
 public final class gui_XColor
 		extends
@@ -91,6 +92,10 @@ public final class gui_XColor
 		float[] hsv = extend_stl_Colors.rgbToHsv(extend_stl_Colors.awt_strip_rgba(color));
 		float[] cmyk = extend_stl_Colors.rgbToCmyk(extend_stl_Colors.awt_strip_rgba(color));
 		float[] hsl = extend_stl_Colors.rgbToHsl(extend_stl_Colors.awt_strip_rgba(color));
+		float[] ciexyz_temp = color.getComponents(new float[4]);
+		float[] ciexyz = color.getColorSpace().toCIEXYZ(ciexyz_temp);
+
+		debug(Arrays.toString(ciexyz));
 
 		information.add(_m("Hex", r));
 
@@ -153,7 +158,7 @@ public final class gui_XColor
 						+ hsv[0] + ", " + (hsv[1] * 100F) + ", " + (hsv[2] * 100F) + ")</code>"));
 		information.add(Box.createVerticalGlue());
 
-		rightInfoPane.setViewportView(information);
+		rightInfoPane.setViewportView(ui_LazyViewport.make(information));
 
 		jsp.setLeftComponent(imageOverlay);
 		jsp.setRightComponent(rightInfoPane);
@@ -174,9 +179,13 @@ public final class gui_XColor
 		wrap.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 
 		JButton copy = stx_Helper.quick_btn("Copy", () -> Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(new java.awt.datatransfer.StringSelection(content.toString()), null));
-		copy.setBorder(BorderFactory.createLineBorder(new Color(255 / 2, 255 / 2, 255 / 2, (int) (0.3 * 255))));
-		copy.setPreferredSize(new Dimension(55, 30));
+				.setContents(new java.awt.datatransfer.StringSelection(stx_HTMLDebuff.parse(content.toString())), null));
+    /*-------------------------------------------------------------------------------------------------------- /
+    / copy.setBorder(BorderFactory.createLineBorder(new Color(255 / 2, 255 / 2, 255 / 2, (int) (0.3 * 255)))); /
+    /---------------------------------------------------------------------------------------------------------*/
+    /*--------------------------------------------- /
+    / copy.setPreferredSize(new Dimension(46, 25)); /
+    /----------------------------------------------*/
 
 		wrap.add(copy);
 		wrap.add(jtp);

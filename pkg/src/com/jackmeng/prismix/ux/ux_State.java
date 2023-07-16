@@ -8,5 +8,5 @@ public final class ux_State
 		implements
 		Serializable
 {
-
+	
 }

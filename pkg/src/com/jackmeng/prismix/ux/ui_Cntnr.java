@@ -40,13 +40,19 @@ public class ui_Cntnr
 	{
 		e.setAlignmentX(Component.CENTER_ALIGNMENT);
 		e.setAlignmentY(Component.LEFT_ALIGNMENT);
-		this.top.attributes_List.add(e);
-		this.top.attributes_List.validate();
+    /*------------------------------------ /
+    / this.top.attributes_List.add(e);     /
+    / this.top.attributes_List.validate(); /
+    /-------------------------------------*/
 	}
 
 	public void validate_size()
 	{
-		this.top.colorAttributes.setMinimumSize(this.top.colorAttributes.getPreferredSize());
-		this.top.setDividerLocation(this.top.colorChooser.getPreferredSize().width + 50);
+    /*------------------------------------------------------------------------------------- /
+    / this.top.colorAttributes.setMinimumSize(this.top.colorAttributes.getPreferredSize()); /
+    /--------------------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------------- /
+    / this.top.setDividerLocation(this.top.colorChooser.getPreferredSize().width + 50); /
+    /----------------------------------------------------------------------------------*/
 	}
 }

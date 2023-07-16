@@ -48,7 +48,7 @@ public final class __ux
 
   private final gui_Main mainui;
   private final ui_Cntnr childui;
-  private final gui_Config configui;
+  private final gui_XConfig configui;
 
   public gui_Main getMainUI()
   {
@@ -64,7 +64,7 @@ public final class __ux
   {
     this.childui = new ui_Cntnr();
     this.mainui = new gui_Main();
-    this.configui = new gui_Config();
+    this.configui = new gui_XConfig();
     this.mainui
         .setPreferredSize(new Dimension(this.childui.getPreferredSize().width, this.childui.getPreferredSize().height));
     this.mainui.wrapper.add(this.childui, BorderLayout.CENTER);
@@ -81,7 +81,7 @@ public final class __ux
                 () -> gui_XInf.force_invoke(
                     use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_legals.html")).replace("\n", "<br>"),
                     "Open Source Licenses")),
-            stx_Helper.make_simple("LuaOp", () -> gui_Lua.instance().run()) });
+            stx_Helper.make_simple("LuaOp", () -> gui_XLua.instance().run()) });
   }
 
   public synchronized void force_redo()

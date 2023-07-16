@@ -36,6 +36,10 @@ public final class stx_Helper
   public static JButton quick_btn(String name, Runnable r)
   {
     JButton t = new JButton(name);
+    t.setBorderPainted(false);
+    t.setFocusPainted(false);
+    t.setBackground(ux_Theme._theme.dominant_awt());
+    t.setForeground(Color.black);
     t.addActionListener(e -> r.run());
     return t;
   }

@@ -32,12 +32,17 @@ public class ui_Tag
         java.util.List< stl_Struct.struct_Pair< String, stl_Callback< Void, Void > > > options = new ArrayList<>();
         if (tag.depositsInPool)
           options.add(stl_Struct.make_pair("Inspect color", (stl_Callback< Void, Void >) nil -> {
-            _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(tag.getText()), false));
+            new gui_XColor(stl_Colors.hexToRGB(tag.getText())).run();
             log("UICTAG",
                 jm_Ansi.make().green().toString("{2} Dispatched the target color to the global inspect queue: ")
                     + tag.getText());
             return (Void) null;
           }));
+        options.add(stl_Struct.make_pair("Use Color", (stl_Callback< Void, Void >) nil -> {
+          _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(tag.getText()), false));
+
+          return (Void) null;
+        }));
         if (tag.copyToClipboard)
           options.add(stl_Struct.make_pair("Copy to clipboard", (stl_Callback< Void, Void >) nil -> {
             Toolkit.getDefaultToolkit().getSystemClipboard()
@@ -51,8 +56,8 @@ public class ui_Tag
           options.add(stl_Struct.make_pair("Inspect & Copy", (stl_Callback< Void, Void >) nil -> {
             Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(new java.awt.datatransfer.StringSelection(tag.getText()), null);
+            new gui_XColor(stl_Colors.hexToRGB(tag.getText())).run();
             _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(tag.getText()), false));
-
             log("UICTAG", jm_Ansi.make().green().toString(
                 "{3} Dispatched & Copied the target color: ")
                 + tag.getText());
@@ -84,6 +89,7 @@ public class ui_Tag
     this.depositsInPool = depositsInPool;
     this.copyToClipboard = copyToClipboard;
     addActionListener(colorListener);
+    setFont(_1const._Mono_().deriveFont(14F));
     ux_Theme.based_set_rrect(this);
   }
 

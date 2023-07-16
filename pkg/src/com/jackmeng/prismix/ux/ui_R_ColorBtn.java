@@ -20,7 +20,7 @@ import static com.jackmeng.prismix.jm_Prismix.*;
 public class ui_R_ColorBtn
 		extends JPanel
 {
-	private transient stx_FixedPopper< Color > popper;
+	private stx_FixedPopper< Color > popper;
 	private JButton _nextColor, _select, _prevColor, _generate;
 
 	public ui_R_ColorBtn()
@@ -37,6 +37,7 @@ public class ui_R_ColorBtn
 
 		_select = new JButton(Boolean.TRUE.equals(_1const.val.parse("descriptive_labels").get()) ? "Select" : "o");
 		ux_Theme.based_set_rrect(_select);
+		_select.setBackground(ux_Theme._theme.dominant_awt());
 		_select.setToolTipText("Select this current RANDOM color");
 		_select
 				.addActionListener(ev -> {
@@ -49,6 +50,7 @@ public class ui_R_ColorBtn
 		_nextColor = new JButton(Boolean.TRUE.equals(_1const.val.parse("descriptive_labels").get()) ? "Next" : ">");
 		_nextColor.setToolTipText("Next random color.");
 		ux_Theme.based_set_rrect(_nextColor);
+		_nextColor.setBackground(ux_Theme._theme.dominant_awt());
 		_nextColor.addActionListener(ev -> {
 			popper.next();
 			update();
@@ -57,6 +59,7 @@ public class ui_R_ColorBtn
 		_prevColor = new JButton(Boolean.TRUE.equals(_1const.val.parse("descriptive_labels").get()) ? "Prev." : "<");
 		_prevColor.setToolTipText("Previous random color.");
 		ux_Theme.based_set_rrect(_prevColor);
+		_prevColor.setBackground(ux_Theme._theme.dominant_awt());
 		_prevColor.addActionListener(ev -> {
 			popper.previous();
 			update();
@@ -65,6 +68,7 @@ public class ui_R_ColorBtn
 		_generate = new JButton(Boolean.TRUE.equals(_1const.val.parse("descriptive_labels").get()) ? "Generate" : "+");
 		ux_Theme.based_set_rrect(_generate);
 		_generate.setToolTipText("Generate a new color");
+		_generate.setBackground(ux_Theme._theme.dominant_awt());
 		_generate
 				.addActionListener(ev -> {
 					popper.force_push(extend_stl_Colors.awt_random_Color());
@@ -74,8 +78,8 @@ public class ui_R_ColorBtn
 
 		add(_prevColor);
 		add(_select);
-		add(_generate);
 		add(_nextColor);
+		add(_generate);
 
 		popper.toTail();
 		update();
@@ -85,9 +89,9 @@ public class ui_R_ColorBtn
 	{
 		if (popper.at() != null)
 		{
-      /*------------------------------------------------------------------------------------------------------------ /
-      / log("RCOLOR", "[ " + popper.previous_where() + " | " + popper.where() + " | " + popper.next_where() + " ]"); /
-      /-------------------------------------------------------------------------------------------------------------*/
+			/*------------------------------------------------------------------------------------------------------------ /
+			/ log("RCOLOR", "[ " + popper.previous_where() + " | " + popper.where() + " | " + popper.next_where() + " ]"); /
+			/-------------------------------------------------------------------------------------------------------------*/
 			_select.setBackground(popper.at());
 			_select.setForeground(extend_stl_Colors
 					.awt_remake(extend_stl_Colors.binary_fg_decider(extend_stl_Colors.awt_strip_rgba(_select.getBackground()))));

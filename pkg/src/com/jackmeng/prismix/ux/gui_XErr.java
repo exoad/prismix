@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
@@ -77,17 +79,6 @@ public final class gui_XErr
 		jsp.setOpaque(true);
 		jsp.setViewportView(ui_LazyViewport.make(jep));
 		jsp.setBorder(BorderFactory.createEmptyBorder());
-		jsp.addMouseListener(new MouseAdapter() {
-			@Override public void mouseEntered(MouseEvent e)
-			{
-				touched.obj(true);
-			}
-
-			@Override public void mouseExited(MouseEvent e)
-			{
-				touched.obj(false);
-			}
-		});
 
 		pane.add(jsp, BorderLayout.CENTER);
 
@@ -123,33 +114,59 @@ public final class gui_XErr
 			}
 		});
 
+		JButton copy_btn = new JButton("Copy Text");
+		copy_btn.setBackground(ux_Theme.get().get_awt("cyan"));
+		copy_btn.setForeground(Color.black);
+		copy_btn.setRolloverEnabled(false);
+		copy_btn.setFocusPainted(false);
+		copy_btn.setBorderPainted(false);
+		copy_btn.addActionListener(
+				ev -> Toolkit.getDefaultToolkit().getSystemClipboard()
+						.setContents(new StringSelection(stx_HTMLDebuff.parse(jep.getText())), null));
+
 		JPanel wrap = new JPanel();
-		wrap.setLayout(new GridLayout(1, 2));
+		wrap.setLayout(new GridLayout(1, 3));
 		wrap.setOpaque(false);
 		wrap.add(url_btn);
+		wrap.add(copy_btn);
 		wrap.add(closeState_btn);
 
 		getContentPane().setBackground(Color.black);
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		getContentPane().add(pane);
 		getContentPane().add(wrap);
-		_1const.worker2.scheduleAtFixedRate(new TimerTask() {
 
-			boolean alternate = true;
-
-			@Override public void run()
-			{
-				if (Boolean.FALSE.equals(touched.obj))
+		if (Boolean.TRUE.equals((Boolean) _1const.val.parse("use_flashing_error_window").get()))
+		{
+			jsp.addMouseListener(new MouseAdapter() {
+				@Override public void mouseEntered(MouseEvent e)
 				{
-					if (isActive() || isVisible())
+					touched.obj(true);
+				}
+
+				@Override public void mouseExited(MouseEvent e)
+				{
+					touched.obj(false);
+				}
+			});
+			_1const.worker2.scheduleAtFixedRate(new TimerTask() {
+
+				boolean alternate = true;
+
+				@Override public void run()
+				{
+					if (Boolean.FALSE.equals(touched.obj))
 					{
-						jep.setBackground(alternate ? r : Color.black);
-						jep.setForeground(alternate ? Color.black : Color.white);
-						alternate = !alternate;
+						if (isActive() || isVisible())
+						{
+							jep.setBackground(alternate ? r : Color.black);
+							jep.setForeground(alternate ? Color.black : Color.white);
+							alternate = !alternate;
+						}
 					}
 				}
-			}
-		}, 0L, 750L);
+			}, 0L, 750L);
+		}
 	}
 
 }

@@ -52,7 +52,9 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
   private transient extend_stl_Wrap< Integer > size_SquareGrad;
   private transient int transformed_x = -1, transformed_y = -1; // transformed which represent the relative mouse
   // location relative to prismix
-  private int selector_cursor_radius = 10, selector_cursor_stroke = 2;
+  /*-------------------------------------------------------------------- /
+  / private int selector_cursor_radius = 10, selector_cursor_stroke = 2; /
+  /---------------------------------------------------------------------*/
   private transient stl_Wrap< Color > c = new stl_Wrap<>(Color.gray);
   private boolean first = true, rgb_Sliders_Listen = false;
   private JSlider controls_RED, controls_GREEN, controls_BLUE;
@@ -174,12 +176,14 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
                                                                                                      // the strokes
                                                                                                      // are
                                                                                                      // smooth
-            g2.setStroke(new java.awt.BasicStroke(selector_cursor_stroke));
-            g2.setColor(Color.white);
-            g2.drawOval(transformed_x - (selector_cursor_radius / 2), transformed_y - (selector_cursor_radius / 2),
-                selector_cursor_radius, selector_cursor_radius); // i got so confused, i
-            // thought it took
-            // x,y,x2,y2 so cringe
+            /*------------------------------------------------------------------------------------------------------- /
+            / g2.setStroke(new java.awt.BasicStroke(selector_cursor_stroke));                                         /
+            / g2.setColor(Color.white);                                                                               /
+            / g2.drawOval(transformed_x - (selector_cursor_radius / 2), transformed_y - (selector_cursor_radius / 2), /
+            /     selector_cursor_radius, selector_cursor_radius); // i got so confused, i                            /
+            / // thought it took                                                                                      /
+            / // x,y,x2,y2 so cringe                                                                                  /
+            /--------------------------------------------------------------------------------------------------------*/
 
           }
 
@@ -238,6 +242,7 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
 
   @Override public void mouseExited(MouseEvent e)
   {
+    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
   }
 
   @Override public void mouseReleased(MouseEvent e)
@@ -294,6 +299,7 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
 
   @Override public void mouseEntered(MouseEvent e)
   {
+    setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
   }
 
 }

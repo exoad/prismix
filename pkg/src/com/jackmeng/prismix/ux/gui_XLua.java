@@ -35,16 +35,16 @@ import lombok.Setter;
 /**
  * @author Jack Meng (exoad)
  */
-public final class gui_Lua
+public final class gui_XLua
 		extends
 		gui
 {
-	private static gui_Lua __instance = null;
+	private static gui_XLua __instance = null;
 
-	public static gui_Lua instance()
+	public static gui_XLua instance()
 	{
 		if (__instance == null)
-			__instance = new gui_Lua();
+			__instance = new gui_XLua();
 		return __instance;
 	}
 
@@ -53,7 +53,7 @@ public final class gui_Lua
 	/ private final JPanel notifs; /
 	/-----------------------------*/
 
-	public gui_Lua()
+	public gui_XLua()
 	{
 		super("Prismix ~ Lua");
 		setName("LUAOP_WINDOW");

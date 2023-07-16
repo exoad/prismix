@@ -35,11 +35,14 @@ import java.awt.RenderingHints;
 		Runnable
 		permits
 		gui_Main,
+		gui_Dev,
+		// following the allowed windowing mechanism
 		gui_XErr,
 		gui_XInf,
-		gui_Lua,
-		gui_Config,
-		gui_XColor
+		gui_XColor,
+		gui_XConfig,
+		gui_XLua,
+		gui_XConfirm
 {
 	private JPanel notifier;
 
@@ -47,6 +50,11 @@ import java.awt.RenderingHints;
 	{
 		super(r);
 		setIconImage(_1const.fetcher.image("assets/_icon.png"));
+	}
+
+	protected JFrame getFrame()
+	{
+		return this;
 	}
 
 	protected void attach_vnotifier(Component master)

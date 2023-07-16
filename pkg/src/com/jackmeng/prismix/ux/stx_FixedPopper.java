@@ -2,6 +2,7 @@
 
 package com.jackmeng.prismix.ux;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.function.Consumer;
@@ -14,6 +15,8 @@ import java.util.function.Consumer;
  * @author Jack Meng
  */
 public class stx_FixedPopper< T >
+		implements
+		Serializable
 {
 	public enum Popper_Priority {
 		/**
@@ -28,12 +31,12 @@ public class stx_FixedPopper< T >
 		TAIL;
 	}
 
-	private final LinkedList< T > items;
+	private LinkedList< T > items;
 	private final int maxLen;
 	private final Popper_Viewer viewer;
 	private boolean isUnique = true;
 	private Popper_Priority priority;
-	private Consumer< T > janitor;
+	private transient Consumer< T > janitor;
 
 	/**
 	 * @param maxLen
@@ -253,7 +256,10 @@ public class stx_FixedPopper< T >
 		return "[" + sb.substring(0, sb.length() - 1) + "]";
 	}
 
-	private class Popper_Viewer implements Iterator< T >
+	private class Popper_Viewer
+			implements
+			Iterator< T >,
+			Serializable
 	{
 		private int currentIndex;
 

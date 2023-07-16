@@ -31,13 +31,13 @@ import com.jackmeng.prismix.user.use_LSys;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
-public final class gui_Config
+public final class gui_XConfig
     extends
     gui
 {
   private JPanel pane;
 
-  public gui_Config()
+  public gui_XConfig()
   {
     super("Primsix ~ Config");
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

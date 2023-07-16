@@ -3,6 +3,9 @@ package com.jackmeng.prismix;
 
 import static com.jackmeng.prismix.jm_Prismix.log;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.Random;
 import java.util.Timer;
@@ -35,6 +38,36 @@ public final class _1const
       worker2 = new Timer("com-jackmeng-prismix-worker02");
   public static ExecutorService worker3 = Executors.newWorkStealingPool(4);
   public static stl_AssetFetcher fetcher = new stl_AssetFetcher(assetfetcher_FetcherStyle.WEAK);
+
+  static Font MONO_FONT = null, MONO_FONT_MEDIUM = null;
+
+  public static Font _Mono_()
+  {
+    if (MONO_FONT == null)
+      try
+      {
+        MONO_FONT = Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraMono-Regular.ttf"));
+      } catch (FontFormatException | IOException e)
+      {
+        e.printStackTrace();
+        return new Font(Font.MONOSPACED, Font.PLAIN, 12);
+      }
+    return MONO_FONT;
+  }
+
+  public static Font _Mono_Medium_()
+  {
+    if (MONO_FONT_MEDIUM == null)
+      try
+      {
+        MONO_FONT_MEDIUM = Font.createFont(Font.TRUETYPE_FONT, _1const.fetcher.file("assets/font/FiraMono-Medium.ttf"));
+      } catch (FontFormatException | IOException e)
+      {
+        e.printStackTrace();
+        return new Font(Font.MONOSPACED, Font.PLAIN, 12);
+      }
+    return MONO_FONT_MEDIUM;
+  }
 
   private static SoftReference< Color > lastColor = new SoftReference<>(new Color(1F, 1F, 1F, 0F));
 

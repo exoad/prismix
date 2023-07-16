@@ -27,11 +27,10 @@ import com.jackmeng.prismix.ux.gui_XErr;
 import com.jackmeng.prismix.ux.gui_XInf;
 import com.jackmeng.prismix.ux.ux_Theme;
 import com.jackmeng.prismix.ux.__ux;
-import com.jackmeng.prismix.ux.gui_XColor;
+import com.jackmeng.prismix.ux.gui_Dev;
 import com.jackmeng.prismix.ux.gui_XErr.Err_CloseState;
 import com.jackmeng.prismix.ux.ux_Theme.ThemeType;
 import com.jackmeng.stl.stl_Chrono;
-import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_In;
 import com.jackmeng.stl.stl_Str;
 import com.jackmeng.stl.stl_Wrap;
@@ -101,6 +100,10 @@ public class jm_Prismix
     val.put_("descriptive_labels", parse_Bool, new Object[] {
         Bool, "false", type_Bool,
         "Makes certain labels on the UI more descriptive. For example, swapping \">\" out for \"Next\"."
+    });
+    val.put_("use_flashing_error_window", parse_Bool, new Object[] {
+        Bool, "false", type_Bool,
+        "Makes the error window flash unless interacted with. This feature is off by default for better viewing reasons."
     });
     val.put_("shush_info_dialogs", parse_Bool, new Object[] {
         Bool, "false", type_Bool,
@@ -197,6 +200,8 @@ public class jm_Prismix
     {
       _1const.add(__ux._ux, 10L);
       _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
+      if (Boolean.TRUE.equals((Boolean) _1const.val.parse("developer_buttons").get()))
+        new gui_Dev().run();
       ux_Theme._theme.theme(
           Boolean.TRUE.equals((Boolean) _1const.val.parse("dark_mode").get()) ? ThemeType.DARK : ThemeType.LIGHT);
       final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
@@ -214,33 +219,52 @@ public class jm_Prismix
         }
       }, 100L, 650L);
       log("PRISMIX", "Program took: " + (System.currentTimeMillis() - jm_Prismix.time.get()) + "ms to startup");
-      new gui_XColor(stl_Colors.hexToRGB("#89eda4")).run();
-      __ux._ux.getMainUI().dispose();
+      /*----------------------------------------------------- /
+      / new gui_XColor(stl_Colors.hexToRGB("#89eda4")).run(); /
+      / __ux._ux.getMainUI().dispose();                       /
+      /------------------------------------------------------*/
 
     } catch (Exception e)
     {
+      e.printStackTrace();
+
       StringWriter sw = new StringWriter();
       PrintWriter pw = new PrintWriter(sw);
       e.printStackTrace(pw);
       gui_XErr.invoke(
-          uwu.fowmat("assets/text/TEXT_external_issue.html", sw.toString()),
+          uwu.fowmat("assets/text/TEXT_external_issue.html", sw.toString() + "\n\n" + system_str()),
           "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
     }
     Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
       if (!e.getMessage().equals(
           "Cannot invoke \"javax.swing.text.View.paint(java.awt.Graphics, java.awt.Shape)\" because \"this.view\" is null"))
       {
+        e.printStackTrace();
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         gui_XErr.invoke(
             MessageFormat
                 .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")),
-                    sw.toString() + "\n\n\nTHREAD: " + t.toString()),
+                    sw.toString() + "\n\n\nTHREAD: " + t.toString() + "\n\n" + system_str()),
             "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
       }
     });
 
+  }
+
+  public static String system_str()
+  {
+    StringBuilder sb = new StringBuilder();
+    System.getProperties()
+        .forEach((key, value) -> sb.append(key + " = "
+            + (use_Maker.equals(key.toString(), "user.timezone", "user.country", "") ? "[PRIVATE]" : value) + "\n"));
+    sb.append("Runtime_V: ").append(Runtime.version().toString()).append("\n").append("Runtime_Free: ")
+        .append(Runtime.getRuntime().freeMemory()).append("\n").append("Runtime_Max: ")
+        .append(Runtime.getRuntime().maxMemory()).append("\n").append("Runtime_Total: ")
+        .append(Runtime.getRuntime().totalMemory()).append("\n").append("Runtime_Proc: ")
+        .append(Runtime.getRuntime().availableProcessors()).append("\n");
+    return sb.toString();
   }
 
   public static void error_modal_wrap(Throwable e)

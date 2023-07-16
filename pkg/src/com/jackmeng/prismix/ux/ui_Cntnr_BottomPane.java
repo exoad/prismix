@@ -2,11 +2,11 @@ package com.jackmeng.prismix.ux;
 
 import static com.jackmeng.prismix.jm_Prismix.log;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -23,6 +23,7 @@ import com.jackmeng.prismix.user.use_LSys;
 import com.jackmeng.stl.stl_Colors;
 import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_Struct;
+import com.jackmeng.stl.stl_Ware;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
 
 import lombok.Getter;
@@ -33,8 +34,8 @@ public class ui_Cntnr_BottomPane
 		stl_Listener< stl_Struct.struct_Pair< Color, Boolean > >
 {
 
-	// we don't care about implementation for History as a palette component
-	JPanel listHistory, palette;
+	// we don't care about implementation for History as a controls component
+	JPanel listHistory, controls;
 	@Getter HashSet< String > history;
 
 	static int HISTORY_BUTTON_HEIGHT = 35, HISTORY_BUTTON_WIDTH = 115;
@@ -43,13 +44,28 @@ public class ui_Cntnr_BottomPane
 	{
 		this.setPreferredSize(new Dimension(_2const.WIDTH, _2const.HEIGHT / 3));
 		this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		this.setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 10);
+		this.setDividerLocation(_2const.WIDTH / 2 + _2const.WIDTH / 6 + _2const.WIDTH / 12);
 		this.setBorder(BorderFactory.createEmptyBorder());
 
 		this.listHistory = new JPanel();
 		this.listHistory.setLayout(new ux_WrapLayout(FlowLayout.LEADING));
-		this.palette = new JPanel();
-		this.palette.setLayout(new BorderLayout());
+
+		this.controls = new JPanel();
+		this.controls.setLayout(new GridLayout(0, 1));
+
+		this.controls
+				.add(Boolean.TRUE.equals((Boolean) _1const.val.parse("queued_random_color").get()) ? new ui_R_ColorBtn()
+						: stx_Helper.quick_btn("Random Color",
+								() -> _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false))));
+		this.controls.add(stx_Helper.quick_btn("Random Screen Color",
+				() -> _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Ware.screen_colorAt_Rnd().get(), false))));
+		this.controls.add(stx_Helper.quick_btn("Pick from screen",
+				() -> {
+				}));
+		this.controls.add(stx_Helper.quick_btn("Clear History",
+				new gui_XConfirm(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_clear_history.html")),
+						"Clear History?", () -> {
+						}, this::clear_history, "Yes", "No")));
 
 		JScrollPane history_JSP = new JScrollPane();
 		history_JSP.setBorder(BorderFactory.createEmptyBorder());
@@ -60,7 +76,11 @@ public class ui_Cntnr_BottomPane
 
 		history_JSP.setViewportView(history_Viewport);
 
-		this.setRightComponent(palette);
+		JScrollPane controls_jsp = new JScrollPane();
+		controls_jsp.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+		controls_jsp.setViewportView(ui_LazyViewport.make(this.controls));
+
+		this.setRightComponent(controls_jsp);
 		this.setLeftComponent(history_JSP);
 
 		_1const.COLOR_ENQ.add(this);
@@ -85,6 +105,9 @@ public class ui_Cntnr_BottomPane
 				i.set(i.get() + 1);
 			});
 
+			_1const.COLOR_ENQ.dispatch(
+					stl_Struct.make_pair(stl_Colors.hexToRGB(history.toArray(new String[0])[history.size() - 1]), false));
+
 			log("BOT_G_HISTORY", "Loaded " + i.getAcquire() + " history swatches from cold storage.");
 
 			SwingUtilities.invokeLater(() -> {
@@ -98,6 +121,12 @@ public class ui_Cntnr_BottomPane
 
 	public synchronized void clear_history() // ! EXPORT
 	{
+		if (history.size() > 0)
+		{
+			history.clear();
+			listHistory.removeAll();
+			listHistory.repaint(100L);
+		}
 		/*------------------------------------------------------------------------------------------------------- /
 		/ if (listHistory.getComponents().length > 0)                                                             /
 		/ {                                                                                                       /

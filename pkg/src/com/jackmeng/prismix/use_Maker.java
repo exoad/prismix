@@ -190,45 +190,52 @@ public final class use_Maker
     return t;
   }
 
-  	public static List< String > fake_stack_trace(String exceptionName, int numTraces)
-	{
-		List< String > stackTraces = new ArrayList<>();
+  public static List< String > fake_stack_trace(String exceptionName, int numTraces)
+  {
+    List< String > stackTraces = new ArrayList<>();
 
-		for (int i = 0; i < numTraces; i++)
-		{
-			StringBuilder stackTrace = new StringBuilder(exceptionName + ": ");
+    for (int i = 0; i < numTraces; i++)
+    {
+      StringBuilder stackTrace = new StringBuilder(exceptionName + ": ");
 
-			int numFrames = new Random().nextInt(10) + 1;
-			for (int j = 0; j < numFrames; j++)
-			{
-				String functionName = fake_ste(5, 10);
-				String moduleName = fake_ste(8, 15);
-				int lineNumber = new Random().nextInt(9999) + 1;
+      int numFrames = new Random().nextInt(10) + 1;
+      for (int j = 0; j < numFrames; j++)
+      {
+        String functionName = fake_ste(5, 10);
+        String moduleName = fake_ste(8, 15);
+        int lineNumber = new Random().nextInt(9999) + 1;
 
-				stackTrace.append("\tat ").append(functionName).append("(").append(moduleName).append(".java:")
-						.append(lineNumber).append(")\n");
-			}
+        stackTrace.append("\tat ").append(functionName).append("(").append(moduleName).append(".java:")
+            .append(lineNumber).append(")\n");
+      }
 
-			stackTraces.add(stackTrace.toString());
-		}
+      stackTraces.add(stackTrace.toString());
+    }
 
-		return stackTraces;
-	}
+    return stackTraces;
+  }
 
-	private static String fake_ste(int minLength, int maxLength)
-	{
-		int length = _1const.RNG.nextInt(maxLength - minLength + 1) + minLength;
-		StringBuilder name = new StringBuilder();
+  private static String fake_ste(int minLength, int maxLength)
+  {
+    int length = _1const.RNG.nextInt(maxLength - minLength + 1) + minLength;
+    StringBuilder name = new StringBuilder();
 
-		for (int i = 0; i < length; i++)
-		{
-			char randomChar = (char) (_1const.RNG.nextInt(26) + 'a');
-			name.append(randomChar);
-		}
+    for (int i = 0; i < length; i++)
+    {
+      char randomChar = (char) (_1const.RNG.nextInt(26) + 'a');
+      name.append(randomChar);
+    }
 
-		return name.toString();
-	}
+    return name.toString();
+  }
 
+  public static boolean equals(String e, String... er)
+  {
+    for(String r : er)
+      if(r.equals(e))
+        return true;
+    return false;
+  }
 
   public static stl_Struct.struct_Pair< String, stl_Callback< Boolean, Null_t > > make(final String name,
       final stl_Callback< Boolean, Null_t > callback)
