@@ -10,9 +10,13 @@ import com.jackmeng.prismix.ux.model.stx_BarConfig;
 
 import java.awt.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
+/**
+ * Bar Graph with only Y-Axis valued and X are named
+ */
 public final class ui_UnsignedBarG extends JComponent
 {
 
@@ -35,10 +39,9 @@ public final class ui_UnsignedBarG extends JComponent
 		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
 		g2d.setColor(config.axisColors());
 		g2d.setStroke(new BasicStroke(2));
-		int fontHeight = g2d.getFontMetrics().getHeight() * 2;
 		// draw x-axis
-		g2d.drawLine(config.totalInset(), getHeight() - fontHeight - config.totalInset(),
-				getWidth() - config.totalInset(), getHeight() - fontHeight - config.totalInset());
+		g2d.drawLine(config.totalInset(), getHeight() - config.totalInset(),
+				getWidth() - config.totalInset(), getHeight() - config.totalInset());
 
 		// draw title
 		g2d.setColor(config.textColors());
@@ -46,21 +49,22 @@ public final class ui_UnsignedBarG extends JComponent
 		int y_title = config.totalInset() + g2d.getFontMetrics().getHeight();
 		for (char r : title.toCharArray())
 		{
-			g2d.drawString(String.valueOf(r), getWidth() - config.totalInset() - g2d.getFontMetrics().charWidth(r), y_title);
+			g2d.drawString(String.valueOf(r), getWidth() - config.totalInset() - g2d.getFontMetrics().charWidth('x'),
+					y_title);
 			y_title += g2d.getFontMetrics().getHeight() + 4;
 		}
 
 		// draw ticks
-		g2d.setStroke(new BasicStroke(1));
 		int maxLines = config.lines();
-		int range = getHeight() - fontHeight - (2 * config.totalInset());
+		g2d.setStroke(new BasicStroke(1));
+		int range = getHeight() - (2 * config.totalInset());
 
 		int value = config.max() / maxLines;
 		int j = 0;
 
 		for (int i = 0; i <= maxLines; i++)
 		{
-			int labelY = getHeight() - fontHeight - (i * (range / maxLines)) - config.totalInset();
+			int labelY = getHeight() - (i * (range / maxLines)) - config.totalInset();
 			if (i == maxLines)
 				g2d.drawString(String.valueOf(config.max()), config.totalInset(), labelY + 4);
 			else
@@ -69,7 +73,7 @@ public final class ui_UnsignedBarG extends JComponent
 			j += value;
 		}
 
-		// draw bars
+		// put draw bars CODE HERE
 
 		g2d.dispose();
 
@@ -85,7 +89,7 @@ public final class ui_UnsignedBarG extends JComponent
 		};
 
 		ui_UnsignedBarG barGraph = new ui_UnsignedBarG("Bar Graph",
-				new stx_BarConfig(10, 50, 15, 100, 10, Color.gray, Color.gray),
+				new stx_BarConfig(10, 15, 100, 10, Color.gray, Color.gray),
 				bars);
 
 		JFrame frame = new JFrame("Test:BarGraphs");
