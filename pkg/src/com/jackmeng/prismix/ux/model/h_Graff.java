@@ -4,7 +4,8 @@ package com.jackmeng.prismix.ux.model;
 
 import java.awt.Color;
 
-public final record stx_Bar(String name, double value, Color color)
+public final record h_Graff(boolean normalizeAA, Color labelColor, Color dotGridColor, Color lineColor,
+		Color curveColor, Color enclosureColor, String name, int curveWidth, int lineWidth)
 {
 
 }

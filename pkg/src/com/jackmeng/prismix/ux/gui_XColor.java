@@ -2,6 +2,7 @@
 
 package com.jackmeng.prismix.ux;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -10,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.BorderFactory;
@@ -25,7 +27,12 @@ import javax.swing.JTextPane;
 import javax.swing.OverlayLayout;
 import javax.swing.SwingConstants;
 
+import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
+import com.jackmeng.prismix.ux.model.h_Graff;
+import com.jackmeng.prismix.ux.model.h_GraphPoint;
+import com.jackmeng.prismix.ux.ui_Graff.DrawAxis;
+import com.jackmeng.prismix.ux.ui_Graff.DrawType;
 import com.jackmeng.stl.stl_Colors;
 
 import lombok.Getter;
@@ -46,7 +53,7 @@ public final class gui_XColor
 		this.color = t;
 		String r = extend_stl_Colors.RGBToHex(t.getRed(), t.getGreen(), t.getBlue());
 
-		setPreferredSize(new Dimension(580, 320));
+		setPreferredSize(new Dimension(670, 350));
 
 		jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		jsp.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -86,7 +93,7 @@ public final class gui_XColor
 				new Dimension(getPreferredSize().width / 2, getPreferredSize().height));
 
 		JPanel information = new JPanel();
-		information.setBorder(BorderFactory.createEmptyBorder(10, 14, 4, 8));
+		information.setBorder(BorderFactory.createEmptyBorder(10, 5, 4, 5));
 		information.setLayout(new BoxLayout(information, BoxLayout.Y_AXIS));
 
 		float[] hsv = extend_stl_Colors.rgbToHsv(extend_stl_Colors.awt_strip_rgba(color));
@@ -166,7 +173,31 @@ public final class gui_XColor
 		jsp.setLeftComponent(imageOverlay);
 		jsp.setRightComponent(rightInfoPane);
 
-		getContentPane().add(jsp);
+		JSplitPane rgbValues_JSP = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+
+		ArrayList< h_GraphPoint > rgbPoints = new ArrayList<>();
+		rgbPoints.add(new h_GraphPoint(255 / 3 - (255 / 3 / 2), color.getRed(), true, Color.red));
+		rgbPoints.add(new h_GraphPoint((255 / 3 * 2) - (255 / 3 / 2), color.getGreen(), true, Color.green));
+		rgbPoints.add(new h_GraphPoint(255 - (255 / 3 / 2), color.getBlue(), true, Color.blue));
+		Color ttttt = new Color(0.8F, 0.8F, 0.8F);
+
+		h_Graff config = new h_Graff(true, ttttt, new Color(0, 0, 0, 0), ux_Theme._theme.get_awt("rose"),
+				ux_Theme._theme.get_awt("rose").darker().darker(),
+				Color.gray, "", 2, 2);
+
+		ui_Graff graff_RGB = new ui_Graff(10, 255, rgbPoints, DrawType.BOTH, DrawAxis.Y, config, "{0}");
+		graff_RGB.setFont(_1const._Mono_().deriveFont(9F));
+		graff_RGB.setPreferredSize(new Dimension(getPreferredSize().height, getPreferredSize().height));
+
+		JPanel rgbWrap = new JPanel();
+		rgbWrap.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+		rgbWrap.setLayout(new BorderLayout());
+		rgbWrap.add(graff_RGB, BorderLayout.CENTER);
+		rgbValues_JSP.setDividerLocation(410);
+		rgbValues_JSP.setRightComponent(rgbWrap);
+		rgbValues_JSP.setLeftComponent(jsp);
+
+		getContentPane().add(rgbValues_JSP);
 	}
 
 	JComponent _m(String title, Object content)

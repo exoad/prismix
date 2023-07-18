@@ -53,6 +53,7 @@ public class ui_Cntnr_BottomPane
 		this.controls = new JPanel();
 		this.controls.setLayout(new GridLayout(0, 1));
 
+		this.controls.add(stx_Helper.quick_btn("New color", gui_XAddColor::request));
 		this.controls
 				.add(Boolean.TRUE.equals((Boolean) _1const.val.parse("queued_random_color").get()) ? new ui_R_ColorBtn()
 						: stx_Helper.quick_btn("Random Color",

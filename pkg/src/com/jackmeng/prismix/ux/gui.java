@@ -36,6 +36,7 @@ import java.awt.RenderingHints;
 		permits
 		gui_Main,
 		gui_Dev,
+		gui_Frame,
 		// following the allowed windowing mechanism
 		gui_XErr,
 		gui_XInf,
@@ -43,7 +44,7 @@ import java.awt.RenderingHints;
 		gui_XConfig,
 		gui_XLua,
 		gui_XConfirm,
-		gui_Frame
+		gui_XAddColor
 {
 	private JPanel notifier;
 

@@ -112,9 +112,13 @@ public final class gui_Dev
 				() -> gui_XInf.force_invoke("<html><body>Test info windowing</html></body>", "Test Info Window")));
 		pane.add(stx_Helper.quick_btn("ExitDev",
 				this::dispose));
+		pane.add(stx_Helper.quick_btn("Kill0", () -> System.exit(0)));
+		pane.add(stx_Helper.quick_btn("Kill1", () -> System.exit(1)));
+		pane.add(stx_Helper.quick_btn("ClearLog", () -> System.out.println("\033[H\033[2J")));
 		int i = 0;
 		for (Runnable r : new Runnable[] {
-				() -> ui_UnsignedBarG.main(null)
+				() -> ui_Graff.main((String[]) null),
+				gui_XAddColor::request
 		})
 			pane.add(stx_Helper.quick_btn("Action#" + (i++), r));
 
