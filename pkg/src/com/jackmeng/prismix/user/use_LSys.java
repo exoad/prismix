@@ -55,22 +55,26 @@ public final class use_LSys
 
   public static synchronized void init()
   {
-    File f = new File(locale);
-    boolean ran = false;
-    if (!f.exists() && !f.isDirectory())
-      ran = f.mkdir();
-    File f2 = new File(locale + "/state");
-    if (!f2.exists() && !f2.isDirectory())
-      ran = f2.mkdir();
+    boolean ran = ensure_dirs();
     log("L_SYS",
         "Initted LSYS with res: "
             + (ran ? jm_Ansi.make().green_bg().white().toString("OK") : jm_Ansi.make().red_bg().white().toString("ERR"))
-            + " @ " + f.getAbsolutePath());
+            + " @ " + new File(locale).getAbsolutePath());
   }
 
-  public static synchronized void ensure_dirs()
+  public static synchronized boolean ensure_dirs()
   {
-
+    boolean ran = false;
+    File f = new File(locale);
+    if (!f.exists() && !f.isDirectory())
+      ran = f.mkdir();
+    for (String r : _1const.sub_dirs)
+    {
+      File f2 = new File(locale + "/" + r);
+      if (!f2.exists() && !f2.isDirectory())
+        ran = f2.mkdir();
+    }
+    return ran;
   }
 
   public static String read_all(File f)
@@ -160,6 +164,22 @@ public final class use_LSys
       return temp == null ? _default : temp;
     }
     return _default;
+  }
+
+  public static void soft_write(String file, String content)
+  {
+    File f = new File(locale + "/" + file);
+    try (FileWriter fw = new FileWriter(f, StandardCharsets.UTF_16, true))
+    {
+      fw.write(content);
+      fw.flush();
+    } catch (Exception e)
+    {
+      if (!(e instanceof FileNotFoundException))
+        e.printStackTrace();
+    }
+    log("L_SYS", "Soft_Wrote: " + content.length() + " to " + f.getAbsolutePath());
+
   }
 
   public static void write(stx_Map map)

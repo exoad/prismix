@@ -33,6 +33,10 @@ public final class _1const
   / public static final boolean DEBUG_GUI = false; /
   / public static final boolean SOFT_DEBUG = true; /
   /-----------------------------------------------*/
+  public static String[] sub_dirs = {
+      "state",
+      "log",
+  };
   public static final Random RNG = new Random();
   public static Timer worker = new Timer("com-jackmeng-prismix-worker01"),
       worker2 = new Timer("com-jackmeng-prismix-worker02");

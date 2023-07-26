@@ -5,12 +5,10 @@ package com.jackmeng.prismix.ux;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -61,7 +59,7 @@ public final class gui_XAddColor
 		layout.putConstraint(SpringLayout.NORTH, textPanel, 10, SpringLayout.SOUTH, title);
 		layout.putConstraint(SpringLayout.WEST, textPanel, 0, SpringLayout.WEST, jp);
 		layout.putConstraint(SpringLayout.EAST, textPanel, 0, SpringLayout.EAST, jp);
-		
+
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(jp, BorderLayout.CENTER);
 	}

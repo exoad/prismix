@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.TimerTask;
+import java.util.ArrayDeque;
 import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -53,6 +54,7 @@ public class jm_Prismix
   public static final long _VERSION_ = 2023_07_01L; // YYYY_MM_DD of the closest month
   public static final boolean IS_UNSTABLE = true;
   public static final PrintStream IO = System.out;
+  private static ArrayDeque< String > log_infos = new ArrayDeque<>();
   static
   {
     _1const.shutdown_hook(() -> System.out.println(
@@ -77,6 +79,21 @@ public class jm_Prismix
     use_LSys.init();
 
     System.setErr(System.out);
+    _1const.worker2.scheduleAtFixedRate(new TimerTask() {
+      String time = stl_Chrono.format_millis("MM_dd_YYYY");
+
+      @Override public void run()
+      {
+        if (_1const.RNG.nextInt() % 2 == 0)
+          use_LSys.ensure_dirs();
+        _1const.worker3.submit(() -> {
+          StringBuilder sb = new StringBuilder();
+          while (!log_infos.isEmpty())
+            sb.append(log_infos.poll()).append("\n");
+          use_LSys.soft_write("log/LOG_" + time + ".log", sb.toString());
+        });
+      }
+    }, 500L, 3000L); // log sample rate
 
     val.put_("debug_gui", parse_Bool, new Object[] { Bool, "false", type_Bool,
         "Draw the GUI differently in order to debug layout issues and other graphical issues." });
@@ -299,15 +316,18 @@ public class jm_Prismix
   {
     name = name.length() > MAX_LOG_NAME_LEN ? name.substring(0, MAX_LOG_NAME_LEN)
         : name.length() < MAX_LOG_NAME_LEN ? name + (stl_Str.n_copies(MAX_LOG_NAME_LEN - name.length(), "_")) : name;
+    log_infos.addLast(content);
     for (String str : content.split("\n"))
     {
-      IO.println(
-          jm_Ansi.make().bold().toString("| ") + jm_Ansi.make().white_bg().red_fg().toString(name)
-              + jm_Ansi.make().bold().toString(" |") + " " + jm_Ansi.make().bold().toString("| ")
-              + jm_Ansi.make().white().magenta()
-                  .toString(stl_Chrono.format_time("HH:mm:ss:SSS", System.currentTimeMillis() - time.get()))
-              + jm_Ansi.make().bold().toString(" |") + "\t"
-              + jm_Ansi.make().cyan().bold().toString("||") + "\t\t" + str);
+      log_infos.addLast(
+          name + "|" + stl_Chrono.format_time("HH:mm:ss:SSS", System.currentTimeMillis() - time.get()) + " & "
+              + stl_Chrono.format_millis("HH:mm:ss:SSS") + "\t|\t\t" + uwu.wemove_ansi(content));
+      IO.println(jm_Ansi.make().bold().toString("| ") + jm_Ansi.make().white_bg().red_fg().toString(name)
+          + jm_Ansi.make().bold().toString(" |") + " " + jm_Ansi.make().bold().toString("| ")
+          + jm_Ansi.make().white().magenta()
+              .toString(stl_Chrono.format_time("HH:mm:ss:SSS", System.currentTimeMillis() - time.get()))
+          + jm_Ansi.make().bold().toString(" |") + "\t"
+          + jm_Ansi.make().cyan().bold().toString("||") + "\t\t" + str);
     }
     /*------------------------------------------------------------------------------------------------------ /
     / IO.println(                                                                                            /

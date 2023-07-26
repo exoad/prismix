@@ -13,5 +13,9 @@ public final class uwu
 		return MessageFormat.format(use_LSys.read_all(_1const.fetcher.file(name)), pattern);
 	}
 
+	public static String wemove_ansi(String content)
+	{
+		return content.replaceAll("\\e\\[[\\d;]*[^\\d;]", "").replaceAll("\u001B\\[[\\d;]*[^\\d;]", "").replaceAll("\\x1B(?:[@-Z\\\\-_]|\\[[0-?]*[ -/]*[@-~])", "");
+	}
 
 }
