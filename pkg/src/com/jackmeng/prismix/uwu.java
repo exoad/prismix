@@ -15,7 +15,7 @@ public final class uwu
 
 	public static String wemove_ansi(String content)
 	{
-		return content.replaceAll("\\e\\[[\\d;]*[^\\d;]", "").replaceAll("\u001B\\[[\\d;]*[^\\d;]", "").replaceAll("\\x1B(?:[@-Z\\\\-_]|\\[[0-?]*[ -/]*[@-~])", "");
+		return content.replaceAll("\\e\\[[\\d;]*[^\\d;]", "").replaceAll("\u001B\\[[\\d;]*[^\\d;]", "").replaceAll("(?:\\x1B[@-Z\\\\-_]|[\\x80-\\x9A\\x9C-\\x9F]|(?:\\x1B\\[|\\x9B)[0-?]*[ -/]*[@-~])", "");
 	}
 
 }
