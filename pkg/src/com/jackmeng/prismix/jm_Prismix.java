@@ -93,7 +93,7 @@ public class jm_Prismix
           use_LSys.soft_write("log/LOG_" + time + ".log", sb.toString());
         });
       }
-    }, 500L, 3000L); // log sample rate
+    }, 500L, 3500L); // log sample rate
 
     val.put_("debug_gui", parse_Bool, new Object[] { Bool, "false", type_Bool,
         "Draw the GUI differently in order to debug layout issues and other graphical issues." });
@@ -146,7 +146,7 @@ public class jm_Prismix
     /     new Object[] { StrBound, "hex", new String[] { "hex", "rgba", "rgb", "cmyk", "hsv", "hsl" },                      /
     /         "Determines whether certain unstable/in development elements should be blocked by a yellow black stripe." }); /
     /----------------------------------------------------------------------------------------------------------------------*/
-    use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property);
+    use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property); // premature refactoring of the text
 
     /*-------------------------------------------------------------------------------------- /
     / final StringBuilder sb = new StringBuilder();                                          /
@@ -288,7 +288,7 @@ public class jm_Prismix
   {
     StringWriter sw = new StringWriter();
     PrintWriter pw = new PrintWriter(sw);
-    e.printStackTrace(pw);
+    e.printStackTrace(pw); // capture that shit
     gui_XErr.invoke(
         MessageFormat
             .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")),

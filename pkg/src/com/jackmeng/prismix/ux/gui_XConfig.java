@@ -51,7 +51,6 @@ public final class gui_XConfig
     title.setHorizontalAlignment(SwingConstants.LEFT);
 
     pane.add(title);
-    pane.setBorder(BorderFactory.createEmptyBorder());
 
     String loaded = use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_config_item_tagtitle.html"));
 
@@ -88,8 +87,7 @@ public final class gui_XConfig
           GridBagConstraints gbc = new GridBagConstraints();
           gbc.anchor = GridBagConstraints.CENTER;
           temp_wrap.add(toggle, gbc);
-          wrapper.add(stx_Helper
-              .overlay_db(temp_wrap),
+          wrapper.add(temp_wrap,
               BorderLayout.EAST);
           break;
         case stx_Map.StrBound:
@@ -123,7 +121,7 @@ public final class gui_XConfig
                                     // gives
                                     // a
                                     // fuck
-          wrapper.add(stx_Helper.overlay_db(temp_wrap3), BorderLayout.EAST);
+          wrapper.add(temp_wrap3, BorderLayout.EAST);
       }
 
       pane.add(wrapper);
@@ -138,6 +136,7 @@ public final class gui_XConfig
     jsp.getVerticalScrollBar().setBackground(Color.black);
     jsp.getVerticalScrollBar().setUnitIncrement(7);
     jsp.getHorizontalScrollBar().setBackground(Color.black);
+    jsp.setBorder(BorderFactory.createLineBorder(Color.white, 2, false));
 
     getContentPane().add(jsp);
 

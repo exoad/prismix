@@ -100,7 +100,6 @@ public class ui_Tag
         .awt_remake(extend_stl_Colors.binary_fg_decider(extend_stl_Colors.awt_strip_rgba(initialColor))));
     setText(extend_stl_Colors.RGBToHex(initialColor.getRed(), initialColor.getGreen(), initialColor.getBlue()));
     setToolTipText(getText());
-
   }
 
   public Color color()

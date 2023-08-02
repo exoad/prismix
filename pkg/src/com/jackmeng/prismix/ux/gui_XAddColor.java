@@ -54,11 +54,24 @@ public final class gui_XAddColor
 		});
 		hex.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1, true));
 
-		JPanel textPanel = createLabelAndTextArea("HEX:  ", hex);
-		jp.add(textPanel);
-		layout.putConstraint(SpringLayout.NORTH, textPanel, 10, SpringLayout.SOUTH, title);
-		layout.putConstraint(SpringLayout.WEST, textPanel, 0, SpringLayout.WEST, jp);
-		layout.putConstraint(SpringLayout.EAST, textPanel, 0, SpringLayout.EAST, jp);
+		JPanel hex_TextPanel = createLabelAndTextArea("HEX:  ", hex);
+		jp.add(hex_TextPanel);
+		layout.putConstraint(SpringLayout.NORTH, hex_TextPanel, 10, SpringLayout.SOUTH, title);
+		layout.putConstraint(SpringLayout.WEST, hex_TextPanel, 0, SpringLayout.WEST, jp);
+		layout.putConstraint(SpringLayout.EAST, hex_TextPanel, 0, SpringLayout.EAST, jp);
+
+		JTextArea rawRGBA_textAreanew = new JTextArea(1, 10);
+		rawRGBA_textAreanew.addKeyListener(new KeyAdapter() {
+			@Override public void keyPressed(KeyEvent e)
+			{
+				rawRGBA_textAreanew.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1, true));
+			}
+		});
+		JPanel rgbaRaw_TextPanel = createLabelAndTextArea("Raw RGBA:  ", rawRGBA_textAreanew);
+		jp.add(rgbaRaw_TextPanel);
+		layout.putConstraint(SpringLayout.NORTH, rgbaRaw_TextPanel, 10, SpringLayout.SOUTH, hex_TextPanel);
+		layout.putConstraint(SpringLayout.WEST, rgbaRaw_TextPanel, 0, SpringLayout.WEST, jp);
+		layout.putConstraint(SpringLayout.EAST, rgbaRaw_TextPanel, 0, SpringLayout.EAST, jp);
 
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(jp, BorderLayout.CENTER);
