@@ -57,10 +57,11 @@ Report it here: https://github.com/exoad/Prismix.java/issues
 
 
 <div align="center">
-<code>
-Copyright (C) Jack Meng (AKA exoad) 2023. All rights reserved.
-</code>
+   
+`Copyright (C) Jack Meng (AKA exoad) 2023. All rights reserved.`
+
 </div>
+
 <pre>
 
 Redistribution and use in source and binary forms, with or without
