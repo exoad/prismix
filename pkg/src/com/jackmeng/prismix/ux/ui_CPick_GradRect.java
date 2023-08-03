@@ -60,7 +60,7 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
   private JSlider controls_RED, controls_GREEN, controls_BLUE;
 
   private transient ChangeListener syncSliders = Boolean.TRUE
-      .equals((Boolean) _1const.val.parse("stoopid_sliders").get()) ? ev -> {
+      .equals(_1const.val.parse("stoopid_sliders").get()) ? ev -> {
         rgb_Sliders_Listen = false;
         _1const.COLOR_ENQ.dispatch(stl_Struct
             .make_pair(new Color(controls_RED.getValue(), controls_GREEN.getValue(), controls_BLUE.getValue()),

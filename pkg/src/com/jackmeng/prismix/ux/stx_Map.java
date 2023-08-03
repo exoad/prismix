@@ -195,6 +195,18 @@ public final class stx_Map
 
   // you should prefer to use #parse instead of this in order to assert that a
   // cast to the correct type would work (especially useful for dynamics)
+  // it is not necessary for lets say a boolean condition to use the following
+  // expression:
+  //
+  // Boolean.TRUE.equals((Boolean) myValues.parse("someKey").get())
+  //
+  //
+  // instead the referral can be made to use:
+  //
+  // Boolean.TRUE.equals(myValues.parse("someKey").get())
+  //
+  // reduces code size and overall verbosity^ (the runtime should optimize this
+  // cast even if it is there)
   public String get_value(String key)
   {
     if (!this.containsKey(key))

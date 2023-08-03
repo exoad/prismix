@@ -70,7 +70,7 @@ public final class stx_Helper
 
   public static JComponent overlay_db(JComponent r)
   {
-    return Boolean.TRUE.equals((Boolean) _1const.val.parse("block_dev_features").get())
+    return Boolean.TRUE.equals(_1const.val.parse("block_dev_features").get())
         ? stack(new ui_Whoops(20, 4).with_size(r.getSize()), r)
         : r;
   }

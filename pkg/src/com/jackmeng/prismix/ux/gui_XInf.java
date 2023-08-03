@@ -26,7 +26,7 @@ public final class gui_XInf
 
 	public static void invoke(String content, String title)
 	{
-		if (Boolean.FALSE.equals((Boolean) _1const.val.parse("shush_info_dialogs").get()))
+		if (Boolean.FALSE.equals(_1const.val.parse("shush_info_dialogs").get()))
 			force_invoke(content, title);
 	}
 

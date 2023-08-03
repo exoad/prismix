@@ -55,7 +55,7 @@ public class ui_Cntnr_BottomPane
 
 		this.controls.add(stx_Helper.quick_btn("New color", gui_XAddColor::request));
 		this.controls
-				.add(Boolean.TRUE.equals((Boolean) _1const.val.parse("queued_random_color").get()) ? new ui_R_ColorBtn()
+				.add(Boolean.TRUE.equals(_1const.val.parse("queued_random_color").get()) ? new ui_R_ColorBtn()
 						: stx_Helper.quick_btn("Random Color",
 								() -> _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(extend_stl_Colors.awt_random_Color(), false))));
 		this.controls.add(stx_Helper.quick_btn("Random Screen Color",

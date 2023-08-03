@@ -41,7 +41,7 @@ public final class use_Maker
 
   public static void db_timed(final Runnable r)
   {
-    if (Boolean.TRUE.equals((Boolean) _1const.val.parse("debug_gui").get()))
+    if (Boolean.TRUE.equals(_1const.val.parse("debug_gui").get()))
     {
       final long i = System.currentTimeMillis();
       r.run();

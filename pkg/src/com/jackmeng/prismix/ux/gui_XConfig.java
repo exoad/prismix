@@ -105,6 +105,7 @@ public final class gui_XConfig
           break;
         case stx_Map.IntBound:
           JSlider slider = new JSlider(SwingConstants.HORIZONTAL);
+
           break;
         case stx_Map.Any:
           JTextArea jt = new JTextArea(1, 0);

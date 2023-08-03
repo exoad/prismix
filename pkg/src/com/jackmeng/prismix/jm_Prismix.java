@@ -99,6 +99,8 @@ public class jm_Prismix
         "Draw the GUI differently in order to debug layout issues and other graphical issues." });
     val.put_("soft_debug", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Enable basic debug layers, like CLI debug, and more." });
+    val.put_("force_periodic_gc", parse_Bool, new Object[] { Bool, "true", type_Bool,
+        "Launches a periodic thread that constantly calls the GC. Not very efficient!" });
     val.put_("smart_gui", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Uses a hide and show paint schema instead of showing and painting." });
     val.put_("use_current_dir", parse_Bool,
@@ -146,7 +148,8 @@ public class jm_Prismix
     /     new Object[] { StrBound, "hex", new String[] { "hex", "rgba", "rgb", "cmyk", "hsv", "hsl" },                      /
     /         "Determines whether certain unstable/in development elements should be blocked by a yellow black stripe." }); /
     /----------------------------------------------------------------------------------------------------------------------*/
-    use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property); // premature refactoring of the text
+    use_LSys.load_map(_1const.val.name.replace("\\s+", "%"), _1const.val::set_property); // premature refactoring of the
+                                                                                         // text
 
     /*-------------------------------------------------------------------------------------- /
     / final StringBuilder sb = new StringBuilder();                                          /
@@ -169,7 +172,7 @@ public class jm_Prismix
       / UIManager.setLookAndFeel(_1const.DARK_MODE ? new FlatHighContrastIJTheme() : new FlatGrayIJTheme()); // or FlatGratIJTheme /
       /---------------------------------------------------------------------------------------------------------------*/
       UIManager.setLookAndFeel(
-          Boolean.TRUE.equals((Boolean) _1const.val.parse("dark_mode").get()) ? new FlatHighContrastIJTheme()
+          Boolean.TRUE.equals(_1const.val.parse("dark_mode").get()) ? new FlatHighContrastIJTheme()
               : new FlatGrayIJTheme());
       UIManager.put("ScrollBar.background", extend_stl_Colors.awt_empty());
       UIManager.put("ScrollBar.showButtons", false);
@@ -217,10 +220,10 @@ public class jm_Prismix
     {
       _1const.add(__ux._ux, 10L);
       _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
-      if (Boolean.TRUE.equals((Boolean) _1const.val.parse("developer_buttons").get()))
+      if (Boolean.TRUE.equals(_1const.val.parse("developer_buttons").get()))
         new gui_Dev().run();
       ux_Theme._theme.theme(
-          Boolean.TRUE.equals((Boolean) _1const.val.parse("dark_mode").get()) ? ThemeType.DARK : ThemeType.LIGHT);
+          Boolean.TRUE.equals(_1const.val.parse("dark_mode").get()) ? ThemeType.DARK : ThemeType.LIGHT);
       final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
       if (IS_UNSTABLE)
         gui_XInf.invoke(uwu.fowmat("assets/text/TEXT_prismix_unstable.html", IS_UNSTABLE + " | " + _VERSION_),
@@ -240,6 +243,15 @@ public class jm_Prismix
       / new gui_XColor(stl_Colors.hexToRGB("#89eda4")).run(); /
       / __ux._ux.getMainUI().dispose();                       /
       /------------------------------------------------------*/
+
+      // schedule any after init tasks
+      if (Boolean.TRUE.equals(_1const.val.parse("force_periodic_gc").get()))
+        _1const.worker2.scheduleAtFixedRate(new TimerTask() {
+          @Override public void run()
+          {
+            System.gc();
+          }
+        }, 750L, 1500L);
 
     } catch (Exception e)
     {

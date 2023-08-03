@@ -136,7 +136,7 @@ public final class gui_XErr
 		getContentPane().add(pane);
 		getContentPane().add(wrap);
 
-		if (Boolean.TRUE.equals((Boolean) _1const.val.parse("use_flashing_error_window").get()))
+		if (Boolean.TRUE.equals(_1const.val.parse("use_flashing_error_window").get()))
 		{
 			jsp.addMouseListener(new MouseAdapter() {
 				@Override public void mouseEntered(MouseEvent e)
