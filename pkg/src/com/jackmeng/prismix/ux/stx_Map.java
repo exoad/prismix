@@ -29,28 +29,33 @@ public final class stx_Map
 {
   public static final String[] type_Bool = new String[] { "true", "false" };
 
-  public static final String[] type_IntBound(int min, int max) // inclusive of min, max i.e [min, max]
+  public static final String[] type_NumBound(double min, double max) // inclusive of min, max i.e [min, max]
+  // also this usage of decimal inclusion makes sure that integers and floating
+  // points are all included
   {
-    return new String[] { "" + min, "" + max };
+    return new String[] { "" + Double.toString(min), "" + Double.toString(max) };
     /*--------------------------------------- /
     / String[] r = new String[max - min + 1]; /
     / for (int i = min; i <= max; i++)        /
     /   r[i] = "" + i;                        /
     / return r;                               /
-    /----------------------------------------*/
+    /----------------------------------------*/ // the old idea here was to make a list of all of the inclusive data,
+                                                 // but this would be too upfront and too memory intense for larger
+                                                 // ranges, instead we just compute on lazy load.
   }
 
   // Bool type is for {true, false}
-  // IntBound is for a Minima and Maxima range
-  public static final String Bool = "Bool", IntBound = "IntBound", StrBound = "StrBound", Any = "Any";
+  // NumBound is for a Minima and Maxima range for all floating point and integer
+  // data
+  public static final String Bool = "Bool", NumBound = "NumBound", StrBound = "StrBound", Any = "Any";
 
   // result_type, payload
   public static final stl_Callback< Boolean, String > parse_Bool = "true"::equalsIgnoreCase;
 
-  public static stl_Callback< Integer, String > parse_IntBound(int min, int max)
+  public static stl_Callback< Double, String > parse_NumBound(double min, double max)
   {
     return x -> {
-      int e = Integer.parseInt(x);
+      double e = Double.parseDouble(x);
       return e < min ? min : e > max ? max : e;
     };
   }
@@ -241,6 +246,7 @@ public final class stx_Map
     String value = get_value(key);
     return switch (get_type(key)) {
       case Bool:
+        // following log statements are ignored to remove verbosity
         /*------------------------------------------------------------ /
         / log("MAP_REGISTRY", "Parsing: " + key + " as type " + Bool); /
         /-------------------------------------------------------------*/
@@ -248,7 +254,7 @@ public final class stx_Map
         if (!value.equals(result_bool + ""))
           set_property(key, "" + result_bool);
         yield Optional.of(result_bool);
-      case IntBound:
+      case NumBound:
         /*---------------------------------------------------------------- /
         / log("MAP_REGISTRY", "Parsing: " + key + " as type " + IntBound); /
         /-----------------------------------------------------------------*/

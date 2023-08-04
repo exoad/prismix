@@ -344,32 +344,8 @@ public final class extend_stl_Colors
                 new Color[] { new Color(Color.BLACK.getRed(), Color.BLACK.getBlue(), Color.BLACK.getBlue(), 0),
                         Color.BLACK });
 
-        /*---------------------------------- /
-        / g.setPaint(lgp_white_to_interest); /
-        / g.fillRect(0, 0, size, size);      /
-        / g.setPaint(lgp_shade);             /
-        / g.fillRect(0, 0, size, size);      /
-        / g.dispose();                       /
-        /-----------------------------------*/
-
         final GradientPaint primary = new GradientPaint(
                 0F, 0F, Color.white, size, size, interest);
-        /*---------------------------------------- /
-        / int rC = shadeColor.getRed();            /
-        / int gC = shadeColor.getGreen();          /
-        / int bC = shadeColor.getBlue();           /
-        / GradientPaint shade = new GradientPaint( /
-        /     0F, 0F, new Color(rC, gC, bC, 0),    /
-        /     0F, size, shadeColor);               /
-        /-----------------------------------------*/
-        /*--------------------------------------- /
-        / g.setPaint(primary);                    /
-        / g.fillRect(0, 0, size, size);           /
-        / g.setComposite(AlphaComposite.SrcAtop); /
-        / g.setPaint(shade);                      /
-        / g.fillRect(0, 0, size, size);           /
-        / g.dispose();                            /
-        /----------------------------------------*/
 
         g.setPaint(primary);
         g.fillRect(0, 0, size, size);

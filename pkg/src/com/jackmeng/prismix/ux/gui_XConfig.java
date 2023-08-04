@@ -1,4 +1,3 @@
-
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 
 package com.jackmeng.prismix.ux;
@@ -103,9 +102,22 @@ public final class gui_XConfig
           temp_wrap1.add(list, gbc1);
           wrapper.add(temp_wrap1, BorderLayout.EAST);
           break;
-        case stx_Map.IntBound:
+        case stx_Map.NumBound:
           JSlider slider = new JSlider(SwingConstants.HORIZONTAL);
-
+          slider.setMinimum((int) Double.parseDouble(_1const.val.get_allowed(key)[0])); // implied
+          slider.setMaximum((int) Double.parseDouble(_1const.val.get_allowed(key)[1])); // implied
+          slider.setValue((int) Double.parseDouble(_1const.val.parse(key).get().toString())); // toString implied here
+                                                                                              // for the fact that a
+                                                                                              // numeric value is
+                                                                                              // required
+          slider.addChangeListener(ev -> _1const.val.set_property(key, Integer.toString(slider.getValue())));
+          GridBagConstraints gbc2 = new GridBagConstraints();
+          gbc2.anchor = GridBagConstraints.CENTER;
+          JPanel temp_wrap2 = new JPanel();
+          temp_wrap2.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+          temp_wrap2.setLayout(new GridBagLayout());
+          temp_wrap2.add(slider, gbc2);
+          wrapper.add(temp_wrap2, BorderLayout.EAST);
           break;
         case stx_Map.Any:
           JTextArea jt = new JTextArea(1, 0);
