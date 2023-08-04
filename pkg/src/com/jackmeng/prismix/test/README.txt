@@ -1,1 +1,0 @@
-Files in this directory are to be never packaged with the software outside of this directory if there is to be one.
