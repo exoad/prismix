@@ -2,12 +2,18 @@
 
 package com.jackmeng.prismix.ux;
 
-public abstract class ui_Cntnr_BottomPane_Palette extends ux_Palette
+import javax.swing.JTabbedPane;
+
+public abstract class ui_Cntnr_BottomPane_Palette
+    extends JTabbedPane
 {
 
-  protected ui_Cntnr_BottomPane_Palette(int initial, String name, boolean isInternal)
+  private ux_Palette paletteModel;
+
+  protected ui_Cntnr_BottomPane_Palette(ux_Palette model)
   {
-    super(initial, name, isInternal);
+    this.paletteModel = model;
+    setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
   }
 
 }

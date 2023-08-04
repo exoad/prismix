@@ -143,6 +143,7 @@ public class jm_Prismix
         "Default emoticon to use for displaying things :3" });
     val.put_("block_dev_features", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Determines whether certain unstable/in development elements should be blocked by a yellow black stripe." });
+    val.put("palette_tab_layout", parse_StrBound(new String[] { "wrap", "scroll" }), new Object[] {StrBound, "wrap", ""});
     /*--------------------------------------------------------------------------------------------------------------------- /
     / val.put_("copy_color_format", parse_StrBound(new String[] { "hex", "rgba", "rgb", "cmyk", "hsv", "hsl" }, "hex"),     /
     /     new Object[] { StrBound, "hex", new String[] { "hex", "rgba", "rgb", "cmyk", "hsv", "hsl" },                      /

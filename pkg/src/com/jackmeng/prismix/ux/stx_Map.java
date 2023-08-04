@@ -23,6 +23,12 @@ import com.jackmeng.stl.stl_Struct.struct_Pair;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
+// --
+// ! TODO
+//
+// There is a bit of verbosity in use with certain bound functions and the checking system (this does not have any significant performance impacts)
+// - The usage of the StrBound takes a default value, but this value is like kinda redundant as the keys are parsed with the Object{type, default_value} param which takes care of this
+
 public final class stx_Map
     extends
     HashMap< String, stl_Struct.struct_Pair< stl_Callback< ?, String >, Object[] > >
@@ -63,6 +69,13 @@ public final class stx_Map
   public static stl_Callback< String, String > parse_StrBound(String[] bounds, String default_value)
   {
     return x -> Arrays.binarySearch(bounds, x) >= 0 ? x : default_value;
+  }
+
+  public static stl_Callback< String, String > parse_StrBound(String[] bounds) // assumes the first element of the array
+                                                                               // is the default value (can be bugged if
+                                                                               // not used and checked with care)
+  {
+    return parse_StrBound(bounds, bounds[0]);
   }
 
   public static final stl_Callback< Object, String > parse_Any = x -> x;
