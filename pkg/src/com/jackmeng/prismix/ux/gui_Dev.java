@@ -18,65 +18,70 @@ import javax.swing.WindowConstants;
 
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 
+import static com.jackmeng.prismix.jm_Prismix.*;
+
 public final class gui_Dev
 		extends
 		gui
 
 {
-  /*--------------------------- /
-  / private ux_WindowRes reser; /
-  /----------------------------*/ // refer to why setUndecorated was commented out
-  /*------------------- /
-  / private int pX, pY; /
-  /--------------------*/ // refer to why setUndecorated was commented out
+	/*--------------------------- /
+	/ private ux_WindowRes reser; /
+	/----------------------------*/
+	// refer to why setUndecorated was commented out
+	/*------------------- /
+	/ private int pX, pY; /
+	/--------------------*/ // refer to why setUndecorated was commented out
 
 	public gui_Dev()
 	{
 		super("Prismix : dev_window");
-    /*-------------------------------------------- /
-    / reser = new ux_WindowRes();                  /
-    / reser.registerComponent(getFrame());         /
-    / reser.setSnapSize(new Dimension(5, 5));      /
-    / reser.setDragInsets(new Insets(4, 4, 4, 4)); /
-    /---------------------------------------------*/ // refer to why setUndecorated was commented out
+		/*-------------------------------------------- /
+		/ reser = new ux_WindowRes();                  /
+		/ reser.registerComponent(getFrame());         /
+		/ reser.setSnapSize(new Dimension(5, 5));      /
+		/ reser.setDragInsets(new Insets(4, 4, 4, 4)); /
+		/---------------------------------------------*/ // refer to why setUndecorated was commented out
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(470, 350));
 		setBackground(Color.black);
-    /*--------------------- /
-    / setUndecorated(true); /
-    /----------------------*/  // apparantely this line makes the window's contents unable to be rendered on Win32 devices
-    /*--------------------- /
-    / setAlwaysOnTop(true); /
-    /----------------------*/ // this is just annoying
+		/*--------------------- /
+		/ setUndecorated(true); /
+		/----------------------*/ // apparantely this line makes the window's contents unable to be rendered on
+																// Win32 devices
+		/*--------------------- /
+		/ setAlwaysOnTop(true); /
+		/----------------------*/ // this is just annoying
 		JPanel pane = new JPanel();
 		pane.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2, false));
 		pane.setLayout(new ux_WrapLayout(FlowLayout.LEFT, 8, 10));
 		pane.setOpaque(true);
 		pane.setBackground(Color.black);
 
-    /*--------------------------------------------------------------------------- /
-    / pane.addMouseListener(new MouseAdapter() {                                  /
-    /                                                                             /
-    /   @Override public void mousePressed(MouseEvent me)                         /
-    /   {                                                                         /
-    /     pX = me.getX();                                                         /
-    /     pY = me.getY();                                                         /
-    /   }                                                                         /
-    /                                                                             /
-    /   @Override public void mouseDragged(MouseEvent me)                         /
-    /   {                                                                         /
-    /     gui_Dev.this.setLocation(gui_Dev.this.getLocation().x + me.getX() - pX, /
-    /         gui_Dev.this.getLocation().y + me.getY() - pY);                     /
-    /   }                                                                         /
-    / });                                                                         /
-    / pane.addMouseMotionListener(new MouseMotionAdapter() {                      /
-    /   @Override public void mouseDragged(MouseEvent me)                         /
-    /   {                                                                         /
-    /     gui_Dev.this.setLocation(gui_Dev.this.getLocation().x + me.getX() - pX, /
-    /         gui_Dev.this.getLocation().y + me.getY() - pY);                     /
-    /   }                                                                         /
-    / });                                                                         /
-    /----------------------------------------------------------------------------*/ // refer to why setUndecorated was commented out
+		/*--------------------------------------------------------------------------- /
+		/ pane.addMouseListener(new MouseAdapter() {                                  /
+		/                                                                             /
+		/   @Override public void mousePressed(MouseEvent me)                         /
+		/   {                                                                         /
+		/     pX = me.getX();                                                         /
+		/     pY = me.getY();                                                         /
+		/   }                                                                         /
+		/                                                                             /
+		/   @Override public void mouseDragged(MouseEvent me)                         /
+		/   {                                                                         /
+		/     gui_Dev.this.setLocation(gui_Dev.this.getLocation().x + me.getX() - pX, /
+		/         gui_Dev.this.getLocation().y + me.getY() - pY);                     /
+		/   }                                                                         /
+		/ });                                                                         /
+		/ pane.addMouseMotionListener(new MouseMotionAdapter() {                      /
+		/   @Override public void mouseDragged(MouseEvent me)                         /
+		/   {                                                                         /
+		/     gui_Dev.this.setLocation(gui_Dev.this.getLocation().x + me.getX() - pX, /
+		/         gui_Dev.this.getLocation().y + me.getY() - pY);                     /
+		/   }                                                                         /
+		/ });                                                                         /
+		/----------------------------------------------------------------------------*/ // refer to why setUndecorated was
+																																											// commented out
 
 		pane.add(stx_Helper.quick_btn("GC", System::gc));
 		pane.add(stx_Helper.quick_btn("Hide MAINUI", () -> __ux._ux.getMainUI().setVisible(false)));
@@ -135,6 +140,11 @@ public final class gui_Dev
 		jsp.setViewportView(ui_LazyViewport.make(pane));
 
 		getContentPane().add(jsp);
+		with_WindowOpened(ev -> {
+			log("DEV_WINDOW", "DevWindow requests focus after initial launch");
+			setAlwaysOnTop(true);
+			setAlwaysOnTop(false); // dumbest implementation lmfao
+		});
 
 	}
 }

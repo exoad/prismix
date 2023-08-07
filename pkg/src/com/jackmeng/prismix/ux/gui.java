@@ -27,6 +27,9 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.function.Consumer;
 
 @SwingContainer abstract sealed class gui
 		extends
@@ -53,6 +56,16 @@ import java.awt.RenderingHints;
 		super(r);
 		setIconImage(_1const.fetcher.image("assets/_icon.png"));
 		setBackground(Color.black);
+	}
+
+	public void with_WindowOpened(Consumer< WindowEvent > callback)
+	{
+		addWindowListener(new WindowAdapter() {
+			@Override public void windowOpened(WindowEvent e)
+			{
+				callback.accept(e);
+			}
+		});
 	}
 
 	protected JFrame getFrame()

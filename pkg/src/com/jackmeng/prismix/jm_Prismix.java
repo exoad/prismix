@@ -129,7 +129,7 @@ public class jm_Prismix
         "Stops information dialogs from appearing; however, error and exception logs will still be launched."
     });
     val.put_("compact_suggestions_layout",
-        parse_StrBound(new String[] { "compact", "vertical", "horizontal" }, "compact"), new Object[] { StrBound,
+        parse_StrBound(new String[] { "compact", "vertical", "horizontal" }), new Object[] { StrBound,
             "compact", new String[] { "compact", "vertical", "horizontal" },
             "Changes the layout styling of the color gallery in 3 formats: compact, vertical, and horizontal."
         });
@@ -143,7 +143,9 @@ public class jm_Prismix
         "Default emoticon to use for displaying things :3" });
     val.put_("block_dev_features", parse_Bool, new Object[] { Bool, "true", type_Bool,
         "Determines whether certain unstable/in development elements should be blocked by a yellow black stripe." });
-    val.put("palette_tab_layout", parse_StrBound(new String[] { "wrap", "scroll" }), new Object[] {StrBound, "wrap", ""});
+    val.put_("palette_tab_layout", parse_StrBound(new String[] { "wrap", "scroll" }), new Object[] { StrBound, "wrap",
+        new String[] { "wrap", "scroll" },
+        "Changes the alyout of the bottom pane's palette tab layout. Scroll would mean a continuous to reach other palettes. On the other hand, wrap, will layer each palette name on each other." });
     /*--------------------------------------------------------------------------------------------------------------------- /
     / val.put_("copy_color_format", parse_StrBound(new String[] { "hex", "rgba", "rgb", "cmyk", "hsv", "hsl" }, "hex"),     /
     /     new Object[] { StrBound, "hex", new String[] { "hex", "rgba", "rgb", "cmyk", "hsv", "hsl" },                      /
