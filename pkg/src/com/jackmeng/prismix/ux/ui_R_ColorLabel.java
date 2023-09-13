@@ -10,7 +10,8 @@ import java.awt.*;
  */
 public class ui_R_ColorLabel extends JLabel
 {
-  private int cornerRadius, borderThickness;
+  private final int cornerRadius;
+  private int borderThickness;
   private Color borderColor;
 
   public ui_R_ColorLabel(String text, int cornerRadius, Color borderColor, int borderThickness)

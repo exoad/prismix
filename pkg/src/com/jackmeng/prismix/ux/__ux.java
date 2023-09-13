@@ -10,7 +10,6 @@ import java.awt.Dimension;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
@@ -48,7 +47,6 @@ public final class __ux
 
   private final gui_Main mainui;
   private final ui_Cntnr childui;
-  private final gui_XConfig configui;
 
   public gui_Main getMainUI()
   {
@@ -64,7 +62,7 @@ public final class __ux
   {
     this.childui = new ui_Cntnr();
     this.mainui = new gui_Main();
-    this.configui = new gui_XConfig();
+    gui_XConfig configui = new gui_XConfig();
     this.mainui
         .setPreferredSize(new Dimension(this.childui.getPreferredSize().width, this.childui.getPreferredSize().height));
     this.mainui.wrapper.add(this.childui, BorderLayout.CENTER);
@@ -76,12 +74,12 @@ public final class __ux
       e[i] = use_Maker.make(r[i].getName(), use_Maker.make(r[i]));
     this.mainui.registerToBar("Color Attributes", use_Maker.make(e));
     this.mainui.registerToBar("Prismix",
-        new JMenuItem[] { stx_Helper.make_simple("Config", configui),
+            stx_Helper.make_simple("Config", configui),
             stx_Helper.make_simple("Licenses",
                 () -> gui_XInf.force_invoke(
                     use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_legals.html")).replace("\n", "<br>"),
                     "Open Source Licenses")),
-            stx_Helper.make_simple("LuaOp", () -> gui_XLua.instance().run()) });
+            stx_Helper.make_simple("LuaOp", () -> gui_XLua.instance().run()));
   }
 
   public synchronized void force_redo()
@@ -98,24 +96,23 @@ public final class __ux
   {
     for (Component component : container.getComponents())
     {
-      if (component instanceof Component)
+      if (component != null)
       {
         if (!(component instanceof JPanel || component instanceof JLayeredPane || component instanceof JRootPane
             || component instanceof JMenuBar || component instanceof JSplitPane))
         {
           try
           {
-            Component child = (Component) component;
             log("DEBUG_GUI", "Added: " + component.getClass().getCanonicalName());
-            Container parent = child.getParent();
+            Container parent = component.getParent();
 
-            int index = parent.getComponentZOrder(child);
+            int index = parent.getComponentZOrder(component);
 
             ui_Whoops er = new ui_Whoops(extend_stl_Colors.awt_random_Color(), Color.black, 20, 4, true)
-                .with_size(child.getPreferredSize());
+                .with_size(component.getPreferredSize());
 
             parent.add(er);
-            parent.setComponentZOrder(child, index + 1);
+            parent.setComponentZOrder(component, index + 1);
             parent.setComponentZOrder(er, 0);
             parent.revalidate();
             parent.repaint();

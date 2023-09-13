@@ -25,7 +25,8 @@ import lombok.NonNull;
 public class ui_FatSlider
 		extends AbstractButton
 {
-	@Getter private String trueString, falseString;
+	@Getter private final String trueString;
+	@Getter private final String falseString;
 	@Getter private final Color trueColor, falseColor, thumbColor;
 	@Getter private final int borderArc, thumbWidth, shadowDrawDist, thumbBumpPad;
 private final transient stl_ListenerPool< Boolean > listenerPool;

@@ -2,31 +2,6 @@
 
 package com.jackmeng.prismix.ux;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextPane;
-import javax.swing.OverlayLayout;
-import javax.swing.SwingConstants;
-
 import com.jackmeng.prismix._1const;
 import com.jackmeng.prismix.stl.extend_stl_Colors;
 import com.jackmeng.prismix.ux.model.h_Graff;
@@ -34,11 +9,16 @@ import com.jackmeng.prismix.ux.model.h_GraphPoint;
 import com.jackmeng.prismix.ux.ui_Graff.DrawAxis;
 import com.jackmeng.prismix.ux.ui_Graff.DrawType;
 import com.jackmeng.stl.stl_Colors;
-
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.jackmeng.prismix.jm_Prismix.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static com.jackmeng.prismix.jm_Prismix.debug;
 
 public final class gui_XColor
 		extends
@@ -59,7 +39,8 @@ public final class gui_XColor
 		jsp.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		jsp.setDividerLocation(0.5D);
 
-		JPanel image = new JPanel() {
+		JPanel image = new JPanel()
+		{
 			@Override public void paintComponent(Graphics g)
 			{
 				Graphics2D g2 = (Graphics2D) g;
@@ -76,7 +57,6 @@ public final class gui_XColor
 		textLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		textLabel.setForeground(
 				extend_stl_Colors.awt_remake(extend_stl_Colors.binary_fg_decider(extend_stl_Colors.stripHex(r))));
-
 		JPanel imageOverlay = new JPanel();
 		imageOverlay.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		imageOverlay.setLayout(new OverlayLayout(imageOverlay));
@@ -114,10 +94,10 @@ public final class gui_XColor
 						+ extend_stl_Colors.RGBToHex(255, 0, 0) + "\">[]</code> Red [R]",
 				t.getRed() + "&emsp;&emsp;<em>(" + t.getRed() / 255F + "%)</em>"));
 		information.add(_m("<code style=\"background-color:" + extend_stl_Colors.RGBToHex(0, 255, 0) + ";color:"
-				+ extend_stl_Colors.RGBToHex(0, 255, 0) + "\">[]</code> Green [G]",
+						+ extend_stl_Colors.RGBToHex(0, 255, 0) + "\">[]</code> Green [G]",
 				t.getRed() + "&emsp;&emsp;<em>(" + t.getGreen() / 255F + "%)</em>"));
 		information.add(_m("<code style=\"background-color:" + extend_stl_Colors.RGBToHex(0, 0, 255) + ";color:"
-				+ extend_stl_Colors.RGBToHex(0, 0, 255) + "\">[]</code> Blue [B]",
+						+ extend_stl_Colors.RGBToHex(0, 0, 255) + "\">[]</code> Blue [B]",
 				t.getBlue() + "&emsp;&emsp;<em>(" + t.getBlue() / 255F + "%)</em>"));
 		information.add(_m("Alpha [A]", t.getAlpha() + "&emsp;&emsp;<em>(" + t.getAlpha() / 255F + "%)</em>"));
 		information.add(_m("Hue [H]", hsv[0]));
@@ -125,15 +105,15 @@ public final class gui_XColor
 		information.add(_m("Value [V]", hsv[2]));
 		information.add(_m("Lightness [L]", hsl[2]));
 		information.add(_m("<code style=\"background-color:" + extend_stl_Colors.RGBToHex(0, 255, 255) + ";color:"
-				+ extend_stl_Colors.RGBToHex(0, 255, 255) + "\">[]</code> Cyan [C]",
+						+ extend_stl_Colors.RGBToHex(0, 255, 255) + "\">[]</code> Cyan [C]",
 				String.format("%,.4f", cmyk[0]) + "&emsp;&emsp;<em>("
 						+ String.format("%,.2f", 100 * cmyk[0]) + "%)</em>"));
 		information.add(_m("<code style=\"background-color:" + extend_stl_Colors.RGBToHex(255, 0, 255) + ";color:"
-				+ extend_stl_Colors.RGBToHex(255, 0, 255) + "\">[]</code> Magenta [M]",
+						+ extend_stl_Colors.RGBToHex(255, 0, 255) + "\">[]</code> Magenta [M]",
 				String.format("%,.4f", cmyk[1]) + "&emsp;&emsp;<em>("
 						+ String.format("%,.2f", 100 * cmyk[1]) + "%)</em>"));
 		information.add(_m("<code style=\"background-color:" + extend_stl_Colors.RGBToHex(255, 255, 0) + ";color:"
-				+ extend_stl_Colors.RGBToHex(255, 255, 0) + "\">[]</code> Yellow [Y]",
+						+ extend_stl_Colors.RGBToHex(255, 255, 0) + "\">[]</code> Yellow [Y]",
 				String.format("%,.4f", cmyk[2]) + "&emsp;&emsp;<em>("
 						+ String.format("%,.2f", 100 * cmyk[2]) + "%)</em>"));
 		information.add(_m("Key [K]", String.format("%,.4f", cmyk[3]) + "&emsp;&emsp;<em>("
@@ -146,25 +126,29 @@ public final class gui_XColor
 		information.add(_m("Temperature", extend_stl_Colors.color_temp(color)));
 		information.add(_m("CSS RGB",
 				"<code style=\"color:" + (extend_stl_Colors.RGBToHex((int) ux_Theme.get().dominant()[0],
-						(int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2])) + "\">rgb</code><code>("
+						(int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2]))
+						+ "\">rgb</code><code>("
 						+ color.getRed()
 						+ ", " +
 						color.getGreen() + ", " + color.getBlue() + ")</code>"));
 		information.add(_m("CSS RGBA",
 				"<code style=\"color:" + (extend_stl_Colors.RGBToHex((int) ux_Theme.get().dominant()[0],
-						(int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2])) + "\">rgba</code><code>("
+						(int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2]))
+						+ "\">rgba</code><code>("
 						+ color.getRed()
 						+ ", " +
 						color.getGreen() + ", " + color.getBlue() + ", " + color.getAlpha() + ")</code>"));
 		information.add(_m("CSS CMYK",
 				"<code style=\"color:" + (extend_stl_Colors.RGBToHex((int) ux_Theme.get().dominant()[0],
-						(int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2])) + "\">cmyk</code><code>("
+						(int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2]))
+						+ "\">cmyk</code><code>("
 						+ cmyk[0] * 100F + "%, " + cmyk[1] * 100F
 						+ "%, " + cmyk[2] * 100F
 						+ "%" + cmyk[3] * 100F + "%)</code>"));
 		information.add(_m("CSS HSV",
 				"<code style=\"color:" + (extend_stl_Colors.RGBToHex((int) ux_Theme.get().dominant()[0],
-						(int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2])) + "\">hsv</code><code>("
+						(int) ux_Theme.get().dominant()[1], (int) ux_Theme.get().dominant()[2]))
+						+ "\">hsv</code><code>("
 						+ hsv[0] + ", " + (hsv[1] * 100F) + ", " + (hsv[2] * 100F) + ")</code>"));
 		information.add(Box.createVerticalGlue());
 
@@ -175,26 +159,28 @@ public final class gui_XColor
 
 		JSplitPane rgbValues_JSP = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-		ArrayList< h_GraphPoint > rgbPoints = new ArrayList<>();
-		rgbPoints.add(new h_GraphPoint(255 / 3 - (255 / 3 / 2), color.getRed(), true, Color.red));
-		rgbPoints.add(new h_GraphPoint((255 / 3 * 2) - (255 / 3 / 2), color.getGreen(), true, Color.green));
-		rgbPoints.add(new h_GraphPoint(255 - (255 / 3 / 2), color.getBlue(), true, Color.blue));
+		ArrayList<h_GraphPoint> colorPoints = new ArrayList<>();
+		colorPoints.add(new h_GraphPoint(255 / 4 - (255 / 4 / 2), color.getRed(), true, Color.red));
+		colorPoints.add(new h_GraphPoint((255 / 4 * 2) - (255 / 4 / 2), color.getGreen(), true, Color.green));
+		colorPoints.add(new h_GraphPoint(255 - (255 / 4 / 2), color.getBlue(), true, Color.blue));
+		colorPoints.add(new h_GraphPoint(255 - (255 / 4 * 2) - (255 / 4 / 2), color.getAlpha(), true, Color.white));
 		Color ttttt = new Color(0.8F, 0.8F, 0.8F);
 
 		h_Graff config = new h_Graff(true, ttttt, new Color(0, 0, 0, 0), ux_Theme._theme.get_awt("rose"),
-				ux_Theme._theme.get_awt("rose").darker().darker(),
-				Color.gray, "", 2, 2);
+				ux_Theme._theme.secondary_awt(), Color.gray, "RGBA", 2, 2, _1const._Mono_Medium_().deriveFont(12.5F));
 
-		ui_Graff graff_RGB = new ui_Graff(10, 255, rgbPoints, DrawType.BOTH, DrawAxis.Y, config, "{0}");
+		ui_Graff graff_RGB = new ui_Graff(10, 255, colorPoints, DrawType.BOTH, DrawAxis.Y, config, "{0}");
 		graff_RGB.setFont(_1const._Mono_().deriveFont(9F));
 		graff_RGB.setPreferredSize(new Dimension(getPreferredSize().height, getPreferredSize().height));
 
-		JPanel rgbWrap = new JPanel();
-		rgbWrap.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-		rgbWrap.setLayout(new BorderLayout());
-		rgbWrap.add(graff_RGB, BorderLayout.CENTER);
+		JPanel colorGraphs = new JPanel();
+		colorGraphs.setPreferredSize(new Dimension(250, 250));
+		colorGraphs.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+		colorGraphs.setLayout(new ux_WrapLayout(FlowLayout.LEFT, 4, 4));
+		colorGraphs.add(graff_RGB);
+
 		rgbValues_JSP.setDividerLocation(410);
-		rgbValues_JSP.setRightComponent(rgbWrap);
+		rgbValues_JSP.setRightComponent(colorGraphs);
 		rgbValues_JSP.setLeftComponent(jsp);
 
 		getContentPane().add(rgbValues_JSP);
@@ -213,7 +199,8 @@ public final class gui_XColor
 		wrap.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 
 		JButton copy = stx_Helper.quick_btn("Copy", () -> Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(new java.awt.datatransfer.StringSelection(stx_HTMLDebuff.parse(content.toString())), null));
+				.setContents(new java.awt.datatransfer.StringSelection(stx_HTMLDebuff.parse(content.toString())),
+						null));
 		/*-------------------------------------------------------------------------------------------------------- /
 		/ copy.setBorder(BorderFactory.createLineBorder(new Color(255 / 2, 255 / 2, 255 / 2, (int) (0.3 * 255)))); /
 		/---------------------------------------------------------------------------------------------------------*/

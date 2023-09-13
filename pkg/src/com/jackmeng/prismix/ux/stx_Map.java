@@ -35,11 +35,11 @@ public final class stx_Map
 {
   public static final String[] type_Bool = new String[] { "true", "false" };
 
-  public static final String[] type_NumBound(double min, double max) // inclusive of min, max i.e [min, max]
+  public static String[] type_NumBound(double min, double max) // inclusive of min, max i.e [min, max]
   // also this usage of decimal inclusion makes sure that integers and floating
   // points are all included
   {
-    return new String[] { "" + Double.toString(min), "" + Double.toString(max) };
+    return new String[] { "" + min, "" + max };
     /*--------------------------------------- /
     / String[] r = new String[max - min + 1]; /
     / for (int i = min; i <= max; i++)        /
@@ -145,7 +145,7 @@ public final class stx_Map
         else
         {
           log("MAP_REGISTRY", jm_Ansi.make().magenta()
-              .toString(name + " this is a dangerous operation for a property to not have property checked values!"));
+              .toString(name + " this is a dangerous operation for a property to not have inproper checked values!"));
           this.put(key,
               stl_Struct.make_pair(this.get(key).first,
                   new Object[] { this.get(key).second[0], new_value, this.get(key).second[2],
@@ -296,7 +296,7 @@ public final class stx_Map
             + " | " + jm_Ansi.make().underline().toString("{!} This is a bug"));
         gui_XErr.invoke(
             uwu.fowmat("assets/text/TEXT_exoad_skill_issue.html",
-                "Parsing: " + key + " could not find a proper type\n" + toString() + "\n\n\n"),
+                "Parsing: " + key + " could not find a proper type\n" + this + "\n\n\n"),
             "BUG!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
         yield Optional.empty();
     };
@@ -402,12 +402,11 @@ public final class stx_Map
   @Override public String toString()
   {
     StringBuilder sb = new StringBuilder();
-    sb.append("use_Map[#" + name + "@" + hashCode()
-        + "] contains:\n");
+    sb.append("use_Map[#").append(name).append("@").append(hashCode()).append("] contains:\n");
     this.forEach(
-        (key, val) -> sb.append(key + " -> " + ((String) get(key).second[0]) + " is " + ((String) get(key).second[1])
-            + " for "
-            + Arrays.toString((String[]) get(key).second[2]) + " descriptor: " + ((String) get(key).second[3]) + "\n"));
+        (key, val) -> sb.append(key).append(" -> ").append((String) get(key).second[0]).append(" is ")
+                .append(get(key).second[1]).append(" for ").append(Arrays.toString((String[]) get(key).second[2]))
+                .append(" descriptor: ").append(get(key).second[3]).append("\n"));
     return sb.toString();
   }
 

@@ -17,11 +17,11 @@ public class ui_Graff
         JPanel
 {
     public enum DrawType {
-        STRAIGHT, CURVE, BOTH;
+        STRAIGHT, CURVE, BOTH
     }
 
     public enum DrawAxis {
-        X, Y, BOTH, NONE;
+        X, Y, BOTH, NONE
     }
 
     private final int max_value;
@@ -76,12 +76,15 @@ public class ui_Graff
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         }
         drawGraph(g);
     }
 
     private void drawGraph(Graphics g)
     {
+        g.setFont(config.font());
         int size = Math.min(getWidth(), getHeight());
         int squareSize = size - 2 * margin;
         g.setColor(config.enclosureColor());
@@ -107,7 +110,7 @@ public class ui_Graff
                 int tickX = margin - 5;
                 int tickY = margin + (max_value - y) * squareSize / max_value;
                 g.drawLine(tickX, tickY, tickX - 5, tickY);
-                g.drawString(String.valueOf(y), tickX - 30, tickY + 5);
+                g.drawString(String.valueOf(y), tickX - 10, tickY + 5);
             }
         }
 
@@ -132,6 +135,20 @@ public class ui_Graff
 
     private void drawStraightGraph(Graphics g, int margin, int squareSize)
     {
+        g.setColor(config.lineColor());
+        g.setFont(config.font());
+        ((Graphics2D) g).setStroke(new BasicStroke(config.lineWidth()));
+        for (int i = 0; i < graphPoints.size() - 1; i++)
+        {
+            h_GraphPoint p1 = graphPoints.get(i);
+            h_GraphPoint p2 = graphPoints.get(i + 1);
+            int p1X = margin + (p1.x() * squareSize) / max_value;
+            int p1Y = margin + ((max_value - p1.y()) * squareSize) / max_value;
+            int p2X = margin + (p2.x() * squareSize) / max_value;
+            int p2Y = margin + ((max_value - p2.y()) * squareSize) / max_value;
+            g.drawLine(p1X, p1Y, p2X, p2Y);
+        }
+
         for (h_GraphPoint point : graphPoints)
         {
             int scaledX = margin + (point.x() * squareSize) / max_value;
@@ -146,28 +163,16 @@ public class ui_Graff
                 g.drawString(MessageFormat.format(pointFormat, point.x(), point.y()), scaledX + 10, scaledY - 10);
             }
         }
-
-        g.setColor(config.lineColor());
-        ((Graphics2D) g).setStroke(new BasicStroke(config.lineWidth()));
-        for (int i = 0; i < graphPoints.size() - 1; i++)
-        {
-            h_GraphPoint p1 = graphPoints.get(i);
-            h_GraphPoint p2 = graphPoints.get(i + 1);
-            int p1X = margin + (p1.x() * squareSize) / max_value;
-            int p1Y = margin + ((max_value - p1.y()) * squareSize) / max_value;
-            int p2X = margin + (p2.x() * squareSize) / max_value;
-            int p2Y = margin + ((max_value - p2.y()) * squareSize) / max_value;
-            g.drawLine(p1X, p1Y, p2X, p2Y);
-        }
     }
 
     private void drawCurvedGraph(Graphics g, int margin, int squareSize)
     {
         if (graphPoints.isEmpty())
             return;
-
+        g.setFont(config.font());
         int[] xPoints = new int[graphPoints.size()];
         int[] yPoints = new int[graphPoints.size()];
+
         for (int i = 0; i < graphPoints.size(); i++)
         {
             h_GraphPoint point = graphPoints.get(i);
@@ -221,7 +226,7 @@ public class ui_Graff
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().add(
                 new ui_Graff(max_value, points, DrawType.BOTH, DrawAxis.BOTH, new h_Graff(true, Color.gray, Color.gray,
-                        ux_Theme._theme.dominant_awt(), ux_Theme._theme.get_awt("teal"), Color.gray, "Test", 2, 2)));
+                        ux_Theme._theme.dominant_awt(), ux_Theme._theme.get_awt("teal"), Color.gray, "Test", 2, 2, Font.getFont(Font.MONOSPACED))));
         frame.pack();
         frame.setVisible(true);
     }

@@ -154,7 +154,7 @@ public final class gui_XLua
 			try
 			{
 				Globals globals = JsePlatform.standardGlobals();
-				globals.STDOUT = new PrintStream(baos, true, "utf-8");
+				globals.STDOUT = new PrintStream(baos, true, StandardCharsets.UTF_8);
 				LuaValue outp = globals.load(content);
 				outp.call();
 
@@ -187,7 +187,7 @@ public final class gui_XLua
 								ux_Theme._theme.get(erred ? "red" : "teal"),
 								content.replace("\n", "<br>"), erred ? "<pre>  ^^^^^ ERROR!</pre>" : "",
 								erred ? "[Error]: <strong>" + message + "</strong>"
-										: new String(baos.toByteArray(), StandardCharsets.UTF_8)),
+										: baos.toString(StandardCharsets.UTF_8)),
 						0, 0, null);
 			} catch (BadLocationException | IOException e)
 			{

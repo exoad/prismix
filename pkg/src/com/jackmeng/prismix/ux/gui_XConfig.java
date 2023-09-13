@@ -34,7 +34,7 @@ public final class gui_XConfig
     extends
     gui
 {
-  private JPanel pane;
+  private final JPanel pane;
 
   public gui_XConfig()
   {
@@ -68,11 +68,12 @@ public final class gui_XConfig
       wrapper.setLayout(new BorderLayout());
       wrapper.add(jl, BorderLayout.CENTER);
 
-      switch (type) { // most likely assured to be a valid type, else is a bug
-        case stx_Map.Bool:
+      switch (type)
+      { // most likely assured to be a valid type, else is a bug
+        case stx_Map.Bool -> {
           ui_FatSlider toggle = new ui_FatSlider("True | On", "False | Off", ux_Theme._theme.get_awt("teal"),
-              ux_Theme._theme.get_awt("rose"), new Color(230, 230, 230), (Boolean) _1const.val.parse(key).get(), 10,
-              16, 2, 3);
+                  ux_Theme._theme.get_awt("rose"), new Color(230, 230, 230), (Boolean) _1const.val.parse(key).get(), 10,
+                  16, 2, 3);
           toggle.setAlignmentY(Component.CENTER_ALIGNMENT);
           toggle.setPreferredSize(new Dimension(40, 24));
           JPanel temp_wrap = new JPanel();
@@ -87,10 +88,10 @@ public final class gui_XConfig
           gbc.anchor = GridBagConstraints.CENTER;
           temp_wrap.add(toggle, gbc);
           wrapper.add(temp_wrap,
-              BorderLayout.EAST);
-          break;
-        case stx_Map.StrBound:
-          JComboBox< String > list = new JComboBox<>();
+                  BorderLayout.EAST);
+        }
+        case stx_Map.StrBound -> {
+          JComboBox<String> list = new JComboBox<>();
           for (String r : _1const.val.get_allowed(key))
             list.addItem(r);
           list.setSelectedItem((String) _1const.val.parse(key).get());
@@ -101,15 +102,16 @@ public final class gui_XConfig
           gbc1.anchor = GridBagConstraints.CENTER;
           temp_wrap1.add(list, gbc1);
           wrapper.add(temp_wrap1, BorderLayout.EAST);
-          break;
-        case stx_Map.NumBound:
+        }
+        case stx_Map.NumBound -> {
           JSlider slider = new JSlider(SwingConstants.HORIZONTAL);
           slider.setMinimum((int) Double.parseDouble(_1const.val.get_allowed(key)[0])); // implied
           slider.setMaximum((int) Double.parseDouble(_1const.val.get_allowed(key)[1])); // implied
           slider.setValue((int) Double.parseDouble(_1const.val.parse(key).get().toString())); // toString implied here
-                                                                                              // for the fact that a
-                                                                                              // numeric value is
-                                                                                              // required
+
+          // for the fact that a
+          // numeric value is
+          // required
           slider.addChangeListener(ev -> _1const.val.set_property(key, Integer.toString(slider.getValue())));
           GridBagConstraints gbc2 = new GridBagConstraints();
           gbc2.anchor = GridBagConstraints.CENTER;
@@ -118,8 +120,8 @@ public final class gui_XConfig
           temp_wrap2.setLayout(new GridBagLayout());
           temp_wrap2.add(slider, gbc2);
           wrapper.add(temp_wrap2, BorderLayout.EAST);
-          break;
-        case stx_Map.Any:
+        }
+        case stx_Map.Any -> {
           JTextArea jt = new JTextArea(1, 0);
           jt.setText(_1const.val.parse(key).get().toString());
           JPanel temp_wrap3 = new JPanel();
@@ -128,13 +130,15 @@ public final class gui_XConfig
           GridBagConstraints gbc3 = new GridBagConstraints();
           gbc3.anchor = GridBagConstraints.CENTER;
           temp_wrap3.add(jt, gbc3); // random
-                                    // size
-                                    // constraints
-                                    // who
-                                    // gives
-                                    // a
-                                    // fuck
+
+          // size
+          // constraints
+          // who
+          // gives
+          // a
+          // fuck
           wrapper.add(temp_wrap3, BorderLayout.EAST);
+        }
       }
 
       pane.add(wrapper);

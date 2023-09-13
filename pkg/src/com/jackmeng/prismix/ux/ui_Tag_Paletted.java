@@ -22,7 +22,7 @@ import com.jackmeng.prismix.stl.extend_stl_Colors;
 public class ui_Tag_Paletted
     extends ui_Tag
 {
-  private static ActionListener paletteListener = ev -> {
+  private static final ActionListener paletteListener = ev -> {
     ui_Tag_Paletted tag = (ui_Tag_Paletted) ev.getSource();
     String color = tag.getText();
 

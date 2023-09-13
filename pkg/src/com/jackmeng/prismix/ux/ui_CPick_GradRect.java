@@ -47,9 +47,8 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
     , MouseMotionListener,
     MouseListener
 {
-  private JPanel gradientView;
   private transient boolean toPaintCurr = true;
-  private transient extend_stl_Wrap< Integer > size_SquareGrad;
+  private final transient extend_stl_Wrap< Integer > size_SquareGrad;
   private transient int transformed_x = -1, transformed_y = -1; // transformed which represent the relative mouse
   // location relative to prismix
   /*-------------------------------------------------------------------- /
@@ -58,25 +57,6 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
   private transient stl_Wrap< Color > c = new stl_Wrap<>(Color.gray);
   private boolean first = true, rgb_Sliders_Listen = false;
   private JSlider controls_RED, controls_GREEN, controls_BLUE;
-
-  private transient ChangeListener syncSliders = Boolean.TRUE
-      .equals(_1const.val.parse("stoopid_sliders").get()) ? ev -> {
-        rgb_Sliders_Listen = false;
-        _1const.COLOR_ENQ.dispatch(stl_Struct
-            .make_pair(new Color(controls_RED.getValue(), controls_GREEN.getValue(), controls_BLUE.getValue()),
-                false));
-        rgb_Sliders_Listen = true;
-      } : ev -> {
-        if (!((JSlider) ev.getSource()).getValueIsAdjusting())
-        {
-          rgb_Sliders_Listen = false;
-          _1const.COLOR_ENQ.dispatch(stl_Struct
-              .make_pair(new Color(controls_RED.getValue(), controls_GREEN.getValue(), controls_BLUE.getValue()),
-                  false));
-          rgb_Sliders_Listen = true;
-        }
-
-      };
 
   public ui_CPick_GradRect()
   {
@@ -94,6 +74,24 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
     controls_RED.setMajorTickSpacing(20);
     controls_RED.setMinorTickSpacing(5);
     controls_RED.setPaintLabels(true);
+    ChangeListener syncSliders = Boolean.TRUE
+            .equals(_1const.val.parse("stoopid_sliders").get()) ? ev -> {
+      rgb_Sliders_Listen = false;
+      _1const.COLOR_ENQ.dispatch(stl_Struct
+              .make_pair(new Color(controls_RED.getValue(), controls_GREEN.getValue(), controls_BLUE.getValue()),
+                      false));
+      rgb_Sliders_Listen = true;
+    } : ev -> {
+      if (!((JSlider) ev.getSource()).getValueIsAdjusting())
+      {
+        rgb_Sliders_Listen = false;
+        _1const.COLOR_ENQ.dispatch(stl_Struct
+                .make_pair(new Color(controls_RED.getValue(), controls_GREEN.getValue(), controls_BLUE.getValue()),
+                        false));
+        rgb_Sliders_Listen = true;
+      }
+
+    };
     controls_RED.addChangeListener(syncSliders);
     controls_RED.setForeground(use_theme_based_tooling ? Color.RED : stl_Colors.hexToRGB(ux_Theme.get().get("rose")));
 
@@ -146,7 +144,30 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
       return ((Void) null);
     });
 
-    gradientView = new JPanel() {
+    // draw the gradient
+    // width == height
+    // draw the color cursor
+    // prob does
+    // something
+    // we are drawing
+    // a
+    // circle here,
+    // so
+    // gotta make
+    // sure
+    // the strokes
+    // are
+    // smooth
+    /*------------------------------------------------------------------------------------------------------- /
+            / g2.setStroke(new java.awt.BasicStroke(selector_cursor_stroke));                                         /
+            / g2.setColor(Color.white);                                                                               /
+            / g2.drawOval(transformed_x - (selector_cursor_radius / 2), transformed_y - (selector_cursor_radius / 2), /
+            /     selector_cursor_radius, selector_cursor_radius); // i got so confused, i                            /
+            / // thought it took                                                                                      /
+            / // x,y,x2,y2 so cringe                                                                                  /
+            /--------------------------------------------------------------------------------------------------------*/
+    JPanel gradientView = new JPanel()
+    {
       @Override public void paintComponent(final Graphics g)
       {
         super.paintComponent(g);
@@ -155,10 +176,10 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
           g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
           // draw the gradient
           BufferedImage v = extend_stl_Colors.cpick_gradient2(this.getSize().width,
-              c.obj());
+                  c.obj());
           g2.drawImage(v,
-              null, 0,
-              (getHeight() - v.getHeight()) / 2);
+                  null, 0,
+                  (getHeight() - v.getHeight()) / 2);
           size_SquareGrad.obj(v.getWidth()); // width == height
 
           if (transformed_x != -1 && transformed_y != -1)
@@ -166,16 +187,16 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
 
             // draw the color cursor
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE); // prob does
-                                                                                                      // something
+            // something
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // we are drawing
-                                                                                                     // a
-                                                                                                     // circle here,
-                                                                                                     // so
-                                                                                                     // gotta make
-                                                                                                     // sure
-                                                                                                     // the strokes
-                                                                                                     // are
-                                                                                                     // smooth
+            // a
+            // circle here,
+            // so
+            // gotta make
+            // sure
+            // the strokes
+            // are
+            // smooth
             /*------------------------------------------------------------------------------------------------------- /
             / g2.setStroke(new java.awt.BasicStroke(selector_cursor_stroke));                                         /
             / g2.setColor(Color.white);                                                                               /

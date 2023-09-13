@@ -150,7 +150,7 @@ public final class use_LSys
     File f = new File(locale + "/" + name);
     if (f.exists() && f.isFile() && f.canRead())
     {
-      Object temp = null;
+      Object temp;
       try (FileInputStream fis = new FileInputStream(f); ObjectInputStream ois = new ObjectInputStream(fis))
       {
         temp = ois.readObject();

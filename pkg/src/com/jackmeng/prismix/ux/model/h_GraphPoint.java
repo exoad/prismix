@@ -4,7 +4,7 @@ package com.jackmeng.prismix.ux.model;
 
 import java.awt.Color;
 
-public final record h_GraphPoint(int x, int y, boolean toLabelWithValue, Color labelColor)
+public record h_GraphPoint(int x, int y, boolean toLabelWithValue, Color labelColor)
 {
 
 }

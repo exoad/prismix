@@ -45,43 +45,11 @@ public final class gui_Dev
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(470, 350));
 		setBackground(Color.black);
-		/*--------------------- /
-		/ setUndecorated(true); /
-		/----------------------*/ // apparantely this line makes the window's contents unable to be rendered on
-																// Win32 devices
-		/*--------------------- /
-		/ setAlwaysOnTop(true); /
-		/----------------------*/ // this is just annoying
 		JPanel pane = new JPanel();
 		pane.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2, false));
 		pane.setLayout(new ux_WrapLayout(FlowLayout.LEFT, 8, 10));
 		pane.setOpaque(true);
 		pane.setBackground(Color.black);
-
-		/*--------------------------------------------------------------------------- /
-		/ pane.addMouseListener(new MouseAdapter() {                                  /
-		/                                                                             /
-		/   @Override public void mousePressed(MouseEvent me)                         /
-		/   {                                                                         /
-		/     pX = me.getX();                                                         /
-		/     pY = me.getY();                                                         /
-		/   }                                                                         /
-		/                                                                             /
-		/   @Override public void mouseDragged(MouseEvent me)                         /
-		/   {                                                                         /
-		/     gui_Dev.this.setLocation(gui_Dev.this.getLocation().x + me.getX() - pX, /
-		/         gui_Dev.this.getLocation().y + me.getY() - pY);                     /
-		/   }                                                                         /
-		/ });                                                                         /
-		/ pane.addMouseMotionListener(new MouseMotionAdapter() {                      /
-		/   @Override public void mouseDragged(MouseEvent me)                         /
-		/   {                                                                         /
-		/     gui_Dev.this.setLocation(gui_Dev.this.getLocation().x + me.getX() - pX, /
-		/         gui_Dev.this.getLocation().y + me.getY() - pY);                     /
-		/   }                                                                         /
-		/ });                                                                         /
-		/----------------------------------------------------------------------------*/ // refer to why setUndecorated was
-																																											// commented out
 
 		pane.add(stx_Helper.quick_btn("GC", System::gc));
 		pane.add(stx_Helper.quick_btn("Hide MAINUI", () -> __ux._ux.getMainUI().setVisible(false)));

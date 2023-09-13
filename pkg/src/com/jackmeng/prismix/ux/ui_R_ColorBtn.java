@@ -20,8 +20,10 @@ import static com.jackmeng.prismix.jm_Prismix.*;
 public class ui_R_ColorBtn
 		extends JPanel
 {
-	private stx_FixedPopper< Color > popper;
-	private JButton _nextColor, _select, _prevColor, _generate;
+	private final stx_FixedPopper< Color > popper;
+	private final JButton _nextColor;
+	private final JButton _select;
+	private final JButton _prevColor;
 
 	public ui_R_ColorBtn()
 	{
@@ -65,7 +67,8 @@ public class ui_R_ColorBtn
 			update();
 		});
 
-		_generate = new JButton(Boolean.TRUE.equals(_1const.val.parse("descriptive_labels").get()) ? "Generate" : "+");
+		JButton _generate = new JButton(
+				Boolean.TRUE.equals(_1const.val.parse("descriptive_labels").get()) ? "Generate" : "+");
 		ux_Theme.based_set_rrect(_generate);
 		_generate.setToolTipText("Generate a new color");
 		_generate.setBackground(ux_Theme._theme.dominant_awt());

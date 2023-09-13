@@ -174,12 +174,11 @@ public final class ux_Theme
     SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(__ux._ux.getMainUI()));
   }
 
-  public static JScrollBar make_scrollbar(JScrollBar j)
+  public static void make_scrollbar(JScrollBar j)
   {
     j.setUnitIncrement(8);
     j.setFocusable(false);
     j.setForeground(_theme.dominant_awt());
-    return j;
   }
 
   public void secondary(final String secondary)

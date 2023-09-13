@@ -31,10 +31,10 @@ public class stx_FixedPopper< T >
 		TAIL;
 	}
 
-	private LinkedList< T > items;
+	private final LinkedList< T > items;
 	private final int maxLen;
 	private final Popper_Viewer viewer;
-	private boolean isUnique = true;
+	private final boolean isUnique;
 	private Popper_Priority priority;
 	private transient Consumer< T > janitor;
 
@@ -43,8 +43,6 @@ public class stx_FixedPopper< T >
 	 *          Max Length
 	 * @param priority
 	 *          Head or Tail priority preservation
-	 * @param logger
-	 *          An optional state logger
 	 * @param janitor
 	 *          A handler for consuming any values ejected from the structure
 	 * @param isUnique

@@ -2,17 +2,13 @@
 
 package com.jackmeng.prismix.ux;
 
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JSplitPane;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Represents the inner shell of the content of the GUI. The parent is the ux
  * handler.
- *
+ * <p>
  * Most code for the GUI goes here.
  *
  * @author Jack Meng

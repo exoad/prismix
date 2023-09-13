@@ -22,7 +22,7 @@ public class ui_Tag
     extends JButton
 
 {
-  @SuppressWarnings("unchecked") private static ActionListener colorListener = ev -> {
+  @SuppressWarnings("unchecked") private static final ActionListener colorListener = ev -> {
 
     ui_Tag tag = (ui_Tag) ev.getSource();
     if (tag.isVisible())
@@ -70,13 +70,14 @@ public class ui_Tag
               __ux._ux.getMainUI().getMousePosition().y);
           log("UICTAG", "Rendering the final popup menu to the screen at: " + pt.x + ","
               + pt.y);
-          ((javax.swing.JPopupMenu) x).show(__ux._ux.getMainUI(), pt.x, pt.y);
+          x.show(__ux._ux.getMainUI(), pt.x, pt.y);
         });
       }
     }
   };
 
-  private boolean depositsInPool, copyToClipboard;
+  private final boolean depositsInPool;
+  private final boolean copyToClipboard;
 
   public ui_Tag()
   {

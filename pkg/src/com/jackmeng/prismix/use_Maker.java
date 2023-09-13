@@ -47,7 +47,7 @@ public final class use_Maker
       r.run();
       log("DEBUG",
           jm_Ansi.make().yellow()
-              .toString("Timed a run for: " + r.toString() + " took " + (System.currentTimeMillis() - i) + "ms"));
+              .toString("Timed a run for: " + r + " took " + (System.currentTimeMillis() - i) + "ms"));
     }
     else r.run();
   }

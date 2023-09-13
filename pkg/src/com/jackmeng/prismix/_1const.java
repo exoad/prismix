@@ -99,7 +99,7 @@ public final class _1const
         else
           log("COLORPANEL", jm_Ansi.make().red_bg().bold().white_fg().toString(
               "The current pool listener  received an invalid signal: "
-                  + payload.toString()));
+                  + payload));
       }
       return (Void) null;
     });

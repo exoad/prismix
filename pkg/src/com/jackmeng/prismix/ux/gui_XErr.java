@@ -52,10 +52,10 @@ public final class gui_XErr
 	{
 		super(title);
 		setPreferredSize(new Dimension(710, 420));
-		setAlwaysOnTop(true);
+		setAlwaysOnTop(Boolean.TRUE.equals(_1const.val.parse("pin_error_dialogs").get()));
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-		setDefaultCloseOperation(closeState == Err_CloseState.EXIT ? WindowConstants.EXIT_ON_CLOSE : DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(
+				closeState == Err_CloseState.EXIT ? WindowConstants.EXIT_ON_CLOSE : DISPOSE_ON_CLOSE);
 		JPanel pane = new JPanel();
 		pane.setBorder(BorderFactory.createEmptyBorder());
 		pane.setPreferredSize(new Dimension(0, 350));

@@ -54,7 +54,7 @@ public class jm_Prismix
   public static final long _VERSION_ = 2023_07_01L; // YYYY_MM_DD of the closest month
   public static final boolean IS_UNSTABLE = true;
   public static final PrintStream IO = System.out;
-  private static ArrayDeque< String > log_infos = new ArrayDeque<>();
+  private static final ArrayDeque< String > log_infos = new ArrayDeque<>();
   static
   {
     _1const.shutdown_hook(() -> System.out.println(
@@ -70,7 +70,7 @@ public class jm_Prismix
         log("SYS", new String(buffer, offset, length));
       }
 
-      @Override public void write(int b) throws IOException
+      @Override public void write(int b)
       {
         write(new byte[] { (byte) b }, 0, 1);
       }
@@ -128,6 +128,8 @@ public class jm_Prismix
         Bool, "false", type_Bool,
         "Stops information dialogs from appearing; however, error and exception logs will still be launched."
     });
+    val.put_("pin_error_dialogs", parse_Bool,
+        new Object[] { Bool, "true", type_Bool, "Prevents the error dialog from being pinned (always on top) when first launched." });
     val.put_("compact_suggestions_layout",
         parse_StrBound(new String[] { "compact", "vertical", "horizontal" }), new Object[] { StrBound,
             "compact", new String[] { "compact", "vertical", "horizontal" },
@@ -217,7 +219,7 @@ public class jm_Prismix
     _1const.__init();
   }
 
-  public static void main(final String... x) // !! fuck pre Java 11 users, fuck their dumb shit
+  public static void main(String... x) // !! fuck pre Java 11 users, fuck their dumb shit
   {
     try
     {
@@ -264,7 +266,7 @@ public class jm_Prismix
       PrintWriter pw = new PrintWriter(sw);
       e.printStackTrace(pw);
       gui_XErr.invoke(
-          uwu.fowmat("assets/text/TEXT_external_issue.html", sw.toString() + "\n\n" + system_str()),
+          uwu.fowmat("assets/text/TEXT_external_issue.html", sw + "\n\n" + system_str()),
           "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
     }
     Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
@@ -278,7 +280,7 @@ public class jm_Prismix
         gui_XErr.invoke(
             MessageFormat
                 .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")),
-                    sw.toString() + "\n\n\nTHREAD: " + t.toString() + "\n\n" + system_str()),
+                    sw + "\n\n\nTHREAD: " + t.toString() + "\n\n" + system_str()),
             "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
       }
     });
@@ -289,8 +291,9 @@ public class jm_Prismix
   {
     StringBuilder sb = new StringBuilder();
     System.getProperties()
-        .forEach((key, value) -> sb.append(key + " = "
-            + (use_Maker.equals(key.toString(), "user.timezone", "user.country", "") ? "[PRIVATE]" : value) + "\n"));
+        .forEach((key, value) -> sb.append(key).append(" = ")
+                .append(use_Maker.equals(key.toString(), "user.timezone", "user.country", "") ? "[PRIVATE]" : value)
+                .append("\n"));
     sb.append("Runtime_V: ").append(Runtime.version().toString()).append("\n").append("Runtime_Free: ")
         .append(Runtime.getRuntime().freeMemory()).append("\n").append("Runtime_Max: ")
         .append(Runtime.getRuntime().maxMemory()).append("\n").append("Runtime_Total: ")
@@ -307,7 +310,7 @@ public class jm_Prismix
     gui_XErr.invoke(
         MessageFormat
             .format(use_LSys.read_all(_1const.fetcher.file("assets/text/TEXT_external_issue.html")),
-                sw.toString() + "\n\n\nType: " + e.getClass().getCanonicalName()),
+                sw + "\n\n\nType: " + e.getClass().getCanonicalName()),
         "Exception!", "https://github.com/exoad/Prismix.java", Err_CloseState.EXIT);
   }
 

@@ -2,10 +2,10 @@
 
 package com.jackmeng.prismix.ux.model;
 
-import java.awt.Color;
+import java.awt.*;
 
-public final record h_Graff(boolean normalizeAA, Color labelColor, Color dotGridColor, Color lineColor,
-		Color curveColor, Color enclosureColor, String name, int curveWidth, int lineWidth)
+public record h_Graff(boolean normalizeAA, Color labelColor, Color dotGridColor, Color lineColor,
+					  Color curveColor, Color enclosureColor, String name, int curveWidth, int lineWidth, Font font)
 {
 
 }

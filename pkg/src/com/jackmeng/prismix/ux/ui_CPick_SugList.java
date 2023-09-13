@@ -88,9 +88,9 @@ public final class ui_CPick_SugList
   / };                                                                                                                /
   /------------------------------------------------------------------------------------------------------------------*/
 
-  class Base_Palette
+  static class Base_Palette
   {
-    private java.util.List< ui_Tag > tags;
+    private final java.util.List< ui_Tag > tags;
     public final JPanel component;
     public final int rows, cols;
 

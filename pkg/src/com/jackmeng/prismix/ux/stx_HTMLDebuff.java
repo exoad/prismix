@@ -1,44 +1,29 @@
-// Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
-
 package com.jackmeng.prismix.ux;
 
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.parser.ParserDelegator;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.parser.ParserDelegator;
-
-public class stx_HTMLDebuff
-		extends
-		HTMLEditorKit.ParserCallback
+public class stx_HTMLDebuff extends HTMLEditorKit.ParserCallback
 {
-	StringBuffer s;
-
 	private stx_HTMLDebuff()
 	{
 	}
 
-	private static stx_HTMLDebuff instance = null;
-
-	public static String parse(String r)
-	{
-		if (instance == null)
-			instance = new stx_HTMLDebuff();
-		instance.parse(new StringReader(r));
-		String str = instance.getText();
-		instance.clean();
-		return str;
-	}
+	StringBuffer s;
 
 	public void parse(Reader in)
 	{
 		s = new StringBuffer();
+
 		ParserDelegator delegator = new ParserDelegator();
+
 		try
 		{
 			delegator.parse(in, this, Boolean.TRUE);
-		} catch (IOException e)
+		} catch (IOException ignore)
 		{
 		}
 	}
@@ -54,8 +39,18 @@ public class stx_HTMLDebuff
 		s.delete(0, s.length() - 1);
 	}
 
-	public String getText()
+	public String text()
 	{
 		return s.toString();
+	}
+	private static stx_HTMLDebuff v = null;
+	public static String parse(String content)
+	{
+		if(v == null)
+			v = new stx_HTMLDebuff();
+		v.parse(new StringReader(content));
+		String temp = v.text();
+		v.clean();
+		return temp;
 	}
 }

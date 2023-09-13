@@ -19,7 +19,7 @@ public class ux_Palette
     implements
     Serializable
 {
-  private Set< List< Float > > colors_rgba;
+  private final Set< List< Float > > colors_rgba;
 
   public static final Map< String, ux_Palette > PALETTES = new HashMap<>();
 
@@ -102,7 +102,7 @@ public class ux_Palette
 
   public void append(final float[] e)
   {
-    if (e == null || e.length < 4 || e.length > 4)
+    if (e == null || e.length != 4)
     {
       log("UXPALETTE",
           jm_Ansi.make().red().toString("Palette" + this.hashCode() + " received an inproper constructed color array"));
@@ -130,7 +130,7 @@ public class ux_Palette
 
   public boolean remove(final float[] e)
   {
-    return this.colors_rgba.contains(ux_Palette.$toarr(e)) ? this.colors_rgba.remove(ux_Palette.$toarr(e)) : false;
+    return this.colors_rgba.contains(ux_Palette.$toarr(e)) && this.colors_rgba.remove(ux_Palette.$toarr(e));
   }
 
   public float[][] fetch()
