@@ -31,12 +31,22 @@ public class ui_FatSlider
 	@Getter private final int borderArc, thumbWidth, shadowDrawDist, thumbBumpPad;
 private final transient stl_ListenerPool< Boolean > listenerPool;
 
-	public ui_FatSlider(@NonNull String trueString, @NonNull String falseString, @NonNull Color trueColor,
-			@NonNull Color falseColor, @NonNull Color thumbColor,
-			boolean initVal, int borderArc, int thumbWidth, int shadowDrawDist, int thumbBumpPad) // thumb
-																																														// is on
-																																														// right
-																																														// side
+	public ui_FatSlider
+	(
+			@NonNull String trueString,
+			@NonNull String falseString,
+			@NonNull Color trueColor,
+			@NonNull Color falseColor,
+			@NonNull Color thumbColor,
+			boolean initVal,
+			int borderArc,
+			int thumbWidth,
+			int shadowDrawDist,
+			int thumbBumpPad
+	) // thumb
+	// is on
+	// right
+	// side
 	// -> TRUE else FALSE
 	{
 		this.trueColor = trueColor;
@@ -64,7 +74,7 @@ private final transient stl_ListenerPool< Boolean > listenerPool;
 		setPreferredSize(new Dimension(80, 40));
 	}
 
-	public void add_listener(stl_Listener< Boolean > listener)
+	public void add_listener(@NonNull stl_Listener< Boolean > listener)
 	{
 		listenerPool.add(listener);
 	}

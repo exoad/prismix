@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.jackmeng.ansicolors.jm_Ansi;
 import com.jackmeng.stl.stl_ListenerPool;
+import lombok.NonNull;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
@@ -23,31 +24,20 @@ public class ux_Palette
 
   public static final Map< String, ux_Palette > PALETTES = new HashMap<>();
 
-  public static final class Palette_State
+  public record Palette_State(List<Float> payload, int startIndex, int toIndex)
   {
-    private final List< Float > payload;
-    private final int startIndex, toIndex;
-
     /**
-     * @param payload
-     *          Payload
-     * @param startIndex
-     *          Where the payload started from (should always be original). If for
-     *          append, then this value should be -1.
-     * @param toIndex
-     *          Where the payload should be moved to (-1 for removal,
-     *          colors_rgba.length for add to top)
+     * @param payload    Payload
+     * @param startIndex Where the payload started from (should always be original). If for
+     *                   append, then this value should be -1.
+     * @param toIndex    Where the payload should be moved to (-1 for removal,
+     *                   colors_rgba.length for add to top)
      */
-    public Palette_State(final List< Float > payload, final int startIndex, final int toIndex)
+    public Palette_State(@NonNull final List<Float> payload, final int startIndex, final int toIndex)
     {
       this.payload = payload;
       this.startIndex = startIndex;
       this.toIndex = toIndex;
-    }
-
-    public List< Float > payload()
-    {
-      return this.payload;
     }
 
     public int start()
@@ -85,7 +75,7 @@ public class ux_Palette
     this.LISTENER_POOL = new stl_ListenerPool<>(name);
     this.LISTENER_POOL.add(x -> {
       log("UXPALETTE", "Palette " + name + " received operation: " + x);
-      return (Void) null;
+      return null;
     });
     PALETTES.put(name, this);
   }

@@ -33,6 +33,6 @@ public class ui_CPick_GenericDisp
 			jm_Prismix.log("CPickDB" , hashCode() +" Picks up a valid color call from the color queue!");
 			repaint(75L);
 		}
-		return (Void) null;
+		return null;
 	}
 }

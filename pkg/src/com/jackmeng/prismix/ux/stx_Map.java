@@ -20,6 +20,7 @@ import com.jackmeng.stl.stl_Listener;
 import com.jackmeng.stl.stl_ListenerPool;
 import com.jackmeng.stl.stl_Struct;
 import com.jackmeng.stl.stl_Struct.struct_Pair;
+import lombok.NonNull;
 
 import static com.jackmeng.prismix.jm_Prismix.*;
 
@@ -62,7 +63,7 @@ public final class stx_Map
   {
     return x -> {
       double e = Double.parseDouble(x);
-      return e < min ? min : e > max ? max : e;
+      return e < min ? min : Math.min(e, max);
     };
   }
 
@@ -415,7 +416,7 @@ public final class stx_Map
     forEach((key, value) -> consumer.accept(key, get_value(key), get_type(key)));
   }
 
-  public void _foreach(BiConsumer< String, String > consumer)
+  public void _foreach(@NonNull BiConsumer< String, String > consumer)
   {
     forEach((key, value) -> consumer.accept(key, get_value(key)));
   }

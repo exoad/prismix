@@ -31,29 +31,29 @@ public class ui_Tag
       {
         java.util.List< stl_Struct.struct_Pair< String, stl_Callback< Void, Void > > > options = new ArrayList<>();
         if (tag.depositsInPool)
-          options.add(stl_Struct.make_pair("Inspect color", (stl_Callback< Void, Void >) nil -> {
+          options.add(stl_Struct.make_pair("Inspect color", nil -> {
             new gui_XColor(stl_Colors.hexToRGB(tag.getText())).run();
             log("UICTAG",
                 jm_Ansi.make().green().toString("{2} Dispatched the target color to the global inspect queue: ")
                     + tag.getText());
-            return (Void) null;
+            return null;
           }));
-        options.add(stl_Struct.make_pair("Use Color", (stl_Callback< Void, Void >) nil -> {
+        options.add(stl_Struct.make_pair("Use Color", nil -> {
           _1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(stl_Colors.hexToRGB(tag.getText()), false));
 
-          return (Void) null;
+          return null;
         }));
         if (tag.copyToClipboard)
-          options.add(stl_Struct.make_pair("Copy to clipboard", (stl_Callback< Void, Void >) nil -> {
+          options.add(stl_Struct.make_pair("Copy to clipboard", nil -> {
             Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(new java.awt.datatransfer.StringSelection(tag.getText()), null);
             log("UICTAG",
                 jm_Ansi.make().green().toString("{1} Copied the target color to the clipboard: ") + tag.getText());
-            return (Void) null;
+            return null;
           }));
 
         if (tag.copyToClipboard && tag.depositsInPool)
-          options.add(stl_Struct.make_pair("Inspect & Copy", (stl_Callback< Void, Void >) nil -> {
+          options.add(stl_Struct.make_pair("Inspect & Copy", nil -> {
             Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(new java.awt.datatransfer.StringSelection(tag.getText()), null);
             new gui_XColor(stl_Colors.hexToRGB(tag.getText())).run();
@@ -61,7 +61,7 @@ public class ui_Tag
             log("UICTAG", jm_Ansi.make().green().toString(
                 "{3} Dispatched & Copied the target color: ")
                 + tag.getText());
-            return (Void) null;
+            return null;
           }));
         Optional< JPopupMenu > menu = use_Maker.jpop(tag.getText(), options.toArray(new stl_Struct.struct_Pair[0]));
         log("UICTAG", "Action received the desired state!");

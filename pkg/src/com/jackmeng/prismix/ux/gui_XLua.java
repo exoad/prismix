@@ -165,7 +165,7 @@ public final class gui_XLua
 				else
 				{
 					erred = true;
-					message = ((LuaError) e).getMessage();
+					message = e.getMessage();
 				}
 			}
 

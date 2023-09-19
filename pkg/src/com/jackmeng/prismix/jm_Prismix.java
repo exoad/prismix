@@ -3,7 +3,6 @@
 package com.jackmeng.prismix;
 
 import java.awt.Font;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -80,7 +79,7 @@ public class jm_Prismix
 
     System.setErr(System.out);
     _1const.worker2.scheduleAtFixedRate(new TimerTask() {
-      String time = stl_Chrono.format_millis("MM_dd_YYYY");
+      final String time = stl_Chrono.format_millis("MM_dd_YYYY");
 
       @Override public void run()
       {

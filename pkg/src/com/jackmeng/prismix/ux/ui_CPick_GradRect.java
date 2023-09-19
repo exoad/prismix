@@ -141,7 +141,7 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
 
       repaint(75L);
 
-      return ((Void) null);
+      return null;
     });
 
     // draw the gradient
@@ -235,7 +235,7 @@ public final class ui_CPick_GradRect // This for picking RGBA colors
       controls_GREEN.setValue(arg0.first.getGreen());
       controls_BLUE.setValue(arg0.first.getBlue());
     }
-    return (Void) null;
+    return null;
   }
 
   @Override public void mouseDragged(MouseEvent e)

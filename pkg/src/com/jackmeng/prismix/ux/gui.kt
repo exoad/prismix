@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent
 import java.util.function.Consumer
 
 @SwingContainer
-internal abstract class gui constructor(r:String?):JFrame(r) , Runnable
+abstract class gui constructor(r:String?):JFrame(r) , Runnable
 {
 	
 	private var notifier:JPanel?=null
@@ -37,6 +37,7 @@ internal abstract class gui constructor(r:String?):JFrame(r) , Runnable
 	protected val frame:JFrame
 		get()=this
 	
+	@Synchronized
 	protected fun attach_vnotifier(master:Component?)
 	{
 		if (notifier==null)

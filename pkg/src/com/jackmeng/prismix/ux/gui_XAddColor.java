@@ -83,16 +83,15 @@ public final class gui_XAddColor
 		SpringLayout layout = new SpringLayout();
 		panel.setLayout(layout);
 		JLabel titleLabel = new JLabel(label);
-		JTextArea textArea = area;
 		panel.add(titleLabel);
-		panel.add(textArea);
+		panel.add(area);
 
 		layout.putConstraint(SpringLayout.NORTH, titleLabel, 5, SpringLayout.NORTH, panel);
 		layout.putConstraint(SpringLayout.WEST, titleLabel, 0, SpringLayout.WEST, panel);
-		layout.putConstraint(SpringLayout.NORTH, textArea, 5, SpringLayout.NORTH, panel);
-		layout.putConstraint(SpringLayout.WEST, textArea, 5, SpringLayout.EAST, titleLabel);
-		layout.putConstraint(SpringLayout.EAST, panel, 5, SpringLayout.EAST, textArea);
-		layout.putConstraint(SpringLayout.SOUTH, panel, 5, SpringLayout.SOUTH, textArea);
+		layout.putConstraint(SpringLayout.NORTH, area, 5, SpringLayout.NORTH, panel);
+		layout.putConstraint(SpringLayout.WEST, area, 5, SpringLayout.EAST, titleLabel);
+		layout.putConstraint(SpringLayout.EAST, panel, 5, SpringLayout.EAST, area);
+		layout.putConstraint(SpringLayout.SOUTH, panel, 5, SpringLayout.SOUTH, area);
 		return panel;
 	}
 }

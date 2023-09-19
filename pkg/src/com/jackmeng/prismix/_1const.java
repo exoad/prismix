@@ -101,14 +101,14 @@ public final class _1const
               "The current pool listener  received an invalid signal: "
                   + payload));
       }
-      return (Void) null;
+      return null;
     });
     _1const.COLOR_ENQ.add(x -> {
       log("COLORPANEL", jm_Ansi.make().blue_fg().toString(
           "Enqueued another color for GUI elements to process: rgba(" + x.first.getRed()
               + "," + x.first.getGreen() + "," + x.first.getBlue() + "," + x.first.getAlpha() + ")"));
       _1const.lastColor = new SoftReference<>(x.first);
-      return (Void) null;
+      return null;
     });
   }
 

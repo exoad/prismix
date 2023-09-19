@@ -179,7 +179,7 @@ public class ui_Cntnr_BottomPane
 			});
 		}
 
-		return (Void) null;
+		return null;
 	}
 
 }

@@ -16,28 +16,6 @@ public final class extend_stl_Colors
 	private extend_stl_Colors()
 	{
 	}
-    /*---------------------------------------- /
-    /                                          /
-    / public static float[] cyan_rgb()         /
-    / {                                        /
-    /   return new float[] { 0F, 255F, 255F }; /
-    / }                                        /
-    /                                          /
-    / public static float[] magenta_rgb()      /
-    / {                                        /
-    /   return new float[] { 255F, 0F, 255F }; /
-    / }                                        /
-    /                                          /
-    / public static float[] black_rgb()        /
-    / {                                        /
-    /   return new float[] { 0F, 0F, 0F };     /
-    / }                                        /
-    /                                          /
-    / public static float[] yellow_rgb()       /
-    / {                                        /
-    /   return new float[] { 255F, 255F, 0F }; /
-    / }                                        /
-    /-----------------------------------------*/
 
 	public static int[] awt_colorspace_AllTypes()
 	{

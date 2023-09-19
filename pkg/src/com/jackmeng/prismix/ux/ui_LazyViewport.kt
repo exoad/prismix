@@ -1,7 +1,6 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 package com.jackmeng.prismix.ux
 
-import com.jackmeng.prismix.ux.ui_LazyViewport
 import javax.swing.JComponent
 import javax.swing.JViewport
 import java.awt.Point

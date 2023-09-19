@@ -54,8 +54,8 @@ public final class gui_Dev
 		pane.add(stx_Helper.quick_btn("GC", System::gc));
 		pane.add(stx_Helper.quick_btn("Hide MAINUI", () -> __ux._ux.getMainUI().setVisible(false)));
 		pane.add(stx_Helper.quick_btn("Show MAINUI", () -> __ux._ux.getMainUI().setVisible(true)));
-		pane.add(stx_Helper.quick_btn("Reval MAINUI", () -> __ux._ux.getMainUI().getContentPane().revalidate()));
-		pane.add(stx_Helper.quick_btn("Repaint MAINUI", () -> __ux._ux.getMainUI().repaint()));
+		pane.add(stx_Helper.quick_btn("Reval MAINUI", __ux._ux.getMainUI().getContentPane()::revalidate));
+		pane.add(stx_Helper.quick_btn("Repaint MAINUI", __ux._ux.getMainUI()::repaint));
 		pane.add(stx_Helper.quick_btn("Update XOR", () -> {
 			Graphics g = __ux._ux.getMainUI().getGraphics();
 			g.setXORMode(extend_stl_Colors.awt_random_Color());
@@ -97,7 +97,7 @@ public final class gui_Dev
 		pane.add(stx_Helper.quick_btn("ClearLog", () -> System.out.println("\033[H\033[2J")));
 		int i = 0;
 		for (Runnable r : new Runnable[] {
-				() -> ui_Graff.main((String[]) null),
+				() -> ui_Graff.main(null),
 				gui_XAddColor::request
 		})
 			pane.add(stx_Helper.quick_btn("Action#" + (i++), r));

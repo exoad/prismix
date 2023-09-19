@@ -28,7 +28,7 @@ public final class _render
   {
     master.setVisible(false); // it is assumed that this component and the callback are related in terms of
                               // components updated
-    e.call((Void) null); // it is assumed that the painting automatically is done on the EDT
+    e.call(null); // it is assumed that the painting automatically is done on the EDT
     master.setVisible(true);
   }
 }

@@ -81,7 +81,7 @@ public final class gui_XConfig
           temp_wrap.setLayout(new GridBagLayout());
           _1const.val.add_change_listener(key, r -> {
             toggle.setSelected((Boolean) _1const.val.parse(key).get());
-            return (Void) null;
+            return null;
           });
           // took me too long lol
           GridBagConstraints gbc = new GridBagConstraints();
@@ -94,7 +94,7 @@ public final class gui_XConfig
           JComboBox<String> list = new JComboBox<>();
           for (String r : _1const.val.get_allowed(key))
             list.addItem(r);
-          list.setSelectedItem((String) _1const.val.parse(key).get());
+          list.setSelectedItem(_1const.val.parse(key).get());
           JPanel temp_wrap1 = new JPanel();
           temp_wrap1.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
           temp_wrap1.setLayout(new GridBagLayout());

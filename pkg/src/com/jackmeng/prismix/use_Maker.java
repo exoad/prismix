@@ -88,8 +88,8 @@ public final class use_Maker
       final String name = items[i.get()].first;
       log("MENUBAR", "Checks for: " + name + " | Itr: " + i.get());
       e[i.get()] = new JCheckBoxMenuItem(name);
-      ((JCheckBoxMenuItem) e[i.get()]).setState(items[i.get()].second.call((Null_t) null));
-      e[i.get()].addActionListener(ev -> callback.call((Null_t) null));
+      ((JCheckBoxMenuItem) e[i.get()]).setState(items[i.get()].second.call(null));
+      e[i.get()].addActionListener(ev -> callback.call(null));
     }
     return e;
   }
@@ -162,7 +162,7 @@ public final class use_Maker
       {
         JMenuItem item = new JMenuItem(e.first);
         item.setBorderPainted(false);
-        item.addActionListener(ev -> e.second.call((Void) null));
+        item.addActionListener(ev -> e.second.call(null));
         jp.add(item);
       }
       return Optional.of(jp);

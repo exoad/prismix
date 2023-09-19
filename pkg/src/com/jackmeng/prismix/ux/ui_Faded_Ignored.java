@@ -8,8 +8,9 @@ import java.awt.Graphics2D;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
+@SwingContainer
 public class ui_Faded_Ignored
 		extends
 		JPanel

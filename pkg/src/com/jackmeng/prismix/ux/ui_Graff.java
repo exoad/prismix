@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import com.jackmeng.prismix.ux.model.h_Graff;
 import com.jackmeng.prismix.ux.model.h_GraphPoint;
+import lombok.NonNull;
 
 import java.awt.geom.*;
 import java.text.MessageFormat;
@@ -16,13 +17,9 @@ public class ui_Graff
         extends
         JPanel
 {
-    public enum DrawType {
-        STRAIGHT, CURVE, BOTH
-    }
+    public enum DrawType { STRAIGHT, CURVE, BOTH }
 
-    public enum DrawAxis {
-        X, Y, BOTH, NONE
-    }
+    public enum DrawAxis { X, Y, BOTH, NONE }
 
     private final int max_value;
     private final ArrayList< h_GraphPoint > graphPoints;
@@ -33,9 +30,14 @@ public class ui_Graff
 
     private final h_Graff config;
 
-    public ui_Graff(int max_value, ArrayList< h_GraphPoint > graphPoints, DrawType drawType, DrawAxis drawAxis,
-            h_Graff config)
-    {
+    public ui_Graff
+    (
+            int max_value,
+            @NonNull ArrayList< h_GraphPoint > graphPoints,
+            @NonNull DrawType drawType,
+            @NonNull DrawAxis drawAxis,
+            @NonNull h_Graff config
+    ) {
         this.max_value = max_value;
         this.graphPoints = graphPoints;
         this.drawType = drawType;
@@ -43,10 +45,15 @@ public class ui_Graff
         this.config = config;
     }
 
-    public ui_Graff(int margin, int max_value, ArrayList< h_GraphPoint > graphPoints, DrawType drawType,
-            DrawAxis drawAxis,
-            h_Graff config)
-    {
+    public ui_Graff
+    (
+            int margin,
+            int max_value,
+            @NonNull ArrayList< h_GraphPoint > graphPoints,
+            @NonNull DrawType drawType,
+            @NonNull DrawAxis drawAxis,
+            @NonNull h_Graff config
+    ) {
         this.max_value = max_value;
         this.graphPoints = graphPoints;
         this.drawType = drawType;
@@ -55,10 +62,16 @@ public class ui_Graff
         this.margin = margin;
     }
 
-    public ui_Graff(int margin, int max_value, ArrayList< h_GraphPoint > graphPoints, DrawType drawType,
-            DrawAxis drawAxis,
-            h_Graff config, String pointFormat)
-    {
+    public ui_Graff
+    (
+            int margin,
+            int max_value,
+            @NonNull ArrayList< h_GraphPoint > graphPoints,
+            @NonNull DrawType drawType,
+            @NonNull DrawAxis drawAxis,
+            @NonNull h_Graff config,
+            @NonNull String pointFormat
+    ) {
         this.max_value = max_value;
         this.graphPoints = graphPoints;
         this.drawType = drawType;
@@ -131,6 +144,7 @@ public class ui_Graff
         if (drawType == DrawType.CURVE || drawType == DrawType.BOTH)
             drawCurvedGraph(g, margin, squareSize);
 
+        g.dispose(); // forgot this part in later bits??
     }
 
     private void drawStraightGraph(Graphics g, int margin, int squareSize)
@@ -163,6 +177,7 @@ public class ui_Graff
                 g.drawString(MessageFormat.format(pointFormat, point.x(), point.y()), scaledX + 10, scaledY - 10);
             }
         }
+
     }
 
     private void drawCurvedGraph(Graphics g, int margin, int squareSize)

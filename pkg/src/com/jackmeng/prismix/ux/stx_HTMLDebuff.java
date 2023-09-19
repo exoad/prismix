@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
-public class stx_HTMLDebuff extends HTMLEditorKit.ParserCallback
+public class stx_HTMLDebuff
+		extends HTMLEditorKit.ParserCallback
 {
 	private stx_HTMLDebuff()
 	{
