@@ -1,12 +1,10 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 package com.jackmeng.prismix.ux
 
-import com.jackmeng.prismix.ux.stx_FixedPopper
 import com.jackmeng.prismix.ux.stx_FixedPopper.Popper_Priority
 import com.jackmeng.prismix.jm_Prismix
 import com.jackmeng.ansicolors.jm_Ansi
 import com.jackmeng.prismix._1const
-import com.jackmeng.prismix.ux.ux_Theme
 import com.jackmeng.stl.stl_Struct
 import com.jackmeng.prismix.stl.extend_stl_Colors
 import javax.swing.BorderFactory
@@ -19,22 +17,21 @@ import java.lang.Boolean
 
 class ui_R_ColorBtn:JPanel()
 {
-	private val popper:stx_FixedPopper<Color?>
+	private val popper:stx_FixedPopper<Color?>=stx_FixedPopper(128 , Popper_Priority.TAIL , true) { s:Color?->
+		if (s!=null)
+		{
+			jm_Prismix.log(
+				"CLRBTN" ,
+				"Removed"+jm_Ansi.make().blue().toString(s.red.toString()+","+s.green+","+s.blue)
+			)
+		}
+	}
 	private val _nextColor:JButton
 	private val _select:JButton
 	private val _prevColor:JButton
 	
 	init
 	{
-		popper=stx_FixedPopper(128 , Popper_Priority.TAIL , true) { s:Color?->
-			if (s!=null)
-			{
-				jm_Prismix.log(
-					"CLRBTN" ,
-					"Removed"+jm_Ansi.make().blue().toString(s.red.toString()+","+s.green+","+s.blue)
-				)
-			}
-		}
 		layout=GridLayout(1 , 4)
 		border=BorderFactory.createEmptyBorder()
 		_select=JButton(if (Boolean.TRUE==_1const.`val`.parse("descriptive_labels").get()) "Select" else "o")

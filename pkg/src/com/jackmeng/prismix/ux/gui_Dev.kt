@@ -4,20 +4,12 @@ package com.jackmeng.prismix.ux
 import com.jackmeng.prismix.ux.stx_Helper.quick_btn
 import com.jackmeng.prismix.ux.gui_XInf.Companion.force_invoke
 import com.jackmeng.prismix.ux.ui_LazyViewport.Companion.make
-import com.jackmeng.prismix.ux.gui.with_WindowOpened
-import com.jackmeng.prismix.ux.gui
-import com.jackmeng.prismix.ux.ux_WrapLayout
-import com.jackmeng.prismix.ux.stx_Helper
-import com.jackmeng.prismix.ux.__ux
 import com.jackmeng.prismix.stl.extend_stl_Colors
-import com.jackmeng.prismix.ux.gui_XInf
-import com.jackmeng.prismix.ux.ui_Graff
-import com.jackmeng.prismix.ux.gui_XAddColor
-import com.jackmeng.prismix.ux.ui_LazyViewport
 import com.jackmeng.prismix.jm_Prismix
 import javax.swing.BorderFactory
 import javax.swing.JPanel
 import javax.swing.JScrollPane
+import kotlin.system.exitProcess
 import java.awt.*
 import java.awt.event.WindowEvent
 import java.lang.RuntimeException
@@ -87,8 +79,8 @@ class gui_Dev:gui("Prismix : dev_window")
 			"EmitIN"
 		) { force_invoke("<html><body>Test info windowing</html></body>" , "Test Info Window") })
 		pane.add(quick_btn("ExitDev") { dispose() })
-		pane.add(quick_btn("Kill0") { System.exit(0) })
-		pane.add(quick_btn("Kill1") { System.exit(1) })
+		pane.add(quick_btn("Kill0") { exitProcess(0) })
+		pane.add(quick_btn("Kill1") { exitProcess(1) })
 		pane.add(quick_btn("ClearLog") { println("\u001b[H\u001b[2J") })		// TODO: pane.add(stx_Helper.quick_btn("DeleteLogs", () -> ))
 		var i=0
 		for (r in arrayOf(Runnable { ui_Graff.main(null) } ,

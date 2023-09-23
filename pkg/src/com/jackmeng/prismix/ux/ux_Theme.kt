@@ -1,13 +1,10 @@
 package com.jackmeng.prismix.ux
 
-import com.jackmeng.prismix.ux.ux_Theme.ThemeType
 import com.jackmeng.prismix._colors
 import com.jackmeng.prismix.stl.extend_stl_Colors
-import com.jackmeng.prismix.ux.ux_Theme
 import com.jackmeng.stl.stl_Colors
 import com.jackmeng.prismix.jm_Prismix
 import com.jackmeng.ansicolors.jm_Ansi
-import com.jackmeng.prismix.ux.__ux
 import com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme
 import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme
 import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme
@@ -31,8 +28,8 @@ class ux_Theme private constructor()
 	}
 	
 	private var mainTheme:ThemeType?=null
-	private var dominant:FloatArray
-	private var secondary:FloatArray
+	private lateinit var dominant:FloatArray
+	private lateinit var secondary:FloatArray
 	
 	init
 	{ // default theme
@@ -176,8 +173,10 @@ class ux_Theme private constructor()
 	
 	companion object
 	{
-		var _theme:ux_Theme?=null
-		fun get():ux_Theme?
+		@JvmField
+        var _theme:ux_Theme?=null
+		@JvmStatic
+        fun get():ux_Theme?
 		{
 			if (_theme==null) _theme=ux_Theme()
 			return _theme
@@ -199,7 +198,7 @@ class ux_Theme private constructor()
 			get()!!.theme(ThemeType.DARK)
 		}
 		
-		val colorCodes:MutableMap<String , String>=HashMap()
+		val colorCodes:MutableMap<String , String> = HashMap()
 		
 		init
 		{
@@ -216,7 +215,8 @@ class ux_Theme private constructor()
 			colorCodes["purple"]=_colors.PURPLE
 		}
 		
-		fun based_set_rrect(r:JButton)
+		@JvmStatic
+        fun based_set_rrect(r:JButton)
 		{
 			r.isBorderPainted=false
 			if (Boolean.FALSE==_1const.`val`.parse("containers_rounded").get()) r.border=

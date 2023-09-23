@@ -2,21 +2,10 @@
 package com.jackmeng.prismix.ux
 
 import com.jackmeng.prismix.uwu.fowmat
-import com.jackmeng.prismix.ux.ux_Theme.get_awt
-import com.jackmeng.prismix.ux.ui_FatSlider.setSelected
 import com.jackmeng.prismix.ux.stx_Helper.from_h
-import com.jackmeng.prismix.ux.gui
-import com.jackmeng.prismix.uwu
 import com.jackmeng.prismix.jm_Prismix
 import com.jackmeng.prismix.user.use_LSys
 import com.jackmeng.prismix._1const
-import com.jackmeng.prismix.ux.stx_TriConsumer
-import com.jackmeng.prismix.ux.stx_Map
-import com.jackmeng.prismix.ux.ui_FatSlider
-import com.jackmeng.prismix.ux.ux_Theme
-import com.jackmeng.stl.stl_Listener
-import com.jackmeng.prismix.ux.ui_Line
-import com.jackmeng.prismix.ux.stx_Helper
 import javax.swing.*
 import javax.swing.event.ChangeEvent
 import java.awt.*
@@ -47,7 +36,8 @@ class gui_XConfig:gui("Primsix ~ Config")
 			wrapper.isOpaque=true/*------------------------------------------------------------------------------------------- /
       / wrapper.setBorder(BorderFactory.createEmptyBorder(7, 0, 0, 0));                             /
       / wrapper.setBackground(new Color(255, 255, 255, 75)); // 75 ~ 0.3*255 quick math ^w^ oh yea! /
-      /--------------------------------------------------------------------------------------------*/wrapper.layout=
+      /--------------------------------------------------------------------------------------------*/
+			wrapper.layout=
 			BorderLayout()
 			wrapper.add(jl , BorderLayout.CENTER)
 			when (type)
@@ -71,7 +61,7 @@ class gui_XConfig:gui("Primsix ~ Config")
 					val temp_wrap=JPanel()
 					temp_wrap.componentOrientation=ComponentOrientation.RIGHT_TO_LEFT
 					temp_wrap.layout=GridBagLayout()
-					_1const.`val`.add_change_listener(key) { r:String?->
+					_1const.`val`.add_change_listener(key) {
 						toggle.isSelected=(_1const.`val`.parse(key).get() as Boolean)
 						null
 					} // took me too long lol
@@ -105,10 +95,9 @@ class gui_XConfig:gui("Primsix ~ Config")
 					// for the fact that a
 					// numeric value is
 					// required
-					slider.addChangeListener { ev:ChangeEvent?->
+					slider.addChangeListener {
 						_1const.`val`.set_property(
-							key ,
-							Integer.toString(slider.value)
+							key , slider.value.toString()
 						)
 					}
 					val gbc2=GridBagConstraints()

@@ -10,23 +10,19 @@ import java.lang.Exception
 import java.util.*
 
 @SwingContainer
-class ui_Faded_Ignored(fadeStep:Float , initDelay:Long , delay_per_step:Long):JPanel() , Runnable
+open class ui_Faded_Ignored(fadeStep:Float , initDelay:Long , delay_per_step:Long):JPanel() , Runnable
 {
 	protected var alpha=1.0f
 	protected var fadeStep:Float
-	protected var initialDelay:Long
-	protected var per_step:Long
+	private var initialDelay:Long
+	private var per_step:Long
 	
 	@Transient
 	private var timer:Timer?=null
 	
-	constructor(fadeStep:Float , initialDelay:Long):this(fadeStep , initialDelay , 50L)
-	{
-	}
-	
 	init
 	{
-		assert(fadeStep>=0f&&fadeStep<=1f)
+		assert(fadeStep in 0f..1f)
 		this.fadeStep=fadeStep
 		initialDelay=initDelay
 		per_step=delay_per_step

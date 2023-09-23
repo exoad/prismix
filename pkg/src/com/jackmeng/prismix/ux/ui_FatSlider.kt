@@ -16,7 +16,7 @@ class ui_FatSlider(
 ):AbstractButton()
 {
 	@Transient
-	private val listenerPool:stl_ListenerPool<Boolean>
+	private val listenerPool:stl_ListenerPool<Boolean>=stl_ListenerPool("com.jackmeng.ui_FatSlider#"+hashCode())
 	
 	init  // thumb
 	// is on
@@ -24,7 +24,6 @@ class ui_FatSlider(
 	// side
 	// -> TRUE else FALSE
 	{
-		listenerPool=stl_ListenerPool("com.jackmeng.ui_FatSlider#"+hashCode())
 		preferredSize=Dimension(70 , 40)
 		setModel(DefaultButtonModel())
 		isSelected=initVal
@@ -33,8 +32,8 @@ class ui_FatSlider(
 			override fun mouseReleased(e:MouseEvent)
 			{
 				if (RoundRectangle2D.Float(
-							0 ,
-							0 ,
+							0F ,
+							0F ,
 							width.toFloat() ,
 							height.toFloat() ,
 							height.toFloat() ,
@@ -73,7 +72,8 @@ class ui_FatSlider(
 		g.color=Color.BLACK
 		g.drawRect(0 , 0 , width-1 , height-1)
 		g.color=if (isSelected) trueColor else falseColor
-		g.fillRoundRect(0 , 0 , width , height , borderArc , borderArc)		/*------------------------------------------------------------------------------------------------------------- /
+		g.fillRoundRect(0 , 0 , width , height , borderArc , borderArc)
+		/*------------------------------------------------------------------------------------------------------------- /
 		/ g.fillRoundRect(0, 0, getWidth(), getHeight(), getHeight() + 2, getHeight() + 2);                             /
 		/                                                                                                               /
 		/ int thumbW = getHeight() - 4;                                                                                 /

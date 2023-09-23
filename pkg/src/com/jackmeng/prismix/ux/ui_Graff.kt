@@ -1,15 +1,9 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 package com.jackmeng.prismix.ux
 
-import com.jackmeng.prismix.ux.ux_Theme.dominant_awt
-import com.jackmeng.prismix.ux.ux_Theme.get_awt
 import com.jackmeng.prismix.ux.model.h_GraphPoint
-import com.jackmeng.prismix.ux.ui_Graff.DrawType
-import com.jackmeng.prismix.ux.ui_Graff.DrawAxis
 import com.jackmeng.prismix.ux.model.h_Graff
 import kotlin.jvm.JvmStatic
-import com.jackmeng.prismix.ux.ui_Graff
-import com.jackmeng.prismix.ux.ux_Theme
 import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.WindowConstants
