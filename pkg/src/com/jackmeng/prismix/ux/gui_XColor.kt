@@ -192,7 +192,8 @@ class gui_XColor(@field:Setter @field:Getter private val color:Color):gui(
 		val cmykPoints=ArrayList<h_GraphPoint>()
 		cmykPoints.add(h_GraphPoint(100/4-100/4/2 , (cmyk[0]*100).toInt() , true , Color.CYAN))
 		cmykPoints.add(h_GraphPoint(100/4*2-100/4/2 , (cmyk[1]*100).toInt() , true , Color.MAGENTA))
-		cmykPoints.add(h_GraphPoint(100-100/4/2 , (cmyk[2]*100)))
+		cmykPoints.add(h_GraphPoint(100-100/4/2 , (cmyk[2]*100).toInt() , true , Color.YELLOW))
+		cmykPoints.add(h_GraphPoint(100-100/4*2-100/4/2 , (cmyk[3]*100).toInt() , true , Color.DARK_GRAY))
 		val ttttt=Color(0.8f , 0.8f , 0.8f)
 		val config=h_Graff(
 			true ,
@@ -209,12 +210,25 @@ class gui_XColor(@field:Setter @field:Getter private val color:Color):gui(
 		val graff_RGB=ui_Graff(10 , 255 , colorPoints , DrawType.BOTH , DrawAxis.Y , config , "{0}")
 		graff_RGB.font=_1const._Mono_().deriveFont(9f)
 		graff_RGB.preferredSize=Dimension(preferredSize.height , preferredSize.height)
-		val graff_CMYK=ui_Graff(10, 100, )
+		val graff_CMYK=ui_Graff(10 , 100, cmykPoints , DrawType.BOTH , DrawAxis.Y , h_Graff(
+			true ,
+			ttttt ,
+			Color(0 , 0 , 0 , 0) ,
+			ux_Theme._theme.get_awt("rose") ,
+			ux_Theme._theme.secondary_awt() ,
+			Color.gray ,
+			"CMYK" ,
+			2 ,
+			2 ,
+			_1const._Mono_Medium_().deriveFont(12.5f)) , "{0}")
+		graff_CMYK.font=_1const._Mono_().deriveFont(9f)
+		graff_CMYK.preferredSize=Dimension(preferredSize.height , preferredSize.height)
 		val colorGraphs=JPanel()
 		colorGraphs.preferredSize=Dimension(250 , 250)
 		colorGraphs.border=BorderFactory.createEmptyBorder(0 , 5 , 0 , 0)
 		colorGraphs.layout=ux_WrapLayout(FlowLayout.LEFT , 4 , 4)
 		colorGraphs.add(graff_RGB)
+		colorGraphs.add(graff_CMYK)
 		rgbValues_JSP.dividerLocation=410
 		rgbValues_JSP.rightComponent=colorGraphs
 		rgbValues_JSP.leftComponent=jsp

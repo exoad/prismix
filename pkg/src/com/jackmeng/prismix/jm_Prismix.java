@@ -89,7 +89,7 @@ public class jm_Prismix
           StringBuilder sb = new StringBuilder();
           while (!log_infos.isEmpty())
             sb.append(log_infos.poll()).append("\n");
-          use_LSys.soft_write("log/LOG_" + time + ".log", sb.toString());
+          use_LSys.soft_write_silent("log/LOG_" + time + ".log", sb.toString());
         });
       }
     }, 500L, 3500L); // log sample rate
@@ -333,7 +333,8 @@ public class jm_Prismix
   {
     name = name.length() > MAX_LOG_NAME_LEN ? name.substring(0, MAX_LOG_NAME_LEN)
         : name.length() < MAX_LOG_NAME_LEN ? name + (stl_Str.n_copies(MAX_LOG_NAME_LEN - name.length(), "_")) : name;
-    log_infos.addLast(content);
+   if(name.charAt(0) != 0x00)
+      log_infos.addLast(content);
     for (String str : content.split("\n"))
     {
       log_infos.addLast(

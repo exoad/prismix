@@ -95,6 +95,7 @@ public final class gui_Dev
 		pane.add(stx_Helper.quick_btn("Kill0", () -> System.exit(0)));
 		pane.add(stx_Helper.quick_btn("Kill1", () -> System.exit(1)));
 		pane.add(stx_Helper.quick_btn("ClearLog", () -> System.out.println("\033[H\033[2J")));
+		// TODO: pane.add(stx_Helper.quick_btn("DeleteLogs", () -> ))
 		int i = 0;
 		for (Runnable r : new Runnable[] {
 				() -> ui_Graff.main(null),

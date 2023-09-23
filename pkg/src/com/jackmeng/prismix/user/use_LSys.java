@@ -180,7 +180,20 @@ public final class use_LSys
 				e.printStackTrace();
 		}
 		log("L_SYS", "Soft_Wrote: " + content.length() + " to " + f.getAbsolutePath());
+	}
 
+	public static void soft_write_silent(@NonNull String file, @NonNull String content)
+	{
+		File f = new File(locale + "/" + file);
+		try (FileWriter fw = new FileWriter(f, StandardCharsets.UTF_16, true))
+		{
+			fw.write(content);
+			fw.flush();
+		} catch (Exception e)
+		{
+			if (!(e instanceof FileNotFoundException))
+				e.printStackTrace();
+		}
 	}
 
 	public static void write(@NonNull stx_Map map)
