@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -80,6 +81,7 @@ public final class gui_XLua
 		bottom.setPreferredSize(new Dimension(740, 555));
 
 		JEditorPane enterField = new JEditorPane();
+		assert ux_Theme._theme != null;
 		enterField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(ux_Theme._theme.fg_awt()),
 				BorderFactory.createEmptyBorder(7, 7, 7, 7)));
 		enterField.setContentType("text");
@@ -94,7 +96,7 @@ public final class gui_XLua
 		});
 
 		ux_Theme.based_set_rrect(execEnter);
-		execEnter.setBackground(stl_Colors.hexToRGB(ux_Theme._theme.get("rose")));
+		execEnter.setBackground(stl_Colors.hexToRGB(Objects.requireNonNull(ux_Theme._theme.get("rose"))));
 		execEnter.setForeground(ux_Theme._theme.fg_awt());
 		execEnter.setPreferredSize(new Dimension(50, 50));
 
@@ -144,7 +146,9 @@ public final class gui_XLua
 		if (content.equalsIgnoreCase("clear"))
 		{
 			output.setText("<html><body></body></html>");
-			deploy_notif("<html><strong>Cleared</strong></html>", stl_Colors.hexToRGB(ux_Theme._theme.get("yellow")));
+			assert ux_Theme._theme != null;
+			deploy_notif("<html><strong>Cleared</strong></html>", stl_Colors.hexToRGB(
+					Objects.requireNonNull(ux_Theme._theme.get("yellow"))));
 		}
 		else
 		{
@@ -195,7 +199,7 @@ public final class gui_XLua
 				e.printStackTrace();
 			}
 			deploy_notif("<html><strong>" + (erred ? "Error!" : "Ok") + "</strong></html>",
-					stl_Colors.hexToRGB(ux_Theme._theme.get(erred ? "red" : "teal")));
+					stl_Colors.hexToRGB(Objects.requireNonNull(ux_Theme._theme.get(erred ? "red" : "teal"))));
 
 		}
 	}
