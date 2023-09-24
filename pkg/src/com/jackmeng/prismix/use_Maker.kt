@@ -1,22 +1,15 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 package com.jackmeng.prismix
 
-import com.jackmeng.prismix.stl.extend_stl_Wrap.get
-import com.jackmeng.prismix.stl.extend_stl_Wrap.set
-import com.jackmeng.prismix._1const
-import com.jackmeng.prismix.jm_Prismix
 import com.jackmeng.ansicolors.jm_Ansi
 import com.jackmeng.stl.stl_Struct.struct_Pair
 import com.jackmeng.stl.stl_Callback
 import com.jackmeng.stl.types.Null_t
 import com.jackmeng.prismix.stl.extend_stl_Wrap
-import com.jackmeng.prismix.use_Maker
 import com.jackmeng.stl.stl_Wrap
 import javax.swing.*
 import java.awt.BorderLayout
 import java.awt.Color
-import java.awt.event.ActionEvent
-import java.awt.event.ActionListener
 import java.lang.StringBuilder
 import java.util.*
 
@@ -28,7 +21,8 @@ import java.util.*
  */
 object use_Maker
 {
-	fun db_timed(r:Runnable)
+	@JvmStatic
+    fun db_timed(r:Runnable)
 	{
 		if (java.lang.Boolean.TRUE==_1const.`val`.parse("debug_gui").get())
 		{
@@ -42,6 +36,7 @@ object use_Maker
 		else r.run()
 	}
 	
+	@JvmStatic
 	fun makeJMenu(text:String? , vararg items:JMenuItem?):JMenu
 	{
 		val menu=JMenu(text)
@@ -53,14 +48,19 @@ object use_Maker
 		return menu
 	}
 	
+	@JvmStatic
 	fun wrap(r:JComponent?):JPanel
 	{
 		val t=JPanel()
 		t.layout=BorderLayout()
-		t.add(r , BorderLayout.CENTER)
+		if (r!=null)
+		{
+			t.add(r , BorderLayout.CENTER)
+		}
 		return t
 	}
 	
+	@JvmStatic
 	fun debug(e:JComponent?)
 	{
 		if (e!=null) if (e.border!=null) e.border=BorderFactory.createCompoundBorder(
@@ -68,6 +68,7 @@ object use_Maker
 		)
 	}
 	
+	@JvmStatic
 	fun make(items:Array<struct_Pair<String , stl_Callback<Boolean , Null_t?>>>):Array<JMenuItem?>
 	{
 		val e=arrayOfNulls<JMenuItem>(items.size)
@@ -79,12 +80,13 @@ object use_Maker
 			jm_Prismix.log("MENUBAR" , "Checks for: "+name+" | Itr: "+i.get())
 			e[i.get()!!]=JCheckBoxMenuItem(name)
 			(e[i.get()!!] as JCheckBoxMenuItem?)!!.state=items[i.get()!!].second.call(null)
-			e[i.get()!!].addActionListener(ActionListener { ev:ActionEvent?-> callback.call(null) })
+			e[i.get()!!]?.addActionListener { callback.call(null) }
 			i.set(i.get()!!+1)
 		}
 		return e
 	}
 	
+	@JvmStatic
 	fun wrap(e:JComponent? , parent:JComponent):JPanel
 	{
 		val r=JPanel()
@@ -93,20 +95,28 @@ object use_Maker
 		return r
 	}
 	
+	@JvmStatic
 	fun lr_wrap(left:JComponent? , right:JComponent?):JPanel
 	{
 		val r=JPanel()
 		r.layout=BorderLayout()
-		r.add(left , BorderLayout.WEST)
-		r.add(right , BorderLayout.EAST)
+		if (left!=null)
+		{
+			r.add(left , BorderLayout.WEST)
+		}
+		if (right!=null)
+		{
+			r.add(right , BorderLayout.EAST)
+		}
 		return r
 	}
 	
-	fun jpop(
+	@JvmStatic
+    fun jpop(
 			name:String? , entities:Array<struct_Pair<String? , stl_Callback<Void , Void?>>>?
 	):Optional<JPopupMenu>
 	{
-		if (entities!=null&&entities.size>0)
+		if (entities!=null&&entities.isNotEmpty())
 		{
 			val jp=JPopupMenu(name)
 			jp.name=name
@@ -154,7 +164,7 @@ object use_Maker
 			{
 				val item=JMenuItem(e.first)
 				item.isBorderPainted=false
-				item.addActionListener { ev:ActionEvent?-> e.second.call(null) }
+				item.addActionListener { e.second.call(null) }
 				jp.add(item)
 			}
 			return Optional.of(jp)
@@ -162,6 +172,7 @@ object use_Maker
 		return Optional.empty()
 	}
 	
+	@JvmStatic
 	fun rev(arr:FloatArray):FloatArray
 	{
 		for (i in 0 until arr.size/2)
@@ -173,6 +184,7 @@ object use_Maker
 		return arr
 	}
 	
+	@JvmStatic
 	fun interpolate_generate(step:Float , start:Float , end:Float , sample:Int):FloatArray
 	{
 		val t=FloatArray(sample)
@@ -187,9 +199,10 @@ object use_Maker
 		return t
 	}
 	
+	@JvmStatic
 	fun fake_stack_trace(exceptionName:String , numTraces:Int):List<String>
 	{
-		val stackTraces:MutableList<String>=ArrayList()
+		val stackTraces:MutableList<String> =ArrayList()
 		for (i in 0 until numTraces)
 		{
 			val stackTrace=StringBuilder("$exceptionName: ")
@@ -219,12 +232,14 @@ object use_Maker
 		return name.toString()
 	}
 	
-	fun equals(e:String , vararg er:String):Boolean
+	@JvmStatic
+    fun equals(e:String , vararg er:String):Boolean
 	{
 		for (r in er) if (r==e) return true
 		return false
 	}
 	
+	@JvmStatic
 	fun make(
 			name:String , callback:stl_Callback<Boolean , Null_t>
 	):struct_Pair<String , stl_Callback<Boolean , Null_t>>
@@ -232,10 +247,11 @@ object use_Maker
 		return struct_Pair(name , callback)
 	}
 	
-	fun make(component:JComponent):stl_Callback<Boolean , Null_t>
+	@JvmStatic
+    fun make(component:JComponent):stl_Callback<Boolean , Null_t>
 	{
 		val firstSet_Component=stl_Wrap(true)
-		return stl_Callback<Boolean , Null_t> { x:Null_t?->
+		return stl_Callback<Boolean , Null_t> {
 			if (java.lang.Boolean.FALSE==firstSet_Component.obj)
 			{
 				component.isVisible=!component.isVisible

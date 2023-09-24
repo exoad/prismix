@@ -1,7 +1,6 @@
 // Software created by Jack Meng (AKA exoad). Licensed by the included "LICENSE" file. If this file is not found, the project is fully copyrighted.
 package com.jackmeng.prismix.user
 
-import com.jackmeng.prismix.user.use_LSys
 import com.jackmeng.prismix.jm_Prismix
 import com.jackmeng.ansicolors.jm_Ansi
 import com.jackmeng.prismix._1const
@@ -36,6 +35,7 @@ object use_LSys
 		return System.getProperty("user.dir")
 	}
 	
+	@JvmStatic
 	@Synchronized
 	fun init()
 	{
@@ -47,6 +47,7 @@ object use_LSys
 		)
 	}
 	
+	@JvmStatic
 	@Synchronized
 	fun ensure_dirs():Boolean
 	{
@@ -55,18 +56,19 @@ object use_LSys
 		if (!f.exists()&&!f.isDirectory) ran=f.mkdir()
 		for (r in _1const.sub_dirs)
 		{
-			val f2=File(locale+"/"+r)
+			val f2=File("$locale/$r")
 			if (!f2.exists()&&!f2.isDirectory) ran=f2.mkdir()
 		}
 		return ran
 	}
 	
+	@JvmStatic
 	fun read_all(f:File?):String
 	{
 		val sb=StringBuilder()
 		try
 		{
-			val `in`=stl_In(FileInputStream(f))
+			val `in`=stl_In(f?.let { FileInputStream(it) })
 			while (`in`.reader().ready()) sb.append(`in`.nextln())
 		} catch (e:Exception)
 		{
@@ -77,7 +79,7 @@ object use_LSys
 	
 	fun write(args:String , name:Any , overwrite:Boolean)
 	{
-		val f=File(locale+"/"+name)
+		val f=File("$locale/$name")
 		_1const.worker2.schedule(object:TimerTask()
 		{
 			override fun run()
@@ -118,9 +120,10 @@ object use_LSys
 	{
 	}
 	
+	@JvmStatic
 	fun write_obj(name:String , r:Any)
 	{
-		val f=File(locale+"/"+name)
+		val f=File("$locale/$name")
 		if (f.exists()||f.isFile) f.delete()
 		try
 		{
@@ -137,9 +140,10 @@ object use_LSys
 		}
 	}
 	
+	@JvmStatic
 	fun read_obj(name:String , _default:Any):Any
 	{
-		val f=File(locale+"/"+name)
+		val f=File("$locale/$name")
 		if (f.exists()&&f.isFile&&f.canRead())
 		{
 			var temp:Any
@@ -161,14 +165,14 @@ object use_LSys
 				)
 				return _default
 			}
-			return (if (temp==null) _default else temp)
+			return (temp)
 		}
 		return _default
 	}
 	
 	fun soft_write(file:String , content:String)
 	{
-		val f=File(locale+"/"+file)
+		val f=File("$locale/$file")
 		try
 		{
 			FileWriter(f , StandardCharsets.UTF_16 , true).use { fw->
@@ -182,9 +186,10 @@ object use_LSys
 		jm_Prismix.log("L_SYS" , "Soft_Wrote: "+content.length+" to "+f.absolutePath)
 	}
 	
+	@JvmStatic
 	fun soft_write_silent(file:String , content:String)
 	{
-		val f=File(locale+"/"+file)
+		val f=File("$locale/$file")
 		try
 		{
 			FileWriter(f , StandardCharsets.UTF_16 , true).use { fw->
@@ -197,6 +202,7 @@ object use_LSys
 		}
 	}
 	
+	@JvmStatic
 	fun write(map:stx_Map)
 	{
 		val f=File(locale+"/"+map.name.replace("\\s+" , "%")+".yml")
@@ -205,7 +211,7 @@ object use_LSys
 		try
 		{
 			FileWriter(f , StandardCharsets.UTF_16 , false).use { fw->
-				val create_map:MutableMap<String , Any>=HashMap()
+				val create_map:MutableMap<String , Any> =HashMap()
 				map.forEach { (x:String , y:struct_Pair<stl_Callback<* , String?>? , Array<Any>>)->
 					create_map[x]=y.second[1]
 				}
@@ -224,9 +230,10 @@ object use_LSys
     /---------------------------------------------------------------------------------------------------------*/
 	}
 	
+	@JvmStatic
 	fun load_map(name:String , callback:BiConsumer<String? , String?>)
 	{
-		val f=File(locale+"/"+name+".yml")
+		val f=File("$locale/$name.yml")
 		val yaml=Yaml()
 		try
 		{

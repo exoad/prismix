@@ -1,6 +1,5 @@
 package com.jackmeng.prismix.ux
 
-import com.jackmeng.prismix.ux.ui_CPick
 import com.jackmeng.prismix.use_Maker
 import com.jackmeng.prismix.stl.extend_stl_Colors
 import com.jackmeng.prismix._1const
@@ -33,7 +32,7 @@ class ui_CPick_GenericDisp:ui_CPick()
 		}
 	}
 	
-	override fun call(colorBooleanstruct_pair:struct_Pair<Color? , Boolean?>):Void
+	override fun call(p0:struct_Pair<Color? , Boolean?>?):Void?
 	{
 		if (isVisible||isFocusOwner)
 		{

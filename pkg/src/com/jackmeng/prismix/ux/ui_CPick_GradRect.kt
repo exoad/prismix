@@ -1,11 +1,9 @@
 package com.jackmeng.prismix.ux
 
 import com.jackmeng.prismix.ux.ux_Theme.Companion.get
-import com.jackmeng.prismix.ux.ux_Theme.get
 import com.jackmeng.prismix.use_Maker.db_timed
 import com.jackmeng.prismix.ux.ux_Listen.VISIBILITY
 import com.jackmeng.prismix.ux.stx_Helper.within
-import com.jackmeng.prismix.stl.extend_stl_Wrap.get
 import com.jackmeng.stl.stl_Listener
 import com.jackmeng.stl.stl_Struct.struct_Pair
 import com.jackmeng.prismix.stl.extend_stl_Wrap
@@ -13,12 +11,7 @@ import com.jackmeng.stl.stl_Wrap
 import com.jackmeng.prismix._1const
 import com.jackmeng.stl.stl_Struct
 import com.jackmeng.stl.stl_Colors
-import com.jackmeng.prismix.ux.ux_Theme
-import com.jackmeng.prismix.ux.ui_LazyViewport
-import com.jackmeng.prismix.use_Maker
 import com.jackmeng.prismix.stl.extend_stl_Colors
-import com.jackmeng.prismix.ux.ux_Listen
-import com.jackmeng.prismix.ux.stx_Helper
 import com.jackmeng.prismix.jm_Prismix
 import com.jackmeng.stl.stl_Ware
 import javax.swing.*
@@ -40,7 +33,7 @@ class ui_CPick_GradRect // This for picking RGBA colors
 	private var toPaintCurr=true
 	
 	@Transient
-	private val size_SquareGrad:extend_stl_Wrap<Int>
+	private lateinit var size_SquareGrad:extend_stl_Wrap<Int>
 	
 	@Transient
 	private var transformed_x=-1
@@ -73,6 +66,26 @@ class ui_CPick_GradRect // This for picking RGBA colors
 		controls_RED.majorTickSpacing=20
 		controls_RED.minorTickSpacing=5
 		controls_RED.paintLabels=true
+		controls_GREEN=JSlider(SwingConstants.VERTICAL , 0 , 255 , 255/2)
+		controls_GREEN.paintTrack=true
+		controls_GREEN.paintTicks=true
+		controls_GREEN.majorTickSpacing=20
+		controls_GREEN.minorTickSpacing=5
+		controls_GREEN.paintLabels=true
+		controls_GREEN.foreground=if (use_theme_based_tooling) Color.GREEN
+		else stl_Colors.hexToRGB(
+			Objects.requireNonNull(get()!!["green"])
+		)
+		controls_BLUE=JSlider(SwingConstants.VERTICAL , 0 , 255 , 255/2)
+		controls_BLUE.paintTrack=true
+		controls_BLUE.paintTicks=true
+		controls_BLUE.majorTickSpacing=20
+		controls_BLUE.minorTickSpacing=5
+		controls_BLUE.paintLabels=true
+		controls_BLUE.foreground=if (use_theme_based_tooling) Color.BLUE
+		else stl_Colors.hexToRGB(
+			Objects.requireNonNull(get()!!["ocean"])
+		)
 		val syncSliders=
 			if (java.lang.Boolean.TRUE==_1const.`val`.parse("stoopid_sliders").get()) ChangeListener { ev:ChangeEvent?->
 				rgb_Sliders_Listen=false
@@ -100,28 +113,9 @@ class ui_CPick_GradRect // This for picking RGBA colors
 		else stl_Colors.hexToRGB(
 			Objects.requireNonNull(get()!!["rose"])
 		)
-		controls_GREEN=JSlider(SwingConstants.VERTICAL , 0 , 255 , 255/2)
-		controls_GREEN.paintTrack=true
-		controls_GREEN.paintTicks=true
-		controls_GREEN.majorTickSpacing=20
-		controls_GREEN.minorTickSpacing=5
-		controls_GREEN.paintLabels=true
-		controls_GREEN.addChangeListener(syncSliders)
-		controls_GREEN.foreground=if (use_theme_based_tooling) Color.GREEN
-		else stl_Colors.hexToRGB(
-			Objects.requireNonNull(get()!!["green"])
-		)
-		controls_BLUE=JSlider(SwingConstants.VERTICAL , 0 , 255 , 255/2)
-		controls_BLUE.paintTrack=true
-		controls_BLUE.paintTicks=true
-		controls_BLUE.majorTickSpacing=20
-		controls_BLUE.minorTickSpacing=5
-		controls_BLUE.paintLabels=true
 		controls_BLUE.addChangeListener(syncSliders)
-		controls_BLUE.foreground=if (use_theme_based_tooling) Color.BLUE
-		else stl_Colors.hexToRGB(
-			Objects.requireNonNull(get()!!["ocean"])
-		)
+		controls_GREEN.addChangeListener(syncSliders)
+
 		controls.add(Box.createHorizontalStrut(30))
 		controls.add(controls_RED)
 		controls.add(Box.createHorizontalStrut(20))
@@ -145,7 +139,6 @@ class ui_CPick_GradRect // This for picking RGBA colors
 			repaint(75L)
 			null
 		}
-		
 		// draw the gradient
 		// width == height
 		// draw the color cursor
@@ -232,14 +225,14 @@ class ui_CPick_GradRect // This for picking RGBA colors
 		addMouseListener(this)
 	}
 	
-	override fun call(arg0:struct_Pair<Color , Boolean?>):Void
+	override fun call(arg0:struct_Pair<Color? , Boolean?>?):Void?
 	{
 		SwingUtilities.invokeLater { this.repaint(75L) }
 		if (rgb_Sliders_Listen)
 		{
-			controls_RED.value=arg0.first.red
-			controls_GREEN.value=arg0.first.green
-			controls_BLUE.value=arg0.first.blue
+			if (arg0!=null) controls_RED.value=arg0.first?.red!!
+			if (arg0!=null) controls_GREEN.value=arg0.first?.green!!
+			if (arg0!=null) controls_BLUE.value=arg0.first?.blue!!
 		}
 		return null
 	}

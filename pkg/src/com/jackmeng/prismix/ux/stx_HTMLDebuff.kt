@@ -1,12 +1,10 @@
 package com.jackmeng.prismix.ux
 
-import com.jackmeng.prismix.ux.stx_HTMLDebuff
 import javax.swing.text.html.HTMLEditorKit
 import javax.swing.text.html.parser.ParserDelegator
 import java.io.IOException
 import java.io.Reader
 import java.io.StringReader
-import java.lang.Boolean
 
 class stx_HTMLDebuff private constructor():HTMLEditorKit.ParserCallback()
 {
@@ -17,7 +15,7 @@ class stx_HTMLDebuff private constructor():HTMLEditorKit.ParserCallback()
 		val delegator=ParserDelegator()
 		try
 		{
-			delegator.parse(`in` , this , Boolean.TRUE)
+			delegator.parse(`in` , this , true)
 		} catch (ignore:IOException)
 		{
 		}
@@ -45,7 +43,7 @@ class stx_HTMLDebuff private constructor():HTMLEditorKit.ParserCallback()
 		fun parse(content:String?):String
 		{
 			if (v==null) v=stx_HTMLDebuff()
-			v!!.parse(StringReader(content))
+			v!!.parse(content?.let { StringReader(it) })
 			val temp=v!!.text()
 			v!!.clean()
 			return temp
