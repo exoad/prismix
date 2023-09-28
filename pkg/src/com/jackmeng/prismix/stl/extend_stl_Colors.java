@@ -886,31 +886,31 @@ public final class extend_stl_Colors
 	public static String awt_colorspace_NameMatch(final ColorSpace e)
 	{
 		return switch (e.getType())
-				{
-					case 0 -> "XYZ";
-					case 1 -> "Lab";
-					case 2 -> "Luv";
-					case 3 -> "YCbCr";
-					case 4 -> "Yxy";
-					case 5 -> "RGB";
-					case 6 -> "GRAY";
-					case 7 -> "HSV";
-					case 8 -> "HLS";
-					case 9 -> "CMYK";
-					case 11 -> "CMY";
-					case 12 -> "2CLR";
-					case 13 -> "3CLR";
-					case 14 -> "4CLR";
-					case 15 -> "5CLR";
-					case 16 -> "6CLR";
-					case 17 -> "7CLR";
-					case 18 -> "8CLR";
-					case 19 -> "9CLR";
-					case 20 -> "ACLR";
-					case 21 -> "BCLR";
-					case 22 -> "CCLR";
-					case 23 -> "DCLR";
-					default -> "UNKNOWN";
-				};
+		{
+			case 0 -> "XYZ";
+			case 1 -> "Lab";
+			case 2 -> "Luv";
+			case 3 -> "YCbCr";
+			case 4 -> "Yxy";
+			case 5 -> "RGB";
+			case 6 -> "GRAY";
+			case 7 -> "HSV";
+			case 8 -> "HLS";
+			case 9 -> "CMYK";
+			case 11 -> "CMY";
+			case 12 -> "2CLR";
+			case 13 -> "3CLR";
+			case 14 -> "4CLR";
+			case 15 -> "5CLR";
+			case 16 -> "6CLR";
+			case 17 -> "7CLR";
+			case 18 -> "8CLR";
+			case 19 -> "9CLR";
+			case 20 -> "ACLR";
+			case 21 -> "BCLR";
+			case 22 -> "CCLR";
+			case 23 -> "DCLR";
+			default -> "UNKNOWN";
+		};
 	}
 }

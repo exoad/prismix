@@ -216,7 +216,7 @@ class ui_Graff:JPanel
 	companion object
 	{
 		@JvmStatic
-		fun main(args:Array<String>)
+		fun main(args:Array<String>?)
 		{
 			val points=ArrayList<h_GraphPoint>()
 			points.add(h_GraphPoint(20 , 30 , true , Color.RED))

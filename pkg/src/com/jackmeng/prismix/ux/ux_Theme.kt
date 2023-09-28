@@ -174,12 +174,12 @@ class ux_Theme private constructor()
 	companion object
 	{
 		@JvmField
-        var _theme:ux_Theme?=null
+		var _theme:ux_Theme?=null
 		@JvmStatic
-        fun get():ux_Theme?
+        fun get():ux_Theme
 		{
 			if (_theme==null) _theme=ux_Theme()
-			return _theme
+			return _theme as ux_Theme
 		}
 		
 		@Synchronized

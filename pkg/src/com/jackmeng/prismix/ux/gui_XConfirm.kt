@@ -8,7 +8,6 @@ import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.GridLayout
-import java.awt.event.ActionEvent
 
 class gui_XConfirm(content:String? , title:String? , onNo:Runnable , onYes:Runnable , yesString:String? , noString:String?):
 		gui(title)

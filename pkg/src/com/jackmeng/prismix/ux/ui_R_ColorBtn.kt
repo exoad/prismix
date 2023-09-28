@@ -12,12 +12,10 @@ import javax.swing.JButton
 import javax.swing.JPanel
 import java.awt.Color
 import java.awt.GridLayout
-import java.awt.event.ActionEvent
-import java.lang.Boolean
 
 class ui_R_ColorBtn:JPanel()
 {
-	private val popper:stx_FixedPopper<Color?>=stx_FixedPopper(128 , Popper_Priority.TAIL , true) { s:Color?->
+	private var  popper:stx_FixedPopper<Color?> = stx_FixedPopper(128 , Popper_Priority.TAIL , true) { s:Color?->
 		if (s!=null)
 		{
 			jm_Prismix.log(
@@ -34,40 +32,40 @@ class ui_R_ColorBtn:JPanel()
 	{
 		layout=GridLayout(1 , 4)
 		border=BorderFactory.createEmptyBorder()
-		_select=JButton(if (Boolean.TRUE==_1const.`val`.parse("descriptive_labels").get()) "Select" else "o")
+		_select=JButton(if (true==_1const.`val`.parse("descriptive_labels").get()) "Select" else "o")
 		ux_Theme.based_set_rrect(_select)
-		_select.background=ux_Theme._theme.dominant_awt()
+		_select.background=ux_Theme._theme!!.dominant_awt()
 		_select.toolTipText="Select this current RANDOM color"
-		_select.addActionListener { ev:ActionEvent?->
-				if (popper.at()!=null)
+		_select.addActionListener {
+			if (popper.at()!=null)
 				{
 					_1const.COLOR_ENQ.dispatch(stl_Struct.make_pair(popper.at() , false))
 				}
 			}
-		_nextColor=JButton(if (Boolean.TRUE==_1const.`val`.parse("descriptive_labels").get()) "Next" else ">")
+		_nextColor=JButton(if (true==_1const.`val`.parse("descriptive_labels").get()) "Next" else ">")
 		_nextColor.toolTipText="Next random color."
 		ux_Theme.based_set_rrect(_nextColor)
-		_nextColor.background=ux_Theme._theme.dominant_awt()
-		_nextColor.addActionListener { ev:ActionEvent?->
+		_nextColor.background=ux_Theme._theme!!.dominant_awt()
+		_nextColor.addActionListener {
 			popper.next()
 			update()
 		}
-		_prevColor=JButton(if (Boolean.TRUE==_1const.`val`.parse("descriptive_labels").get()) "Prev." else "<")
+		_prevColor=JButton(if (true==_1const.`val`.parse("descriptive_labels").get()) "Prev." else "<")
 		_prevColor.toolTipText="Previous random color."
 		ux_Theme.based_set_rrect(_prevColor)
-		_prevColor.background=ux_Theme._theme.dominant_awt()
-		_prevColor.addActionListener { ev:ActionEvent?->
+		_prevColor.background=ux_Theme._theme!!.dominant_awt()
+		_prevColor.addActionListener {
 			popper.previous()
 			update()
 		}
 		val _generate=JButton(
-			if (Boolean.TRUE==_1const.`val`.parse("descriptive_labels").get()) "Generate" else "+"
+			if (true==_1const.`val`.parse("descriptive_labels").get()) "Generate" else "+"
 		)
 		ux_Theme.based_set_rrect(_generate)
 		_generate.toolTipText="Generate a new color"
-		_generate.background=ux_Theme._theme.dominant_awt()
-		_generate.addActionListener { ev:ActionEvent?->
-				popper.force_push(extend_stl_Colors.awt_random_Color())
+		_generate.background=ux_Theme._theme!!.dominant_awt()
+		_generate.addActionListener {
+			popper.force_push(extend_stl_Colors.awt_random_Color())
 				popper.toTail()
 				update()
 			}

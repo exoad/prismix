@@ -5,10 +5,13 @@ package com.jackmeng.prismix.ux;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
@@ -49,6 +52,9 @@ public final class gui_XLua
 		return __instance;
 	}
 
+	private ArrayList<String> pastInput;
+
+
 	@Setter @Getter private JEditorPane output;
 	/*---------------------------- /
 	/ private final JPanel notifs; /
@@ -72,7 +78,6 @@ public final class gui_XLua
 		output.setText("<html><body>Type \"clear\" to clear output.<br></body></html>");
 
 		JScrollPane jsp_output = new JScrollPane(output);
-		jsp_output.setBorder(BorderFactory.createEmptyBorder());
 		jsp_output.getVerticalScrollBar().setBackground(Color.black);
 		jsp_output.getHorizontalScrollBar().setBackground(Color.black);
 
@@ -82,8 +87,9 @@ public final class gui_XLua
 
 		JEditorPane enterField = new JEditorPane();
 		assert ux_Theme._theme != null;
-		enterField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(ux_Theme._theme.fg_awt()),
-				BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+		enterField.setBorder(
+				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(ux_Theme._theme.fg_awt()),
+						BorderFactory.createEmptyBorder(7, 7, 7, 7)));
 		enterField.setContentType("text");
 
 		JButton execEnter = new JButton(">");
@@ -95,6 +101,16 @@ public final class gui_XLua
 			}
 		});
 
+		pastInput = new ArrayList<>();
+
+		addKeyListener(new KeyAdapter()
+		{
+			@Override public void keyPressed(KeyEvent e)
+			{
+
+			}
+		});
+
 		ux_Theme.based_set_rrect(execEnter);
 		execEnter.setBackground(stl_Colors.hexToRGB(Objects.requireNonNull(ux_Theme._theme.get("rose"))));
 		execEnter.setForeground(ux_Theme._theme.fg_awt());
@@ -103,7 +119,8 @@ public final class gui_XLua
 		bottom.add(enterField, BorderLayout.CENTER);
 		bottom.add(execEnter, BorderLayout.EAST);
 
-		bottom.addComponentListener(new java.awt.event.ComponentAdapter() {
+		bottom.addComponentListener(new java.awt.event.ComponentAdapter()
+		{
 			@Override public void componentResized(java.awt.event.ComponentEvent evt)
 			{
 				Dimension size = bottom.getSize();
@@ -118,7 +135,7 @@ public final class gui_XLua
 		master_jsp.setBorder(BorderFactory.createEmptyBorder());
 		master_jsp.setDividerLocation(470);
 
-		master_jsp.setTopComponent(output);
+		master_jsp.setTopComponent(jsp_output);
 		master_jsp.setBottomComponent(bottom);
 
 		getContentPane().add(master_jsp);
@@ -205,7 +222,7 @@ public final class gui_XLua
 	}
 
 	public String final_history() // should be used for like logging purposes especially logging to a file for
-																// future reference
+	// future reference
 	{
 		return output.getText();
 	}

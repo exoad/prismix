@@ -16,7 +16,7 @@ class ui_FatSlider(
 ):AbstractButton()
 {
 	@Transient
-	private val listenerPool:stl_ListenerPool<Boolean>=stl_ListenerPool("com.jackmeng.ui_FatSlider#"+hashCode())
+	private val listenerPool:stl_ListenerPool<Boolean> = stl_ListenerPool("com.jackmeng.ui_FatSlider#"+hashCode())
 	
 	init  // thumb
 	// is on

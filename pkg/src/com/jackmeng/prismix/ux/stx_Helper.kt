@@ -19,7 +19,7 @@ object stx_Helper
 		val t=JButton(name)
 		t.isBorderPainted=false
 		t.isFocusPainted=false
-		t.background=ux_Theme._theme.dominant_awt()
+		t.background=ux_Theme._theme!!.dominant_awt()
 		t.foreground=Color.black
 		t.addActionListener { e:ActionEvent?-> r.run() }
 		return t

@@ -15,10 +15,12 @@ abstract class ui_CPick:JPanel() , stl_Listener<struct_Pair<Color? , Boolean?>?>
 {
 	companion object
 	{
+		@Suppress("unchecked")
+		@SuppressWarnings("unchecked")
 		fun attach_asis(e:JComponent):JComponent
 		{
 			if (e is stl_Callback<* , *>) // finalized types at compile time are so fucking stupid
-				_1const.COLOR_ENQ.add(e as stl_Listener<struct_Pair<Color? , Boolean?>?>)
+				_1const.COLOR_ENQ.add(/* listener = */ e as stl_Listener<struct_Pair<Color? , Boolean?>?>)
 			return e
 		}
 	}

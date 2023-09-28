@@ -55,7 +55,7 @@ class gui_Main:gui("Prismix ~ exoad (build_"+jm_Prismix._VERSION_+")")
 		super.run()
 		deploy_notif(
 			"<html><strong>Took: </strong>"+(System.currentTimeMillis()-jm_Prismix.time.get())+"ms</html>" ,
-			ux_Theme._theme.fg_awt()
+			ux_Theme._theme!!.fg_awt()
 		)
 	}
 }
