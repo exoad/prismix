@@ -24,7 +24,8 @@ class gui_Dev:gui("Prismix : dev_window")
 	/ private int pX, pY; /
 	/--------------------*/ // refer to why setUndecorated was commented out
 	init
-	{		/*-------------------------------------------- /
+	{
+		/*-------------------------------------------- /
 		/ reser = new ux_WindowRes();                  /
 		/ reser.registerComponent(getFrame());         /
 		/ reser.setSnapSize(new Dimension(5, 5));      /
@@ -53,14 +54,49 @@ class gui_Dev:gui("Prismix : dev_window")
 			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION , RenderingHints.VALUE_INTERPOLATION_BICUBIC)
 			__ux._ux.mainUI.update(g)
 		})
+		pane.add(quick_btn("NoFractional") {
+			val g=__ux._ux.mainUI.graphics as Graphics2D
+			g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS , RenderingHints.VALUE_FRACTIONALMETRICS_OFF)
+			__ux._ux.mainUI.update(g)
+		})
+		pane.add(quick_btn("SizeFit") {
+			val g=__ux._ux.mainUI.graphics as Graphics2D
+			g.setRenderingHint(RenderingHints.KEY_RESOLUTION_VARIANT , RenderingHints.VALUE_RESOLUTION_VARIANT_SIZE_FIT)
+			__ux._ux.mainUI.update(g)
+		})
+		pane.add(quick_btn("DPIFit") {
+			val g=__ux._ux.mainUI.graphics as Graphics2D
+			g.setRenderingHint(RenderingHints.KEY_RESOLUTION_VARIANT , RenderingHints.VALUE_RESOLUTION_VARIANT_DPI_FIT)
+			__ux._ux.mainUI.update(g)
+		})
+		pane.add(quick_btn("NormalStroke") {
+			val g=__ux._ux.mainUI.graphics as Graphics2D
+			g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL , RenderingHints.VALUE_STROKE_NORMALIZE)
+			__ux._ux.mainUI.update(g)
+		})
 		pane.add(quick_btn("Intrp_AA") {
 			val g=__ux._ux.mainUI.graphics as Graphics2D
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING , RenderingHints.VALUE_ANTIALIAS_ON)
 			__ux._ux.mainUI.update(g)
 		})
-		pane.add(quick_btn("AlphaC::0.5") {
+		pane.add(quick_btn("A_SRCATOP::0.5") {
 			val g=__ux._ux.mainUI.graphics as Graphics2D
 			g.composite=AlphaComposite.getInstance(AlphaComposite.SRC_ATOP , 0.5f)
+			__ux._ux.mainUI.update(g)
+		})
+		pane.add(quick_btn("A_SRCIN::0.5") {
+			val g=__ux._ux.mainUI.graphics as Graphics2D
+			g.composite=AlphaComposite.getInstance(AlphaComposite.SRC_IN , 0.5f)
+			__ux._ux.mainUI.update(g)
+		})
+		pane.add(quick_btn("A_DSTATOP::0.5") {
+			val g=__ux._ux.mainUI.graphics as Graphics2D
+			g.composite=AlphaComposite.getInstance(AlphaComposite.DST_ATOP, 0.5f)
+			__ux._ux.mainUI.update(g)
+		})
+		pane.add(quick_btn("A_SRCOVER::0.5") {
+			val g=__ux._ux.mainUI.graphics as Graphics2D
+			g.composite=AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f)
 			__ux._ux.mainUI.update(g)
 		})
 		pane.add(quick_btn(

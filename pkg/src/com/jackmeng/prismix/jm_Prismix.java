@@ -226,7 +226,8 @@ public class jm_Prismix
       _1const.shutdown_hook(() -> use_LSys.write(_1const.val));
       if (Boolean.TRUE.equals(_1const.val.parse("developer_buttons").get()))
         new gui_Dev().run();
-      ux_Theme._theme.theme(
+		assert ux_Theme._theme != null;
+		ux_Theme._theme.theme(
           Boolean.TRUE.equals(_1const.val.parse("dark_mode").get()) ? ThemeType.DARK : ThemeType.LIGHT);
       final stl_Wrap< stl_In > reader = new stl_Wrap<>(new stl_In(System.in));
       if (IS_UNSTABLE)
